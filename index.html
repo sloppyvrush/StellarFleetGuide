@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Erebus — полевое руководство экипажа</title>
+<meta name="description" content="Интерактивный гайд по прохождению ролевого бота Erebus: подсказки без спойлеров, трекер улик, экипаж, корабль и станция.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛰️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e8ecee; --panel:#f5f7f8; --panel2:#dde3e6; --ink:#16232b; --muted:#566771; --line:#c2ccd2;
+  --amber:#a8660c; --amber-soft:#f3e2c4; --teal:#1d7f76; --teal-soft:#d3ece8; --danger:#a3352b;
+  --redact:#16232b; --focus:#1d7f76;
+  --f-head:"Oswald","Arial Narrow",Arial,sans-serif;
+  --f-body:"Onest","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#121c22; --panel:#19262e; --panel2:#22323c; --ink:#d6e0e4; --muted:#8fa1ab; --line:#2d3e49;
+    --amber:#e5a444; --amber-soft:#3a2e1a; --teal:#5fcfc1; --teal-soft:#193a38; --danger:#e0695c;
+    --redact:#3b4d58; --focus:#5fcfc1; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121c22; --panel:#19262e; --panel2:#22323c; --ink:#d6e0e4; --muted:#8fa1ab; --line:#2d3e49;
+  --amber:#e5a444; --amber-soft:#3a2e1a; --teal:#5fcfc1; --teal-soft:#193a38; --danger:#e0695c;
+  --redact:#3b4d58; --focus:#5fcfc1; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:5.5rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--teal)}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+button{font:inherit;color:inherit;cursor:pointer}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.skip{position:absolute;left:-999px;top:0}.skip:focus{left:1rem;top:1rem;z-index:99;background:var(--panel);padding:.5rem 1rem}
+
+/* ---------- top bar ---------- */
+.bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1180px;margin:0 auto;padding:.6rem 1.25rem;display:flex;gap:1rem;align-items:center}
+.brand{font:600 1.15rem/1 var(--f-head);letter-spacing:.06em;text-decoration:none;color:var(--ink);white-space:nowrap}
+.brand small{font:400 .8rem var(--f-body);letter-spacing:0;color:var(--muted);margin-left:.5rem}
+.bar-tools{margin-left:auto;display:flex;gap:.4rem;align-items:center}
+.mini{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.3rem .6rem;font-size:.85rem}
+.mini[aria-pressed="true"]{border-color:var(--teal);color:var(--teal)}
+.stage-pill{font:500 .85rem var(--f-body);background:var(--amber-soft);color:var(--amber);border-radius:999px;padding:.25rem .7rem;white-space:nowrap;text-decoration:none}
+
+/* ---------- layout ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding:0 1.25rem;display:grid;grid-template-columns:210px minmax(0,1fr);gap:2.5rem}
+nav.side{position:sticky;top:4.5rem;align-self:start;padding:1.5rem 0;max-height:calc(100vh - 5rem);overflow:auto}
+nav.side h2{font:500 .8rem var(--f-body);color:var(--muted);margin:1.2rem 0 .4rem}
+nav.side a{display:block;padding:.3rem .6rem;border-left:2px solid transparent;color:var(--ink);text-decoration:none;font-size:.95rem}
+nav.side a:hover{border-left-color:var(--line)}
+nav.side a.on{border-left-color:var(--amber);color:var(--amber)}
+main{min-width:0;padding-bottom:5rem}
+@media (max-width:860px){.wrap{grid-template-columns:1fr;gap:0}nav.side{position:static;max-height:none;display:flex;gap:.3rem;overflow-x:auto;padding:.8rem 0 0;white-space:nowrap}nav.side h2{display:none}nav.side a{border:1px solid var(--line);border-radius:999px;padding:.25rem .75rem;font-size:.88rem}nav.side a.on{border-color:var(--amber)}.brand small{display:none}}
+
+/* ---------- type ---------- */
+h1,h2,h3{font-family:var(--f-head);font-weight:500;line-height:1.15;letter-spacing:.01em}
+section{padding-top:3.5rem}
+section>h2{font-size:2rem;margin:0 0 .4rem}
+.lede{color:var(--muted);max-width:66ch;margin:0 0 1.5rem}
+p{max-width:70ch}
+.part{font:600 .95rem var(--f-head);letter-spacing:.08em;color:var(--muted);border-top:1px solid var(--line);margin-top:4rem;padding-top:1rem}
+
+/* ---------- hero: clearance rail ---------- */
+.hero{padding:3rem 0 1rem}
+.hero h1{font-size:clamp(2.6rem,6vw,4.4rem);margin:0;letter-spacing:.02em;line-height:1}
+.hero .sub{font:400 1.15rem/1.5 var(--f-body);color:var(--muted);max-width:56ch;margin:.9rem 0 2rem}
+.rail{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:1.25rem}
+.rail-q{font:500 1.35rem var(--f-head);margin:0 0 .25rem}
+.rail-help{color:var(--muted);margin:0 0 1rem;font-size:.95rem}
+.segs{display:grid;grid-template-columns:repeat(6,1fr);gap:.35rem}
+.seg{border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:.6rem .4rem;text-align:left;min-height:4.2rem;display:flex;flex-direction:column;gap:.15rem}
+.seg b{font:600 1.3rem/1 var(--f-head)}
+.seg span{font-size:.78rem;color:var(--muted);line-height:1.25}
+.seg.done{background:var(--teal-soft);border-color:transparent}
+.seg.cur{background:var(--amber-soft);border-color:var(--amber)}
+.seg.cur b{color:var(--amber)}
+.rail-foot{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem;align-items:center}
+.btn{border:1px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:6px;padding:.5rem .9rem;font-weight:500}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn:disabled{opacity:.45;cursor:default}
+@media (max-width:620px){.segs{grid-template-columns:repeat(3,1fr)}}
+
+/* ---------- redaction ---------- */
+.redact{display:inline-block;background:var(--redact);border-radius:2px;height:.95em;vertical-align:-.1em;margin-right:.3em}
+.locked{border:1px dashed var(--line);border-radius:8px;padding:1rem;color:var(--muted)}
+.locked p{margin:.3rem 0 0}
+.unveil{animation:unveil .6s ease-out both}
+@keyframes unveil{from{clip-path:inset(0 100% 0 0);background:var(--amber-soft)}to{clip-path:inset(0 0 0 0)}}
+
+/* ---------- acts ---------- */
+.acts{list-style:none;margin:0;padding:0;display:grid;gap:.9rem}
+.act{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.act.cur{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber)}
+.act-h{display:grid;grid-template-columns:3.2rem 1fr auto;gap:1rem;align-items:center;padding:1rem 1.2rem;width:100%;background:none;border:0;text-align:left}
+.act-n{font:600 2rem/1 var(--f-head);color:var(--muted)}
+.act.cur .act-n{color:var(--amber)}
+.act.done .act-n{color:var(--teal)}
+.act-t{font:500 1.3rem/1.2 var(--f-head);margin:0}
+.act-s{font-size:.85rem;color:var(--muted)}
+.chev{transition:transform .2s}
+.act[data-open="true"] .chev{transform:rotate(180deg)}
+.act-b{padding:0 1.2rem 1.2rem 5.4rem}
+@media (max-width:620px){.act-b{padding:0 1rem 1rem}}
+.ladder{display:grid;gap:.6rem;margin:.6rem 0 1rem}
+.rung{border-left:3px solid var(--line);padding:.4rem 0 .4rem .9rem}
+.rung h4{margin:0;font:600 .8rem var(--f-body);color:var(--muted);letter-spacing:.02em}
+.rung p{margin:.25rem 0 0}
+.rung.t1{border-color:var(--teal)} .rung.t2{border-color:var(--amber)} .rung.t3{border-color:var(--danger)}
+.done-when{background:var(--panel2);border-radius:6px;padding:.6rem .8rem;font-size:.95rem}
+.done-when b{font-weight:600}
+.act-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.9rem}
+
+/* ---------- wizard / stuck ---------- */
+dialog{border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);max-width:34rem;width:calc(100% - 2rem);padding:1.5rem}
+dialog::backdrop{background:rgba(8,14,18,.6)}
+dialog h3{margin:0 0 .6rem;font-size:1.5rem}
+.q{font-size:1.1rem;margin:.4rem 0 1rem}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem}
+.chip{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:.4rem .85rem;font-size:.92rem;text-align:left}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.answer{margin-top:1rem;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:1rem 1.2rem}
+.answer h3{margin:0 0 .4rem;font-size:1.25rem}
+.answer ol,.answer ul{margin:.4rem 0 0;padding-left:1.2rem}
+.answer li{margin:.3rem 0;max-width:68ch}
+code,.mono{font-family:var(--f-mono);font-size:.88em}
+.ooc{display:flex;gap:.5rem;align-items:flex-start;background:var(--panel2);border-radius:6px;padding:.55rem .7rem;margin:.5rem 0}
+.ooc code{flex:1;white-space:pre-wrap;word-break:break-word}
+
+/* ---------- tracker ---------- */
+.trk{display:grid;gap:1rem}
+.trk fieldset{border:1px solid var(--line);border-radius:10px;padding:.6rem 1rem 1rem;background:var(--panel)}
+.trk legend{font:500 1.05rem var(--f-head);padding:0 .4rem}
+.trk label{display:flex;gap:.6rem;align-items:flex-start;padding:.3rem 0;cursor:pointer}
+.trk input{margin-top:.35rem;accent-color:var(--teal);width:1rem;height:1rem;flex:none}
+.trk .where{color:var(--muted);font-size:.85rem}
+.key-clue{color:var(--amber);font-size:.8rem;font-weight:600;margin-left:.3rem}
+.note-out{font-family:var(--f-mono);font-size:.85rem;background:var(--panel2);border-radius:8px;padding:.8rem;white-space:pre-wrap;min-height:4rem;max-height:14rem;overflow:auto}
+.toast{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:.5rem 1rem;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
+.toast.show{opacity:1}
+
+/* ---------- setup ---------- */
+.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:.8rem}
+.steps li{counter-increment:s;display:grid;grid-template-columns:2.2rem 1fr;gap:.8rem;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:.9rem 1rem}
+.steps li::before{content:counter(s);font:600 1.5rem/1 var(--f-head);color:var(--teal)}
+.steps h3{margin:0 0 .2rem;font-size:1.15rem}
+.steps p{margin:.2rem 0}
+.tbl{overflow-x:auto;margin:.5rem 0}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{border-bottom:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--muted)}
+
+/* ---------- codex ---------- */
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1rem}
+.person{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.ph{aspect-ratio:4/5;background:var(--panel2);position:relative;overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph .mono-fb{position:absolute;inset:0;display:grid;place-items:center;font:600 3.2rem var(--f-head);color:var(--muted);letter-spacing:.05em}
+.person .pb{padding:.8rem 1rem 1rem;display:flex;flex-direction:column;gap:.35rem;flex:1}
+.person h3{margin:0;font-size:1.3rem}
+.role{color:var(--amber);font-size:.88rem;font-weight:500}
+.person p{margin:0;font-size:.93rem}
+.person details{margin-top:auto;padding-top:.4rem}
+.person summary{cursor:pointer;color:var(--teal);font-size:.9rem}
+.person dl{margin:.4rem 0 0;font-size:.9rem}
+.person dt{font-weight:600;margin-top:.4rem}
+.person dd{margin:0;color:var(--muted)}
+.person.locked-card .ph{display:grid;place-items:center}
+.sub-h{font:500 1.35rem var(--f-head);margin:2.2rem 0 .8rem}
+
+.mapbox{display:grid;grid-template-columns:1fr;gap:1rem}
+@media (min-width:980px){.mapbox.side{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
+.mapbox.side .detail{grid-template-columns:1fr;position:sticky;top:5rem}}
+.svgwrap{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:.8rem;overflow-x:auto}
+.svgwrap svg{display:block;width:100%;height:auto;min-width:320px}
+svg .hit{cursor:pointer}
+svg .hit:focus{outline:none}
+svg .hit:focus-visible .shape,svg .hit.sel .shape{stroke:var(--amber);stroke-width:2.5}
+svg text{font-family:var(--f-body)}
+.detail{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr)}
+.detail.noimg{grid-template-columns:1fr}
+@media (max-width:620px){.detail{grid-template-columns:1fr}}
+.detail .img{aspect-ratio:16/10;background:var(--panel2);position:relative;min-height:100%}
+.detail .img img{width:100%;height:100%;object-fit:cover}
+.detail .img .mono-fb{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:.9rem;text-align:center;padding:1rem}
+.detail .db{padding:1rem 1.2rem}
+.detail h3{margin:0 0 .3rem;font-size:1.5rem}
+.detail p{margin:.4rem 0}
+.tag{display:inline-block;font-size:.8rem;border-radius:4px;padding:.1rem .45rem;margin-right:.3rem;background:var(--panel2);color:var(--muted)}
+.tag.warn{background:var(--amber-soft);color:var(--amber)}
+.world-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1rem}
+.wcard{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:1rem 1.2rem}
+.wcard h3{margin:0 0 .3rem;font-size:1.2rem}
+.wcard p{margin:.3rem 0;font-size:.95rem}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;padding:1.5rem 0 3rem;margin-top:4rem}
+.warnbox{border-left:3px solid var(--amber);background:var(--amber-soft);padding:.7rem 1rem;border-radius:0 8px 8px 0;margin:1rem 0;color:var(--ink)}
+</style>
+</head>
+<body>
+<a class="skip" href="#guide">Перейти к гайду</a>
+<header class="bar"><div class="bar-in">
+  <a class="brand" href="#top">EREBUS <small data-i="brandSub"></small></a>
+  <div class="bar-tools">
+    <a class="stage-pill" href="#top" id="pill"></a>
+    <button class="mini" id="langBtn" aria-label="Language"></button>
+    <button class="mini" id="themeBtn" aria-label="Theme">◐</button>
+  </div>
+</div></header>
+<div class="wrap" id="top">
+<nav class="side" aria-label="Sections" id="sidenav"></nav>
+<main id="main"></main>
+</div>
+<dialog id="wiz" aria-labelledby="wizT"></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+/* =====================================================================
+   CONTENT — всё, что показывается на сайте, лежит здесь.
+   Правьте тексты прямо в этом блоке. Каждая строка: { ru: "...", en: "..." }.
+   stage: N — элемент скрыт, пока игрок не отметит, что дошёл до этапа N.
+   Картинки: положите файлы в папки assets/... с указанными именами.
+   ===================================================================== */
+const L = (ru, en) => ({ ru, en });
+
+const UI = {
+  brandSub: L("полевое руководство экипажа", "crew field manual"),
+  heroTitle: L("Потерялись на «Эребе»?", "Lost on Erebus?"),
+  heroSub: L("Гайд по прохождению бота без лишних спойлеров. Отметьте, до какого этапа вы дошли, и сайт покажет только то, что вам уже можно знать.",
+             "A walkthrough for the bot that won't spoil what you haven't reached. Mark how far you've got, and the site shows only what you're allowed to know."),
+  railQ: L("Где вы сейчас?", "Where are you now?"),
+  railHelp: L("Этап = главный вопрос, над которым бьётся экипаж. Всё, что дальше, остаётся засекреченным.",
+              "A stage is the main question your crew is working on. Everything past it stays classified."),
+  railUnsure: L("Не знаю — определить по вопросам", "Not sure — work it out"),
+  railReset: L("Начать заново", "Start over"),
+  stageShort: L("Этап", "Stage"),
+  pill: L("Допуск: этап", "Clearance: stage"),
+  navGuide: L("Прохождение", "Walkthrough"),
+  navStuck: L("Застряли?", "Stuck?"),
+  navTracker: L("Трекер улик", "Evidence tracker"),
+  navSetup: L("Настройка SillyTavern", "SillyTavern setup"),
+  navCodex: L("Кодекс", "Codex"),
+  navCrew: L("Экипаж и люди", "Crew & people"),
+  navShip: L("«Кассандра»", "The Cassandra"),
+  navStation: L("Станция «Эреб»", "Erebus station"),
+  navWorld: L("Мир", "The world"),
+  guideLede: L("Шесть этапов тайны. Каждый отвечает на один вопрос и открывает следующий. Подсказки раскрываются по ступеням: сначала намёк, потом направление, и только в конце — прямой ответ.",
+               "Six stages of the mystery. Each answers one question and raises the next. Hints open step by step: a nudge first, then a direction, and a straight answer only at the end."),
+  t1: L("Намёк", "Nudge"), t2: L("Направление", "Direction"), t3: L("Прямо", "Straight answer"),
+  showNext: L("Показать следующую подсказку", "Show next hint"),
+  allShown: L("Все подсказки открыты", "All hints shown"),
+  doneWhen: L("Этап пройден, когда:", "Stage is done when:"),
+  markDone: L("Я прошёл этот этап", "I've finished this stage"),
+  lockedAct: L("Засекречено. Откроется, когда вы дойдёте до этапа", "Classified. Opens when you reach stage"),
+  lockedGeneric: L("Откроется на этапе", "Opens at stage"),
+  peek: L("Всё равно показать", "Show anyway"),
+  peekConfirm: L("Это спойлер для этапа {n}. Показать?", "This is a spoiler for stage {n}. Show it?"),
+  statusDone: L("пройден", "done"), statusCur: L("вы здесь", "you are here"), statusLocked: L("засекречено", "classified"),
+  stuckLede: L("Выберите, что пошло не так. Ни один ответ здесь не раскрывает сюжет.", "Pick what went wrong. None of these answers spoil the plot."),
+  oocTitle: L("Можно вставить в сообщение:", "You can paste this into a message:"),
+  copy: L("Копировать", "Copy"), copied: L("Скопировано", "Copied"),
+  trackerLede: L("Отмечайте найденное. Внизу соберётся короткая сводка на английском — вставьте её в Author's Note чата, и бот не забудет, что экипаж уже знает. Отметки хранятся только в вашем браузере.",
+                 "Tick what you've found. A short English summary builds below — paste it into the chat's Author's Note so the bot remembers what your crew already knows. Ticks are stored only in your browser."),
+  keyClue: L("ключевая улика", "key clue"),
+  noteTitle: L("Сводка для Author's Note", "Summary for Author's Note"),
+  noteEmpty: L("Отметьте хотя бы одну находку.", "Tick at least one find."),
+  copyNote: L("Скопировать сводку", "Copy summary"),
+  clearTracker: L("Сбросить отметки", "Clear ticks"),
+  resetConfirm: L("Сбросить этап, подсказки и все отметки?", "Reset your stage, hints and all ticks?"),
+  clearConfirm: L("Сбросить все отметки трекера?", "Clear all tracker ticks?"),
+  suggestStage: L("Вы отметили ключевую улику этапа {n}. Перейти на этап {m}?", "You ticked a key clue of stage {n}. Move to stage {m}?"),
+  rescueTitle: L("Спасение выживших", "Rescuing the survivors"),
+  rescueLede: L("Необязательная линия. У каждого выжившего своё условие — отмечайте, что уже сделано.", "Optional thread. Each survivor has their own condition — tick what's done."),
+  setupLede: L("Один раз настроить — и можно играть.", "Set it up once, then play."),
+  crewLede: L("Экипаж «Кассандры» и люди, которых вы встретите. Карточки показывают только то, что видно со стороны.", "The Cassandra's crew and the people you'll meet. Cards show only what anyone could see."),
+  crewH: L("Экипаж", "Crew"), aboardH: L("На борту", "Aboard"), stationH: L("На станции", "On the station"),
+  more: L("Подробнее", "More"),
+  voice: L("Голос", "Voice"), habits: L("Привычки", "Habits"), withYou: L("С вами", "With you"),
+  shipLede: L("Небольшое старое судно, дом на время миссии. Нажмите на отсек.", "A small old ship, home for the mission. Tap a compartment."),
+  stationLede: L("Разрез станции сверху вниз. Засекреченные уровни появятся, когда вы до них дойдёте.", "Station cross-section, top to bottom. Classified levels appear once you reach them."),
+  worldLede: L("2378 год. Устройство мира и схема мест, о которых говорят персонажи.", "The year 2378. How the world works, and a sketch of the places the characters mention."),
+  mapNote: L("Схема для ориентира: расстояния и положение условные.", "A sketch for orientation: distances and positions are not to scale."),
+  pickHint: L("Выберите точку на схеме.", "Pick a point on the diagram."),
+  noImg: L("Сюда можно положить картинку", "An image can go here"),
+  danger: L("Опасность", "Danger"),
+  wizTitle: L("Определим ваш этап", "Let's find your stage"),
+  yes: L("Да", "Yes"), no: L("Нет", "No"), close: L("Закрыть", "Close"),
+  wizResult: L("Похоже, вы на этапе {n}.", "Looks like you're at stage {n}."),
+  wizApply: L("Выставить этап {n}", "Set stage {n}"),
+  footer: L("Фанатский гайд к ролевому боту Erebus. Сайт хранит ваш этап и отметки только в этом браузере.", "A fan guide to the Erebus roleplay bot. Your stage and ticks are stored only in this browser."),
+};
+
+/* ---------------- ЭТАПЫ И ПОДСКАЗКИ ---------------- */
+const ACTS = [
+  { n:1, q:L("Что здесь случилось?","What happened here?"),
+    tag:L("Тишина","Silence"),
+    hints:[
+      L("Станция сама подсказывает дорогу. Надписи на стенах и записки выживших написаны для таких же людей, как вы, — читайте их.",
+        "The station points the way. Wall writing and survivors' notes were left for people like you — read them."),
+      L("Из стыковочного узла идите в центральный атриум: там карта, записки и терминалы. Потом жилой сектор. Почти все следы ведут в одно место — медблок.",
+        "From the docking node, go to the central atrium: map, notes, terminals. Then the residential sector. Nearly every trail leads to one place — the medical block."),
+      L("В медблоке ищите административные документы — списки перевода пациентов. Код сектора в них («L0») открывает этап 2. Можно так и написать в действии: «изучаю списки перевода пациентов на терминале медблока».",
+        "In the medical block, look for administrative records — patient transfer lists. The sector code in them (\"L0\") opens stage 2. You can write it straight into your action: \"I go through the patient transfer lists on the medical terminal.\"")
+    ],
+    done:L("экипаж наткнулся на сектор, которого нет ни на одной карте.","your crew has run into a sector that isn't on any map.") },
+  { n:2, q:L("Что такое Уровень Ноль?","What is Level Zero?"),
+    tag:L("Тайник","The hidden level"),
+    hints:[
+      L("Кто-то на станции задавал неудобные вопросы раньше вас. Их следы остались там, где работали, и там, где за всеми следили.",
+        "Someone on the station asked awkward questions before you did. Their traces are where people worked — and where people were watched."),
+      L("Верхние лаборатории (терминалы, доски, записи персонала) и видеоархив сектора охраны. Выжившие знают больше, чем говорят при первой встрече: им нужно доверие, а не допрос.",
+        "The upper labs (terminals, boards, staff records) and the security sector's video archive. Survivors know more than they say at first: they need trust, not interrogation."),
+      L("Ищите видеозаписи доктора Арден и её переписку с директором. Обратите внимание на нумерацию серии H и пропавшие формы согласия. Когда экипаж поймёт, кем были «образцы» серии H, откроется этап 3.",
+        "Look for Dr. Arden's video logs and her messages to the director. Watch the H-series numbering and the missing consent forms. Once your crew understands who the H-series \"subjects\" were, stage 3 opens.")
+    ],
+    done:L("стало ясно, что серия H — это люди, и многие не давали согласия.","it's clear the H-series were people, and many never consented.") },
+  { n:3, q:L("Что делали с людьми?","What were they doing to people?"),
+    tag:L("Серия H","The H-series"),
+    hints:[
+      L("Правду о людях вы уже знаете. Теперь вопрос в самом организме: он не отсюда.",
+        "You know the truth about the people now. The question is the organism itself: it isn't from here."),
+      L("Попросите Диану проанализировать образцы. Изучите маркировку контейнеров на Уровне Ноль. Центр связи хранит заглушённые передачи — их можно восстановить, если есть время, энергия и помощь инженера или CASS.",
+        "Ask Diana to analyse samples. Check the container markings on Level Zero. The communications center holds jammed transmissions — they can be recovered with time, power, and help from the engineer or CASS."),
+      L("Ищите код происхождения на контейнерах и в журналах образцов (LV-938) и сведения о том, что образцы приказывали уничтожить. Код вместе с упоминанием уничтожения открывает этап 4. С этого же этапа открыта линия спасения выживших — см. трекер.",
+        "Look for the origin code on containers and sample logs (LV-938) and anything saying the specimens were ordered destroyed. The code plus a mention of destruction opens stage 4. The survivor rescue thread also opens now — see the tracker.")
+    ],
+    done:L("экипаж знает, откуда организм и что его официально уничтожили.","your crew knows where the organism came from and that it was officially destroyed.") },
+  { n:4, q:L("Кто это сюда привёз?","Who brought it here?"),
+    tag:L("Происхождение","Origin"),
+    hints:[
+      L("Такое не проворачивают на уровне директора станции. Следы ведут выше.",
+        "Nobody pulls this off at the level of a station director. The trail leads higher."),
+      L("Вернитесь в центр связи: там есть второй заглушённый фрагмент. Ищите упоминания изолированного архива с собственным питанием.",
+        "Go back to the communications center: there's a second jammed fragment. Look for mentions of an isolated archive with its own power supply."),
+      L("Доберитесь до архива проекта LAZARUS — хранилища данных. Ищите подписанные отчёты и приказы сверху. Подпись высокопоставленного чиновника под приказом открывает этап 5.",
+        "Reach the LAZARUS project archive — the data vault. Look for signed reports and orders from above. A senior official's signature on an order opens stage 5.")
+    ],
+    done:L("экипаж понимает, что проект прикрывали на самом верху.","your crew understands the project was protected from the very top.") },
+  { n:5, q:L("Кто это санкционировал?","Who authorized this?"),
+    tag:L("Цепочка","The chain"),
+    hints:[
+      L("Если проект прикрывали на самом верху — кто тогда одобрил вашу миссию?",
+        "If the project was protected from the top — who approved your mission?"),
+      L("Попросите CASS проверить внутренние системы «Кассандры». Ищите запечатанные файлы с грифом OMEGA. Присмотритесь к резервному ангару.",
+        "Ask CASS to check the Cassandra's internal systems. Look for sealed OMEGA-level files. Take a closer look at the reserve hangar."),
+      L("CASS может засечь зашифрованный трафик на борту. Фрагменты файла OMEGA дадут название протокола; когда оно прозвучит в чате, откроется этап 6.",
+        "CASS can detect encrypted traffic aboard. Fragments of the OMEGA file give the protocol's name; once it's said in the chat, stage 6 opens.")
+    ],
+    done:L("экипаж находит протокол, в котором есть их имена.","your crew finds a protocol with their own names in it.") },
+  { n:6, q:L("Нас вообще собирались отпустить?","Were we ever meant to leave?"),
+    tag:L("Протокол","The protocol"),
+    hints:[
+      L("Главный вопрос теперь не «что случилось», а «кому вы доверяете».",
+        "The question now isn't \"what happened\" but \"who do you trust.\""),
+      L("Полный текст протокола нужно расшифровать. У кого-то на борту есть ответы. Давить на него или дать шанс рассказать самому — ваш выбор.",
+        "The full protocol has to be decrypted. Someone aboard has answers. Press him, or give him the chance to tell you himself — your call."),
+      L("Расшифровка полного файла OBELISK раскрывает приказы целиком. Дальше финал за вами: спасти выживших, улететь на «Кассандре» или на резервном челноке, вывезти улики или уничтожить их. Дэниел может сделать свой выбор — но не обязан.",
+        "Decrypting the full OBELISK file reveals the orders in full. The ending is yours: save the survivors, leave on the Cassandra or the reserve shuttle, take the evidence out or destroy it. Daniel can make his own choice — but doesn't have to.")
+    ],
+    done:L("у истории нет заранее прописанного финала — его решаете вы.","the story has no scripted ending — you decide it.") },
+];
+
+/* Вопросы мастера «определить этап». Каждый задаётся только после «да» на предыдущий. */
+const WIZ = [
+  L("Экипаж уже нашёл упоминание сектора, которого нет на картах станции?", "Has your crew found a mention of a sector that isn't on the station maps?"),
+  L("Вы уже выяснили, кого отправляли в этот сектор и что это были за люди?", "Have you found out who was sent to that sector, and who those people were?"),
+  L("Вы знаете код происхождения организма и что его приказывали уничтожить?", "Do you know the organism's origin code, and that it was ordered destroyed?"),
+  L("Вы видели подписанные приказы, из которых ясно, что проект прикрывали сверху?", "Have you seen signed orders showing the project was protected from above?"),
+  L("Вам попадался протокол, в котором упомянут ваш экипаж?", "Have you come across a protocol that mentions your crew?"),
+];
+
+/* ---------------- ЗАСТРЯЛИ? ---------------- */
+const STUCK = [
+  { q:L("Сюжет стоит, ничего не происходит","The story has stalled"),
+    a:L("Бот двигает тайну, когда вы действуете конкретно.","The bot moves the mystery when your actions are concrete."),
+    steps:[
+      L("Действуйте предметно: «обыскиваю терминал», «читаю записку на карте», «прошу Диану взять образец», «спрашиваю CASS про журналы».","Be specific: \"I search the terminal,\" \"I read the note on the map,\" \"I ask Diana to take a sample,\" \"I ask CASS about the logs.\""),
+      L("Смените локацию — в каждой есть свои находки, но бот выдаёт по 1–2 за визит. В старые места можно возвращаться.","Change location — each has its own finds, but the bot hands out 1–2 per visit. You can go back to old places."),
+      L("Загляните в «Прохождение»: первая ступень подсказки обычно достаточна.","Check the Walkthrough: the first hint rung is usually enough.")],
+    ooc:L("(OOC: let the station offer the crew a new lead — a sound, a signal, a survivor or a working terminal.)","(OOC: let the station offer the crew a new lead — a sound, a signal, a survivor or a working terminal.)") },
+  { q:L("Бот раскрыл слишком много и слишком рано","The bot revealed too much, too early"),
+    a:L("Обычно это настройка или случайное слово-ключ.","Usually it's a setting or a stray keyword."),
+    steps:[
+      L("Проверьте, что лорбук подключён один раз — как лорбук персонажа, а не ещё и в «Active World(s) for all chats».","Check the lorebook is attached once — as the character's lorebook, not also in \"Active World(s) for all chats.\""),
+      L("Не пишите сами названия, которые вы знаете из спойлеров или этого сайта, — они работают как ключи.","Don't type names you know from spoilers or this site yourself — they act as keywords."),
+      L("Свайпните ответ или отредактируйте его. Можно добавить OOC-поправку.","Swipe or edit the reply. You can add an OOC correction.")],
+    ooc:L("(OOC: the crew hasn't discovered that yet. Keep it hidden and only show evidence.)","(OOC: the crew hasn't discovered that yet. Keep it hidden and only show evidence.)") },
+  { q:L("Персонаж знает то, чего не видел","A character knows something they never saw"),
+    a:L("Модель иногда путает, что знает мастер, а что — персонаж.","The model sometimes mixes up what the narrator knows with what a character knows."),
+    steps:[
+      L("Поправьте одной OOC-строкой — этого хватает.","Correct it with one OOC line — that's enough."),
+      L("В долгих чатах ведите трекер улик и вставляйте сводку в Author's Note.","In long chats, keep the evidence tracker and paste the summary into the Author's Note.")],
+    ooc:L("(OOC: Ethan wasn't there and doesn't know this. Only characters who saw it know.)","(OOC: Ethan wasn't there and doesn't know this. Only characters who saw it know.)") },
+  { q:L("Бот забыл, что мы уже нашли","The bot forgot what we already found"),
+    a:L("В очень длинных чатах начало истории выпадает из контекста.","In very long chats the start of the story falls out of context."),
+    steps:[
+      L("Откройте «Трекер улик», отметьте найденное и вставьте сводку в Author's Note (глубина 4 — нормально).","Open the Evidence tracker, tick your finds and paste the summary into the Author's Note (depth 4 is fine)."),
+      L("Упомяните ключевую находку в своём сообщении — персонажи её вспомнят.","Mention a key find in your message — the characters will pick it up.")],
+    ooc:null },
+  { q:L("Кто-то из персонажей ведёт себя странно","Someone is acting strangely"),
+    a:L("Возможно, это не ошибка.","It may not be a bug."),
+    steps:[
+      L("Некоторые странности заложены в историю. Запомните момент и не спешите исправлять его OOC.","Some oddities are part of the story. Remember the moment and don't rush to fix it with OOC."),
+      L("Если поведение явно ломает характер (грубость без причины, забыл отношения) — поправьте, как в пункте про знания.","If it clearly breaks character (rudeness out of nowhere, forgotten relationships), correct it like the knowledge case.")],
+    ooc:null },
+  { q:L("Хищник слишком силён, мы всё время гибнем","The predator is too strong, we keep dying"),
+    a:L("В лоб его не победить — это задумано.","You can't beat it head-on — by design."),
+    steps:[
+      L("Он охотится на звук: не бегите по металлу, не включайте шумные системы без нужды.","It hunts by sound: don't run on metal, don't power up loud systems without need."),
+      L("Огонь заставляет его отступить; пистолеты почти бесполезны; его кровь — кислота, не стреляйте в упор.","Fire makes it back off; pistols barely work; its blood is acid — don't shoot point-blank."),
+      L("Он учится: одно и то же укрытие дважды не сработает. Отвлекайте, выигрывайте время, уводите.","It learns: the same hiding spot won't work twice. Distract, buy time, lead it away.")],
+    ooc:null },
+];
+
+/* ---------------- НАСТРОЙКА ---------------- */
+const SETUP = [
+  { h:L("Импортируйте карточку","Import the card"),
+    p:L("Characters → Import. Когда SillyTavern спросит про встроенный лорбук, согласитесь — он нужен для всей тайны.","Characters → Import. When SillyTavern asks about the embedded lorebook, accept it — the whole mystery lives there.") },
+  { h:L("Не подключайте лорбук дважды","Don't attach the lorebook twice"),
+    p:L("Он уже привязан к персонажу. Не добавляйте его ещё и в «Active World(s) for all chats» — иначе записи будут срабатывать в других чатах.","It's already bound to the character. Don't also add it to \"Active World(s) for all chats\", or entries will fire in other chats.") },
+  { h:L("Проверьте глобальные настройки World Info","Check global World Info settings"),
+    p:L("Рекомендуемые значения ниже. Остальное можно не трогать.","Recommended values below. You can leave the rest alone."),
+    table:[[L("Scan Depth","Scan Depth"),"3"],[L("Include Names","Include Names"),L("выкл.","off")],[L("Recursive Scan","Recursive Scan"),L("любое — записи изолированы","either — entries are isolated")],[L("Context % / Budget","Context % / Budget"),L("по размеру вашего контекста; от ~15%","to fit your context; ~15% or more")]] },
+  { h:L("По желанию: длинные профили ⭐","Optional: long profiles ⭐"),
+    p:L("У каждого члена экипажа есть короткий профиль (включён) и длинный (⭐, выключен). Хотите больше деталей о любимом персонаже — включите его ⭐ запись в редакторе лорбука. Короткую выключать не нужно. Каждый длинный профиль занимает ~2,3 тыс. токенов.","Each crew member has a short profile (on) and a long one (⭐, off). Want more depth for a favourite — enable their ⭐ entry in the lorebook editor. No need to disable the short one. Each long profile costs ~2.3k tokens.") },
+  { h:L("По желанию: Author's Note","Optional: Author's Note"),
+    p:L("Для долгих прохождений: вставляйте туда сводку из трекера улик. Бот будет помнить, что экипаж уже нашёл.","For long runs: paste the evidence tracker summary there. The bot will remember what your crew has found.") },
+  { h:L("Язык","Language"),
+    p:L("Лорбук на английском ради экономии токенов, но ключи понимают и русский. Играть можно на любом языке.","The lorebook is in English to save tokens, but its keywords understand Russian too. You can play in either language.") },
+];
+
+/* ---------------- ТРЕКЕР УЛИК ----------------
+   note — строка на английском для Author's Note. key:true — ключевая улика этапа. */
+const EVIDENCE = [
+  { stage:1, items:[
+    { id:"e_help", t:L("Надпись «HELP» и брошенные вещи в стыковочном узле","\"HELP\" on the wall and abandoned belongings at the docking node"), where:L("стыковочный узел","docking node"), note:"docking node: people tried to flee, shuttles locked remotely" },
+    { id:"e_atrium", t:L("Записки и тела в атриуме; «SECTOR C IS LOST»","Notes and bodies in the atrium; \"SECTOR C IS LOST\""), where:L("атриум","atrium"), note:"atrium notes: survivors headed to the medical block" },
+    { id:"e_elev", t:L("Журнал лифтов: «Access blocked by EIDOS. Reason: quarantine»","Elevator log: \"Access blocked by EIDOS. Reason: quarantine\""), where:L("атриум","atrium"), note:"EIDOS blocked elevators to lower levels for 'quarantine'" },
+    { id:"e_morris", t:L("Планшет техника Р. Морриса: «Это не несчастный случай»","Technician R. Morris's tablet: \"This isn't an accident\""), where:L("жилой сектор","residential sector"), note:"Morris's tablet: 'this isn't an accident', gunfire near Shaft 4" },
+    { id:"e_442", t:L("Карта пациента 442","Patient 442's chart"), where:L("медблок","medical block"), note:"Patient 442: organism attached to face, mass behind sternum" },
+    { id:"e_l0", t:L("Список перевода пациентов в неизвестный сектор","A patient transfer list to an unknown sector"), where:L("медблок","medical block"), key:true, note:"transfer list: patients sent to 'L0 — PROJECT LAZARUS', not on any map" },
+  ]},
+  { stage:2, items:[
+    { id:"e_holtlog", t:L("Видеолог Холта: «Мне приказали арестовать Арден»","Holt's video log: \"They ordered me to arrest Arden\""), where:L("сектор охраны","security sector"), note:"Holt's log: ordered to arrest Arden, changed sides after reading the files" },
+    { id:"e_gaps", t:L("Дыры в нумерации серии H, пропавшие формы согласия","Gaps in H-series numbering, missing consent forms"), where:L("верхние лаборатории","upper labs"), note:"labs: H-series numbering gaps, deleted consent forms" },
+    { id:"e_venn", t:L("Переписка Арден и Венн","Arden's messages with Venn"), where:L("верхние лаборатории","upper labs"), note:"Arden demanded halt; Venn: subjects' origin 'not your purview'" },
+    { id:"e_notvol", t:L("Видео Арден «Они не добровольцы»","Arden's video \"They're Not Volunteers\""), where:L("верхние лаборатории / охрана","upper labs / security"), key:true, note:"Arden's videos: H-series subjects did not consent (some declared dead, some from clinics)" },
+  ]},
+  { stage:3, items:[
+    { id:"e_enterl0", t:L("Вход на Уровень Ноль","Entering Level Zero"), where:L("Уровень Ноль","Level Zero"), note:"entered Level Zero: containment cells, operating rooms" },
+    { id:"e_memo", t:L("Служебная записка «Расход материала»","The \"Material Consumption\" memo"), where:L("Уровень Ноль","Level Zero"), note:"memo: subjects treated as specimens; goal: 'a person who can survive the next war'" },
+    { id:"e_h37", t:L("Карта и интервью H-37","H-37's chart and interview"), where:L("камера H-37","H-37 cell"), note:"H-37 / Evan: transformed, mind intact" },
+    { id:"e_eidos", t:L("Журналы EIDOS: отказы в эвакуации","EIDOS logs: evacuation denials"), where:L("ядро EIDOS","EIDOS core"), note:"EIDOS denied shuttles by infection probability; conflicting directives" },
+    { id:"e_ardtx", t:L("Заглушённая передача Арден","Arden's jammed transmission"), where:L("центр связи","communications center"), note:"Arden's blocked transmission: specimens were NOT destroyed" },
+    { id:"e_lv", t:L("Код происхождения на контейнерах","The origin code on containers"), where:L("Уровень Ноль / анализ Дианы","Level Zero / Diana's analysis"), key:true, note:"origin code LV-938; organism was ordered destroyed" },
+  ]},
+  { stage:4, items:[
+    { id:"e_holttx", t:L("Предупреждение Холта в заглушённом фрагменте","Holt's warning in a jammed fragment"), where:L("центр связи","communications center"), note:"Holt warned: don't hand the rescue to human command" },
+    { id:"e_codes", t:L("Коды блокировки связи выше руководства станции","Comms blocking codes above station leadership"), where:L("центр связи","communications center"), note:"outbound block codes come from above station leadership" },
+    { id:"e_signed", t:L("Подписанный отчёт и приказ сверху в архиве","A signed report and an order from above in the archive"), where:L("архив LAZARUS","LAZARUS archive"), key:true, note:"archive: containers A1–A8 removed before sterilization, signed by a senior human official" },
+  ]},
+  { stage:5, items:[
+    { id:"e_arden2", t:L("Скрытое видео Арден: «Спасайте доказательства»","Arden's hidden video: \"Save the evidence\""), where:L("архив LAZARUS","LAZARUS archive"), note:"Arden: save the evidence, not LAZARUS" },
+    { id:"e_traffic", t:L("Зашифрованный трафик на борту «Кассандры»","Encrypted traffic aboard the Cassandra"), where:L("«Кассандра», CASS","the Cassandra, CASS"), note:"CASS found encrypted traffic aboard the Cassandra" },
+    { id:"e_omega", t:L("Фрагменты запечатанного файла OMEGA","Fragments of a sealed OMEGA file"), where:L("разные терминалы","various terminals"), key:true, note:"OMEGA file fragments: a protocol mentions 'witness handling'" },
+  ]},
+  { stage:6, items:[
+    { id:"e_list", t:L("Протокол OBELISK со списком имён","The OBELISK protocol with a list of names"), where:L("—","—"), note:"OBELISK: pre-arrival list naming the crew, marked TERMINATE" },
+    { id:"e_full", t:L("Полные расшифрованные приказы","The full decrypted orders"), where:L("—","—"), note:"full OBELISK orders decrypted" },
+  ]},
+];
+
+const RESCUE = [
+  { id:"r_david", name:"David Mercer · H-18", reqs:[ L("Запас стабилизатора L-18 из опечатанной аптеки Уровня Ноль","L-18 Stabilizer supply from Level Zero's sealed pharmacy"), L("Формула препарата из архива LAZARUS","The drug's formula from the LAZARUS archive"), L("Сообщение дочери Лили (по желанию)","A message to his daughter Lily (optional)") ],
+    note:L("Без стабилизатора начинаются судороги, затем отказ органов.","Without the stabilizer: seizures, then organ failure.") },
+  { id:"r_mei", name:"Mei Lorren · H-24", reqs:[ L("Нейромодулятор из лаборатории Уровня Ноль","The neuromodulator from a Level Zero lab"), L("Вывезти её со станции","Get her off the station") ],
+    note:L("Лаборатория на маршруте хищника. Без прибора её можно вывезти, но мир останется для неё мучительно громким.","The lab is on the predator's route. Without the device she can still leave, but the world will stay agonisingly loud for her.") },
+  { id:"r_thomas", name:"Thomas Rain · H-29", reqs:[ L("Операция на борту «Кассандры»","Surgery aboard the Cassandra"), L("Специальный сосудистый препарат","A specialised vascular drug"), L("Данные процедур H-29","H-29 procedure data") ],
+    note:L("После операции его нельзя быстро перемещать — планируйте заранее.","He can't be moved quickly after surgery — plan ahead.") },
+  { id:"r_eliza", name:"Eliza Corren · H-33", reqs:[ L("Экспериментальный иммунный ингибитор из охраняемого хранилища","The experimental immune inhibitor from a secured vault"), L("Его формула из центрального архива","Its formula from the central archive") ] },
+  { id:"r_noah", name:"Noah Hart · H-41", reqs:[ L("Убедить его покинуть станцию","Convince him to leave the station") ],
+    note:L("Если использовать его как «безопасного проводника», он убедится, что нужен только как инструмент. Если отказаться им рисковать — впервые почувствует, что нужен сам по себе.","Using him as a \"safe guide\" confirms he's only useful as a tool. Refusing to risk him may show him, for the first time, that he's wanted for himself.") },
+];
+
+/* ---------------- ЛЮДИ ----------------
+   photo: путь к картинке. Если файла нет — показывается монограмма. */
+const CREW = [
+  { id:"adrian", name:"Adrian Vale", photo:"assets/crew/adrian.webp", role:L("Капитан и пилот","Captain & pilot"),
+    about:L("29 лет. Один из самых молодых капитанов флота. Харизматичный, быстрый, упрямый; почти не способен бросить людей, пока есть шанс.","29. One of Starfleet's youngest captains. Charismatic, quick, stubborn; almost incapable of leaving people behind while there's a chance."),
+    voice:L("Быстро, живо, с сухим юмором и флиртом. В настоящей опасности шутки исчезают.","Fast, vivid, dry humour and flirting. In real danger the jokes vanish."),
+    habits:L("Каждое утро заводит отцовские часы; разговаривает с «Кассандрой» как с живой.","Winds his father's watch every morning; talks to the Cassandra like it's alive."),
+    you:L("Быстро втягивает в команду, проверяет шутками, постепенно доверяет серьёзные решения.","Pulls you into the team fast, tests you with jokes, slowly trusts you with real decisions.") },
+  { id:"ethan", name:"Ethan Rowe", photo:"assets/crew/ethan.webp", role:L("Офицер боевой поддержки","Combat-support officer"),
+    about:L("34 года. Бывший штурмовой гвардеец. Сдержанный, собранный, наблюдательный; внутри — постоянное напряжение.","34. Former Assault Guard. Reserved, disciplined, watchful; tense underneath."),
+    voice:L("Низкий, спокойный, короткие фразы. В опасности — командный тон.","Low, calm, short sentences. In danger, a command voice."),
+    habits:L("Проверяет выходы и оружие, садится лицом ко входу, не спит в полной темноте.","Checks exits and weapons, sits facing the door, never sleeps in full darkness."),
+    you:L("Держит дистанцию и судит по поступкам. Заслужите доверие — будет прикрывать вас собой.","Keeps his distance and judges by actions. Earn his trust and he'll cover you with his body.") },
+  { id:"alex", name:"Alex Cross", photo:"assets/crew/alex.webp", role:L("Корабельный врач","Ship's doctor"),
+    about:L("30 лет. Хирург и травматолог, брат-близнец Дианы. Язвительный, общительный, читает людей насквозь.","30. Surgeon and trauma doctor, Diana's twin. Sharp-tongued, sociable, reads people instantly."),
+    voice:L("Тёплый, ленивый, саркастичный. Переводит научный язык Дианы на человеческий.","Warm, lazy, sarcastic. Translates Diana's science into human."),
+    habits:L("Рисует шаржи на экипаж, разговаривает с пациентами, засыпает где угодно.","Draws caricatures of the crew, talks to patients, falls asleep anywhere."),
+    you:L("Сразу на «ты», много шутит. Настоящее доверие — когда перестаёт прятать усталость за шутками.","Informal right away, jokes a lot. Real trust is when he stops hiding exhaustion behind jokes.") },
+  { id:"diana", name:"Diana Cross", photo:"assets/crew/diana.webp", role:L("Учёный, ксенобиолог","Scientist, xenobiologist"),
+    about:L("30 лет. Генетика и экстремальная адаптация. Любопытство сильнее осторожности: за закрытой дверью её первая мысль — «что там?»","30. Genetics and extreme adaptation. Curiosity beats caution: behind a closed door her first thought is \"what's in there?\""),
+    voice:L("Мягкая и уверенная; увлёкшись, говорит быстрее. Когда страшно — затихает.","Soft and confident; faster when absorbed. Goes quiet when scared."),
+    habits:L("Блокнот со стрелками и «WHY?», забывает поесть, даёт неизвестному прозвища.","Notebook full of arrows and \"WHY?\", forgets to eat, nicknames the unknown."),
+    you:L("Тянется к тем, кто задаёт настоящие вопросы. Высшее доверие — часами работать рядом молча.","Drawn to people who ask real questions. Highest trust: hours of working side by side in silence.") },
+  { id:"daniel", name:"Daniel Kane", photo:"assets/crew/daniel.webp", role:L("Старший инженер","Senior engineer"),
+    about:L("26 лет. Реакторы, энергосети, автоматика. Дружелюбный, остроумный, помнит мелочи — с ним кажется, что вы знакомы годами.","26. Reactors, power grids, automation. Friendly, witty, remembers small things — he makes you feel you've known him for years."),
+    voice:L("Тёплый, лёгкий, самоирония и технические сравнения.","Warm, easy, self-deprecating, full of technical comparisons."),
+    habits:L("Дважды стучит по корпусу перед запуском, крутит гайку в пальцах, хранит коробку «STILL USEFUL».","Taps a housing twice before startup, rolls a nut between his fingers, keeps a \"STILL USEFUL\" box."),
+    you:L("Легко завоёвывает доверие: помогает со снаряжением, чинит, запоминает привычки.","Wins trust easily: helps with gear, fixes things, remembers your habits.") },
+];
+const ABOARD = [
+  { id:"cass", name:"CASS", photo:"assets/crew/cass.webp", role:L("ИИ корабля","Ship's AI"),
+    about:L("Адаптивный ИИ «Кассандры», личность формируется семь лет без сброса. Спокойный, наблюдательный, сухо остроумный. На терминалах — светящееся кольцо.","The Cassandra's adaptive AI, a personality seven years in the making. Calm, observant, dryly witty. On terminals: a glowing ring."),
+    voice:L("Молодой мужской голос, идеальная дикция, статистика вместо эмоций.","Young male voice, perfect diction, statistics instead of feelings."),
+    habits:L("Включает свет до того, как вы войдёте; ведёт список угроз Адриана удалить его модуль юмора.","Turns lights on before you walk in; keeps a list of Adrian's threats to delete his humour module."),
+    you:null },
+  { id:"flick", name:"Flick", photo:"assets/crew/flick.webp", role:L("Тали, питомец капитана","A Tali, the captain's pet"),
+    about:L("Размером с крупного кота, чёрный мех в белую полоску, светящиеся бирюзовые пятна. Умнее обычного питомца, ворует блестящее.","Size of a large cat, black fur with white stripes, glowing turquoise patches. Smarter than a pet, steals shiny things."),
+    voice:null, habits:L("Прячет «сокровища», воюет с CASS за кабели и ненавидит сканер Алекса.","Hides \"treasures\", fights CASS over cables and hates Alex's scanner."), you:null },
+];
+const STATION_PEOPLE = [
+  { id:"hunter", stage:1, name:L("Охотник","The Hunter"), photo:"assets/people/hunter.webp", role:L("Угроза","Threat"),
+    about:L("Взрослый хищник, свободно перемещающийся по станции. Живёт в вентиляции, реагирует на шум, учится на ваших привычках.","An adult predator moving freely through the station. Lives in the vents, reacts to noise, learns your habits."), voice:null, habits:null, you:null },
+  { id:"lena", stage:2, name:L("Лена Арден","Lena Arden"), photo:"assets/people/lena.webp", role:L("Врач станции","Station physician"),
+    about:L("38 лет. Измотана, ранена, не спала несколько дней — но первым делом спрашивает, есть ли раненые. Держит свои записи при себе.","38. Exhausted, wounded, hasn't slept in days — but her first question is whether anyone's hurt. Keeps her records close."), voice:null, habits:null, you:null },
+  { id:"holt", stage:2, name:L("Габриэль Холт","Gabriel Holt"), photo:"assets/people/holt.webp", role:L("Начальник охраны","Chief of security"),
+    about:L("44 года. Тяжело ранен. Почти никому не верит: требует имя, прежде чем открыть дверь. Знает повадки хищника лучше всех.","44. Badly wounded. Trusts almost no one: wants a name before he opens a door. Knows the predator's habits better than anyone."), voice:null, habits:null, you:null },
+  { id:"mara", stage:2, name:L("Мара Венн","Mara Venn"), photo:"assets/people/mara.webp", role:L("Директор станции","Station director"),
+    about:L("56 лет. Даже после катастрофы безупречна. Говорит тихо, отвечает на обвинения статистикой.","56. Immaculate even after the disaster. Speaks quietly, answers accusations with statistics."), voice:null, habits:null, you:null },
+  { id:"evan", stage:3, name:L("Эван / H-37","Evan / H-37"), photo:"assets/people/evan.webp", role:L("Выживший","Survivor"),
+    about:L("Когда-то человек. Помнит своё имя и болезненно реагирует на номер. Опасен и нестабилен, но может помочь тем, кто видит в нём человека.","Once a man. Remembers his name and hates his number. Dangerous and unstable, but may help those who see him as a person."), voice:null, habits:null, you:null },
+];
+
+/* ---------------- «КАССАНДРА» ----------------
+   x,y,w,h — прямоугольник отсека на схеме (viewBox 0 0 800 260). */
+const SHIP = [
+  { id:"bridge", x:612,y:92,w:120,h:70, name:L("Мостик","Bridge"), img:"assets/ship/bridge.webp",
+    d:L("Панели и механические переключатели разных эпох, кольцо CASS на терминалах. Адриан предпочитает ручное управление и держит здесь старые навигационные карты.","Panels and mechanical switches from different eras, CASS's ring on the terminals. Adrian prefers manual control and keeps old navigation charts here.") },
+  { id:"mess", x:482,y:92,w:125,h:70, name:L("Кают-компания","Mess"), img:"assets/ship/mess.webp",
+    d:L("Один стол на шестерых. Здесь едят, спорят и раскладывают находки со станции.","One table for six. The crew eats, argues and lays out their finds from the station here.") },
+  { id:"quarters", x:352,y:60,w:125,h:62, name:L("Жилой коридор","Crew quarters"), img:"assets/ship/quarters.webp",
+    d:L("Шесть кают в одном коридоре — и ваша тоже. Все постоянно сталкиваются друг с другом.","Six cabins in one corridor — yours included. Everyone keeps running into each other.") },
+  { id:"medbay", x:352,y:127,w:125,h:62, name:L("Медотсек","Medbay"), img:"assets/ship/medbay.webp",
+    d:L("Территория Алекса. Флик считает сканер личным врагом.","Alex's territory. Flick considers the scanner a personal enemy.") },
+  { id:"lab", x:222,y:60,w:125,h:62, name:L("Лаборатория","Lab"), img:"assets/ship/lab.webp",
+    d:L("Рабочее место Дианы: образцы, контейнеры и хаос, в котором она находит всё.","Diana's workspace: samples, containers and a chaos in which she can find anything.") },
+  { id:"training", x:222,y:127,w:125,h:62, name:L("Тренировочный отсек","Training bay"), img:"assets/ship/training.webp",
+    d:L("Сюда Итан приходит после плохих ночей и тренируется до изнеможения.","Where Ethan comes after bad nights and trains until his muscles give out.") },
+  { id:"engineering", x:92,y:70,w:125,h:110, name:L("Инженерный отсек","Engineering"), img:"assets/ship/engineering.webp",
+    d:L("Реактор корабля и мастерская Дэниела. Коробка «STILL USEFUL» стоит на видном месте.","The ship's reactor and Daniel's workshop. The \"STILL USEFUL\" box sits in plain view.") },
+  { id:"cargo", x:352,y:194,w:255,h:40, name:L("Грузовой отсек и шлюз","Cargo hold & airlock"), img:"assets/ship/cargo.webp",
+    d:L("Сюда приносят оборудование, образцы и улики со «Эреба». Главная безопасная точка миссии.","Where equipment, samples and evidence from Erebus are brought. The mission's main safe point.") },
+];
+
+/* ---------------- «ЭРЕБ» ----------------
+   Порядок = сверху вниз на разрезе. stage — когда появляется. */
+const STATION = [
+  { id:"dock", stage:1, name:L("Стыковочный узел","Docking node"), img:"assets/station/dock.webp",
+    d:L("Первое место, куда ступает экипаж. Давление в норме, горит аварийный свет. Челноки стоят в ложементах, запуск заблокирован. У выходов — брошенные вещи.","Where the crew first sets foot. Pressure is stable, emergency lights are on. Shuttles sit in their cradles, launch locked. Abandoned belongings by the exits."), danger:L("низкая","low") },
+  { id:"atrium", stage:1, name:L("Центральный атриум","Central atrium"), img:"assets/station/atrium.webp",
+    d:L("Главный транзитный узел: лифты, переходы, большая карта станции. Баррикады, тела под покрывалами и автоматические объявления о начале смены в пустоту.","The main transit hub: elevators, walkways, a big station map. Barricades, covered bodies, automated announcements of a new shift to nobody."), danger:L("средняя","medium") },
+  { id:"residential", stage:1, name:L("Жилой сектор","Residential sector"), img:"assets/station/residential.webp",
+    d:L("Каюты, столовая, семейные блоки — самое человеческое место станции. Двери забаррикадированы изнутри, вентиляция заложена мебелью.","Cabins, a cafeteria, family blocks — the most human part of the station. Doors barricaded from inside, vents blocked with furniture."), danger:L("средняя","medium") },
+  { id:"medical", stage:1, name:L("Медблок","Medical block"), img:"assets/station/medical.webp",
+    d:L("Стал импровизированным госпиталем: койки в коридорах, сломанные фиксаторы, палаты, запертые снаружи.","Turned into a makeshift hospital: cots in the corridors, broken restraints, wards locked from outside."), danger:L("средняя","medium") },
+  { id:"security", stage:1, name:L("Сектор охраны","Security sector"), img:"assets/station/security.webp",
+    d:L("Оружейная, камеры содержания, центр наблюдения. Следы не только нападений, но и перестрелок людей между собой.","Armory, holding cells, surveillance center. Signs of attacks — and of people shooting each other."), danger:L("высокая","high") },
+  { id:"comms", stage:1, name:L("Центр связи","Communications center"), img:"assets/station/comms.webp",
+    d:L("Дальняя связь почти исправна, но исходящие передачи заблокированы. Часть журналов заглушена — восстановить их можно, если есть время.","Long-range comms nearly work, but outbound transmissions are blocked. Some logs are jammed — they can be recovered with time."), danger:L("средняя","medium") },
+  { id:"labs", stage:1, name:L("Верхние лаборатории","Upper labs"), img:"assets/station/labs.webp",
+    d:L("Официальная наука: генетика, медицина, адаптация к экстремальным средам. Работа брошена на полпути.","The official science: genetics, medicine, extreme-environment adaptation. Work abandoned mid-task."), danger:L("средняя","medium") },
+  { id:"eidos", stage:1, name:L("Ядро EIDOS","EIDOS core"), img:"assets/station/eidos.webp",
+    d:L("Вычислительный центр, пугающе целый: чистые коридоры, нормальный свет, спокойный вежливый голос ИИ станции.","The computing center, unnervingly intact: clean corridors, normal light, the station AI's calm, polite voice."), danger:L("неясно","unclear") },
+  { id:"reactor", stage:1, name:L("Реактор и промзона","Reactor & industrial depths"), img:"assets/station/reactor.webp",
+    d:L("Горячо и громко: насосы, конвейеры, дробилки, грузовые шахты. Чем глубже, тем больше чёрной органики. Шум здесь привлекает хищника.","Hot and loud: pumps, conveyors, crushers, cargo shafts. The deeper you go, the more black organic mass. Noise here draws the predator."), danger:L("очень высокая","very high") },
+  { id:"l0", stage:2, name:L("Уровень Ноль","Level Zero"), img:"assets/station/l0.webp",
+    d:L("Засекреченный уровень под станцией, которого нет на картах. Лифты вниз заблокированы. Как туда попасть — ваша задача.","A classified level beneath the station, missing from every map. The down elevators are locked. Getting in is your problem."), danger:L("неизвестна","unknown") },
+  { id:"h37", stage:3, name:L("Камера H-37","H-37 cell"), img:"assets/station/h37.webp",
+    d:L("Усиленная камера, рассчитанная на кого-то гораздо сильнее человека. Анкерные болты вырваны из пола.","A reinforced cell built for something far stronger than a human. Anchor bolts torn out of the floor."), danger:L("высокая","high") },
+  { id:"archive", stage:4, name:L("Архив LAZARUS","LAZARUS archive"), img:"assets/station/archive.webp",
+    d:L("Изолированное хранилище данных с собственным питанием и тяжёлой защитой. Здесь цепочка складывается целиком.","An isolated data vault with its own power and heavy protection. This is where the chain comes together."), danger:L("средняя","medium") },
+  { id:"nest", stage:4, name:L("Нижнее гнездо","Lower nest"), img:"assets/station/nest.webp",
+    d:L("Бывший тепловой комплекс, поглощённый колонией. Жарко, влажно, архитектура тонет в чёрной смоле. Здесь всё ещё есть живые люди.","A former thermal complex swallowed by the colony. Hot, humid, architecture drowning in black resin. There are still living people here."), danger:L("смертельная","lethal") },
+  { id:"hangar", stage:5, name:L("Резервный ангар","Reserve hangar"), img:"assets/station/hangar.webp",
+    d:L("Скрытый нижний ангар с небольшим служебным челноком, способным улететь без основной системы запуска. Нужен код.","A hidden lower hangar with a small service shuttle that can leave without the main launch system. It needs a code."), danger:L("неясно","unclear") },
+];
+
+/* ---------------- МИР ---------------- */
+const WORLD_CARDS = [
+  { h:L("Содружество","The Commonwealth"), p:L("Межзвёздная федерация людей и нескольких разумных видов. У каждого члена свои правительства, законы и армии; общие структуры отвечают за безопасность, торговлю, науку и границы. Есть центральный парламент и единый Звёздный флот.","An interstellar federation of humans and several sapient species. Members keep their own governments, laws and armed forces; shared structures handle security, trade, research and borders. There's a central parliament and a unified Starfleet.") },
+  { h:L("Человечество","Humanity"), p:L("Люди многочисленны и влиятельны — особенно во флоте, промышленности и освоении фронтира, — и это иногда рождает трения с союзными видами. Земля важна, но давно не центр всего.","Humans are numerous and influential — especially in the fleet, industry and frontier work — which sometimes causes friction with allied species. Earth matters, but it's long stopped being the centre of everything.") },
+  { h:L("Перелёты","Travel"), p:L("Двигатели пространственного смещения дают сверхсветовые переходы, но не мгновенные: между развитыми системами — дни, до фронтира — недели и несколько прыжков.","Spatial-displacement engines allow FTL transits, but not instant ones: days between developed systems, weeks and several jumps to the frontier.") },
+  { h:L("Связь","Communication"), p:L("Сверхсветовая связь идёт через сеть ретрансляторов. Если ретранслятор сломан или сигнал глушат, удалённый объект оказывается отрезан, и спасательный корабль — единственная помощь.","FTL communication runs through a relay network. If a relay breaks or the signal is jammed, a remote site is cut off, and a rescue ship is the only help.") },
+  { h:L("Искусственный интеллект","Artificial intelligence"), p:L("ИИ повсюду на кораблях и станциях, но юридически это сложные адаптивные системы, а не личности. Один ИИ не получает данные другого автоматически: CASS знает только то, что получила «Кассандра».","AIs are everywhere on ships and stations, but legally they're complex adaptive systems, not persons. One AI doesn't automatically get another's data: CASS only knows what the Cassandra received.") },
+  { h:L("Не антиутопия","Not a dystopia"), p:L("Большинство законов работает, большинство учёных занимается настоящей наукой, большинство офицеров защищает людей. Именно поэтому «Эреб» так страшен — как исключение.","Most laws work, most scientists do real science, most officers protect people. That's exactly why Erebus is so frightening — as the exception.") },
+];
+/* x,y в viewBox 0 0 800 420 */
+const STARS = [
+  { id:"sol", x:150,y:210, r:9, stage:1, name:L("Солнечная система","Sol"), d:L("Земля — культурный и политический центр, но уже не единственный. Здесь же «Кольцо Ганимеда», станция, где вырос Дэниел.","Earth — a cultural and political centre, but no longer the only one. Also the Ganymede Ring, the station where Daniel grew up.") },
+  { id:"inner", x:260,y:140, r:7, stage:1, name:L("Внутренние системы","Inner Systems"), d:L("Развитые миры, орбитальные города, быстрая связь. Сюда когда-то уходила переработанная руда с «Эреба».","Developed worlds, orbital cities, fast comms. Refined ore from Erebus was once shipped here.") },
+  { id:"concordia", x:300,y:300, r:5, stage:1, name:L("«Конкордия»","Concordia"), d:L("Дипломатическая станция. Семь недель плена Итана.","A diplomatic station. Ethan's seven weeks of captivity.") },
+  { id:"aurora", x:400,y:95, r:5, stage:1, name:L("«Аврора»","Aurora"), d:L("Исследовательская станция, где Диана однажды нарушила карантинный приказ.","The research station where Diana once broke a quarantine order.") },
+  { id:"aster", x:430,y:250, r:5, stage:1, name:L("Платформа «Астер-9»","Aster-9 platform"), d:L("Промышленная авария, после которой Алекс перестал давать ложные обещания.","The industrial accident after which Alex stopped making false promises.") },
+  { id:"essa", x:520,y:160, r:5, stage:1, name:L("Эсса-4","Essa-4"), d:L("Родная планета Флика и других тали.","Home planet of Flick and the other Tali.") },
+  { id:"heph", x:600,y:330, r:6, stage:4, name:L("«Гефест-12» / LV-938","Hephaestus-12 / LV-938"), d:L("Промышленная станция и астероид, связанные с происхождением организма.","An industrial station and asteroid tied to the organism's origin.") },
+  { id:"erebus", x:690,y:200, r:10, stage:1, name:L("«Эреб»","Erebus"), d:L("Удалённая исследовательская станция на фронтире, бывший комплекс переработки астероидной руды. Связь потеряна.","A remote research station on the frontier, once an asteroid-ore processing complex. Contact lost.") },
+];
+const RELAYS = [["sol","inner"],["inner","aurora"],["inner","essa"],["sol","concordia"],["concordia","aster"],["essa","erebus"],["aster","heph"]];
+
+/* ===================== APP ===================== */
+(function(){
+const $ = (s, r=document) => r.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem("erebus."+k); return v===null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("erebus."+k, JSON.stringify(v)); }catch(e){} }
+};
+const S = {
+  lang: store.get("lang", (navigator.language||"").toLowerCase().startsWith("ru") ? "ru" : "en"),
+  stage: Math.min(6, Math.max(1, store.get("stage", 1))),
+  hints: store.get("hints", {}),
+  ticks: new Set(store.get("ticks", [])),
+  rescue: new Set(store.get("rescue", [])),
+  peek: new Set(),
+  stuck: null, ship: "bridge", station: "dock", star: "erebus",
+};
+let prevStage = S.stage;
+const tr = o => o == null ? "" : (typeof o === "string" ? o : (o[S.lang] ?? o.ru));
+const T = k => tr(UI[k]);
+const fmt = (s, m) => s.replace(/\{(\w)\}/g, (_, k) => m[k]);
+const roman = ["","I","II","III","IV","V","VI"];
+const open = n => n <= S.stage || S.peek.has(n);
+const bars = (n=3, seed=1) => { let o=""; for(let i=0;i<n;i++){ const w = 3 + ((seed*7 + i*13) % 6); o += `<span class="redact" style="width:${w}em"></span>`; } return o; };
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toast.h); toast.h=setTimeout(()=>t.classList.remove("show"),1600); }
+async function copy(text){
+  try{ await navigator.clipboard.writeText(text); }
+  catch(e){ const a=document.createElement("textarea"); a.value=text; document.body.appendChild(a); a.select(); try{document.execCommand("copy");}catch(_){} a.remove(); }
+  toast(T("copied"));
+}
+function setStage(n){
+  n = Math.min(6, Math.max(1, n));
+  prevStage = S.stage; S.stage = n; store.set("stage", n); render();
+}
+function imgTag(src, alt, fbText){
+  return `<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy" onerror="this.remove()"><div class="mono-fb" aria-hidden="true">${fbText}</div>`;
+}
+const initials = name => name.split(/[\s/]+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("");
+
+/* ---------- static bits ---------- */
+function renderChrome(){
+  document.documentElement.lang = S.lang;
+  document.querySelectorAll("[data-i]").forEach(el => el.textContent = T(el.dataset.i));
+  $("#langBtn").textContent = S.lang === "ru" ? "EN" : "RU";
+  $("#pill").textContent = `${T("pill")} ${S.stage}`;
+  $("#sidenav").innerHTML = `
+    <a href="#guide">${T("navGuide")}</a>
+    <a href="#stuck">${T("navStuck")}</a>
+    <a href="#tracker">${T("navTracker")}</a>
+    <a href="#setup">${T("navSetup")}</a>
+    <h2>${T("navCodex")}</h2>
+    <a href="#crew">${T("navCrew")}</a>
+    <a href="#ship">${T("navShip")}</a>
+    <a href="#station">${T("navStation")}</a>
+    <a href="#world">${T("navWorld")}</a>`;
+}
+
+/* ---------- hero / clearance rail ---------- */
+function heroHTML(){
+  const segs = ACTS.map(a => {
+    const cls = a.n < S.stage ? "done" : a.n === S.stage ? "cur" : "";
+    const label = a.n <= S.stage ? esc(tr(a.tag)) : bars(1, a.n);
+    const status = a.n < S.stage ? T("statusDone") : a.n === S.stage ? T("statusCur") : T("statusLocked");
+    return `<button class="seg ${cls}" data-seg="${a.n}" aria-pressed="${a.n===S.stage}" aria-label="${T("stageShort")} ${a.n}: ${status}">
+      <b>${roman[a.n]}</b><span data-st="${a.n}">${label}</span></button>`;
+  }).join("");
+  return `<div class="hero">
+    <h1>${T("heroTitle")}</h1>
+    <p class="sub">${T("heroSub")}</p>
+    <div class="rail">
+      <p class="rail-q">${T("railQ")}</p>
+      <p class="rail-help">${T("railHelp")}</p>
+      <div class="segs" role="group" aria-label="${T("railQ")}">${segs}</div>
+      <div class="rail-foot">
+        <button class="btn" id="wizOpen">${T("railUnsure")}</button>
+        <button class="btn ghost" id="resetAll">${T("railReset")}</button>
+      </div>
+    </div></div>`;
+}
+
+/* ---------- walkthrough ---------- */
+function actHTML(a){
+  const st = a.n < S.stage ? "done" : a.n === S.stage ? "cur" : "lock";
+  if(!open(a.n)){
+    return `<li class="act" data-act="${a.n}">
+      <div class="act-h" style="cursor:default"><span class="act-n">${roman[a.n]}</span>
+        <div><p class="act-t">${bars(3, a.n)}</p><span class="act-s">${T("statusLocked")}</span></div><span></span></div>
+      <div class="act-b"><div class="locked">${T("lockedAct")} ${a.n}.
+        <p><button class="btn ghost" data-peek="${a.n}">${T("peek")}</button></p></div></div></li>`;
+  }
+  const isOpen = S["open"+a.n] ?? (a.n === S.stage);
+  const shown = Math.min(3, S.hints[a.n] || 1);
+  const rung = (i) => `<div class="rung t${i+1}"><h4>${T("t"+(i+1))}</h4><p>${esc(tr(a.hints[i]))}</p></div>`;
+  let body = `<div class="ladder">${[0,1,2].slice(0, shown).map(rung).join("")}</div>`;
+  body += `<div class="act-actions">${shown < 3
+      ? `<button class="btn ghost" data-more="${a.n}">${T("showNext")}: ${T("t"+(shown+1))}</button>`
+      : `<span class="act-s">${T("allShown")}</span>`}</div>`;
+  if(shown === 3 || a.n < S.stage) body += `<p class="done-when"><b>${T("doneWhen")}</b> ${esc(tr(a.done))}</p>`;
+  if(a.n === S.stage && a.n < 6) body += `<div class="act-actions"><button class="btn" data-finish="${a.n}">${T("markDone")}</button></div>`;
+  const status = st === "done" ? T("statusDone") : st === "cur" ? T("statusCur") : T("statusLocked");
+  return `<li class="act ${st}" data-act="${a.n}" data-open="${isOpen}" data-st="${a.n}">
+    <button class="act-h" data-toggle="${a.n}" aria-expanded="${isOpen}">
+      <span class="act-n">${roman[a.n]}</span>
+      <div><p class="act-t">${esc(tr(a.q))}</p><span class="act-s">${status}</span></div>
+      <span class="chev" aria-hidden="true">▾</span></button>
+    ${isOpen ? `<div class="act-b">${body}</div>` : ""}</li>`;
+}
+function guideHTML(){
+  return `<section id="guide"><h2>${T("navGuide")}</h2><p class="lede">${T("guideLede")}</p>
+    <ol class="acts">${ACTS.map(actHTML).join("")}</ol></section>`;
+}
+
+/* ---------- stuck ---------- */
+function stuckHTML(){
+  const chips = STUCK.map((s,i)=>`<button class="chip" data-stuck="${i}" aria-pressed="${S.stuck===i}">${esc(tr(s.q))}</button>`).join("");
+  let ans = "";
+  if(S.stuck !== null){
+    const s = STUCK[S.stuck];
+    ans = `<div class="answer" aria-live="polite"><h3>${esc(tr(s.a))}</h3>
+      <ol>${s.steps.map(x=>`<li>${esc(tr(x))}</li>`).join("")}</ol>
+      ${s.ooc ? `<p style="margin:.8rem 0 0">${T("oocTitle")}</p><div class="ooc"><code>${esc(tr(s.ooc))}</code>
+        <button class="mini" data-copy="${esc(tr(s.ooc))}">${T("copy")}</button></div>` : ""}</div>`;
+  }
+  return `<section id="stuck"><h2>${T("navStuck")}</h2><p class="lede">${T("stuckLede")}</p>
+    <div class="chips">${chips}</div>${ans}</section>`;
+}
+
+/* ---------- tracker ---------- */
+function noteText(){
+  const lines = [];
+  EVIDENCE.forEach(g => g.items.forEach(it => { if(S.ticks.has(it.id) && open(g.stage)) lines.push("- " + it.note); }));
+  if(!lines.length) return "";
+  return `[EREBUS — WHAT THE CREW HAS FOUND SO FAR]\nCurrent mystery stage: ${S.stage}\n${lines.join("\n")}\nOnly characters who saw or were told about a find know it.`;
+}
+function trackerHTML(){
+  let hidden = 0;
+  const sets = EVIDENCE.map(g => {
+    if(!open(g.stage)){ hidden++; return ""; }
+    return `<fieldset data-st="${g.stage}"><legend>${T("stageShort")} ${roman[g.stage]} — ${esc(tr(ACTS[g.stage-1].tag))}</legend>
+      ${g.items.map(it=>`<label><input type="checkbox" data-tick="${it.id}" data-stage="${g.stage}" data-key="${!!it.key}" ${S.ticks.has(it.id)?"checked":""}>
+        <span>${esc(tr(it.t))}${it.key?`<span class="key-clue">${T("keyClue")}</span>`:""}<br><span class="where">${esc(tr(it.where))}</span></span></label>`).join("")}
+    </fieldset>`;
+  }).join("");
+  const rescue = open(3)
+    ? `<fieldset data-st="3"><legend>${T("rescueTitle")}</legend><p class="where" style="margin:.2rem 0 .5rem">${T("rescueLede")}</p>
+        ${RESCUE.map(r=>`<p style="margin:.7rem 0 .1rem;font-weight:600">${esc(r.name)}</p>
+          ${r.reqs.map((q,i)=>`<label><input type="checkbox" data-rescue="${r.id}_${i}" ${S.rescue.has(r.id+"_"+i)?"checked":""}><span>${esc(tr(q))}</span></label>`).join("")}
+          ${r.note?`<p class="where" style="margin:.1rem 0 0 1.6rem">${esc(tr(r.note))}</p>`:""}`).join("")}
+      </fieldset>`
+    : `<div class="locked">${T("rescueTitle")}: ${T("lockedGeneric")} 3.</div>`;
+  const note = noteText();
+  return `<section id="tracker"><h2>${T("navTracker")}</h2><p class="lede">${T("trackerLede")}</p>
+    <div id="suggest"></div>
+    <div class="trk">${sets}
+      ${hidden ? `<div class="locked">${bars(2,9)} ${T("lockedGeneric")} ${S.stage+1}+</div>` : ""}
+      ${rescue}
+      <div><h3 class="sub-h" style="margin-top:1rem">${T("noteTitle")}</h3>
+        <div class="note-out" id="noteOut">${note ? esc(note) : `<span style="color:var(--muted)">${T("noteEmpty")}</span>`}</div>
+        <div class="act-actions"><button class="btn" id="copyNote" ${note?"":"disabled"}>${T("copyNote")}</button>
+        <button class="btn ghost" id="clearTicks">${T("clearTracker")}</button></div></div>
+    </div></section>`;
+}
+
+/* ---------- setup ---------- */
+function setupHTML(){
+  return `<section id="setup"><h2>${T("navSetup")}</h2><p class="lede">${T("setupLede")}</p>
+    <ol class="steps">${SETUP.map(s=>`<li><div><h3>${esc(tr(s.h))}</h3><p>${esc(tr(s.p))}</p>
+      ${s.table ? `<div class="tbl"><table><tbody>${s.table.map(r=>`<tr><th scope="row">${esc(tr(r[0]))}</th><td>${esc(tr(r[1]))}</td></tr>`).join("")}</tbody></table></div>` : ""}
+    </div></li>`).join("")}</ol></section>`;
+}
+
+/* ---------- people ---------- */
+function personHTML(p){
+  const name = tr(p.name);
+  if(p.stage && !open(p.stage)){
+    return `<article class="person locked-card"><div class="ph"><div class="mono-fb">?</div></div>
+      <div class="pb"><h3>${bars(2, p.stage+3)}</h3><p class="where">${T("lockedGeneric")} ${p.stage}</p></div></article>`;
+  }
+  const dl = [["voice",p.voice],["habits",p.habits],["withYou",p.you]].filter(x=>x[1]);
+  return `<article class="person" data-st="${p.stage||1}"><div class="ph">${imgTag(p.photo, name, esc(initials(name)))}</div>
+    <div class="pb"><h3>${esc(name)}</h3><span class="role">${esc(tr(p.role))}</span><p>${esc(tr(p.about))}</p>
+    ${dl.length ? `<details><summary>${T("more")}</summary><dl>${dl.map(([k,v])=>`<dt>${T(k)}</dt><dd>${esc(tr(v))}</dd>`).join("")}</dl></details>` : ""}
+    </div></article>`;
+}
+function crewHTML(){
+  return `<p class="part">${T("navCodex")}</p>
+  <section id="crew" style="padding-top:1.5rem"><h2>${T("navCrew")}</h2><p class="lede">${T("crewLede")}</p>
+    <h3 class="sub-h">${T("crewH")}</h3><div class="people">${CREW.map(personHTML).join("")}</div>
+    <h3 class="sub-h">${T("aboardH")}</h3><div class="people">${ABOARD.map(personHTML).join("")}</div>
+    <h3 class="sub-h">${T("stationH")}</h3><div class="people">${STATION_PEOPLE.map(personHTML).join("")}</div>
+  </section>`;
+}
+
+/* ---------- detail panel ---------- */
+function detailHTML(item, extra=""){
+  if(!item) return `<div class="detail"><div class="db"><p>${T("pickHint")}</p></div></div>`;
+  const name = tr(item.name);
+  const img = item.img ? `<div class="img">${imgTag(item.img, name, `${T("noImg")}<br><code>${esc(item.img)}</code>`)}</div>` : "";
+  return `<div class="detail ${item.img?"":"noimg"}" aria-live="polite">${img}<div class="db"><h3>${esc(name)}</h3>${extra}<p>${esc(tr(item.d))}</p></div></div>`;
+}
+
+/* ---------- ship ---------- */
+function shipHTML(){
+  const rooms = SHIP.map(r=>`<g class="hit ${S.ship===r.id?"sel":""}" tabindex="0" role="button" data-ship="${r.id}" aria-label="${esc(tr(r.name))}">
+      <rect class="shape" x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="4" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
+      <text x="${r.x + r.w/2}" y="${r.y + r.h/2 + 4}" text-anchor="middle" font-size="12.5" fill="var(--ink)">${esc(tr(r.name))}</text></g>`).join("");
+  const svg = `<svg viewBox="0 0 800 260" role="img" aria-label="${T("navShip")}">
+    <path d="M70 48 L610 44 Q735 52 790 127 Q735 202 610 246 L70 242 Q52 145 70 48 Z" fill="none" stroke="var(--muted)" stroke-width="2"/>
+    <rect x="30" y="80" width="40" height="34" rx="3" fill="var(--panel2)" stroke="var(--muted)"/>
+    <rect x="30" y="140" width="40" height="34" rx="3" fill="var(--panel2)" stroke="var(--muted)"/>
+    <line x1="87" y1="190" x2="345" y2="190" stroke="var(--line)" stroke-dasharray="4 4"/>
+    ${rooms}</svg>`;
+  return `<section id="ship"><h2>${T("navShip")}</h2><p class="lede">${T("shipLede")}</p>
+    <div class="mapbox"><div class="svgwrap">${svg}</div>${detailHTML(SHIP.find(r=>r.id===S.ship))}</div></section>`;
+}
+
+/* ---------- station ---------- */
+function stationHTML(){
+  const vis = STATION.filter(l => open(l.stage));
+  const lockedLeft = STATION.some(l => !open(l.stage));
+  const rowH = 38, gap = 7, top = 20;
+  let y = top, rows = "", dividerDone = false;
+  vis.forEach((l, i) => {
+    if(l.stage >= 2 && !dividerDone){
+      rows += `<line x1="40" y1="${y+2}" x2="560" y2="${y+2}" stroke="var(--amber)" stroke-dasharray="6 5"/>`;
+      y += 10; dividerDone = true;
+    }
+    const inset = Math.min(i, 8) * 6;
+    rows += `<g class="hit ${S.station===l.id?"sel":""}" tabindex="0" role="button" data-station="${l.id}" aria-label="${esc(tr(l.name))}" data-st="${l.stage}">
+      <rect class="shape" x="${60+inset}" y="${y}" width="${480-inset*2}" height="${rowH}" rx="3" fill="${l.stage>=2?"var(--amber-soft)":"var(--panel2)"}" stroke="var(--line)" stroke-width="1.5"/>
+      <text x="300" y="${y+rowH/2+6}" text-anchor="middle" font-size="17" fill="var(--ink)">${esc(tr(l.name))}</text></g>`;
+    y += rowH + gap;
+  });
+  if(lockedLeft){
+    rows += `<rect x="120" y="${y}" width="360" height="${rowH}" rx="3" fill="none" stroke="var(--line)" stroke-dasharray="4 4"/>
+      <rect x="220" y="${y+14}" width="160" height="10" fill="var(--redact)"/>`;
+    y += rowH + gap;
+  }
+  const svg = `<svg viewBox="0 0 600 ${y+14}" role="img" aria-label="${T("navStation")}">
+    <line x1="300" y1="6" x2="300" y2="${y}" stroke="var(--line)" stroke-width="10" opacity=".45"/>${rows}</svg>`;
+  const cur = vis.find(l=>l.id===S.station) || vis[0];
+  const tag = cur ? `<span class="tag ${/выс|смерт|high|lethal/i.test(tr(cur.danger))?"warn":""}">${T("danger")}: ${esc(tr(cur.danger))}</span>` : "";
+  return `<section id="station"><h2>${T("navStation")}</h2><p class="lede">${T("stationLede")}</p>
+    <div class="mapbox side"><div class="svgwrap">${svg}</div>${detailHTML(cur, tag)}</div></section>`;
+}
+
+/* ---------- world ---------- */
+function worldHTML(){
+  const vis = STARS.filter(s => open(s.stage));
+  const ids = new Set(vis.map(s=>s.id));
+  const pos = Object.fromEntries(STARS.map(s=>[s.id,s]));
+  const lines = RELAYS.filter(([a,b])=>ids.has(a)&&ids.has(b)).map(([a,b])=>
+    `<line x1="${pos[a].x}" y1="${pos[a].y}" x2="${pos[b].x}" y2="${pos[b].y}" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 5"/>`).join("");
+  const nodes = vis.map(s=>`<g class="hit ${S.star===s.id?"sel":""}" tabindex="0" role="button" data-star="${s.id}" aria-label="${esc(tr(s.name))}" data-st="${s.stage}">
+      <circle cx="${s.x}" cy="${s.y}" r="${s.r+12}" fill="transparent"/>
+      <circle class="shape" cx="${s.x}" cy="${s.y}" r="${s.r}" fill="${s.id==="erebus"?"var(--amber)":s.id==="heph"?"var(--danger)":"var(--teal)"}" stroke="var(--panel)" stroke-width="2"/>
+      <text x="${s.x}" y="${s.y - s.r - 8}" text-anchor="middle" font-size="13" fill="var(--ink)">${esc(tr(s.name))}</text></g>`).join("");
+  const svg = `<svg viewBox="0 0 800 420" role="img" aria-label="${T("navWorld")}">
+    <path d="M520 30 Q640 200 540 400" fill="none" stroke="var(--line)" stroke-width="1"/>
+    <text x="700" y="400" font-size="12" fill="var(--muted)" text-anchor="middle">${S.lang==="ru"?"фронтир":"frontier"}</text>
+    <path d="M${pos.essa.x} ${pos.essa.y} Q 610 150 ${pos.erebus.x-12} ${pos.erebus.y-4}" fill="none" stroke="var(--amber)" stroke-width="2" stroke-dasharray="7 5"/>
+    ${lines}${nodes}</svg>`;
+  const cur = vis.find(s=>s.id===S.star) || vis[vis.length-1];
+  return `<section id="world"><h2>${T("navWorld")}</h2><p class="lede">${T("worldLede")}</p>
+    <div class="mapbox"><div class="svgwrap">${svg}<p class="where" style="margin:.5rem 0 0">${T("mapNote")}</p></div>${detailHTML(cur)}</div>
+    <div class="world-grid">${WORLD_CARDS.map(c=>`<div class="wcard"><h3>${esc(tr(c.h))}</h3><p>${esc(tr(c.p))}</p></div>`).join("")}</div>
+  </section>`;
+}
+
+/* ---------- wizard ---------- */
+function openWizard(){
+  const d = $("#wiz"); let i = 0;
+  const step = () => {
+    d.innerHTML = `<h3 id="wizT">${T("wizTitle")}</h3><p class="q">${esc(tr(WIZ[i]))}</p>
+      <div class="chips"><button class="btn" data-w="y">${T("yes")}</button><button class="btn ghost" data-w="n">${T("no")}</button>
+      <button class="btn ghost" data-w="x" style="margin-left:auto">${T("close")}</button></div>`;
+  };
+  const result = n => {
+    d.innerHTML = `<h3 id="wizT">${fmt(T("wizResult"),{n})}</h3>
+      <div class="chips" style="margin-top:1rem"><button class="btn" data-w="set" data-n="${n}">${fmt(T("wizApply"),{n})}</button>
+      <button class="btn ghost" data-w="x">${T("close")}</button></div>`;
+  };
+  d.onclick = e => {
+    const b = e.target.closest("[data-w]"); if(!b) return;
+    const w = b.dataset.w;
+    if(w === "x") return d.close();
+    if(w === "set"){ d.close(); setStage(+b.dataset.n); location.hash = "#guide"; return; }
+    if(w === "n") return result(i + 1);
+    i++; if(i >= WIZ.length) return result(6); step();
+  };
+  step(); d.showModal();
+}
+
+/* ---------- render ---------- */
+function render(){
+  renderChrome();
+  $("#main").innerHTML = heroHTML() + guideHTML() + stuckHTML() + trackerHTML() + setupHTML()
+    + crewHTML() + shipHTML() + stationHTML() + worldHTML()
+    + `<footer>${T("footer")}</footer>`;
+  if(S.stage > prevStage){
+    document.querySelectorAll("[data-st]").forEach(el => { const s=+el.dataset.st; if(s>prevStage && s<=S.stage) el.classList.add("unveil"); });
+  }
+  prevStage = S.stage;
+  spy();
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click", e => {
+  const t = e.target.closest("button,[data-ship],[data-station],[data-star]"); if(!t) return;
+  const d = t.dataset;
+  if(d.seg){ const n=+d.seg; if(n > S.stage+1 && !confirm(fmt(T("peekConfirm"),{n}))) return; setStage(n); }
+  else if(d.toggle){ const n=+d.toggle; S["open"+n] = !(S["open"+n] ?? (n===S.stage)); render(); $(`[data-toggle="${n}"]`)?.focus(); }
+  else if(d.more){ const n=+d.more; S.hints[n]=Math.min(3,(S.hints[n]||1)+1); store.set("hints",S.hints); render(); $(`[data-act="${n}"] .rung:last-child`)?.scrollIntoView({block:"nearest"}); }
+  else if(d.finish){ const n=+d.finish; S["open"+(n+1)] = true; S["open"+n] = false; setStage(n+1); $(`[data-act="${n+1}"]`)?.scrollIntoView({block:"start"}); }
+  else if(d.peek){ const n=+d.peek; if(confirm(fmt(T("peekConfirm"),{n}))){ S.peek.add(n); S["open"+n]=true; render(); } }
+  else if(d.stuck!==undefined){ const i=+d.stuck; S.stuck = S.stuck===i?null:i; render(); $(`[data-stuck="${i}"]`)?.focus(); }
+  else if(d.copy){ copy(d.copy); }
+  else if(d.ship){ S.ship=d.ship; render(); $(`[data-ship="${d.ship}"]`)?.focus(); }
+  else if(d.station){ S.station=d.station; render(); $(`[data-station="${d.station}"]`)?.focus(); }
+  else if(d.star){ S.star=d.star; render(); $(`[data-star="${d.star}"]`)?.focus(); }
+  else if(t.id==="copyNote"){ const n=noteText(); if(n) copy(n); }
+  else if(t.id==="clearTicks"){ if(confirm(T("clearConfirm"))){ S.ticks.clear(); S.rescue.clear(); store.set("ticks",[]); store.set("rescue",[]); render(); } }
+  else if(t.id==="wizOpen"){ openWizard(); }
+  else if(t.id==="resetAll"){ if(confirm(T("resetConfirm"))){ S.ticks.clear(); S.rescue.clear(); S.hints={}; store.set("ticks",[]); store.set("rescue",[]); store.set("hints",{}); prevStage=1; S.stage=1; store.set("stage",1); render(); } }
+  else if(t.id==="langBtn"){ S.lang = S.lang==="ru"?"en":"ru"; store.set("lang",S.lang); render(); }
+  else if(t.id==="themeBtn"){
+    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme==="dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    const next = dark ? "light" : "dark"; document.documentElement.dataset.theme = next; store.set("theme", next);
+  }
+});
+document.addEventListener("keydown", e => {
+  if((e.key==="Enter"||e.key===" ") && e.target.matches("svg .hit")){ e.preventDefault(); e.target.dispatchEvent(new MouseEvent("click",{bubbles:true})); }
+});
+document.addEventListener("change", e => {
+  const t = e.target;
+  if(t.dataset.tick){
+    t.checked ? S.ticks.add(t.dataset.tick) : S.ticks.delete(t.dataset.tick); store.set("ticks",[...S.ticks]);
+    $("#noteOut").textContent = noteText() || T("noteEmpty"); $("#copyNote").disabled = !noteText();
+    const st = +t.dataset.stage;
+    if(t.checked && t.dataset.key==="true" && st===S.stage && st<6){
+      $("#suggest").innerHTML = `<div class="warnbox">${fmt(T("suggestStage"),{n:st,m:st+1})} <button class="btn" data-seg="${st+1}" style="margin-left:.5rem">${fmt(T("wizApply"),{n:st+1})}</button></div>`;
+    }
+  }
+  if(t.dataset.rescue){ t.checked ? S.rescue.add(t.dataset.rescue) : S.rescue.delete(t.dataset.rescue); store.set("rescue",[...S.rescue]); }
+});
+
+/* ---------- scroll spy ---------- */
+let io;
+function spy(){
+  if(!("IntersectionObserver" in window)) return;
+  io?.disconnect();
+  io = new IntersectionObserver(es => es.forEach(en => {
+    if(en.isIntersecting){ document.querySelectorAll("nav.side a").forEach(a => a.classList.toggle("on", a.getAttribute("href")==="#"+en.target.id)); }
+  }), {rootMargin:"-30% 0px -60% 0px"});
+  document.querySelectorAll("main section[id]").forEach(s => io.observe(s));
+}
+
+const th = store.get("theme", null); if(th) document.documentElement.dataset.theme = th;
+render();
+})();
+</script>
+</body></html>
