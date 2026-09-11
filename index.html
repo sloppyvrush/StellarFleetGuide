@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛰️</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#0c141a; --bg2:#101b22; --panel:rgba(22,34,42,.72); --solid:#16222a; --panel2:rgba(38,56,66,.55);
@@ -544,6 +544,21 @@ main,section,.intro,.mapbox,.people,.trk,.steps{min-width:0;max-width:100%}
 @keyframes repair{0%{opacity:1;filter:none}30%{filter:hue-rotate(90deg) contrast(2);transform:translateX(6px)}60%{transform:translateX(-4px);opacity:.6}100%{opacity:0}}
 body.shake .wrap,body.shake .bar{animation:shake .5s cubic-bezier(.36,.07,.19,.97)}
 @keyframes shake{10%,90%{transform:translate(-2px,1px)}20%,80%{transform:translate(4px,-2px)}30%,50%,70%{transform:translate(-8px,3px)}40%,60%{transform:translate(8px,-3px)}}
+
+/* ---------- WASTED ---------- */
+body.wasted-mode .wrap,body.wasted-mode .bar,body.wasted-mode #stars{filter:grayscale(1) brightness(.62) contrast(1.05);transition:filter 1.4s ease}
+.wrap,.bar,#stars{transition:filter .6s ease}
+#shatter.msg{background:radial-gradient(ellipse at center,transparent 30%,rgba(0,0,0,.55) 100%);transition:background 1.2s}
+#shatter .wasted{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:clamp(90px,17vh,170px);display:grid;place-items:center;opacity:0;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.62) 22%,rgba(0,0,0,.62) 78%,transparent)}
+#shatter .wasted span{font:700 clamp(3.4rem,11vw,8.5rem)/1 var(--f-head);letter-spacing:.04em;color:#c8252d;-webkit-text-stroke:3px #0b0b0b;paint-order:stroke fill;
+  text-shadow:0 4px 0 #0b0b0b,0 0 30px rgba(200,37,45,.35);transform:scale(1.9);opacity:0}
+#shatter.msg .wasted{animation:fadein .5s .2s forwards}
+#shatter.msg .wasted span{animation:wastedIn 1.1s .35s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes wastedIn{0%{transform:scale(1.9);opacity:0;filter:blur(6px)}35%{opacity:1;filter:blur(0)}100%{transform:scale(1);opacity:1}}
+#shatter.msg .break-msg{transition-delay:1.6s}
+#shatter.repair .wasted{opacity:0!important}
+@media (prefers-reduced-motion:reduce){#shatter .wasted,#shatter .wasted span{opacity:1!important;transform:none!important}}
 </style>
 </head>
 <body>
@@ -659,6 +674,7 @@ const UI = {
   noTouch: L("Не трогать", "Do not touch"),
   breakMsg: L("Ну я же предупреждала.", "Well, I did warn you."),
   fixBtn: L("Позвать Дэниела", "Call Daniel"),
+  wasted: L("ПОТРАЧЕНО", "WASTED"),
   fixedToast: L("Дэниел починил экран. И заодно то, что не было сломано.", "Daniel fixed the screen. And a few things that weren't broken."),
   bubbleTracker: L("Флик тоже собирает находки. Правда, свои он никому не показывает.", "Flick collects finds too. He just never shows anyone his."),
   bubbleSetup: L("Флик уже проверил настройки. Кабели он тоже проверил. Зубами.", "Flick has already checked the settings. He checked the cables too. With his teeth."),
@@ -693,7 +709,7 @@ const MASCOT = {
   guide: { base:"assets/ui/instructor.webp", final:"assets/ui/angry-5.webp", steps:[
     { img:"assets/ui/angry-1.webp", t:L("Эй! Я вообще-то тут гайд объясняю.","Hey! I'm explaining the guide here, you know.") },
     { img:"assets/ui/angry-2.webp", t:L("Так. Записываю: «трогал инструктора без допуска». Это пойдёт в личное дело.","Right. Writing it down: \"poked the instructor without clearance.\" That's going on your record.") },
-    { img:"assets/ui/angry-3.webp", t:L("Ещё раз — и я лично расскажу тебе прямой ответ ко всем этапам. Со спойлерами. Со всеми.","One more time and I'll personally tell you the straight answer to every stage. With spoilers. All of them.") },
+    { img:"assets/ui/angry-3.webp", t:L("Ещё раз — и проведёшь ночь в шлюзе. С Фликом. Он кусается, а я не открою.","One more time and you're spending the night in the airlock. With Flick. He bites, and I'm not opening the door.") },
     { img:"assets/ui/angry-4.webp", t:L("Всё, я доложу капитану. Нет, хуже — Алексу. Он назначит тебе полный медосмотр.","That's it, I'm reporting you to the captain. No, worse — to Alex. He'll book you a full medical.") },
     { img:"assets/ui/angry-5.webp", t:L("Последнее предупреждение. Я знаю, где у тебя экран.","Final warning. I know where your screen is.") },
   ]},
@@ -1362,15 +1378,17 @@ function shatter(key){
   ov.innerHTML = `<img class="closeup" src="${esc(m.final)}" alt="">
     <div class="glass-hit"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><defs><radialGradient id="glr" cx="${cx/W}" cy="${cy/H}" r=".6"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".25" stop-color="#9fd" stop-opacity=".06"/><stop offset="1" stop-color="#000" stop-opacity=".0"/></radialGradient></defs>
       <rect width="100%" height="100%" fill="url(#glr)"/><circle class="ck core-hit" cx="${cx}" cy="${cy}" r="18" pathLength="1"/>${paths}${shards}</svg></div>
+    <div class="wasted"><span>${esc(T("wasted"))}</span></div>
     <div class="break-msg"><p>${esc(T("breakMsg"))}</p><button class="btn amber" id="fixScreen">${T("fixBtn")}</button></div>`;
   document.body.appendChild(ov);
   const hit = () => { ov.classList.add("hit"); if(!reduce){ document.body.classList.remove("shake"); void document.body.offsetWidth; document.body.classList.add("shake"); } };
-  if(reduce){ hit(); ov.classList.add("msg"); } else { setTimeout(hit, 620); setTimeout(() => ov.classList.add("msg"), 1900); }
+  const wasted = () => { ov.classList.add("msg"); document.body.classList.add("wasted-mode"); };
+  if(reduce){ hit(); wasted(); } else { setTimeout(hit, 620); setTimeout(wasted, 1700); }
   S.mascot[key] = 0;
   const fig = document.querySelector(`[data-mascot="${key}"]`);
   if(fig){ fig.classList.remove("angry"); fig.querySelector("img").src = m.base; fig.querySelector(".bubble").textContent = fig.dataset.base; }
-  ov.querySelector("#fixScreen").onclick = () => { ov.classList.add("repair"); setTimeout(() => { ov.remove(); document.body.classList.remove("shake"); toast(T("fixedToast")); }, reduce ? 0 : 650); };
-  setTimeout(() => ov.querySelector("#fixScreen")?.focus(), 2000);
+  ov.querySelector("#fixScreen").onclick = () => { ov.classList.add("repair"); document.body.classList.remove("wasted-mode"); setTimeout(() => { ov.remove(); document.body.classList.remove("shake"); toast(T("fixedToast")); }, reduce ? 0 : 650); };
+  setTimeout(() => ov.querySelector("#fixScreen")?.focus(), 3600);
 }
 /* ---------- stuck ---------- */
 function stuckHTML(){
