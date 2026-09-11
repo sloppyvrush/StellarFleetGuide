@@ -27,8 +27,8 @@
   --redact:#1c2a32; --focus:#177a71; --glowc:23,122,113; color-scheme:light;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:5.5rem}
-body{margin:0;background:radial-gradient(1200px 700px at 85% -10%,rgba(242,169,63,.08),transparent 60%),radial-gradient(900px 600px at -10% 30%,rgba(98,214,200,.06),transparent 60%),var(--bg);background-attachment:fixed;color:var(--ink);font:400 1rem/1.62 var(--f-body);-webkit-font-smoothing:antialiased;min-height:100vh}
+html{scroll-behavior:smooth;scroll-padding-top:5.5rem;overflow-x:hidden}
+body{margin:0;background:radial-gradient(1200px 700px at 85% -10%,rgba(242,169,63,.08),transparent 60%),radial-gradient(900px 600px at -10% 30%,rgba(98,214,200,.06),transparent 60%),var(--bg);background-attachment:fixed;color:var(--ink);font:400 1rem/1.62 var(--f-body);-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:clip;max-width:100vw}
 #stars{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 :root[data-theme="light"] #stars{opacity:.25}
 body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.05;
@@ -54,7 +54,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 
 /* ---------- top bar ---------- */
 .bar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 72%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.bar-in{max-width:1200px;margin:0 auto;padding:.6rem 1.25rem;display:flex;gap:1rem;align-items:center}
+.bar-in{max-width:1240px;margin:0 auto;padding:.55rem 1.25rem;display:flex;gap:1rem;align-items:center;position:relative}
 .brand{font:600 1.15rem/1 var(--f-head);letter-spacing:.22em;text-decoration:none;color:var(--ink);white-space:nowrap;display:flex;align-items:center;gap:.6rem}
 .brand .dot{width:.55rem;height:.55rem;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber);animation:beacon 2.4s ease-in-out infinite}
 .brand small{font:400 .8rem var(--f-body);letter-spacing:0;color:var(--muted)}
@@ -64,7 +64,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .stage-pill{font:500 .85rem var(--f-body);background:var(--amber-soft);color:var(--amber);border:1px solid rgba(242,169,63,.35);border-radius:999px;padding:.25rem .75rem;white-space:nowrap;text-decoration:none}
 
 /* ---------- layout ---------- */
-.wrap{max-width:1200px;margin:0 auto;padding:0 1.25rem;display:grid;grid-template-columns:200px minmax(0,1fr);gap:2.5rem}
+.wrap{max-width:1140px;margin:0 auto;padding:0 1.25rem}
 nav.side{position:sticky;top:4.5rem;align-self:start;padding:1.5rem 0;max-height:calc(100vh - 5rem);overflow:auto}
 nav.side h2{font:500 .78rem var(--f-body);color:var(--muted);margin:1.3rem 0 .4rem;letter-spacing:.04em}
 nav.side a{display:block;padding:.32rem .7rem;border-left:2px solid var(--line);color:var(--muted);text-decoration:none;font-size:.95rem;transition:color .2s,border-color .2s}
@@ -87,12 +87,12 @@ p{max-width:70ch}
 
 /* ---------- hero ---------- */
 .hero{position:relative;padding:3.2rem 0 1rem}
-.hero::before{content:"";position:absolute;right:-12%;top:-30%;width:70%;height:90%;pointer-events:none;
+.hero::before{content:"";position:absolute;right:0;top:0;width:60%;height:80%;pointer-events:none;
   background:radial-gradient(closest-side,rgba(242,169,63,.18),transparent);filter:blur(10px);animation:alarm 5s ease-in-out infinite}
 .status{font:500 .85rem var(--f-mono);color:var(--amber);display:flex;align-items:center;gap:.55rem;min-height:1.3rem;margin-bottom:1rem}
 .status::before{content:"";width:.5rem;height:.5rem;border-radius:50%;background:var(--danger);box-shadow:0 0 8px var(--danger);animation:beacon 1.2s steps(2) infinite}
 .caret{display:inline-block;width:.55ch;height:1em;background:var(--amber);vertical-align:-.12em;animation:blink 1s steps(2) infinite}
-.hero h1{font-size:clamp(2.8rem,7vw,5.2rem);margin:0;line-height:.98;letter-spacing:.015em;
+.hero .hero-h{font-size:clamp(2.2rem,6vw,4.2rem);margin:0;line-height:1.02;letter-spacing:.015em;
   text-shadow:0 0 30px rgba(98,214,200,.12)}
 .hero h1.boot{animation:boot 1.4s steps(1) both}
 .hero h1 .gl{position:relative;display:inline-block}
@@ -290,7 +290,8 @@ svg text{font-family:var(--f-body);pointer-events:none}
 .ping{transform-box:fill-box;transform-origin:center;animation:ping 2.6s ease-out infinite}
 .ping.d2{animation-delay:1.3s}
 .twk{animation:twinkle 3s ease-in-out infinite}
-.ship-hero{margin:0 0 1rem;overflow:hidden;position:relative;aspect-ratio:21/9;min-height:220px}
+.ship-hero{margin:0 0 1rem;overflow:hidden;position:relative;aspect-ratio:21/9;width:100%}
+@media (max-width:700px){.ship-hero{aspect-ratio:4/3}}
 .ship-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 45%;cursor:zoom-in;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
 .ship-hero:hover img{transform:scale(1.03)}
 .ship-hero figcaption{position:absolute;left:0;right:0;bottom:0;padding:2.5rem 1.4rem 1.1rem;background:linear-gradient(180deg,transparent,rgba(5,10,14,.92));color:#e6eef1;pointer-events:none}
@@ -368,24 +369,98 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;padd
 @keyframes elev{from{transform:translateY(0)}to{transform:translateY(var(--travel,300px))}}
 @keyframes ping{0%{transform:scale(1);opacity:.8}100%{transform:scale(4.5);opacity:0}}
 @keyframes twinkle{0%,100%{opacity:1}50%{opacity:.45}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.fleet span,.fleet-sub,.fleet-mission,.fleet-go,.emblem .core{opacity:1!important;filter:none!important;transform:none!important}.emblem .dr{stroke-dashoffset:0!important}html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+
+/* ---------- top nav ---------- */
+#topnav{display:flex;align-items:center;gap:.1rem;margin-left:.6rem;flex-wrap:nowrap;min-width:0}
+#topnav a{color:var(--muted);text-decoration:none;font-size:.88rem;padding:.35rem .5rem;border-radius:7px;white-space:nowrap;transition:color .2s,background .2s}
+#topnav a:hover{color:var(--ink);background:var(--panel2)}
+#topnav a.on{color:var(--ink);background:var(--amber-soft);box-shadow:inset 0 -2px 0 var(--amber)}
+.nav-sep{width:1px;height:1.2rem;background:var(--line2);margin:0 .35rem}
+.nav-g{display:none;font:500 .72rem var(--f-body);color:var(--muted);letter-spacing:.08em;text-transform:uppercase;padding:.8rem .6rem .2rem}
+#menuBtn{display:none;flex-direction:column;justify-content:center;gap:4px;width:2.3rem;height:2rem;padding:0 .55rem}
+#menuBtn span{display:block;height:2px;background:var(--ink);border-radius:2px;transition:transform .25s,opacity .25s}
+.menu-open #menuBtn span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.menu-open #menuBtn span:nth-child(2){opacity:0}
+.menu-open #menuBtn span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media (max-width:1100px){
+  #menuBtn{display:flex}
+  #topnav{position:absolute;left:0;right:0;top:100%;margin:0;flex-direction:column;align-items:stretch;background:var(--solid);border-bottom:1px solid var(--line2);padding:.4rem 1rem 1rem;box-shadow:0 20px 40px -20px rgba(0,0,0,.7);
+    transform:translateY(-8px);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;max-height:calc(100vh - 3.5rem);overflow:auto}
+  .menu-open #topnav{opacity:1;transform:none;pointer-events:auto}
+  #topnav a{font-size:1rem;padding:.6rem .6rem}
+  .nav-sep{display:none}.nav-g{display:block}
+}
+@media (max-width:560px){.stage-pill{display:none}.bar-in{gap:.5rem}}
+
+/* ---------- splash ---------- */
+.splash{min-height:calc(100svh - 3.4rem);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 0 3rem;position:relative}
+.splash::before{content:"";position:absolute;inset:10% 0 20%;background:radial-gradient(closest-side,rgba(98,214,200,.10),transparent 70%);pointer-events:none}
+.emblem{width:clamp(110px,18vw,170px);height:auto;margin-bottom:1.4rem;overflow:visible;filter:drop-shadow(0 0 18px rgba(242,169,63,.35))}
+.emblem .dr{fill:none;stroke:#e9c07a;stroke-width:2;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.6s cubic-bezier(.6,0,.2,1) forwards}
+.emblem .thin{stroke-width:1;opacity:.6;animation-delay:.35s}
+.emblem .star{stroke-width:2.2;animation-delay:.2s;fill:rgba(242,169,63,0);animation:draw 1.6s .2s cubic-bezier(.6,0,.2,1) forwards,fillin 1s 1.5s forwards}
+.emblem .wing{stroke-width:1.6;animation-delay:.7s}
+.emblem .core{fill:#fff3d6;opacity:0;animation:fadein .6s 1.6s forwards}
+.fleet{font:600 clamp(2.4rem,9vw,6.4rem)/1 var(--f-head);letter-spacing:.14em;margin:0;white-space:nowrap}
+.fleet span{display:inline-block;opacity:0;filter:blur(14px);transform:translateY(24px) scale(1.08);animation:letter .9s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(1s + var(--i) * 70ms);
+  background:linear-gradient(180deg,#fff6e3 20%,#e9c07a 60%,#b98434);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
+.fleet .sp{width:.35em}
+.fleet{position:relative}
+.fleet::after{content:"";position:absolute;left:-5%;right:-5%;top:50%;height:2px;background:linear-gradient(90deg,transparent,#fff3d6,transparent);opacity:0;animation:flash 1.2s 2.2s ease-out forwards}
+.fleet-sub{font:500 clamp(.8rem,1.6vw,1rem) var(--f-mono);letter-spacing:.24em;color:var(--muted);text-transform:uppercase;margin:1.2rem 0 .4rem;opacity:0;animation:fadein 1s 2.1s forwards}
+.fleet-mission{color:var(--amber);font:500 .95rem var(--f-mono);display:flex;align-items:center;gap:.55rem;justify-content:center;opacity:0;animation:fadein 1s 2.5s forwards;margin:0 0 2rem;max-width:40rem;flex-wrap:wrap}
+.blip{width:.55rem;height:.55rem;border-radius:50%;background:var(--danger);box-shadow:0 0 10px var(--danger);animation:beacon 1.2s steps(2) infinite}
+.fleet-go{opacity:0;animation:fadein 1s 2.9s forwards;text-decoration:none}
+.splash.seen *{animation-delay:0s!important;animation-duration:.01s!important}
+.splash.seen .blip{animation:beacon 1.2s steps(2) infinite!important}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fillin{to{fill:rgba(242,169,63,.18)}}
+@keyframes fadein{to{opacity:1}}
+@keyframes letter{to{opacity:1;filter:blur(0);transform:none}}
+@keyframes flash{0%{opacity:0;transform:scaleX(.2)}30%{opacity:.9}100%{opacity:0;transform:scaleX(1.1)}}
+
+/* ---------- home blocks ---------- */
+.home-block{padding-top:4rem}
+.sm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.9rem}
+.sm-card{display:flex;flex-direction:column;gap:.3rem;padding:1.1rem 1.2rem;text-decoration:none;color:var(--ink);transition:transform .25s,border-color .25s}
+.sm-card:hover{transform:translateY(-3px);border-color:rgba(98,214,200,.45)}
+.sm-card b{font:500 1.2rem var(--f-head);position:relative;z-index:1}
+.sm-card span{color:var(--muted);font-size:.9rem;position:relative;z-index:1}
+.sm-card .sm-ic{font-size:1.4rem;color:var(--teal);width:2.3rem;height:2.3rem;border-radius:9px;display:grid;place-items:center;background:var(--teal-soft);border:1px solid rgba(98,214,200,.3);margin-bottom:.3rem}
+.start{padding:1rem 1.3rem;margin:0 0 1rem;max-width:44rem}
+.start h3{margin:0 0 .3rem;font-size:1.2rem;position:relative;z-index:1}
+.start ol{margin:0;padding-left:1.2rem;position:relative;z-index:1}.start li{margin:.25rem 0}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:4rem}
+.pager a{display:flex;flex-direction:column;padding:.9rem 1.1rem;text-decoration:none;color:var(--ink);font:500 1.15rem var(--f-head)}
+.pager a small{font:400 .8rem var(--f-body);color:var(--muted)}
+.pager .nx{text-align:right;align-items:flex-end}
+.pager a:hover{border-color:rgba(98,214,200,.45)}
+.star-list{display:flex;flex-wrap:wrap;gap:.4rem}
+.star-list .chip{display:inline-flex;align-items:center;gap:.45rem;font-size:.85rem;padding:.3rem .75rem}
+.star-list .chip i{width:.55rem;height:.55rem;border-radius:50%;background:#62d6c8}
+.star-list .k-hub i{background:#ffd27a}.star-list .k-route i{background:#f2a93f}.star-list .k-erebus i{background:#ff5a4a}.star-list .k-danger i{background:#e8634f}
+.who{font-size:.85rem;color:var(--muted);margin-left:.3rem}.who b{color:var(--teal);font-weight:500}
+/* ---------- mobile overflow guards ---------- */
+main,section,.intro,.mapbox,.people,.trk,.steps{min-width:0;max-width:100%}
+.svgwrap svg{min-width:0}
+@media (max-width:560px){.dossier{grid-template-columns:repeat(5,70%)}.segs{grid-template-columns:repeat(3,minmax(0,1fr))}.seg span{word-break:break-word}.pager a{font-size:1rem}.fleet{letter-spacing:.08em}}
 </style>
 </head>
 <body>
 <canvas id="stars" aria-hidden="true"></canvas>
-<a class="skip" href="#guide">Перейти к гайду</a>
+<a class="skip" href="#/guide">Перейти к гайду</a>
 <header class="bar"><div class="bar-in">
-  <a class="brand" href="#top"><span class="dot" aria-hidden="true"></span>EREBUS <small data-i="brandSub"></small></a>
+  <a class="brand" href="#/"><span class="dot" aria-hidden="true"></span>EREBUS</a>
+  <nav id="topnav" aria-label="Menu"></nav>
   <div class="bar-tools">
-    <a class="stage-pill" href="#top" id="pill"></a>
+    <a class="stage-pill" href="#/guide" id="pill"></a>
     <button class="mini" id="langBtn" aria-label="Language"></button>
     <button class="mini" id="themeBtn" aria-label="Theme">◐</button>
+    <button class="mini" id="menuBtn" aria-expanded="false" aria-controls="topnav"><span></span><span></span><span></span></button>
   </div>
 </div></header>
-<div class="wrap" id="top">
-<nav class="side" aria-label="Sections" id="sidenav"></nav>
-<main id="main"></main>
-</div>
+<div class="wrap" id="top"><main id="main"></main></div>
 <dialog id="wiz" aria-labelledby="wizT"></dialog>
 <dialog id="lb" aria-label="Portrait"></dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -399,6 +474,31 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;padd
 const L = (ru, en) => ({ ru, en });
 
 const UI = {
+  navHome: L("Главная", "Home"),
+  nsGuide: L("Прохождение","Walkthrough"), nsStuck: L("Застряли?","Stuck?"), nsTracker: L("Трекер","Tracker"), nsSetup: L("Настройка","Setup"),
+  nsCrew: L("Экипаж","Crew"), nsShip: L("Корабль","Ship"), nsStation: L("Станция","Station"), nsWorld: L("Мир","World"), menu: L("Меню", "Menu"),
+  fleetTitle: L("Звёздный флот", "Stellar Fleet"),
+  fleetSub: L("Содружество · Экспедиционная служба · 2378", "Commonwealth · Expedition Service · 2378"),
+  fleetMission: L("Задание SSV «Кассандра»: станция «Эреб». Связь потеряна.", "Assignment for SSV Cassandra: Erebus station. Contact lost."),
+  fleetStart: L("Начать брифинг", "Start briefing"),
+  stripH: L("Экипаж «Кассандры»", "The Cassandra's crew"),
+  stripLede: L("Пятеро людей, ИИ и один пушистый вор. Нажмите на портрет, чтобы открыть досье.", "Five people, an AI and one fluffy thief. Tap a portrait to open the dossiers."),
+  mapH: L("Что есть на сайте", "What's on this site"),
+  mapLede: L("Сайт разбит на разделы — открывайте нужный через меню сверху или карточки ниже. Всё, что может испортить сюжет, закрыто, пока вы сами не дойдёте до нужного этапа.", "The site is split into sections — open the one you need from the top menu or the cards below. Anything that could spoil the plot stays locked until you reach that stage yourself."),
+  startH: L("С чего начать", "Where to start"),
+  start1: L("Загляните в «Настройку SillyTavern» — это пара минут.", "Check \"SillyTavern setup\" — it takes a couple of minutes."),
+  start2: L("Играйте. Сайт не нужен, пока всё идёт хорошо.", "Play. You don't need the site while things are going well."),
+  start3: L("Застряли — отметьте свой этап выше и откройте «Прохождение».", "Stuck? Mark your stage above and open the Walkthrough."),
+  groupGuide: L("Гайд", "Guide"), groupCodex: L("Кодекс", "Codex"),
+  dGuide: L("Шесть этапов тайны и подсказки по ступеням: намёк, направление, прямой ответ.", "Six stages of the mystery with step-by-step hints: nudge, direction, straight answer."),
+  dStuck: L("Частые проблемы и готовые OOC-строки. Без спойлеров.", "Common problems and ready-made OOC lines. No spoilers."),
+  dTracker: L("Отмечайте найденные улики и выживших, которых можно спасти.", "Tick the evidence you've found and the survivors you can save."),
+  dSetup: L("Как подключить бота, лорбук, память и длинные профили.", "How to set up the bot, the lorebook, memory and long profiles."),
+  dCrew: L("Досье экипажа, людей станции и угроз.", "Dossiers on the crew, the station's people and the threats."),
+  dShip: L("Схема «Кассандры» и все отсеки с картинками.", "The Cassandra's schematic and every compartment with images."),
+  dStation: L("Разрез станции «Эреб» — уровни открываются по мере прохождения.", "A cross-section of Erebus station — levels open as you progress."),
+  dWorld: L("Карта Содружества, места из прошлого персонажей и устройство мира.", "The Commonwealth map, places from the characters' pasts and how the world works."),
+  prev: L("Назад", "Back"), next: L("Дальше", "Next"),
   brandSub: L("полевое руководство экипажа", "crew field manual"),
   heroTitle: L("Потерялись на станции «Эреб»?", "Lost on Erebus?"),
   status: L("Связь со станцией «Эреб» потеряна · сигнал бедствия принят", "Contact with Erebus lost · distress signal received"),
@@ -475,6 +575,7 @@ const UI = {
   lgStory: L("сюжетные места", "story locations"), lgSys: L("прочие системы", "other systems"),
   lgMain: L("главные маршруты", "main routes"), lgSec: L("второстепенные", "secondary"), lgFar: L("дальние маршруты", "far routes"), lgPath: L("путь к станции «Эреб»", "route to Erebus"),
   scale: L("1000 св. лет", "1000 ly"),
+  whoLbl: L("Связано с:", "Connected to:"),
   danger: L("Опасность", "Danger"),
   wizTitle: L("Определим ваш этап", "Let's find your stage"),
   yes: L("Да", "Yes"), no: L("Нет", "No"), close: L("Закрыть", "Close"),
@@ -810,7 +911,7 @@ const STATION_PEOPLE = [
    x,y,w,h — зона отсека поверх силуэта корабля (viewBox 0 0 844 246). img — главный кадр, full — вся доска. */
 const SHIP_INFO = {
   title:L("SSV «Кассандра»","SSV Cassandra"),
-  sub:L("Многоцелевой экспедиционный корабль Звёздного флота Содружества","Multi-purpose expedition ship of the Commonwealth Starfleet"),
+  sub:L("Многоцелевой экспедиционный корабль Звёздного флота Содружества","Multi-purpose expedition ship of the Commonwealth Stellar Fleet"),
   chips:[L("≈ 80 метров","≈ 80 metres"),L("экипаж: 6 + ИИ","crew: 6 + AI"),L("спасение, поиск, ремонт","rescue, search, repair"),L("старая, но надёжная","old but reliable")],
   img:"assets/ship/exterior.webp", full:"assets/ship/full/exterior.webp",
 };
@@ -876,7 +977,7 @@ const STATION = [
 
 /* ---------------- МИР ---------------- */
 const WORLD_CARDS = [
-  { h:L("Содружество","The Commonwealth"), p:L("Межзвёздная федерация людей и нескольких разумных видов. У каждого члена свои правительства, законы и армии; общие структуры отвечают за безопасность, торговлю, науку и границы. Есть центральный парламент и единый Звёздный флот.","An interstellar federation of humans and several sapient species. Members keep their own governments, laws and armed forces; shared structures handle security, trade, research and borders. There's a central parliament and a unified Starfleet.") },
+  { h:L("Содружество","The Commonwealth"), p:L("Межзвёздная федерация людей и нескольких разумных видов. У каждого члена свои правительства, законы и армии; общие структуры отвечают за безопасность, торговлю, науку и границы. Есть центральный парламент и единый Звёздный флот.","An interstellar federation of humans and several sapient species. Members keep their own governments, laws and armed forces; shared structures handle security, trade, research and borders. There's a central parliament and a unified Stellar Fleet.") },
   { h:L("Человечество","Humanity"), p:L("Люди многочисленны и влиятельны — особенно во флоте, промышленности и освоении фронтира, — и это иногда рождает трения с союзными видами. Земля важна, но давно не центр всего.","Humans are numerous and influential — especially in the fleet, industry and frontier work — which sometimes causes friction with allied species. Earth matters, but it's long stopped being the centre of everything.") },
   { h:L("Перелёты","Travel"), p:L("Двигатели пространственного смещения дают сверхсветовые переходы, но не мгновенные: между развитыми системами — дни, до фронтира — недели и несколько прыжков.","Spatial-displacement engines allow FTL transits, but not instant ones: days between developed systems, weeks and several jumps to the frontier.") },
   { h:L("Связь","Communication"), p:L("Сверхсветовая связь идёт через сеть ретрансляторов. Если ретранслятор сломан или сигнал глушат, удалённый объект оказывается отрезан, и спасательный корабль — единственная помощь.","FTL communication runs through a relay network. If a relay breaks or the signal is jammed, a remote site is cut off, and a rescue ship is the only help.") },
@@ -886,40 +987,44 @@ const WORLD_CARDS = [
 /* Карта Содружества (viewBox 0 0 1536 1024). STARS — сюжетные места (яркие, кликабельные).
    BG — остальные системы (тусклые). ROUTES: m — главный, s — второстепенный, f — дальний, p — путь к станции «Эреб». */
 const STARS = [
-  { id:"sol", x:768,y:487, r:14, kind:"hub", stage:1, name:L("Земля","Earth"), sub:L("Солнечная система · Столичный узел","Sol · Capital node"),
-    d:L("Культурный и политический центр человечества — но уже не центр всего. В этой же системе висит «Кольцо Ганимеда», старая промышленная станция, где вырос Дэниел.","Humanity's cultural and political centre — but no longer the centre of everything. The Ganymede Ring, the old industrial station where Daniel grew up, orbits in this system.") },
-  { id:"helios", x:976,y:458, r:9, kind:"crew", stage:1, name:L("Гелиос","Helios"), sub:L("Прошлое Адриана","Adrian's past"),
-    d:L("Здесь во время военной блокады Адриан дважды запросил разрешение спасти тонущий транспорт «Меридиан» — и дважды получил отказ. Он ушёл с позиции. Пассажиров спасли, но через брешь прорвался противник. Для гражданских он герой, для командования — опасный своевольный офицер.","During a military blockade here, Adrian twice asked permission to save the foundering transport Meridian and was twice refused. He left his position anyway. The passengers were saved, but the enemy broke through the gap. To civilians he's a hero; to command, a dangerously independent officer.") },
-  { id:"aurora", x:960,y:375, r:9, kind:"crew", stage:1, name:L("Аврора","Aurora"), sub:L("Прошлое Дианы","Diana's past"),
-    d:L("Исследовательская станция, где Диана тайно сохранила культуру микроорганизма вопреки приказу об уничтожении. Она оказалась права, никто не пострадал — но нарушение карантина навсегда осталось в её личном деле.","The research station where Diana secretly kept a microorganism culture despite a destruction order. She was right and nobody was hurt — but the quarantine breach stayed on her record for good.") },
-  { id:"concordia", x:886,y:537, r:8, kind:"crew", stage:1, name:L("Конкордия","Concordia"), sub:L("Прошлое Итана","Ethan's past"),
-    d:L("Дипломатическая станция недалеко от столичного узла. Её захват стоил Итану семи недель плена, большей части отряда и командира, заменившего ему отца.","A diplomatic station not far from the capital node. Its capture cost Ethan seven weeks of captivity, most of his unit and the commander who'd been a father to him.") },
-  { id:"aster", x:380,y:612, r:8, kind:"crew", stage:1, name:L("Астер-9","Aster-9"), sub:L("Прошлое Алекса","Alex's past"),
-    d:L("Промышленная платформа в Поясе туманностей. После аварии на ней Алекс перестал обещать пациентам то, чего не может гарантировать.","An industrial platform in the Nebula Belt. After the accident there, Alex stopped promising patients what he can't guarantee.") },
-  { id:"essa", x:1098,y:300, r:8, kind:"crew", stage:1, name:L("Эсса-4","Essa-4"), sub:L("Родина Флика","Flick's home"),
-    d:L("Планета на Рубеже колоний, откуда контрабандисты вывезли маленького тали. Флик сбегал от ветеринаров, пока Адриан не оставил его себе.","A planet on the Colonial Frontier where smugglers took the little Tali from. Flick kept escaping the vets until Adrian finally kept him.") },
-  { id:"novaurora", x:957,y:599, r:10, kind:"route", stage:1, name:L("Новая Аврора","New Aurora"), sub:L("Начало маршрута","Route start"),
-    d:L("Последний крупный узел перед Дальним рубежом. Отсюда «Кассандра» ушла по дальнему маршруту к станции «Эреб» — дальше недели пути и почти никакой помощи.","The last major hub before the Far Frontier. From here the Cassandra set off on the long route to Erebus — weeks of travel ahead and almost no help.") },
-  { id:"echo", x:1315,y:515, r:8, kind:"route", stage:1, name:L("Эхо-3","Echo-3"), sub:L("Восточный коридор","Eastern Corridor"),
-    d:L("Дальний аванпост восточного маршрута — вторая дорога к станции «Эреб» и последняя обитаемая точка перед пустотой Дальнего рубежа.","A far outpost on the eastern route — the second road to Erebus and the last inhabited point before the emptiness of the Far Frontier.") },
-  { id:"heph", x:1062,y:800, r:9, kind:"danger", stage:4, name:L("Гефест-12 / LV-938","Hephaestus-12 / LV-938"), sub:L("Регион теней","Shadow Region"),
-    d:L("Промышленная станция и астероид, с которых всё началось. Официально объект уничтожен.","The industrial station and asteroid where it all began. Officially, the site was destroyed.") },
-  { id:"erebus", x:1437,y:714, r:15, kind:"erebus", stage:1, name:L("«Эреб»","Erebus"), sub:L("Дальний рубеж · связь потеряна","Far Frontier · contact lost"),
-    d:L("Удалённая исследовательская станция, бывший комплекс переработки астероидной руды. Связь потеряна, пришёл один сигнал бедствия. «Кассандра» — единственная помощь на недели пути вокруг.","A remote research station, once an asteroid-ore processing complex. Contact lost, a single distress signal received. The Cassandra is the only help for weeks in any direction.") },
+  { id:"sol", x:768,y:487, r:14, kind:"hub", stage:1, who:[], name:L("Земля","Earth"), sub:L("Солнечная система · Столичный узел","Sol · Capital node"),
+    d:L("Столичный узел Содружества. Земля по-прежнему важный культурный, исторический и политический центр, но уже давно не центр всего человеческого космоса.","The Commonwealth's capital node. Earth is still an important cultural, historical and political centre — but it's long since stopped being the centre of all human space.") },
+  { id:"ganymede", x:706,y:548, r:8, lp:"b", kind:"crew", stage:1, who:[L("Дэниел","Daniel")], name:L("Кольцо Ганимеда","Ganymede Ring"), sub:L("Солнечная система · прошлое Дэниела","Sol · Daniel's past"),
+    d:L("Старая промышленная орбитальная станция, обслуживавшая шахтёрские корабли и грузовые маршруты. Здесь вырос Дэниел и работал вместе с отцом, инженером доков Мартином Кейном. В один из реакторных контуров поставили партию дешёвых деталей с поддельными сертификатами. Когда началась авария, Мартин удерживал охлаждение, пока остальные эвакуировались, и погиб.","An old industrial orbital station that serviced mining ships and cargo routes. Daniel grew up here and worked alongside his father, dock engineer Martin Kane. A batch of cheap parts with forged certificates was installed in one of the reactor loops. When the accident began, Martin held the cooling system together while everyone else evacuated, and died.") },
+  { id:"academy", x:772,y:633, r:8, lp:"b", kind:"crew", stage:1, who:[L("Адриан","Adrian"),L("Итан","Ethan")], name:L("Академия","Academy"), sub:L("Академия Звёздного флота","Stellar Fleet Academy"),
+    d:L("Здесь готовят офицеров флота. Адриан поступил сюда в семнадцать. Перед отъездом отец подарил ему свои механические часы, а через несколько месяцев пропал без вести на спасательной операции. Итан после академии попал в Штурмовую гвардию.","This is where fleet officers are trained. Adrian enrolled at seventeen. Before he left, his father gave him his mechanical watch — and a few months later went missing on a rescue operation. After the academy, Ethan was assigned to the Assault Guard.") },
+  { id:"helios", x:976,y:458, r:9, kind:"crew", stage:1, who:[L("Адриан","Adrian")], name:L("Гелиос","Helios"), sub:L("Инцидент с «Меридианом»","The Meridian incident"),
+    d:L("Во время военной блокады у Гелиоса Адриан командовал фрегатом «Валькирия». Пассажирский транспорт «Меридиан» с несколькими сотнями человек на борту потерпел аварию. Адриан дважды запросил разрешение покинуть позицию, дважды получил отказ — и всё равно ушёл спасать людей. Большинство пассажиров спасли, но через брешь в блокаде прорвался противник, и в бою погибли одиннадцать солдат. После этого «Валькирию» отдали другому капитану, а Адриана перевели на «Кассандру». Шрам на его лице — тоже отсюда.","During a military blockade at Helios, Adrian commanded the frigate Valkyrie. The passenger transport Meridian, with several hundred people aboard, suffered a disaster. Adrian twice requested permission to leave his position, was twice refused — and went to save them anyway. Most passengers were rescued, but the enemy broke through the gap in the blockade, and eleven soldiers died in the fighting. Afterwards the Valkyrie went to another captain and Adrian was transferred to the Cassandra. The scar on his face is from here too.") },
+  { id:"concordia", x:886,y:537, r:8, kind:"crew", stage:1, who:[L("Итан","Ethan")], name:L("Конкордия","Concordia"), sub:L("Прошлое Итана","Ethan's past"),
+    d:L("Дипломатическая станция, которую захватили, когда Итану было двадцать пять. Его отряд Штурмовой гвардии попал в плен. Почти семь недель, пытки, гибель большей части отряда и командира Кайла Марроу, заменившего Итану отца. Жетон Марроу Итан до сих пор носит рядом со своим.","A diplomatic station that was seized when Ethan was twenty-five. His Assault Guard unit was captured. Nearly seven weeks, torture, and the death of most of the unit, including commander Kyle Marrow, who had been a father to Ethan. He still wears Marrow's tag next to his own.") },
+  { id:"aster", x:380,y:612, r:8, kind:"crew", stage:1, who:[L("Алекс","Alex")], name:L("Астер-9","Aster-9"), sub:L("Промышленная платформа · прошлое Алекса","Industrial platform · Alex's past"),
+    d:L("Место промышленной аварии, где Алекс работал врачом. Тяжело раненая девочка спросила, умрёт ли она, и он ответил: «Не сегодня». Его отозвали к пациенту, которого ещё можно было спасти, а когда он вернулся, девочки уже не было. С тех пор Алекс никогда не даёт ложных обещаний.","The site of an industrial accident where Alex worked as a doctor. A badly injured girl asked if she was going to die, and he told her: \"Not today.\" He was called away to a patient who could still be saved, and when he came back, she was gone. Since then Alex never makes false promises.") },
+  { id:"aurora", x:960,y:375, r:9, kind:"crew", stage:1, who:[L("Диана","Diana")], name:L("Аврора","Aurora"), sub:L("Исследовательская станция · прошлое Дианы","Research station · Diana's past"),
+    d:L("Здесь Диана работала с неизвестным микроорганизмом. Пришёл приказ уничтожить все образцы, но она тайно сохранила одну культуру. Её гипотеза подтвердилась, находка оказалась ценной для медицины, и никто не пострадал — но нарушение карантина навсегда осталось в её личном деле.","Diana worked with an unknown microorganism here. An order came to destroy every sample, but she secretly kept one culture. Her hypothesis was confirmed, the find proved valuable to medicine and nobody was hurt — but the quarantine breach stayed on her record for good.") },
+  { id:"essa", x:1098,y:300, r:8, kind:"crew", stage:1, who:[L("Флик","Flick")], name:L("Эсса-4","Essa-4"), sub:L("Родина тали","Home of the Tali"),
+    d:L("Родная планета Флика. Отсюда его вывезли контрабандисты. Когда их поймали, маленький тали раз за разом сбегал от ветеринаров и возвращался к Адриану — пока тот не оставил его себе.","Flick's home planet. Smugglers took him from here. After they were caught, the little Tali kept escaping from the vets and coming back to Adrian — until Adrian finally kept him.") },
+  { id:"novaurora", x:957,y:599, r:10, kind:"route", stage:1, who:[], name:L("Новая Аврора","New Aurora"), sub:L("Путь к станции «Эреб»","Route to Erebus station"),
+    d:L("Крупная система на востоке освоенного пространства. Отсюда через Регион теней к Дальнему рубежу ведёт один из двух маршрутов к станции «Эреб».","A major system on the eastern edge of settled space. One of the two routes to Erebus station runs from here through the Shadow Region to the Far Frontier.") },
+  { id:"echo", x:1315,y:515, r:8, kind:"route", stage:1, who:[], name:L("Эхо-3","Echo-3"), sub:L("Путь к станции «Эреб»","Route to Erebus station"),
+    d:L("Аванпост в конце Восточного коридора. Отсюда начинается второй маршрут к станции «Эреб».","An outpost at the end of the Eastern Corridor. The second route to Erebus station starts here.") },
+  { id:"heph", x:1062,y:800, r:9, kind:"danger", stage:4, who:[], name:L("Гефест-12 / LV-938","Hephaestus-12 / LV-938"), sub:L("Регион теней","Shadow Region"),
+    d:L("Промышленная станция «Гефест-12» и астероид LV-938. Здесь впервые обнаружили организм. По официальным данным, все образцы и сам астероид уничтожены.","The industrial station Hephaestus-12 and the asteroid LV-938. This is where the organism was first found. Officially, every sample and the asteroid itself were destroyed.") },
+  { id:"erebus", x:1437,y:714, r:15, kind:"erebus", stage:1, who:[], name:L("«Эреб»","Erebus"), sub:L("Дальний рубеж · связь потеряна","Far Frontier · contact lost"),
+    d:L("Исследовательская станция на Дальнем рубеже, выросшая из старого комплекса переработки астероидной руды. Связь с ней потеряна; последним пришёл сигнал бедствия. «Кассандра» — единственная помощь на недели пути вокруг.","A research station on the Far Frontier, grown out of an old asteroid-ore processing complex. Contact has been lost; the last thing received was a distress signal. The Cassandra is the only help for weeks in any direction.") },
 ];
 const BG = [
   ["polaris","Полярис","Polaris",770,224],["perseus","Персей","Perseus",635,266],["deneb","Денеб","Deneb",888,263],["vega","Вега","Vega",327,260],
   ["gamma","Гамма Волопаса","Gamma Boötis",538,360],["orion","Орион","Orion",760,352],["taucet","Тау Кита","Tau Ceti",645,413],["eridan","Эридан","Eridanus",885,420],
   ["sirius","Сириус","Sirius",285,373],["nalex","Новая Александрия","New Alexandria",202,450],["titan","Титан","Titan",403,467],["elysium","Элизиум","Elysium",545,490],
   ["aldebaran","Альдебаран","Aldebaran",196,542],["prometheus","Прометей","Prometheus",252,570],["vesta","Веста","Vesta",288,601],["aurora7","Аврора-7","Aurora-7",327,665],
-  ["ceres","Церера","Ceres",612,573],["academy","Академия","Academy",772,633],["ark","Ковчег","Ark",877,628],["nterra","Новая Терра","New Terra",644,662],
+  ["ceres","Церера","Ceres",612,573],["ark","Ковчег","Ark",877,628],["nterra","Новая Терра","New Terra",644,662],
   ["altair","Альтаир","Altair",440,773],["rigel","Ригель","Rigel",660,810],["basilisk","Василиск","Basilisk",578,873],["achernar","Ахернар","Achernar",757,886],
   ["vostok","Восток","Vostok",918,822],["fomalhaut","Фомальгаут","Fomalhaut",920,932],["outpost9","Форпост-9","Outpost-9",1168,870],["capella","Капелла","Capella",1218,261],
   ["maxhel","Макс Гелиоса","Max Helios",1274,318],["dalrif","Даль-Риф","Far Reef",1337,389],
 ];
 const ROUTES = [
   ["m","sol","perseus"],["m","sol","polaris"],["m","sol","deneb"],["m","sol","elysium"],["m","elysium","titan"],["m","titan","nalex"],["m","sol","helios"],["m","sol","ceres"],
-  ["m","sol","academy"],["m","sol","aurora"],["m","gamma","perseus"],["m","gamma","titan"],["m","deneb","aurora"],["m","aurora","helios"],["m","academy","ark"],["m","ark","novaurora"],
+  ["m","sol","academy"],["s","sol","ganymede"],["m","sol","aurora"],["m","gamma","perseus"],["m","gamma","titan"],["m","deneb","aurora"],["m","aurora","helios"],["m","academy","ark"],["m","ark","novaurora"],
   ["m","sol","novaurora"],["m","altair","rigel"],["m","rigel","achernar"],["m","achernar","vostok"],["m","sol","concordia"],
   ["s","vega","sirius"],["s","sirius","nalex"],["s","nalex","aldebaran"],["s","aldebaran","vesta"],["s","sirius","titan"],["s","perseus","polaris"],["s","polaris","deneb"],
   ["s","gamma","orion"],["s","orion","eridan"],["s","taucet","sol"],["s","eridan","helios"],["s","novaurora","vostok"],["s","ceres","nterra"],["s","academy","nterra"],
@@ -976,25 +1081,63 @@ function imgTag(src, alt, fbText){
 const initials = name => name.split(/[\s/]+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("");
 
 /* ---------- static bits ---------- */
+const ROUTES_ORDER = ["home","guide","stuck","tracker","setup","crew","ship","station","world"];
+const NAVK = {home:"navHome",guide:"navGuide",stuck:"navStuck",tracker:"navTracker",setup:"navSetup",crew:"navCrew",ship:"navShip",station:"navStation",world:"navWorld"};
+const route = () => { const r = location.hash.replace(/^#\/?/,"").split("/")[0]; return ROUTES_ORDER.includes(r) ? r : "home"; };
 function renderChrome(){
   document.documentElement.lang = S.lang;
   document.querySelectorAll("[data-i]").forEach(el => el.textContent = T(el.dataset.i));
   $("#langBtn").textContent = S.lang === "ru" ? "EN" : "RU";
   $("#pill").textContent = `${T("pill")} ${S.stage}`;
-  $("#sidenav").innerHTML = `
-    <a href="#guide">${T("navGuide")}</a>
-    <a href="#stuck">${T("navStuck")}</a>
-    <a href="#tracker">${T("navTracker")}</a>
-    <a href="#setup">${T("navSetup")}</a>
-    <h2>${T("navCodex")}</h2>
-    <a href="#crew">${T("navCrew")}</a>
-    <a href="#ship">${T("navShip")}</a>
-    <a href="#station">${T("navStation")}</a>
-    <a href="#world">${T("navWorld")}</a>`;
+  const r = route();
+  const NS = {home:"navHome",guide:"nsGuide",stuck:"nsStuck",tracker:"nsTracker",setup:"nsSetup",crew:"nsCrew",ship:"nsShip",station:"nsStation",world:"nsWorld"};
+  const link = k => `<a href="#/${k==="home"?"":k}" class="${r===k?"on":""}" ${r===k?'aria-current="page"':""}>${T(NS[k])}</a>`;
+  $("#topnav").innerHTML = `${link("home")}<span class="nav-sep" aria-hidden="true"></span><span class="nav-g">${T("groupGuide")}</span>${["guide","stuck","tracker","setup"].map(link).join("")}
+    <span class="nav-sep" aria-hidden="true"></span><span class="nav-g">${T("groupCodex")}</span>${["crew","ship","station","world"].map(link).join("")}`;
+  $("#menuBtn").setAttribute("aria-label", T("menu"));
+}
+
+/* ---------- home ---------- */
+function splashHTML(){
+  const title = tr(UI.fleetTitle).toUpperCase();
+  const letters = [...title].map((ch,i)=> ch===" " ? `<span class="sp"> </span>` : `<span style="--i:${i}">${esc(ch)}</span>`).join("");
+  return `<section class="splash ${S.booted?"seen":""}" id="home">
+    <svg class="emblem" viewBox="0 0 200 200" aria-hidden="true">
+      <circle class="dr" cx="100" cy="100" r="86" pathLength="1"/>
+      <circle class="dr thin" cx="100" cy="100" r="74" pathLength="1"/>
+      <path class="dr star" pathLength="1" d="M100 22 L112 88 L178 100 L112 112 L100 178 L88 112 L22 100 L88 88 Z"/>
+      <path class="dr thin" pathLength="1" d="M100 52 L106 94 L148 100 L106 106 L100 148 L94 106 L52 100 L94 94 Z"/>
+      <path class="dr wing" pathLength="1" d="M60 128 C40 120 30 104 28 86 M66 140 C42 134 26 118 20 96 M72 152 C46 150 24 134 14 108"/>
+      <path class="dr wing" pathLength="1" d="M140 128 C160 120 170 104 172 86 M134 140 C158 134 174 118 180 96 M128 152 C154 150 176 134 186 108"/>
+      <circle class="core" cx="100" cy="100" r="5"/>
+    </svg>
+    <h1 class="fleet" aria-label="${esc(tr(UI.fleetTitle))}">${letters}</h1>
+    <p class="fleet-sub">${T("fleetSub")}</p>
+    <p class="fleet-mission"><span class="blip"></span>${T("fleetMission")}</p>
+    <a class="btn amber fleet-go" href="#crew-strip">${T("fleetStart")} ↓</a>
+  </section>`;
+}
+function crewStripHTML(){
+  const strip = CREW.map((p,i)=>`<a href="#/crew" style="--d:${i}" aria-label="${esc(tr(p.name))}"><img src="${esc(p.photo)}" alt="" onerror="this.parentNode.remove()"><span>${esc(tr(p.name).split(" ")[0])}<small>${esc(tr(p.role))}</small></span></a>`).join("");
+  return `<section id="crew-strip" class="home-block"><h2>${T("stripH")}</h2><p class="lede">${T("stripLede")}</p><div class="dossier">${strip}</div></section>`;
+}
+function siteMapHTML(){
+  const ic = {guide:"◈",stuck:"?",tracker:"✓",setup:"⚙",crew:"☰",ship:"⛭",station:"▤",world:"✦"};
+  const card = k => `<a class="sm-card glass glow" href="#/${k}"><span class="sm-ic" aria-hidden="true">${ic[k]}</span><b>${T(NAVK[k])}</b><span>${T("d"+k[0].toUpperCase()+k.slice(1))}</span></a>`;
+  return `<section id="sitemap" class="home-block"><h2>${T("mapH")}</h2><p class="lede">${T("mapLede")}</p>
+    <div class="start glass"><h3>${T("startH")}</h3><ol><li>${T("start1")}</li><li>${T("start2")}</li><li>${T("start3")}</li></ol></div>
+    <h3 class="sub-h">${T("groupGuide")}</h3><div class="sm-grid">${["guide","stuck","tracker","setup"].map(card).join("")}</div>
+    <h3 class="sub-h">${T("groupCodex")}</h3><div class="sm-grid">${["crew","ship","station","world"].map(card).join("")}</div>
+  </section>`;
+}
+function pagerHTML(r){
+  const i = ROUTES_ORDER.indexOf(r); if(i < 1) return "";
+  const p = ROUTES_ORDER[i-1], n = ROUTES_ORDER[i+1];
+  return `<nav class="pager" aria-label="pager">${`<a class="glass" href="#/${p==="home"?"":p}"><small>← ${T("prev")}</small>${T(NAVK[p])}</a>`}${n?`<a class="glass nx" href="#/${n}"><small>${T("next")} →</small>${T(NAVK[n])}</a>`:"<span></span>"}</nav>`;
 }
 
 /* ---------- hero / clearance rail ---------- */
-function heroHTML(){
+function railHTML(){
   const segs = ACTS.map(a => {
     const cls = a.n < S.stage ? "done" : a.n === S.stage ? "cur" : "";
     const label = a.n <= S.stage ? esc(tr(a.tag)) : bars(1, a.n);
@@ -1002,13 +1145,7 @@ function heroHTML(){
     return `<button class="seg ${cls}" data-seg="${a.n}" aria-pressed="${a.n===S.stage}" aria-label="${T("stageShort")} ${a.n}: ${status}">
       <b>${roman[a.n]}</b><span data-st="${a.n}">${label}</span></button>`;
   }).join("");
-  const strip = CREW.map((p,i)=>`<a href="#crew" style="--d:${i}" aria-label="${esc(tr(p.name))}"><img src="${esc(p.photo)}" alt="" onerror="this.parentNode.remove()"><span>${esc(tr(p.name).split(" ")[0])}<small>${esc(tr(p.role))}</small></span></a>`).join("");
-  return `<div class="hero">
-    <div class="status" id="status" aria-hidden="true">${S.typed ? esc(T("status")) : ""}<span class="caret"></span></div>
-    <h1 class="${S.booted?"":"boot"}">${T("heroTitle")}</h1>
-    <p class="sub">${T("heroSub")}</p>
-    <div class="dossier">${strip}</div>
-    <div class="rail glass glow">
+  return `<div class="rail glass glow">
       <p class="rail-q">${T("railQ")}</p>
       <p class="rail-help">${T("railHelp")}</p>
       <div class="segs" role="group" aria-label="${T("railQ")}">${segs}</div>
@@ -1016,7 +1153,14 @@ function heroHTML(){
         <button class="btn" id="wizOpen">${T("railUnsure")}</button>
         <button class="btn ghost" id="resetAll">${T("railReset")}</button>
       </div>
-    </div></div>`;
+    </div>`;
+}
+function heroHTML(){
+  return `<section class="hero home-block" id="lost">
+    <div class="status" id="status" aria-hidden="true">${S.typed ? esc(T("status")) : ""}<span class="caret"></span></div>
+    <h2 class="hero-h">${T("heroTitle")}</h2>
+    <p class="sub">${T("heroSub")}</p>
+    ${railHTML()}</section>`;
 }
 
 /* ---------- walkthrough ---------- */
@@ -1047,7 +1191,7 @@ function actHTML(a){
     ${isOpen ? `<div class="act-b ${S.fresh==="act"+a.n?"fresh":""}">${body}</div>` : ""}</li>`;
 }
 function guideHTML(){
-  return `<section id="guide"><h2>${T("navGuide")}</h2>
+  return `<section id="guide"><h2>${T("navGuide")}</h2>${railHTML()}
     <div class="intro"><p class="lede">${T("guideLede")}</p>${sticker("assets/ui/instructor.webp", T("bubbleGuide"), "tall")}</div>
     <ol class="acts">${ACTS.map(actHTML).join("")}</ol></section>`;
 }
@@ -1137,8 +1281,7 @@ function personHTML(p){
     <div class="pb">${meta}<p class="tagline">${esc(tr(p.tag))}</p><p>${esc(tr(paras[0]))}</p>${more}${hideBtn}</div></article>`;
 }
 function crewHTML(){
-  return `<p class="part">${T("navCodex")}</p>
-  <section id="crew" style="padding-top:1.5rem"><h2>${T("navCrew")}</h2><p class="lede">${T("crewLede")}</p>
+  return `<section id="crew"><h2>${T("navCrew")}</h2><p class="lede">${T("crewLede")}</p>
     <h3 class="sub-h">${T("crewH")}</h3><div class="people">${CREW.map(personHTML).join("")}</div>
     <h3 class="sub-h">${T("aboardH")}</h3><div class="people">${ABOARD.map(personHTML).join("")}</div>
     <h3 class="sub-h">${T("threatsH")}</h3><div class="people">${THREATS.map(personHTML).join("")}</div>
@@ -1223,7 +1366,7 @@ function worldHTML(){
       <circle cx="${s.x}" cy="${s.y}" r="${s.r+18}" fill="transparent"/>
       <circle class="halo" cx="${s.x}" cy="${s.y}" r="${s.r+7}"/>
       <circle class="shape" cx="${s.x}" cy="${s.y}" r="${s.r}"/>
-      <text x="${s.x}" y="${s.y - s.r - 14}" text-anchor="middle">${esc(tr(s.name))}</text></g>`).join("");
+      <text x="${s.x}" y="${s.lp==="b" ? s.y + s.r + 30 : s.y - s.r - 14}" text-anchor="middle">${esc(tr(s.name))}</text></g>`).join("");
   const svg = `<svg viewBox="0 0 1536 1024" role="img" aria-label="${T("navWorld")}" class="starmap ${S.allSys?"all":""}">
     <defs><filter id="neb" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="38"/></filter>
       <radialGradient id="core"><stop offset="0" stop-color="#ffd48a" stop-opacity=".55"/><stop offset="1" stop-color="#ffd48a" stop-opacity="0"/></radialGradient></defs>
@@ -1237,10 +1380,11 @@ function worldHTML(){
   const legend = `<div class="legend"><span><i class="lg-dot"></i>${T("lgStory")}</span><span><i class="lg-dot dim"></i>${T("lgSys")}</span>
     <span><i class="lg-ln m"></i>${T("lgMain")}</span><span><i class="lg-ln s"></i>${T("lgSec")}</span><span><i class="lg-ln f"></i>${T("lgFar")}</span><span><i class="lg-ln p"></i>${T("lgPath")}</span>
     <button class="btn ghost" id="sysBtn" aria-pressed="${S.allSys}">${S.allSys ? T("storyOnly") : T("allSystems")}</button></div>`;
+  const chips = `<div class="star-list">${vis.map(s=>`<button class="chip k-${s.kind}" data-star="${s.id}" aria-pressed="${S.star===s.id}"><i></i>${esc(tr(s.name))}</button>`).join("")}</div>`;
   const cur = vis.find(s=>s.id===S.star) || vis[vis.length-1];
-  const tag = cur ? `<span class="tag ${cur.kind==="erebus"||cur.kind==="danger"?"warn":""}">${esc(tr(cur.sub))}</span>` : "";
+  const tag = cur ? `<span class="tag ${cur.kind==="erebus"||cur.kind==="danger"?"warn":""}">${esc(tr(cur.sub))}</span>${cur.who&&cur.who.length?`<span class="who">${T("whoLbl")} ${cur.who.map(w=>`<b>${esc(tr(w))}</b>`).join(", ")}</span>`:""}` : "";
   return `<section id="world"><h2>${T("navWorld")}</h2><p class="lede">${T("worldLede")}</p>
-    <div class="mapbox"><div class="svgwrap glass map-wrap">${svg}${legend}<p class="where" style="margin:.4rem .2rem 0">${T("mapNote")}</p></div>${detailHTML(cur, tag)}</div>
+    <div class="mapbox"><div class="svgwrap glass map-wrap">${svg}${legend}<p class="where" style="margin:.4rem .2rem 0">${T("mapNote")}</p></div>${chips}${detailHTML(cur, tag)}</div>
     <div class="world-grid">${WORLD_CARDS.map(c=>`<div class="wcard glass glow"><h3>${esc(tr(c.h))}</h3><p>${esc(tr(c.p))}</p></div>`).join("")}</div>
   </section>`;
 }
@@ -1262,7 +1406,7 @@ function openWizard(){
     const b = e.target.closest("[data-w]"); if(!b) return;
     const w = b.dataset.w;
     if(w === "x") return d.close();
-    if(w === "set"){ d.close(); setStage(+b.dataset.n); location.hash = "#guide"; return; }
+    if(w === "set"){ d.close(); setStage(+b.dataset.n); location.hash = "#/guide"; return; }
     if(w === "n") return result(i + 1);
     i++; if(i >= WIZ.length) return result(6); step();
   };
@@ -1272,20 +1416,26 @@ function openWizard(){
 /* ---------- render ---------- */
 function render(){
   renderChrome();
-  $("#main").innerHTML = heroHTML() + guideHTML() + stuckHTML() + trackerHTML() + setupHTML()
-    + crewHTML() + shipHTML() + stationHTML() + worldHTML()
-    + `<footer>${T("footer")}</footer>`;
-  document.querySelectorAll("main section").forEach(s => { s.classList.add("rv"); if(S.seen.has(s.id)) s.classList.add("in"); });
-  if(!S.booted){ S.booted = true; setTimeout(typeStatus, 400); } else document.querySelectorAll(".dossier a").forEach(x=>x.style.animation="none");
+  const r = route();
+  const views = {
+    home: () => splashHTML() + crewStripHTML() + heroHTML() + siteMapHTML(),
+    guide: guideHTML, stuck: stuckHTML, tracker: trackerHTML, setup: setupHTML,
+    crew: crewHTML, ship: shipHTML, station: stationHTML, world: worldHTML,
+  };
+  $("#main").innerHTML = views[r]() + pagerHTML(r) + `<footer>${T("footer")}</footer>`;
+  document.title = (r==="home" ? "" : T(NAVK[r]) + " · ") + "Erebus — " + T("brandSub");
+  document.querySelectorAll("main section").forEach(s => { s.classList.add("rv"); if(S.seen.has(r+s.id)) s.classList.add("in"); });
+  if(!S.booted){ setTimeout(typeStatus, 2600); } else document.querySelectorAll(".dossier a").forEach(x=>x.style.animation="none");
   S.fresh = null;
   if(S.stage > prevStage){
     document.querySelectorAll("[data-st]").forEach(el => { const s=+el.dataset.st; if(s>prevStage && s<=S.stage) el.classList.add("unveil"); });
   }
   prevStage = S.stage;
-  spy();
+  reveal(r);
+  S.booted = true;
 }
 function typeStatus(){
-  const el = $("#status"); if(!el || S.typed) return;
+  const el = $("#status"); if(!el){ S.typed = true; return; } if(S.typed) return;
   const txt = T("status"); let i = 0;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   if(reduce){ S.typed = true; el.innerHTML = esc(txt) + '<span class="caret"></span>'; return; }
@@ -1295,6 +1445,9 @@ function typeStatus(){
 
 /* ---------- events ---------- */
 document.addEventListener("click", e => {
+  const go = e.target.closest(".fleet-go"); if(go){ e.preventDefault(); $("#crew-strip")?.scrollIntoView({behavior:"smooth"}); return; }
+  if(e.target.closest("#menuBtn")){ document.body.classList.toggle("menu-open"); $("#menuBtn").setAttribute("aria-expanded", document.body.classList.contains("menu-open")); return; }
+  if(e.target.closest("#topnav a")) document.body.classList.remove("menu-open");
   const z = e.target.closest("img[data-zoom]");
   if(z){ const lb=$("#lb"); lb.classList.toggle("wide", !z.closest(".ph")); lb.innerHTML=`<figure style="margin:0"><img src="${esc(z.dataset.zoom)}" alt="${esc(z.dataset.name)}"><figcaption><b>${esc(z.dataset.name)}</b><button class="btn ghost" data-lbclose>${T("close")}</button></figcaption></figure>`; lb.showModal(); return; }
   if(e.target.closest("[data-lbclose]") || e.target.id==="lb"){ $("#lb").close(); return; }
@@ -1345,21 +1498,19 @@ document.addEventListener("change", e => {
   if(t.dataset.rescue){ t.checked ? S.rescue.add(t.dataset.rescue) : S.rescue.delete(t.dataset.rescue); store.set("rescue",[...S.rescue]); }
 });
 
-/* ---------- scroll spy ---------- */
-let io;
-function spy(){
-  if(!("IntersectionObserver" in window)) return;
-  io?.disconnect();
-  io = new IntersectionObserver(es => es.forEach(en => {
-    if(en.isIntersecting){ document.querySelectorAll("nav.side a").forEach(a => a.classList.toggle("on", a.getAttribute("href")==="#"+en.target.id)); }
-  }), {rootMargin:"-30% 0px -60% 0px"});
-  document.querySelectorAll("main section[id]").forEach(s => io.observe(s));
+/* ---------- reveal on scroll ---------- */
+let rio;
+function reveal(r){
+  if(!("IntersectionObserver" in window)){ document.querySelectorAll("main section").forEach(s=>s.classList.add("in")); return; }
   rio?.disconnect();
-  rio = new IntersectionObserver(es => es.forEach(en => { if(en.isIntersecting){ en.target.classList.add("in"); S.seen.add(en.target.id); rio.unobserve(en.target); } }), {rootMargin:"0px 0px -8% 0px"});
+  rio = new IntersectionObserver(es => es.forEach(en => { if(en.isIntersecting){ en.target.classList.add("in"); S.seen.add(r+en.target.id); rio.unobserve(en.target); } }), {rootMargin:"0px 0px -5% 0px"});
   document.querySelectorAll("main section.rv:not(.in)").forEach(s => rio.observe(s));
 }
-let rio;
-
+addEventListener("hashchange", () => {
+  if(location.hash === "#crew-strip") return;
+  document.body.classList.remove("menu-open");
+  render(); scrollTo({top:0, behavior:"instant"});
+});
 /* ---------- pointer glow + tilt ---------- */
 const fine = matchMedia("(pointer: fine)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches;
 document.addEventListener("pointermove", e => {
@@ -1374,9 +1525,19 @@ document.addEventListener("pointerout", e => { const c = e.target.closest?.(".ti
   const cv = document.getElementById("stars"); if(!cv) return; const ctx = cv.getContext("2d");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let W,H,P=[],dpr=Math.min(2,window.devicePixelRatio||1);
+  const warpEnd = performance.now() + (route()==="home" && !reduce ? 2200 : 0);
   const init=()=>{ W=cv.width=innerWidth*dpr; H=cv.height=innerHeight*dpr; const n=Math.round(innerWidth*innerHeight/9000);
     P=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,z:Math.random()*.9+.1,t:Math.random()*6.28})); };
   const draw=()=>{ ctx.clearRect(0,0,W,H);
+    const now=performance.now();
+    if(now < warpEnd){
+      const k = Math.pow((warpEnd-now)/2200, 1.6), cx=W/2, cy=H*0.42;
+      for(const p of P){ const dx=p.x-cx, dy=p.y-cy, v=(0.02+0.09*k)*p.z;
+        const nx=p.x+dx*v, ny=p.y+dy*v;
+        ctx.strokeStyle=`rgba(200,228,236,${.25+.6*p.z})`; ctx.lineWidth=p.z*1.4*dpr; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(nx,ny); ctx.stroke();
+        p.x=nx; p.y=ny; if(p.x<0||p.x>W||p.y<0||p.y>H){ p.x=cx+(Math.random()-.5)*W*.3; p.y=cy+(Math.random()-.5)*H*.3; } }
+      requestAnimationFrame(draw); return;
+    }
     for(const p of P){ p.t+=.012*p.z; if(!reduce){ p.x-=.08*p.z*dpr; if(p.x<0) p.x=W; }
       const a=.25+.55*p.z*(.6+.4*Math.sin(p.t)); ctx.fillStyle=p.z>.85?`rgba(242,190,120,${a})`:`rgba(190,220,228,${a})`;
       ctx.fillRect(p.x,p.y,p.z*1.6*dpr,p.z*1.6*dpr); }
