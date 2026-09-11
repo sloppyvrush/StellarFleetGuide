@@ -615,6 +615,105 @@ body.wasted-mode .wrap,body.wasted-mode .bar,body.wasted-mode #stars{filter:gray
   .brief-card{padding:1rem 1.1rem;min-height:0}
   .brief .bubble::after{left:2.2rem;top:-8px;transform:rotate(135deg)}
 }
+
+/* brief: bubble separate from card */
+.brief-side{display:flex;flex-direction:column;justify-content:space-between;gap:1rem;align-self:stretch;padding-top:1.4rem;min-width:0}
+.brief-side .bubble{align-self:flex-start;margin-left:2.8rem;max-width:30rem}
+.brief-side .brief-card{min-height:0}
+@media (max-width:760px){.brief-side{padding-top:0}.brief-side .bubble{margin-left:0}}
+/* ---------- about ---------- */
+.about-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:1rem;margin-bottom:1rem}
+@media (max-width:820px){.about-grid{grid-template-columns:1fr}}
+.about-card{padding:1.3rem 1.4rem}
+.about-card>*{position:relative;z-index:1}
+.about-card p{margin:.4rem 0;line-height:1.65}
+.hello{margin:.2rem 0 .1rem;font-size:1.6rem;color:var(--amber)}
+.muted-p{color:var(--muted);font-size:.93rem}
+.tg-list{margin:.9rem 0 .2rem;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+@media (max-width:700px){.tg-list{grid-template-columns:1fr}}
+.about-card{margin-bottom:1rem}
+.project{border-left:3px solid var(--amber)}
+.tg-card{display:flex;align-items:center;gap:.9rem;padding:.75rem 1rem;text-decoration:none;color:var(--ink);transition:transform .2s,border-color .2s}
+.tg-card:hover{transform:translateY(-2px);border-color:rgba(98,214,200,.5)}
+.tg-card>*{position:relative;z-index:1}
+.tg-ic{width:2.6rem;height:2.6rem;border-radius:50%;display:grid;place-items:center;flex:none;background:linear-gradient(135deg,#37aee2,#1e96c8);color:#fff;box-shadow:0 6px 18px -6px rgba(30,150,200,.7)}
+.tg-ic svg{width:1.3rem;height:1.3rem;margin-left:-2px}
+.tg-t{display:flex;flex-direction:column;min-width:0}
+.tg-t b{font:500 1.15rem var(--f-head);letter-spacing:.03em}
+.tg-t small{color:var(--muted);font-size:.85rem}
+.tg-go{margin-left:auto;color:var(--teal);font-size:1.2rem}
+.thanks{display:grid;grid-template-columns:auto minmax(0,1fr);gap:1.6rem;align-items:center;padding:1.4rem 1.6rem;margin-bottom:1rem;
+  background:radial-gradient(600px circle at 15% 50%,rgba(255,143,179,.10),transparent 60%),var(--panel)}
+.thanks>*{position:relative;z-index:1}
+.hug{margin:0;text-align:center}
+.hug-btn{background:none;border:0;padding:0;cursor:pointer;display:block}
+.hug-btn img{width:min(260px,60vw);height:auto;filter:drop-shadow(0 14px 22px rgba(0,0,0,.45));animation:bob 5s ease-in-out infinite;transition:transform .2s}
+.hug-btn:hover img{transform:scale(1.03) rotate(-1deg)}
+.hug-btn.hugged img{animation:hugpop .7s cubic-bezier(.3,1.6,.5,1)}
+@keyframes hugpop{0%{transform:scale(.9)}50%{transform:scale(1.08) rotate(2deg)}100%{transform:none}}
+.hug figcaption{font:500 .8rem var(--f-mono);color:#ff8fb3;margin-top:.3rem}
+.thanks-lead{font:500 1.25rem/1.4 var(--f-head);margin:.3rem 0 .6rem}
+.friend{color:#ff8fb3;text-decoration:none;border-bottom:1px dashed rgba(255,143,179,.6);white-space:nowrap}
+.friend:hover{color:#ffb3c9}
+.thanks-t p{line-height:1.65}
+.thanks-last{font:500 1.1rem var(--f-head);color:#ffb3c9}
+@media (max-width:700px){.thanks{grid-template-columns:1fr;text-align:center}.thanks .brief-lbl{text-align:center}}
+.players{margin-bottom:1rem}
+.bye{text-align:center;font:500 clamp(1.1rem,2.4vw,1.5rem) var(--f-head);color:var(--amber);margin:2.4rem auto 0;max-width:40rem;letter-spacing:.02em}
+.sparkles{position:fixed;inset:0;pointer-events:none;z-index:150;overflow:hidden}
+.sparkles span{position:absolute;display:block;line-height:0;transform:translate(-50%,-50%);opacity:0;filter:drop-shadow(0 0 6px currentColor);animation:burst 1.8s cubic-bezier(.15,.7,.3,1) forwards}
+@keyframes burst{0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}12%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1) rotate(var(--r))}}
+.sparkles .glint{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 10px 3px rgba(255,200,220,.9);opacity:0;animation:glint 1s ease-in-out forwards}
+@keyframes glint{0%,100%{opacity:0;transform:scale(.2)}50%{opacity:1;transform:scale(1.4)}}
+@media (prefers-reduced-motion:reduce){.sparkles span{opacity:1!important;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy)))!important}}
+
+/* ---------- music plate ---------- */
+.music{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;align-items:center;gap:.9rem;padding:.75rem 1rem;margin:0 0 1.4rem;max-width:44rem;overflow:hidden}
+.music>*{position:relative;z-index:1}
+.music::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;background:linear-gradient(100deg,transparent 20%,rgba(98,214,200,.07) 45%,transparent 60%);background-size:250% 100%;animation:msweep 6s linear infinite}
+@keyframes msweep{from{background-position:120% 0}to{background-position:-120% 0}}
+.m-play{width:2.9rem;height:2.9rem;border-radius:50%;border:1px solid var(--amber);background:radial-gradient(circle at 35% 30%,rgba(242,169,63,.35),rgba(242,169,63,.08));color:var(--amber);display:grid;place-items:center;position:relative;transition:transform .15s,box-shadow .25s}
+.m-play svg{width:1.25rem;height:1.25rem}
+.m-play:hover{transform:scale(1.06);box-shadow:0 0 18px rgba(242,169,63,.45)}
+.m-play::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(242,169,63,.5);animation:mring 2.4s ease-out infinite}
+.playing .m-play::after{animation:none;opacity:0}
+@keyframes mring{0%{transform:scale(.9);opacity:.9}100%{transform:scale(1.35);opacity:0}}
+.m-info{display:flex;flex-direction:column;min-width:0}
+.m-lbl{font:500 .68rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.m-title{font:500 1.12rem/1.2 var(--f-head);letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m-info small{color:var(--muted);font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m-eq{display:flex;align-items:flex-end;gap:3px;height:1.6rem}
+.m-eq i,.md-eq i{display:block;width:3px;height:22%;border-radius:2px;background:linear-gradient(180deg,var(--amber),var(--teal));opacity:.55;transition:height .3s}
+.playing .m-eq i,#mdock.playing .md-eq i{opacity:1;animation:eq 1s ease-in-out infinite}
+.m-eq i:nth-child(2),.md-eq i:nth-child(2){animation-delay:-.3s}.m-eq i:nth-child(3),.md-eq i:nth-child(3){animation-delay:-.6s}.m-eq i:nth-child(4),.md-eq i:nth-child(4){animation-delay:-.15s}
+.m-eq i:nth-child(5){animation-delay:-.45s}.m-eq i:nth-child(6){animation-delay:-.75s}.m-eq i:nth-child(7){animation-delay:-.2s}
+@keyframes eq{0%,100%{height:20%}30%{height:95%}55%{height:45%}75%{height:80%}}
+.m-spot{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .7rem .35rem .4rem;border-radius:999px;border:1px solid rgba(29,185,84,.45);background:rgba(29,185,84,.1);color:var(--ink);text-decoration:none;font-size:.82rem;white-space:nowrap;transition:background .2s}
+.m-spot:hover{background:rgba(29,185,84,.22)}
+.m-spot svg{width:1.3rem;height:1.3rem}
+.m-list{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:.4rem;padding-top:.2rem;border-top:1px solid var(--line)}
+.m-chip{border:1px solid var(--line2);background:var(--panel2);border-radius:999px;padding:.22rem .7rem;font-size:.8rem;color:var(--muted);margin-top:.5rem}
+.m-chip:hover{color:var(--ink);border-color:var(--teal)}
+.m-chip.on{color:var(--ink);border-color:var(--amber);background:var(--amber-soft)}
+.fleet-music{margin-top:1.6rem;width:min(30rem,100%);opacity:0;animation:fadein 1s 3.2s forwards}
+.fleet-music .music{margin:0 auto;text-align:left}
+.splash.seen .fleet-music{opacity:1}
+.thanks .music{margin:1rem 0 0;border-color:rgba(255,143,179,.4)}
+.thanks .m-play{border-color:#ff8fb3;color:#ff8fb3;background:radial-gradient(circle at 35% 30%,rgba(255,143,179,.35),rgba(255,143,179,.08))}
+.thanks .m-play::after{border-color:rgba(255,143,179,.5)}
+.thanks .m-lbl{color:#ff8fb3}
+@media (max-width:600px){.music{grid-template-columns:auto minmax(0,1fr) auto}.m-eq{display:none}.m-spot span{display:none}.m-spot{padding:.35rem}}
+/* ---------- music dock ---------- */
+#mdock{position:fixed;left:1rem;bottom:1rem;z-index:40;width:min(360px,calc(100vw - 2rem));padding:.5rem .6rem .6rem;background:var(--solid);transform:translateY(140%);opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .3s;box-shadow:0 20px 50px -20px rgba(0,0,0,.8)}
+#mdock.show{transform:none;opacity:1}
+.md-head{display:flex;align-items:center;gap:.5rem;padding:0 .2rem .45rem;font-size:.82rem;color:var(--muted)}
+.md-eq{display:flex;align-items:flex-end;gap:2px;height:.9rem}
+.md-title{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.md-spot{color:#1DB954;text-decoration:none;font-size:1rem}
+#mdockClose{background:none;border:0;color:var(--muted);font-size:1.2rem;line-height:1;padding:0 .2rem}
+#spot-embed{border-radius:10px;overflow:hidden;min-height:80px;background:var(--panel2)}
+#spot-embed iframe{display:block;border:0;border-radius:10px}
+@media (max-width:600px){#mdock{left:.5rem;right:.5rem;bottom:.5rem;width:auto}}
 </style>
 </head>
 <body>
@@ -634,6 +733,8 @@ body.wasted-mode .wrap,body.wasted-mode .bar,body.wasted-mode #stars{filter:gray
 <dialog id="wiz" aria-labelledby="wizT"></dialog>
 <dialog id="lb" aria-label="Portrait"></dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div id="mdock" class="glass" aria-live="polite"><div class="md-head"><span class="md-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="md-title"></span>
+  <a class="md-spot" href="#" target="_blank" rel="noopener" aria-label="Spotify">↗</a><button id="mdockClose" aria-label="×">×</button></div><div id="spot-embed"></div></div>
 <script>
 /* =====================================================================
    CONTENT — всё, что показывается на сайте, лежит здесь.
@@ -644,7 +745,8 @@ body.wasted-mode .wrap,body.wasted-mode .bar,body.wasted-mode #stars{filter:gray
 const L = (ru, en) => ({ ru, en });
 
 const UI = {
-  navHome: L("Главная", "Home"),
+  navHome: L("Главная", "Home"), navAbout: L("Об авторе", "About"), nsAbout: L("Автор", "About"),
+  dAbout: L("Кто сделал этого бота, где искать другие работы — и одна важная благодарность.", "Who made this bot, where to find more — and one important thank-you."),
   nsGuide: L("Прохождение","Walkthrough"), nsStuck: L("Застряли?","Stuck?"), nsTracker: L("Трекер","Tracker"), nsSetup: L("Настройка","Setup"),
   nsCrew: L("Экипаж","Crew"), nsShip: L("Корабль","Ship"), nsStation: L("Станция","Station"), nsWorld: L("Мир","World"), menu: L("Меню", "Menu"),
   fleetTitle: L("Звёздный флот", "Stellar Fleet"),
@@ -764,18 +866,75 @@ const UI = {
 /* ---------------- ИНСТРУКТОР (кликабельные стикеры) ----------------
    base — исходная картинка, steps — по одной на каждое нажатие, final — картинка для «удара по экрану». */
 const MASCOT = {
-  guide: { base:"assets/ui/instructor.webp", final:"assets/ui/angry-5.webp", steps:[
+  guide: { base:"assets/ui/instructor.webp", final:"assets/ui/angry-final.webp", steps:[
     { img:"assets/ui/angry-1.webp", t:L("Эй! Я вообще-то тут гайд объясняю.","Hey! I'm explaining the guide here, you know.") },
     { img:"assets/ui/angry-2.webp", t:L("Так. Записываю: «трогал инструктора без допуска». Это пойдёт в личное дело.","Right. Writing it down: \"poked the instructor without clearance.\" That's going on your record.") },
     { img:"assets/ui/angry-3.webp", t:L("Ещё раз — и проведёшь ночь в шлюзе. С Фликом. Он кусается, а я не открою.","One more time and you're spending the night in the airlock. With Flick. He bites, and I'm not opening the door.") },
     { img:"assets/ui/angry-4.webp", t:L("Всё, я доложу капитану. Нет, хуже — Алексу. Он назначит тебе полный медосмотр.","That's it, I'm reporting you to the captain. No, worse — to Alex. He'll book you a full medical.") },
     { img:"assets/ui/angry-5.webp", t:L("Последнее предупреждение. Я знаю, где у тебя экран.","Final warning. I know where your screen is.") },
   ]},
-  stuck: { base:"assets/ui/thinking.webp", final:"assets/ui/angry-final.webp", steps:[
+  stuck: { base:"assets/ui/thinking.webp", final:"assets/ui/angry-8.webp", steps:[
     { img:"assets/ui/angry-6.webp", t:L("Я тут думаю, между прочим. Над ВАШИМИ проблемами.","I'm thinking here, you know. About YOUR problems.") },
     { img:"assets/ui/angry-7.webp", t:L("Тук-тук. Проблема не во мне. Проблема по ту сторону экрана.","Knock knock. The problem isn't me. It's on the other side of the screen.") },
     { img:"assets/ui/angry-8.webp", t:L("Ещё одно нажатие — и «Застряли?» станет вашим последним разделом.","One more tap and \"Stuck?\" becomes your very last section.") },
   ]},
+};
+
+/* ---------------- МУЗЫКА ----------------
+   Играет через официальный плеер Spotify (id трека — из ссылки open.spotify.com/track/ID).
+   pages — какие треки показывать на какой странице (можно несколько, их можно переключать). */
+const MUSIC = {
+  tracks: {
+    leaving:   { id:"4zkynG1TXIknSEiJ9616rt", title:"Leaving Earth", by:"Clint Mansell", game:"Mass Effect 3" },
+    normandy:  { id:"6vIobsQLunzhFEUd8bjY2Z", title:"The Normandy", by:"Sam Hulick", game:"Mass Effect" },
+    sovereign: { id:"2qzcAJYPxNp7TTIjtiMAfu", title:"Sovereign's Theme", by:"Sam Hulick", game:"Mass Effect" },
+    party:     { id:"3zMnS6wyBOZGKpe2poXDyt", title:"Party Music", by:"Sascha Dikiciyan & Cris Velasco", game:"Mass Effect 2: Kasumi's Stolen Memory" },
+    lost:      { id:"0t6LQNivrcogRLbv0PoUsT", title:"I Was Lost Without You", by:"Sam Hulick", game:"Mass Effect 3" },
+    memories:  { id:"3oj12eHqHDiVPLi2kKbJLh", title:"Memories", by:"John Paesano", game:"Mass Effect: Andromeda" },
+    temple:    { id:"2vYSd6pKY5WThBG6w5EzjB", title:"The Lost Temple", by:"Trevor Morris", game:"Dragon Age: Inquisition" },
+    elder:     { id:"4OQ9F0GuFcuYQciQaalFn6", title:"The Elder One Theme", by:"Trevor Morris", game:"Dragon Age: Inquisition" },
+  },
+  pages: {
+    home:    ["leaving","normandy"],
+    crew:    ["memories","party"],
+    ship:    ["normandy","party"],
+    station: ["temple","sovereign"],
+    world:   ["elder","sovereign","leaving"],
+    about:   ["lost"],
+  },
+  lbl:  L("Саундтрек раздела","Section soundtrack"),
+  lblAbout: L("Для Милки","For Milka"),
+  play: L("Включить","Play"), pause: L("Пауза","Pause"),
+  now:  L("Сейчас играет","Now playing"),
+  note: L("Музыка играет через Spotify. Без входа в Spotify — 30-секундные отрывки.","Music plays via Spotify. Without a Spotify login you get 30-second previews."),
+  open: L("Открыть в Spotify","Open in Spotify"),
+};
+
+/* ---------------- ОБ АВТОРЕ ---------------- */
+const ABOUT = {
+  projectH: L("О проекте","About the project"),
+  project: L("При создании бота и его истории я во многом вдохновлялась Alien: Isolation. Часть атмосферы, идей и общее ощущение изоляции, неизвестности и постоянной угрозы выросли именно из любви к этой игре.",
+             "While building this bot and its story, I drew a lot of inspiration from Alien: Isolation. Much of the atmosphere, the ideas and that constant feeling of isolation, the unknown and ever-present threat grew straight out of my love for that game."),
+  meH: L("Боты и творчество","Bots and creative work"),
+  hello: L("Привет! Я Слоппи!","Hi! I'm Sloppy!"),
+  me: L("Я начинающий ботодел. Однажды я села сделать «небольшого бота на пару вечеров» — а очнулась с космической станцией, флотом, картой Содружества, шестью этапами тайны и сайтом-гайдом, где инструктор бьёт экран. Люблю атмосферные истории, живых персонажей и сюжеты, в которых есть что разгадывать.",
+        "I'm a beginner bot maker. I once sat down to make \"a small bot for a couple of evenings\" — and woke up with a space station, a fleet, a map of the Commonwealth, a six-stage mystery and a guide site where the instructor punches your screen. I love atmospheric stories, characters who feel alive and plots with something to solve."),
+  channels: [
+    { url:"https://t.me/sillysloppy", title:"@sillysloppy", sub:L("Боты и творчество — всё, что я делаю","Bots and creative work — everything I make") },
+    { url:"https://t.me/sloppyhouse", title:"@sloppyhouse", sub:L("Промпты для Nano Banana и SillyTavern","Prompts for Nano Banana and SillyTavern") },
+  ],
+  promptsNote: L("Ещё я делаю промпты для генерации картинок в Nano Banana и для той же SillyTavern — для них у меня отдельный канал.","I also write image-generation prompts for Nano Banana and prompts for SillyTavern itself — they have a channel of their own."),
+  thanksH: L("Особая благодарность","Special thanks"),
+  friend: { url:"https://t.me/milkiwaywlw", name:L("Милке ♥","Milka ♥") },
+  thanksLead: L("Отдельное спасибо моей самой близкой подруге","A special thank-you to my closest friend"),
+  thanks: [
+    L("За поддержку, терпение, разговоры, идеи и просто за то, что ты есть. Без тебя эта история не стала бы тем, чем она стала. И, скорее всего, всего этого вообще бы не существовало.","For the support, the patience, the conversations, the ideas — and simply for being you. Without you this story wouldn't have become what it is. And most likely none of this would exist at all."),
+    L("Спасибо тебе. За всё.","Thank you. For everything."),
+  ],
+  hugHint: L("нажми ♥","tap ♥"),
+  playersH: L("И вам","And you"),
+  players: L("И, конечно же, спасибо каждому, кто решил поиграть в моего бота и пройти историю. Мне невероятно приятно знать, что этот мир существует уже не только у меня в голове.","And of course, thank you to everyone who decided to play my bot and go through the story. It means so much to know this world no longer exists only in my head."),
+  bye: L("Спасибо, что заглянули на станцию «Эреб». Надеюсь, вы отсюда выберетесь.","Thank you for visiting Erebus station. I hope you make it out."),
 };
 
 /* ---------------- ЭТАПЫ И ПОДСКАЗКИ ---------------- */
@@ -1153,8 +1312,8 @@ const STATION = [
     d:L("Каюты, столовые, семейные блоки — самая человеческая часть станции. Двери заколочены изнутри, вентиляция заложена мебелью. На стене кто-то вёл счёт выжившим: «Нас 12» — и ниже цифры, каждая меньше предыдущей.","Cabins, canteens, family blocks — the most human part of the station. Doors boarded up from inside, vents blocked with furniture. Someone kept count of the survivors on the wall: \"We are 12\" — and below it, numbers, each smaller than the last."), danger:L("средняя","medium") },
   { id:"medical", stage:1, name:L("Медблок","Medical block"), img:"assets/station/medical.webp", full:"assets/station/full/medical.webp",
     d:L("Медблок превратился в полевой госпиталь: койки в коридорах, сломанные фиксаторы, палаты, запертые снаружи. Надписи на стенах звучат одновременно как просьбы и как предупреждения.","The medical block became a field hospital: cots in the corridors, broken restraints, wards locked from the outside. The writing on the walls reads like pleas and warnings at the same time."), danger:L("средняя","medium") },
-  { id:"security", stage:1, name:L("Сектор охраны","Security sector"), img:"assets/station/security.webp",
-    d:L("Оружейная, камеры содержания и центр наблюдения. Следы здесь оставили не только когти: судя по отметинам от пуль, люди стреляли друг в друга.","Armory, holding cells and the surveillance center. Not all the marks here were left by claws: judging by the bullet holes, people were shooting at each other."), danger:L("высокая","high") },
+  { id:"security", stage:1, name:L("Сектор охраны","Security sector"), img:"assets/station/security.webp", full:"assets/station/full/security.webp",
+    d:L("Оружейная, камеры содержания и стена мониторов, половина из которых показывает «Signal lost». Следы здесь оставили не только когти: судя по отметинам от пуль, люди стреляли друг в друга. На стене — совет, который стоит запомнить: «Не стрелять в упор — кислота».","Armory, holding cells and a wall of monitors, half of them showing \"Signal lost.\" Not all the marks here were left by claws: judging by the bullet holes, people were shooting at each other. On the wall, advice worth remembering: \"Don't shoot point-blank — acid.\""), danger:L("высокая","high") },
   { id:"comms", stage:1, name:L("Центр связи","Communications center"), img:"assets/station/comms.webp", full:"assets/station/full/comms.webp",
     d:L("Дальняя связь почти исправна, но внешняя передача заблокирована кодами, которых у обычного руководства станции быть не должно. Часть журналов заглушена — восстановить их можно, если хватит времени. На стене: «Не используй громкую связь. Они идут на голос».","Long-range comms nearly work, but outbound transmission is blocked by codes ordinary station leadership shouldn't have. Part of the logs are jammed — they can be recovered with enough time. On the wall: \"Don't use the loudspeakers. They come to voices.\""), danger:L("средняя","medium") },
   { id:"labs", stage:1, name:L("Верхние лаборатории","Upper labs"), img:"assets/station/labs.webp", full:"assets/station/full/labs.webp",
@@ -1261,6 +1420,7 @@ const S = {
   peek: new Set(),
   stuck: null, ship: "bridge", station: "dock", star: "erebus", allSys: false,
   fresh: null, booted: false, typed: false, seen: new Set(), mascot: {guide:0, stuck:0},
+  mIdx: {}, music: { page:null, idx:0, playing:false, want:false },
 };
 let prevStage = S.stage;
 const tr = o => o == null ? "" : (typeof o === "string" ? o : (o[S.lang] ?? o.ru));
@@ -1290,19 +1450,19 @@ function imgTag(src, alt, fbText){
 const initials = name => name.split(/[\s/]+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("");
 
 /* ---------- static bits ---------- */
-const ROUTES_ORDER = ["home","guide","stuck","tracker","setup","crew","ship","station","world"];
-const NAVK = {home:"navHome",guide:"navGuide",stuck:"navStuck",tracker:"navTracker",setup:"navSetup",crew:"navCrew",ship:"navShip",station:"navStation",world:"navWorld"};
+const ROUTES_ORDER = ["home","guide","stuck","tracker","setup","crew","ship","station","world","about"];
+const NAVK = {home:"navHome",guide:"navGuide",stuck:"navStuck",tracker:"navTracker",setup:"navSetup",crew:"navCrew",ship:"navShip",station:"navStation",world:"navWorld",about:"navAbout"};
 const route = () => { const r = location.hash.replace(/^#\/?/,"").split("/")[0]; return ROUTES_ORDER.includes(r) ? r : "home"; };
 function renderChrome(){
   document.documentElement.lang = S.lang;
   document.querySelectorAll("[data-i]").forEach(el => el.textContent = T(el.dataset.i));
   $("#langBtn").textContent = S.lang === "ru" ? "EN" : "RU";
-  $("#pill").textContent = `${T("pill")} ${S.stage}`;
+  $("#pill").textContent = `${T("stageShort")} ${S.stage}`;
   const r = route();
-  const NS = {home:"navHome",guide:"nsGuide",stuck:"nsStuck",tracker:"nsTracker",setup:"nsSetup",crew:"nsCrew",ship:"nsShip",station:"nsStation",world:"nsWorld"};
+  const NS = {home:"navHome",guide:"nsGuide",stuck:"nsStuck",tracker:"nsTracker",setup:"nsSetup",crew:"nsCrew",ship:"nsShip",station:"nsStation",world:"nsWorld",about:"nsAbout"};
   const link = k => `<a href="#/${k==="home"?"":k}" class="${r===k?"on":""}" ${r===k?'aria-current="page"':""}>${T(NS[k])}</a>`;
   $("#topnav").innerHTML = `${link("home")}<span class="nav-sep" aria-hidden="true"></span><span class="nav-g">${T("groupGuide")}</span>${["guide","stuck","tracker","setup"].map(link).join("")}
-    <span class="nav-sep" aria-hidden="true"></span><span class="nav-g">${T("groupCodex")}</span>${["crew","ship","station","world"].map(link).join("")}`;
+    <span class="nav-sep" aria-hidden="true"></span><span class="nav-g">${T("groupCodex")}</span>${["crew","ship","station","world"].map(link).join("")}<span class="nav-sep" aria-hidden="true"></span>${link("about")}`;
   $("#menuBtn").setAttribute("aria-label", T("menu"));
 }
 
@@ -1324,6 +1484,7 @@ function splashHTML(){
     <p class="fleet-sub">${T("fleetSub")}</p>
     <p class="fleet-mission"><span class="blip"></span>${T("fleetMission")}</p>
     <a class="btn amber fleet-go" href="#crew-strip">${T("fleetStart")} ↓</a>
+    <div class="fleet-music">${musicHTML("home")}</div>
   </section>`;
 }
 function crewStripHTML(){
@@ -1331,12 +1492,13 @@ function crewStripHTML(){
   return `<section id="crew-strip" class="home-block"><h2>${T("stripH")}</h2><p class="lede">${T("stripLede")}</p><div class="dossier">${strip}</div></section>`;
 }
 function siteMapHTML(){
-  const ic = {guide:"◈",stuck:"?",tracker:"✓",setup:"⚙",crew:"☰",ship:"⛭",station:"▤",world:"✦"};
+  const ic = {guide:"◈",stuck:"?",tracker:"✓",setup:"⚙",crew:"☰",ship:"⛭",station:"▤",world:"✦",about:"♥"};
   const card = k => `<a class="sm-card glass glow" href="#/${k}"><span class="sm-ic" aria-hidden="true">${ic[k]}</span><b>${T(NAVK[k])}</b><span>${T("d"+k[0].toUpperCase()+k.slice(1))}</span></a>`;
   return `<section id="sitemap" class="home-block"><h2>${T("mapH")}</h2><p class="lede">${T("mapLede")}</p>
     <div class="start glass"><h3>${T("startH")}</h3><ol><li>${T("start1")}</li><li>${T("start2")}</li><li>${T("start3")}</li></ol></div>
     <h3 class="sub-h">${T("groupGuide")}</h3><div class="sm-grid">${["guide","stuck","tracker","setup"].map(card).join("")}</div>
     <h3 class="sub-h">${T("groupCodex")}</h3><div class="sm-grid">${["crew","ship","station","world"].map(card).join("")}</div>
+    <div class="sm-grid" style="margin-top:.9rem">${card("about")}</div>
   </section>`;
 }
 function pagerHTML(r){
@@ -1417,8 +1579,8 @@ function briefHTML(o){
   } else charInner = `<img src="${esc(o.src)}" alt="" aria-hidden="true">`;
   return `<div class="brief brief-${o.kind} ${o.key && S.mascot[o.key] ? "angry" : ""}" ${attrs}>
     <figure class="brief-char">${charInner}</figure>
-    <div class="brief-card glass"><blockquote class="bubble" aria-live="polite">${esc(o.speech)}</blockquote>
-      <p class="brief-lbl">${T("briefLbl")}</p><p class="brief-text">${o.lede}</p></div></div>`;
+    <div class="brief-side"><blockquote class="bubble" aria-live="polite">${esc(o.speech)}</blockquote>
+      <div class="brief-card glass"><p class="brief-lbl">${T("briefLbl")}</p><p class="brief-text">${o.lede}</p></div></div></div>`;
 }
 function poke(key){
   const m = MASCOT[key], fig = document.querySelector(`[data-mascot="${key}"]`); if(!fig) return;
@@ -1467,6 +1629,107 @@ function shatter(key){
   if(fig){ fig.classList.remove("angry"); delete fig.dataset.level; fig.querySelector("img").src = m.base; fig.querySelector(".bubble").textContent = fig.dataset.base; }
   ov.querySelector("#fixScreen").onclick = () => { ov.classList.add("repair"); document.body.classList.remove("wasted-mode"); setTimeout(() => { ov.remove(); document.body.classList.remove("shake"); toast(T("fixedToast"), 9000); }, reduce ? 0 : 650); };
   setTimeout(() => ov.querySelector("#fixScreen")?.focus(), 3600);
+}
+/* ---------- music ---------- */
+const ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>';
+const ICON_PAUSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg>';
+const ICON_SPOT = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1DB954"/><path d="M6.6 9.3c3.6-1.1 7.9-.8 11 1M7.2 12.4c3-.9 6.5-.6 9.1.9M7.9 15.3c2.4-.6 5-.4 7.1.8" stroke="#08130c" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>';
+function musicHTML(page, lblKey){
+  const list = MUSIC.pages[page]; if(!list) return "";
+  const idx = S.mIdx[page] || 0, t = MUSIC.tracks[list[idx]];
+  const on = S.music.playing && S.music.page === page && S.music.idx === idx;
+  const chips = list.length > 1 ? `<div class="m-list">${list.map((k,i)=>`<button class="m-chip ${i===idx?"on":""}" data-mtrack="${page}:${i}">${esc(MUSIC.tracks[k].title)}</button>`).join("")}</div>` : "";
+  return `<div class="music glass ${on?"playing":""}" data-mpage="${page}">
+    <button class="m-play" data-mplay="${page}" aria-label="${on?tr(MUSIC.pause):tr(MUSIC.play)}">${on?ICON_PAUSE:ICON_PLAY}</button>
+    <div class="m-info"><span class="m-lbl">♪ ${esc(tr(lblKey||MUSIC.lbl))}</span><b class="m-title">${esc(t.title)}</b><small>${esc(t.by)} · ${esc(t.game)}</small></div>
+    <div class="m-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <a class="m-spot" href="https://open.spotify.com/track/${t.id}" target="_blank" rel="noopener" title="${esc(tr(MUSIC.open))}">${ICON_SPOT}<span>Spotify</span></a>
+    ${chips}
+  </div>`;
+}
+let spotAPI = null, spotCtrl = null, spotLoading = false, spotUri = null;
+function loadSpotify(cb){
+  if(spotAPI) return cb();
+  if(!spotLoading){
+    spotLoading = true;
+    window.onSpotifyIframeApiReady = api => { spotAPI = api; (loadSpotify.q||[]).forEach(f=>f()); loadSpotify.q = []; };
+    const s = document.createElement("script"); s.src = "https://open.spotify.com/embed/iframe-api/v1"; s.async = true; document.body.appendChild(s);
+  }
+  (loadSpotify.q = loadSpotify.q || []).push(cb);
+}
+function musicPlay(page, idx){
+  const key = MUSIC.pages[page][idx], uri = "spotify:track:" + MUSIC.tracks[key].id;
+  S.music.page = page; S.music.idx = idx; S.music.want = true; S.mIdx[page] = idx;
+  const dock = $("#mdock"); dock.classList.add("show");
+  $("#mdock .md-title").textContent = MUSIC.tracks[key].title + " — " + MUSIC.tracks[key].by;
+  $("#mdock .md-spot").href = "https://open.spotify.com/track/" + MUSIC.tracks[key].id;
+  loadSpotify(() => {
+    if(!spotCtrl){
+      spotUri = uri;
+      spotAPI.createController($("#spot-embed"), { uri, width:"100%", height:80 }, c => {
+        spotCtrl = c;
+        c.addListener("ready", () => { if(S.music.want) c.play(); });
+        c.addListener("playback_update", e => { S.music.playing = !e.data.isPaused; musicUI(); });
+      });
+    } else if(spotUri !== uri){ spotUri = uri; spotCtrl.loadUri(uri); setTimeout(() => S.music.want && spotCtrl.play(), 700); }
+    else spotCtrl.resume ? spotCtrl.resume() : spotCtrl.play();
+  });
+  S.music.playing = true; musicUI();
+}
+function musicPause(){ S.music.want = false; S.music.playing = false; spotCtrl && spotCtrl.pause(); musicUI(); }
+function musicUI(){
+  document.querySelectorAll(".music").forEach(el => {
+    const page = el.dataset.mpage, list = MUSIC.pages[page], idx = S.mIdx[page] || 0, t = MUSIC.tracks[list[idx]];
+    const on = S.music.playing && S.music.page === page && S.music.idx === idx;
+    el.classList.toggle("playing", on);
+    const b = el.querySelector(".m-play"); b.innerHTML = on ? ICON_PAUSE : ICON_PLAY; b.setAttribute("aria-label", on ? tr(MUSIC.pause) : tr(MUSIC.play));
+    el.querySelector(".m-title").textContent = t.title; el.querySelector(".m-info small").textContent = t.by + " · " + t.game;
+    el.querySelector(".m-spot").href = "https://open.spotify.com/track/" + t.id;
+    el.querySelectorAll(".m-chip").forEach((c,i) => c.classList.toggle("on", i === idx));
+  });
+  $("#mdock").classList.toggle("playing", S.music.playing);
+}
+function aboutHTML(){
+  const A = ABOUT;
+  const tg = `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.6-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2L6.5 13.1 1.8 11.6c-1-.3-1-1 .2-1.5L20.5 3c.8-.3 1.6.2 1.4 1.3z"/></svg>`;
+  const ch = A.channels.map(c=>`<a class="tg-card glass glow" href="${c.url}" target="_blank" rel="noopener"><span class="tg-ic">${tg}</span><span class="tg-t"><b>${esc(c.title)}</b><small>${esc(tr(c.sub))}</small></span><span class="tg-go" aria-hidden="true">↗</span></a>`).join("");
+  return `<section id="about"><h2>${T("navAbout")}</h2>
+    <article class="about-card glass project"><p class="brief-lbl">${esc(tr(A.projectH))}</p><p>${esc(tr(A.project))}</p></article>
+    <article class="about-card glass"><p class="brief-lbl">${esc(tr(A.meH))}</p><h3 class="hello">${esc(tr(A.hello))}</h3><p>${esc(tr(A.me))}</p>
+      <p class="muted-p">${esc(tr(A.promptsNote))}</p>
+      <div class="tg-list">${ch}</div>
+    </article>
+    <div class="thanks glass">
+      <figure class="hug"><button class="hug-btn" id="hugBtn" aria-label="${esc(tr(A.hugHint))}"><img src="assets/about/friends.webp" alt=""></button><figcaption>${esc(tr(A.hugHint))}</figcaption></figure>
+      <div class="thanks-t"><p class="brief-lbl">${esc(tr(A.thanksH))}</p>
+        <p class="thanks-lead">${esc(tr(A.thanksLead))} <a class="friend" href="${A.friend.url}" target="_blank" rel="noopener">${esc(tr(A.friend.name))}</a></p>
+        ${A.thanks.map((t,i)=>`<p class="${i?"thanks-last":""}">${esc(tr(t))}</p>`).join("")}
+        ${musicHTML("about", MUSIC.lblAbout)}</div>
+    </div>
+    <div class="about-card glass players"><p class="brief-lbl">${esc(tr(A.playersH))}</p><p>${esc(tr(A.players))}</p></div>
+    <p class="bye">${esc(tr(A.bye))}</p>
+  </section>`;
+}
+function sparkle(x, y){
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const box = document.createElement("div"); box.className = "sparkles"; document.body.appendChild(box);
+  const HEART = "M12 21s-7.5-4.6-9.6-9.1C.8 8.4 3 5 6.4 5c2 0 3.6 1.2 4.6 2.7C12 6.2 13.6 5 15.6 5 19 5 21.2 8.4 19.6 11.9 17.5 16.4 12 21 12 21z";
+  const STAR = "M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z";
+  const shapes = [HEART, HEART, HEART, STAR, HEART, STAR], cols = ["#ff8fb3","#ffb3c9","#f2c26b","#ffe3a3","#ff6f9c","#ffffff","#d7b8ff"];
+  const n = reduce ? 14 : 52;
+  for(let i=0;i<n;i++){
+    const s = document.createElement("span"); const sh = shapes[i % shapes.length];
+    s.innerHTML = `<svg viewBox="0 0 24 24" width="1em" height="1em"><path d="${sh}" fill="currentColor"/></svg>`;
+    const ang = Math.random()*Math.PI*2, dist = 120 + Math.random()*Math.min(innerWidth, 900)*0.45;
+    s.style.cssText = `left:${x}px;top:${y}px;color:${cols[i%cols.length]};font-size:${14+Math.random()*22}px;--dx:${Math.cos(ang)*dist}px;--dy:${Math.sin(ang)*dist - 60}px;--r:${(Math.random()*360-180).toFixed(0)}deg;animation-delay:${(Math.random()*.25).toFixed(2)}s;animation-duration:${(1.4+Math.random()*1.1).toFixed(2)}s`;
+    box.appendChild(s);
+  }
+  for(let i=0;i<18;i++){
+    const g = document.createElement("i"); g.className = "glint";
+    g.style.cssText = `left:${x + (Math.random()-.5)*Math.min(innerWidth,1000)}px;top:${y + (Math.random()-.5)*innerHeight*.8}px;animation-delay:${(Math.random()*1.2).toFixed(2)}s`;
+    box.appendChild(g);
+  }
+  setTimeout(() => box.remove(), 3200);
 }
 /* ---------- stuck ---------- */
 function stuckHTML(){
@@ -1550,7 +1813,7 @@ function personHTML(p){
     <div class="pb">${meta}<p class="tagline">${esc(tr(p.tag))}</p><p>${esc(tr(paras[0]))}</p>${more}${hideBtn}</div></article>`;
 }
 function crewHTML(){
-  return `<section id="crew"><h2>${T("navCrew")}</h2><p class="lede">${T("crewLede")}</p>
+  return `<section id="crew"><h2>${T("navCrew")}</h2><p class="lede">${T("crewLede")}</p>${musicHTML("crew")}
     <h3 class="sub-h">${T("crewH")}</h3><div class="people">${CREW.map(personHTML).join("")}</div>
     <h3 class="sub-h">${T("aboardH")}</h3><div class="people">${ABOARD.map(personHTML).join("")}</div>
     <h3 class="sub-h">${T("threatsH")}</h3><div class="people">${THREATS.map(personHTML).join("")}</div>
@@ -1586,7 +1849,7 @@ function shipHTML(){
   const I = SHIP_INFO;
   const banner = `<figure class="ship-hero glass"><img src="${esc(I.img)}" alt="${esc(tr(I.title))}" data-zoom="${esc(I.full)}" data-name="${esc(tr(I.title))}" title="${T("openBoard")}" onerror="this.remove()">
     <figcaption><h3>${esc(tr(I.title))}</h3><p>${esc(tr(I.sub))}</p><div class="chips">${I.chips.map(c=>`<span class="tag">${esc(tr(c))}</span>`).join("")}</div></figcaption></figure>`;
-  return `<section id="ship"><h2>${T("navShip")}</h2><p class="lede">${T("shipLede")}</p>${banner}
+  return `<section id="ship"><h2>${T("navShip")}</h2><p class="lede">${T("shipLede")}</p>${musicHTML("ship")}${banner}
     <div class="mapbox"><div class="svgwrap glass glow ship-svg">${svg}</div>${detailHTML(SHIP.find(r=>r.id===S.ship))}</div></section>`;
 }
 
@@ -1621,7 +1884,7 @@ function stationHTML(){
   const SI = STATION_INFO;
   const banner = `<figure class="ship-hero glass"><img src="${esc(SI.img)}" alt="${esc(tr(SI.title))}" data-zoom="${esc(SI.full)}" data-name="${esc(tr(SI.title))}" title="${T("openBoard")}" onerror="this.remove()">
     <figcaption><h3>${esc(tr(SI.title))}</h3><p>${esc(tr(SI.sub))}</p><div class="chips">${SI.chips.map(c=>`<span class="tag">${esc(tr(c))}</span>`).join("")}</div></figcaption></figure>`;
-  return `<section id="station"><h2>${T("navStation")}</h2><p class="lede">${T("stationLede")}</p>${banner}
+  return `<section id="station"><h2>${T("navStation")}</h2><p class="lede">${T("stationLede")}</p>${musicHTML("station")}${banner}
     <div class="mapbox side"><div class="svgwrap glass glow">${svg}</div>${detailHTML(cur, tag)}</div></section>`;
 }
 
@@ -1659,7 +1922,7 @@ function worldHTML(){
   const chips = `<div class="star-list">${vis.map(s=>`<button class="chip k-${s.kind}" data-star="${s.id}" aria-pressed="${S.star===s.id}"><i></i>${esc(tr(s.name))}</button>`).join("")}</div>`;
   const cur = vis.find(s=>s.id===S.star) || vis[vis.length-1];
   const tag = cur ? `<span class="tag ${cur.kind==="erebus"||cur.kind==="danger"?"warn":""}">${esc(tr(cur.sub))}</span>${cur.who&&cur.who.length?`<span class="who">${T("whoLbl")} ${cur.who.map(w=>`<b>${esc(tr(w))}</b>`).join(", ")}</span>`:""}` : "";
-  return `<section id="world"><h2>${T("navWorld")}</h2><p class="lede">${T("worldLede")}</p>
+  return `<section id="world"><h2>${T("navWorld")}</h2><p class="lede">${T("worldLede")}</p>${musicHTML("world")}
     <div class="mapbox"><div class="svgwrap glass map-wrap">${svg}${legend}<p class="where" style="margin:.4rem .2rem 0">${T("mapNote")}</p></div>${chips}${detailHTML(cur, tag)}</div>
     <div class="world-grid">${WORLD_CARDS.map(c=>`<div class="wcard glass glow"><h3>${esc(tr(c.h))}</h3><p>${esc(tr(c.p))}</p></div>`).join("")}</div>
   </section>`;
@@ -1696,7 +1959,7 @@ function render(){
   const views = {
     home: () => splashHTML() + crewStripHTML() + heroHTML() + siteMapHTML(),
     guide: guideHTML, stuck: stuckHTML, tracker: trackerHTML, setup: setupHTML,
-    crew: crewHTML, ship: shipHTML, station: stationHTML, world: worldHTML,
+    crew: crewHTML, ship: shipHTML, station: stationHTML, world: worldHTML, about: aboutHTML,
   };
   $("#main").innerHTML = views[r]() + pagerHTML(r) + `<footer>${T("footer")}</footer>`;
   document.title = (r==="home" ? "" : T(NAVK[r]) + " · ") + "Erebus — " + T("brandSub");
@@ -1736,6 +1999,9 @@ document.addEventListener("click", e => {
   else if(d.peek){ const n=+d.peek; if(confirm(fmt(T("peekConfirm"),{n}))){ S.peek.add(n); S["open"+n]=true; render(); } }
   else if(d.stuck!==undefined){ const i=+d.stuck; S.fresh="stuck"; S.stuck = S.stuck===i?null:i; render(); $(`[data-stuck="${i}"]`)?.focus(); }
   else if(d.poke){ poke(d.poke); }
+  else if(d.mplay){ const p = d.mplay, i = S.mIdx[p] || 0; (S.music.playing && S.music.page === p && S.music.idx === i) ? musicPause() : musicPlay(p, i); }
+  else if(d.mtrack){ const [p,i] = d.mtrack.split(":"); musicPlay(p, +i); }
+  else if(t.id === "mdockClose"){ musicPause(); $("#mdock").classList.remove("show"); }
   else if(d.copy){ copy(d.copy); }
   else if(d.reveal){ if(confirm(fmt(T("revealConfirm"),{n:d.rs}))){ S.cards.add(d.reveal); store.set("cards",[...S.cards]); S.fresh="card"+d.reveal; render(); } }
   else if(d.read){
@@ -1750,6 +2016,7 @@ document.addEventListener("click", e => {
   else if(d.station){ S.fresh="detail"; S.station=d.station; render(); $(`[data-station="${d.station}"]`)?.focus({preventScroll:true}); }
   else if(d.star){ const fromList = !!t.closest(".star-list"); S.fresh="detail"; S.star=d.star; render();
     (fromList ? $(`.star-list [data-star="${d.star}"]`) : $(`svg [data-star="${d.star}"]`))?.focus({preventScroll:true}); }
+  else if(t.id==="hugBtn"){ const r = t.getBoundingClientRect(); sparkle(r.left + r.width/2, r.top + r.height/2); t.classList.remove("hugged"); void t.offsetWidth; t.classList.add("hugged"); }
   else if(t.id==="sysBtn"){ S.allSys=!S.allSys; render(); $("#sysBtn")?.focus(); }
   else if(t.id==="copyNote"){ const n=noteText(); if(n) copy(n); }
   else if(t.id==="clearTicks"){ if(confirm(T("clearConfirm"))){ S.ticks.clear(); S.rescue.clear(); store.set("ticks",[]); store.set("rescue",[]); render(); } }
