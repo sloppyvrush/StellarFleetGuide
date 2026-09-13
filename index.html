@@ -461,8 +461,8 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;padd
 #topnav{display:flex;align-items:center;gap:.1rem;margin-left:.6rem;flex-wrap:nowrap;min-width:0}
 #topnav a{color:var(--muted);text-decoration:none;font-size:.88rem;padding:.35rem .5rem;border-radius:7px;white-space:nowrap;transition:color .2s,background .2s}
 #topnav a:hover{color:var(--ink);background:var(--panel2)}
-@media (max-width:1400px){#topnav a{font-size:.82rem;padding:.3rem .38rem}.nav-sep{margin:0 .25rem}}
-@media (max-width:1230px){#topnav a{font-size:.78rem;padding:.28rem .3rem}#pill{font-size:.72rem;padding:.28rem .6rem}}
+@media (max-width:1520px){#topnav a{font-size:.82rem;padding:.3rem .36rem}.nav-sep{margin:0 .22rem}}
+@media (max-width:1330px){#topnav a{font-size:.78rem;padding:.26rem .28rem}#pill{font-size:.72rem;padding:.26rem .55rem}}
 #topnav a.on{color:var(--ink);background:var(--amber-soft);box-shadow:inset 0 -2px 0 var(--amber)}
 .nav-sep{width:1px;height:1.2rem;background:var(--line2);margin:0 .35rem}
 .nav-g{display:none;font:500 .72rem var(--f-body);color:var(--muted);letter-spacing:.08em;text-transform:uppercase;padding:.8rem .6rem .2rem}
@@ -632,39 +632,49 @@ body.wasted-mode .wrap,body.wasted-mode .bar,body.wasted-mode #stars{filter:gray
 .start.teal{--acc:var(--teal);--acc-soft:rgba(98,214,200,.2)}
 .start.violet{--acc:#c9a7ff;--acc-soft:rgba(201,167,255,.2)}
 .start.blue{--acc:#7cc4ff;--acc-soft:rgba(124,196,255,.2)}
-.start-art{position:relative;height:238px;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--line);
+.start-art{position:relative;height:268px;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--line);
   background:radial-gradient(ellipse at 50% 100%,var(--acc-soft),transparent 62%),repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.014) 3px 4px)}
-.start-ring{position:absolute;bottom:-64px;width:214px;height:214px;border-radius:50%;border:1px solid var(--acc);opacity:.16}
+.start-ring{position:absolute;bottom:-70px;width:220px;height:220px;border-radius:50%;border:1px solid var(--acc);opacity:.16}
 .start:hover .start-ring{animation:s-ring 2.8s ease-out infinite}
 @keyframes s-ring{0%{transform:scale(.9);opacity:.26}100%{transform:scale(1.22);opacity:0}}
-.start-fig{position:absolute;bottom:2px;width:216px;height:216px;color:var(--acc);overflow:visible}
-.start-fig .f-ground{fill:currentColor;opacity:.14;filter:blur(3px)}
-.start-fig .f-sil{fill:currentColor}
-.start-fig .fg{filter:drop-shadow(0 0 14px var(--acc-soft))}
-.start-fig .f-l{fill:none;stroke:currentColor;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}
-.start-fig .f-l.leg{stroke-width:12}
-.start-fig .f-l.foot{stroke-width:6}
-.start-fig .f-l.thin{stroke-width:3.5}
-.start-fig .f-cut{fill:none;stroke:rgba(9,15,21,.9);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.start-fig .f-cut.thin{stroke-width:2}
-.start-fig .f-cut.fill{fill:rgba(9,15,21,.85);stroke:none}
-.start-fig .f-vent rect,.start-fig .f-vent path{fill:none;stroke:currentColor;stroke-width:2.4;opacity:.45}
-.start-fig .f-drop{fill:currentColor;opacity:0}
-.start-fig .f-beam{fill:none;stroke:currentColor;stroke-width:3.5;stroke-linecap:round;opacity:0}
-main section.in .start-fig .fg{animation:s-in .8s cubic-bezier(.2,.9,.25,1) backwards,s-float 6s ease-in-out infinite 1s;animation-delay:calc(var(--i) * .13s + .1s),calc(var(--i) * .4s + 1s)}
-@keyframes s-in{from{opacity:0;transform:translateY(16px) scale(.96)}}
-@keyframes s-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-main section.in .start-fig .f-arm{transform-origin:120px 58px;animation:s-salute 5s ease-in-out infinite 1.4s}
-@keyframes s-salute{0%,52%,100%{transform:rotate(0)}60%,88%{transform:rotate(-6deg)}}
-main section.in .start-fig .f-ant{transform-origin:92px 22px;animation:s-ant 3.8s ease-in-out infinite}
-main section.in .start-fig .f-ant.ant2{transform-origin:108px 22px;animation-delay:-1.9s}
-@keyframes s-ant{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(5deg)}}
-main section.in .start-fig .f-bag{transform-origin:120px 58px;animation:s-bag 4.4s ease-in-out infinite}
-@keyframes s-bag{0%,100%{transform:rotate(-1.6deg)}50%{transform:rotate(2deg)}}
-main section.in .start-fig .f-drop{animation:s-drop 4.6s ease-in infinite}
-@keyframes s-drop{0%{opacity:0;transform:translateY(0)}12%{opacity:.85}62%{opacity:.85;transform:translateY(120px)}72%,100%{opacity:0;transform:translateY(126px)}}
-.start:hover .f-beam{animation:s-beam 1.8s ease-out infinite}
-@keyframes s-beam{0%{opacity:0;stroke-dasharray:3 26;stroke-dashoffset:26}30%{opacity:1}100%{opacity:0;stroke-dashoffset:-26}}
+.sf{position:absolute;inset:0;color:var(--acc)}
+.sf-decor{position:absolute;inset:0}
+.sf-fig,.sf-key{position:absolute;left:50%;bottom:0;transform:translateX(-50%);height:100%;width:auto;max-width:100%;object-fit:contain}
+.sf-fig{filter:drop-shadow(0 0 14px var(--acc-soft))}
+.sf-key{opacity:0;filter:drop-shadow(0 0 10px var(--acc))}
+main section.in .sf-fig{animation:s-in 1s cubic-bezier(.2,.9,.25,1) backwards,s-breathe 6s ease-in-out infinite;animation-delay:calc(var(--i) * .13s + .1s),calc(var(--i) * .5s + 1s)}
+main section.in .sf-key{animation:s-key 4.2s ease-in-out infinite;animation-delay:calc(var(--i) * .45s + 1.2s)}
+@keyframes s-in{from{opacity:0;transform:translateX(-50%) translateY(16px) scale(.97)}}
+@keyframes s-breathe{0%,100%{filter:drop-shadow(0 0 12px var(--acc-soft))}50%{filter:drop-shadow(0 0 22px var(--acc-soft))}}
+@keyframes s-key{0%,100%{opacity:0}40%,62%{opacity:1}}
+.start:hover .sf-fig{filter:drop-shadow(0 0 26px var(--acc-soft))}
+.start:hover .sf-key{opacity:1;animation:none}
+/* декор вокруг фигуры */
+.sf-decor svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.sf-decor .d-ring{fill:none;stroke:currentColor;stroke-width:1;opacity:.16}
+.sf-decor .d-ring.dash{stroke-dasharray:3 9;opacity:.28}
+.sf-decor .d-ring.tilt{transform:rotate(-16deg);transform-origin:100px 100px}
+.sf-decor .d-dot,.sf-decor .d-planet,.sf-decor .d-spark,.sf-decor .d-led{fill:currentColor}
+.sf-decor .d-planet{opacity:.7}
+.sf-decor .d-spark{opacity:.45}
+main section.in .sf-decor .d-ring{animation:d-spin 52s linear infinite;transform-origin:100px 100px}
+main section.in .sf-decor .d-ring.slow{animation-duration:76s;animation-direction:reverse}
+main section.in .sf-decor .d-ring.tilt{animation:d-spin-tilt 44s linear infinite}
+main section.in .sf-decor .d-orbit{animation:d-spin 24s linear infinite;transform-origin:100px 100px}
+main section.in .sf-decor .d-orbit.rev{animation-duration:36s;animation-direction:reverse}
+main section.in .sf-decor .d-orbit.slow{animation-duration:50s}
+main section.in .sf-decor .d-spark{animation:d-twinkle 4s ease-in-out infinite}
+main section.in .sf-decor .d-spark.s2{animation-delay:-1.6s}
+main section.in .sf-decor .d-spark.s3{animation-delay:-2.8s}
+main section.in .sf-decor .d-led{animation:d-blink 2.6s steps(1) infinite}
+main section.in .sf-decor .d-led.l2{animation-delay:-.9s}
+main section.in .sf-decor .d-led.l3{animation-delay:-1.7s}
+main section.in .sf-decor .d-ship{animation:d-fly 16s linear infinite}
+@keyframes d-spin{to{transform:rotate(360deg)}}
+@keyframes d-spin-tilt{from{transform:rotate(-16deg)}to{transform:rotate(344deg)}}
+@keyframes d-twinkle{0%,100%{opacity:.16;transform:scale(.85)}50%{opacity:.75;transform:scale(1.1)}}
+@keyframes d-blink{0%,45%{opacity:.15}50%,95%{opacity:.8}}
+@keyframes d-fly{0%{transform:translate(-40px,150px);opacity:0}12%{opacity:.65}88%{opacity:.65}100%{transform:translate(230px,40px);opacity:0}}
 .start-body{padding:1.1rem 1.2rem 1.3rem;display:flex;flex-direction:column;gap:.55rem;flex:1}
 .start-body h3{margin:0;font:500 1.45rem/1.15 var(--f-head);letter-spacing:.03em;color:var(--ink)}
 .start-body .brief-lbl{color:var(--acc);min-height:2.1em}
@@ -683,7 +693,7 @@ main section.in .start-fig .f-drop{animation:s-drop 4.6s ease-in infinite}
 .starts-how ol{margin:.4rem 0 0;padding-left:1.1rem;color:var(--ink);font-size:.94rem;line-height:1.6}
 .starts-how li{margin-bottom:.25rem}
 .starts-how code{font:500 .86rem var(--f-mono);color:var(--amber);background:var(--amber-soft);border-radius:4px;padding:.05rem .35rem}
-@media (max-width:560px){.start-art{height:218px}.start-fig{width:198px;height:198px}}
+@media (max-width:560px){.start-art{height:244px}}
 @media (prefers-reduced-motion:reduce){.start-fig *{animation:none!important}}
 /* ---------- me card ---------- */
 .me-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,400px);gap:2.2rem;align-items:center;padding-right:2.8rem}
@@ -1016,7 +1026,7 @@ const MUSIC = {
 
 /* ---------------- СТАРТЫ ---------------- */
 const STARTS = [
-  { id:"crew", fig:"salute", accent:"amber",
+  { id:"crew", fig:"crew", accent:"amber",
     h:L("Назначение получено","Assignment received"),
     sub:L("Старт за члена экипажа","Start as one of the crew"),
     p:L("Вас направили на «Кассандру» — старое спасательное судно с полудюжиной человек на борту. Экипаж сложился до вас, и первые недели перелёта уходят на то, чтобы стать в нём своим. Приказ короткий: станция «Эреб» на Дальнем рубеже замолчала, оттуда пришёл обрывок сигнала бедствия. Найти выживших, выяснить, что случилось, решить, нужна ли эвакуация.",
@@ -1025,7 +1035,7 @@ const STARTS = [
     on:"👤 crew", off:"👤 survivor",
     files:L("Приветствия: знакомство у трапа · подход к станции","Greetings: meeting at the gangway · final approach") },
 
-  { id:"staff", fig:"survivor", accent:"teal",
+  { id:"staff", fig:"staff", accent:"teal",
     h:L("Свои коридоры","Corridors you know"),
     sub:L("Старт за жителя станции","Start as someone who lived here"),
     p:L("«Эреб» был вашей работой и вашим домом: смены, горький кофе в столовой сектора B, коридоры, которые проходишь почти с закрытыми глазами. Всё началось с лифта, который не пришёл на вызов, а закончилось запертыми дверями и голосом ЭЙДОСА, назвавшим это техническим инцидентом. С той ночи прошла неделя, и ваш старый пропуск больше не открывает ни одной двери.",
@@ -1034,7 +1044,7 @@ const STARTS = [
     on:"👤 survivor", off:"👤 crew",
     files:L("Приветствия: неделя в тишине, коротко или подробно","Greetings: a week of silence, short or long") },
 
-  { id:"guest", fig:"traveler", accent:"blue",
+  { id:"guest", fig:"guest", accent:"blue",
     h:L("Здесь проездом","Just passing through"),
     sub:L("Старт за случайного гостя","Start as an accidental guest"),
     p:L("«Эреба» не должно было быть на вашем маршруте: поломка в пути, вынужденная стыковка и обещание техника, что ремонт займёт дня два, может три. Через три дня станция начала закрывать двери. Вы знаете здесь только гостевой блок и путь до дока, у вас чужой пропуск и последний паёк — а всё остальное приходится выяснять на ходу.",
@@ -1836,59 +1846,52 @@ function musicUI(){
   });
 }
 
-const BODY = `
-  <ellipse class="f-sil" cx="100" cy="30" rx="10.5" ry="13"/>
-  <path class="f-sil" d="M96 42 h8 v8 h-8 z"/>
-  <path class="f-sil" d="M100 48 C112 48 120 54 121 62 L124 100 C124 108 118 112 100 112 C82 112 76 108 76 100 L79 62 C80 54 88 48 100 48 Z"/>
-  <path class="f-l leg" d="M93 110 L88 182"/>
-  <path class="f-l leg" d="M107 110 L112 182"/>
-  <path class="f-l foot" d="M88 185 h9"/>
-  <path class="f-l foot" d="M112 185 h9"/>
-  <path class="f-cut thin" d="M100 112 V150"/>`;
-
-const FIGS = {
-  salute: BODY + `
-    <path class="f-sil" d="M84 26 C86 10 114 10 116 26 L121 30 H79 Z"/>
-    <path class="f-cut" d="M84 28 H116"/>
-    <path class="f-l" d="M80 58 L74 104"/>
-    <g class="f-arm"><path class="f-l" d="M120 58 L133 74 L112 38"/></g>
-    <path class="f-cut" d="M94 50 L100 66 L106 50"/>
-    <path class="f-cut" d="M78 92 H122"/>
-    <path class="f-cut fill" d="M96 92 h8 v6 h-8 z"/>`,
-
-  survivor: BODY + `
-    <path class="f-sil" d="M89 22 C90 12 110 12 111 22 C108 16 100 14 94 17 C91 18 90 20 89 22 Z"/>
-    <path class="f-l" d="M80 58 L75 102"/>
-    <path class="f-l" d="M120 58 L125 102"/>
-    <path class="f-cut thin" d="M94 50 L100 78 M106 50 L100 78"/>
-    <rect class="f-cut fill" x="96" y="78" width="9" height="12" rx="1.5"/>
-    <g class="f-vent"><rect x="150" y="8" width="34" height="18" rx="3"/><path d="M154 13 H180 M154 17 H180 M154 21 H180"/></g>
-    <circle class="f-drop" cx="167" cy="32" r="3.4"/>`,
-
-  traveler: BODY + `
-    <path class="f-sil" d="M89 21 C91 11 109 11 111 21 C107 15 99 13 93 16 C91 17 90 19 89 21 Z"/>
-    <path class="f-l" d="M80 58 L76 100"/>
-    <g class="f-bag"><path class="f-l" d="M120 58 L126 96"/>
-      <rect class="f-sil" x="118" y="98" width="24" height="18" rx="3"/>
-      <path class="f-cut thin" d="M124 98 v-5 h12 v5"/></g>
-    <path class="f-cut" d="M82 56 L118 96"/>
-    <path class="f-cut" d="M94 50 L100 64 L106 50"/>`,
-
-  alien: BODY + `
-    <g class="f-ant"><path class="f-l thin" d="M92 20 C86 8 84 4 83 0"/><circle class="f-sil" cx="83" cy="0" r="4"/></g>
-    <g class="f-ant ant2"><path class="f-l thin" d="M108 20 C114 8 116 4 117 0"/><circle class="f-sil" cx="117" cy="0" r="4"/></g>
-    <path class="f-l" d="M80 58 L74 102"/>
-    <path class="f-l" d="M120 58 L131 66"/>
-    <g class="f-gun"><path class="f-sil" d="M130 58 h22 v7 h-11 l-3 9 h-8 l-2 -9 h-2 z"/>
-      <path class="f-beam" d="M154 61 H178"/></g>
-    <path class="f-cut" d="M94 50 L100 66 L106 50"/>
-    <path class="f-cut" d="M78 92 H122"/>`,
+const DECOR = {
+  crew: `<svg viewBox="0 0 200 200" aria-hidden="true">
+      <circle class="d-ring" cx="100" cy="100" r="86"/>
+      <circle class="d-ring slow" cx="100" cy="100" r="72"/>
+      <g class="d-orbit"><circle class="d-dot" cx="100" cy="14" r="2.6"/></g>
+      <g class="d-orbit rev"><circle class="d-dot" cx="100" cy="188" r="2"/></g>
+      <path class="d-spark" d="M22 58 l4 -9 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 z"/>
+      <path class="d-spark s2" d="M170 132 l3 -7 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 z"/>
+    </svg>`,
+  staff: `<svg viewBox="0 0 200 200" aria-hidden="true">
+      <ellipse class="d-ring dash" cx="100" cy="104" rx="88" ry="30"/>
+      <ellipse class="d-ring dash slow" cx="100" cy="104" rx="70" ry="22"/>
+      <g class="d-orbit"><circle class="d-dot" cx="188" cy="104" r="2.6"/></g>
+      <g class="d-blink"><rect class="d-led" x="16" y="150" width="7" height="3" rx="1.5"/>
+        <rect class="d-led l2" x="177" y="150" width="7" height="3" rx="1.5"/>
+        <rect class="d-led l3" x="16" y="60" width="7" height="3" rx="1.5"/></g>
+    </svg>`,
+  guest: `<svg viewBox="0 0 200 200" aria-hidden="true">
+      <circle class="d-ring dash" cx="100" cy="100" r="84"/>
+      <g class="d-ship"><path class="d-dot" d="M0 0 l16 4 l-16 4 l4 -4 z"/></g>
+      <path class="d-spark" d="M28 40 l3 -8 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 z"/>
+      <path class="d-spark s2" d="M168 66 l2.5 -6 l2.5 6 l6 2.5 l-6 2.5 l-2.5 6 l-2.5 -6 l-6 -2.5 z"/>
+      <path class="d-spark s3" d="M150 168 l2 -5 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 z"/>
+    </svg>`,
+  alien: `<svg viewBox="0 0 200 200" aria-hidden="true">
+      <ellipse class="d-ring" cx="100" cy="100" rx="86" ry="86"/>
+      <g class="d-orbit"><circle class="d-planet" cx="100" cy="14" r="5"/></g>
+      <g class="d-orbit rev slow"><circle class="d-dot" cx="100" cy="184" r="3"/></g>
+      <ellipse class="d-ring tilt dash" cx="100" cy="100" rx="90" ry="34"/>
+      <path class="d-spark" d="M24 128 l3 -7 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 z"/>
+      <path class="d-spark s2" d="M172 52 l2.5 -6 l2.5 6 l6 2.5 l-6 2.5 l-2.5 6 l-2.5 -6 l-6 -2.5 z"/>
+    </svg>`,
+};
+const START_IMG = {
+  crew:  { fig:"assets/starts/crew.webp",  key:"assets/starts/crew-key.webp" },
+  staff: { fig:"assets/starts/staff.webp", key:"assets/starts/staff-key.webp" },
+  guest: { fig:"assets/starts/guest.webp", key:"assets/starts/guest-key.webp" },
+  alien: { fig:"assets/starts/alien.webp", key:"assets/starts/alien-key.webp" },
 };
 function figure(kind){
-  return `<svg class="start-fig" viewBox="0 0 200 200" aria-hidden="true">
-    <ellipse class="f-ground" cx="100" cy="190" rx="34" ry="5"/>
-    <g class="fg">${FIGS[kind] || ""}</g>
-  </svg>`;
+  const im = START_IMG[kind] || {};
+  return `<div class="sf">
+    <div class="sf-decor">${DECOR[kind] || ""}</div>
+    <img class="sf-fig" src="${im.fig || ""}" alt="" onerror="this.remove()">
+    <img class="sf-key" src="${im.key || ""}" alt="" aria-hidden="true" onerror="this.remove()">
+  </div>`;
 }
 function startsHTML(){
   const cards = STARTS.map((s, i) => `<article class="start glass ${s.accent}" style="--i:${i}">
