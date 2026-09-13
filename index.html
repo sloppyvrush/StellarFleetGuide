@@ -708,6 +708,26 @@ main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
 .starts-how code{font:500 .86rem var(--f-mono);color:var(--amber);background:var(--amber-soft);border-radius:4px;padding:.05rem .35rem}
 @media (max-width:560px){.start-art{height:244px}}
 @media (prefers-reduced-motion:reduce){.start-fig *{animation:none!important}}
+/* ---------- плейлисты ---------- */
+.playlist{margin:1.1rem 0 .6rem;padding:1rem 1.1rem}
+.playlist>*{position:relative;z-index:1}
+.pl-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.7rem}
+.pl-head b{font:500 1rem var(--f-head);letter-spacing:.05em;color:var(--ink)}
+.pl-ic{width:1.5rem;height:1.5rem;flex:none;display:block}
+.pl-ic svg{width:100%;height:100%;display:block}
+.pl-list{display:flex;flex-direction:column;gap:.3rem}
+.pl-row{display:flex;align-items:center;gap:.7rem;padding:.5rem .6rem;border-radius:8px;text-decoration:none;color:var(--ink);border:1px solid transparent;transition:background .2s,border-color .2s,transform .15s}
+.pl-row:hover{background:var(--panel2);border-color:rgba(29,185,84,.35);transform:translateX(2px)}
+.pl-n{font:500 .72rem var(--f-mono);color:var(--muted);flex:none;width:1.5rem}
+.pl-t{display:flex;flex-direction:column;min-width:0;flex:1}
+.pl-t b{font-weight:500;font-size:.94rem;line-height:1.25}
+.pl-t small{color:var(--muted);font-size:.78rem}
+.pl-go{color:#1DB954;font-size:.95rem;opacity:.6}
+.pl-row:hover .pl-go{opacity:1}
+.pl-hint{margin:.7rem 0 0;font:500 .74rem var(--f-mono);color:var(--muted)}
+.pl-frame{border:0;border-radius:12px;display:block}
+.pl-wrap{max-width:44rem;margin-bottom:1rem}
+.bio .playlist{margin-top:1.2rem}
 /* ---------- me card ---------- */
 .me-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,400px);gap:2.2rem;align-items:center;padding-right:2.8rem}
 .me-text>*{position:relative;z-index:1}
@@ -944,6 +964,11 @@ const UI = {
   reveal: L("Рассекретить", "Declassify"), revealConfirm: L("Карточка откроется раньше этапа {n} и может содержать спойлеры. Открыть?", "This card normally opens at stage {n} and may contain spoilers. Open it?"),
   hide: L("Скрыть снова", "Hide again"),
   readMore: L("Читать полностью", "Read more"),
+  plTitle: L("Плейлист персонажа","Character playlist"),
+  plCrew: L("Плейлист экипажа «Кассандры»","The Cassandra crew playlist"),
+  plCrewLede: L("Одна песня на всех — про людей, которые не выбирали друг друга, но теперь связаны.","One song for all of them — about people who didn't choose each other and are bound together anyway."),
+  plOpen: L("Открыть в Spotify","Open in Spotify"),
+  plHint: L("Нажмите на трек, чтобы найти его в Spotify.","Tap a track to find it on Spotify."),
   noTouch: L("Не трогать", "Do not touch"),
   briefLbl: L("Инструктаж", "Briefing"),
   breakMsg: L("Ну я же предупреждала.", "Well, I did warn you."),
@@ -1088,6 +1113,52 @@ const STARTS = [
     on:"👤 survivor", off:"👤 crew",
     files:L("Приветствие: неделя на станции, версия для иного вида","Greeting: the week on the station, non-human version") },
 ];
+
+/* ---------------- ПЛЕЙЛИСТЫ ----------------
+   spotify: вставьте сюда id плейлиста из ссылки open.spotify.com/playlist/ID —
+   и вместо списка появится настоящий плеер Spotify. Пока id пуст, показывается список треков. */
+const PLAYLISTS = {
+  adrian: { spotify:"", tracks:[
+    ["Florence + The Machine","Ship to Wreck"],
+    ["Muse","Starlight"],
+    ["Woodkid","Run Boy Run"],
+    ["Rag'n'Bone Man","Human"],
+  ]},
+  ethan: { spotify:"", tracks:[
+    ["Hozier","Arsonist's Lullabye"],
+    ["Linkin Park","Breaking the Habit"],
+    ["Bring Me The Horizon","Can You Feel My Heart"],
+    ["Johnny Cash","Hurt"],
+  ]},
+  alex: { spotify:"", tracks:[
+    ["Bastille","Good Grief"],
+    ["The Fray","How to Save a Life"],
+    ["Noah Kahan","Call Your Mom"],
+    ["My Chemical Romance","Dead!"],
+  ]},
+  diana: { spotify:"", tracks:[
+    ["Björk","Human Behaviour"],
+    ["Björk","Virus"],
+    ["AURORA","The Seed"],
+    ["AURORA","All Is Soft Inside"],
+  ]},
+  daniel: { spotify:"", tracks:[
+    ["Nine Inch Nails","The Hand That Feeds"],
+    ["Depeche Mode","Policy of Truth"],
+    ["Foo Fighters","The Pretender"],
+    ["twenty one pilots","Trapdoor"],
+    ["Scissor Sisters","I Can't Decide", L("бонус — с иронией","bonus — with a wink")],
+  ]},
+  cass: { spotify:"", tracks:[
+    ["Daft Punk","Touch"],
+    ["Daft Punk","Something About Us"],
+    ["The Postal Service","Such Great Heights"],
+    ["Sleeping At Last","Saturn"],
+  ]},
+  crew: { spotify:"", tracks:[
+    ["Fleetwood Mac","The Chain"],
+  ]},
+};
 
 /* ---------------- ОБ АВТОРЕ ---------------- */
 const ABOUT = {
@@ -1971,6 +2042,28 @@ function setupHTML(){
     </div></li>`).join("")}</ol></section>`;
 }
 
+/* ---------- плейлисты ---------- */
+const SPOT_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1DB954"/><path d="M6.6 9.3c3.6-1.1 7.9-.8 11 1M7.2 12.4c3-.9 6.5-.6 9.1.9M7.9 15.3c2.4-.6 5-.4 7.1.8" stroke="#08130c" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>';
+function playlistHTML(id, title){
+  const pl = PLAYLISTS[id]; if(!pl) return "";
+  const head = `<div class="pl-head"><span class="pl-ic">${SPOT_ICON}</span><b>${esc(tr(title || UI.plTitle))}</b></div>`;
+  if(pl.spotify){
+    return `<section class="playlist glass">${head}
+      <iframe class="pl-frame" src="https://open.spotify.com/embed/playlist/${esc(pl.spotify)}?utm_source=generator&theme=0"
+        width="100%" height="352" frameborder="0" loading="lazy"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe></section>`;
+  }
+  const rows = pl.tracks.map((t,i)=>{
+    const [artist, name, note] = t;
+    const q = encodeURIComponent(`${artist} ${name}`);
+    return `<a class="pl-row" href="https://open.spotify.com/search/${q}" target="_blank" rel="noopener">
+      <span class="pl-n">${String(i+1).padStart(2,"0")}</span>
+      <span class="pl-t"><b>${esc(name)}</b><small>${esc(artist)}${note?` · ${esc(tr(note))}`:""}</small></span>
+      <span class="pl-go" aria-hidden="true">↗</span></a>`;
+  }).join("");
+  return `<section class="playlist glass">${head}<div class="pl-list">${rows}</div><p class="pl-hint">${T("plHint")}</p></section>`;
+}
+
 /* ---------- people ---------- */
 function personHTML(p){
   const name = tr(p.name);
@@ -1983,7 +2076,7 @@ function personHTML(p){
   }
   const meta = p.meta ? `<p class="meta">${p.meta.map(m=>`<span>${esc(tr(m))}</span>`).join("")}</p>` : "";
   const paras = Array.isArray(p.about) ? p.about : [p.about];
-  const more = paras.length > 1 ? `<button class="linkbtn more-btn" data-read="${p.id}">${T("readMore")} →</button>` : "";
+  const more = (paras.length > 1 || PLAYLISTS[p.id]) ? `<button class="linkbtn more-btn" data-read="${p.id}">${T("readMore")} →</button>` : "";
   const hideBtn = forced && p.stage && !open(p.stage) ? `<button class="linkbtn" data-hidecard="${p.id}">${T("hide")}</button>` : "";
   return `<article class="person glass glow tilt ${S.fresh==="card"+p.id?"unveil":""}" data-st="${p.stage||1}"><div class="ph"><span class="sweep"></span>${imgTag(p.photo, name, esc(initials(name))).replace("<img ", `<img data-zoom="${esc(p.full||p.photo)}" data-name="${esc(name)}" title="${T("zoom")}" `)}
       <div class="plate"><h3>${esc(name)}</h3><span class="role">${esc(tr(p.role))}</span></div></div>
@@ -1995,6 +2088,8 @@ function crewHTML(){
     <h3 class="sub-h">${T("aboardH")}</h3><div class="people">${ABOARD.map(personHTML).join("")}</div>
     <h3 class="sub-h">${T("threatsH")}</h3><div class="people">${THREATS.map(personHTML).join("")}</div>
     <h3 class="sub-h">${T("stationH")}</h3><div class="people">${STATION_PEOPLE.map(personHTML).join("")}</div>
+    <h3 class="sub-h">${T("plCrew")}</h3><p class="lede">${T("plCrewLede")}</p>
+    <div class="pl-wrap">${playlistHTML("crew", UI.plCrew)}</div>
     ${musicHTML("crew")}</section>`;
 }
 
@@ -2191,7 +2286,7 @@ document.addEventListener("click", e => {
     const p = [...CREW, ...ABOARD, ...THREATS, ...STATION_PEOPLE].find(x=>x.id===d.read); const lb=$("#lb"); lb.classList.add("wide");
     lb.innerHTML = `<div class="bio"><img src="${esc(p.photo)}" alt="${esc(tr(p.name))}"><div class="bio-t"><div class="plate static"><h3>${esc(tr(p.name))}</h3><span class="role">${esc(tr(p.role))}</span></div>
       ${p.meta?`<p class="meta">${p.meta.map(m=>`<span>${esc(tr(m))}</span>`).join("")}</p>`:""}<p class="tagline">${esc(tr(p.tag))}</p>
-      ${p.about.map(x=>`<p>${esc(tr(x))}</p>`).join("")}<button class="btn ghost" data-lbclose>${T("close")}</button></div></div>`;
+      ${(Array.isArray(p.about)?p.about:[p.about]).map(x=>`<p>${esc(tr(x))}</p>`).join("")}${playlistHTML(p.id)}<button class="btn ghost" data-lbclose>${T("close")}</button></div></div>`;
     lb.showModal(); return;
   }
   else if(d.hidecard){ S.cards.delete(d.hidecard); store.set("cards",[...S.cards]); render(); }
