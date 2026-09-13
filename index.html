@@ -637,44 +637,44 @@ body.wasted-mode .wrap,body.wasted-mode .bar,body.wasted-mode #stars{filter:gray
 .start-ring{position:absolute;bottom:-70px;width:220px;height:220px;border-radius:50%;border:1px solid var(--acc);opacity:.16}
 .start:hover .start-ring{animation:s-ring 2.8s ease-out infinite}
 @keyframes s-ring{0%{transform:scale(.9);opacity:.26}100%{transform:scale(1.22);opacity:0}}
-.sf{position:absolute;inset:0;color:var(--acc)}
-.sf-decor{position:absolute;inset:0}
+.sf{position:absolute;inset:0;color:var(--acc);overflow:hidden}
 .sf-fig,.sf-key{position:absolute;left:50%;bottom:0;transform:translateX(-50%);height:100%;width:auto;max-width:100%;object-fit:contain}
-.sf-fig{filter:drop-shadow(0 0 14px var(--acc-soft))}
+.sf-fig{filter:drop-shadow(0 0 16px var(--acc-soft))}
 .sf-key{opacity:0;filter:drop-shadow(0 0 10px var(--acc))}
-main section.in .sf-fig{animation:s-in 1s cubic-bezier(.2,.9,.25,1) backwards,s-breathe 6s ease-in-out infinite;animation-delay:calc(var(--i) * .13s + .1s),calc(var(--i) * .5s + 1s)}
-main section.in .sf-key{animation:s-key 4.2s ease-in-out infinite;animation-delay:calc(var(--i) * .45s + 1.2s)}
-@keyframes s-in{from{opacity:0;transform:translateX(-50%) translateY(16px) scale(.97)}}
-@keyframes s-breathe{0%,100%{filter:drop-shadow(0 0 12px var(--acc-soft))}50%{filter:drop-shadow(0 0 22px var(--acc-soft))}}
-@keyframes s-key{0%,100%{opacity:0}40%,62%{opacity:1}}
-.start:hover .sf-fig{filter:drop-shadow(0 0 26px var(--acc-soft))}
+main section.in .sf-fig{animation:s-in 1s cubic-bezier(.2,.9,.25,1) backwards,s-breathe 7s ease-in-out infinite;animation-delay:calc(var(--i) * .13s + .1s),calc(var(--i) * .5s + 1s)}
+main section.in .sf-key{animation:s-key 4.4s ease-in-out infinite;animation-delay:calc(var(--i) * .45s + 1.2s)}
+@keyframes s-in{from{opacity:0;transform:translateX(-50%) translateY(14px) scale(.98)}}
+@keyframes s-breathe{0%,100%{filter:drop-shadow(0 0 12px var(--acc-soft))}50%{filter:drop-shadow(0 0 24px var(--acc-soft))}}
+@keyframes s-key{0%,100%{opacity:0}42%,64%{opacity:1}}
+.start:hover .sf-fig{filter:drop-shadow(0 0 28px var(--acc-soft))}
 .start:hover .sf-key{opacity:1;animation:none}
-/* декор вокруг фигуры */
-.sf-decor svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.sf-decor .d-ring{fill:none;stroke:currentColor;stroke-width:1;opacity:.16}
-.sf-decor .d-ring.dash{stroke-dasharray:3 9;opacity:.28}
-.sf-decor .d-ring.tilt{transform:rotate(-16deg);transform-origin:100px 100px}
-.sf-decor .d-dot,.sf-decor .d-planet,.sf-decor .d-spark,.sf-decor .d-led{fill:currentColor}
-.sf-decor .d-planet{opacity:.7}
-.sf-decor .d-spark{opacity:.45}
-main section.in .sf-decor .d-ring{animation:d-spin 52s linear infinite;transform-origin:100px 100px}
-main section.in .sf-decor .d-ring.slow{animation-duration:76s;animation-direction:reverse}
-main section.in .sf-decor .d-ring.tilt{animation:d-spin-tilt 44s linear infinite}
-main section.in .sf-decor .d-orbit{animation:d-spin 24s linear infinite;transform-origin:100px 100px}
-main section.in .sf-decor .d-orbit.rev{animation-duration:36s;animation-direction:reverse}
-main section.in .sf-decor .d-orbit.slow{animation-duration:50s}
-main section.in .sf-decor .d-spark{animation:d-twinkle 4s ease-in-out infinite}
-main section.in .sf-decor .d-spark.s2{animation-delay:-1.6s}
-main section.in .sf-decor .d-spark.s3{animation-delay:-2.8s}
-main section.in .sf-decor .d-led{animation:d-blink 2.6s steps(1) infinite}
-main section.in .sf-decor .d-led.l2{animation-delay:-.9s}
-main section.in .sf-decor .d-led.l3{animation-delay:-1.7s}
-main section.in .sf-decor .d-ship{animation:d-fly 16s linear infinite}
-@keyframes d-spin{to{transform:rotate(360deg)}}
-@keyframes d-spin-tilt{from{transform:rotate(-16deg)}to{transform:rotate(344deg)}}
-@keyframes d-twinkle{0%,100%{opacity:.16;transform:scale(.85)}50%{opacity:.75;transform:scale(1.1)}}
-@keyframes d-blink{0%,45%{opacity:.15}50%,95%{opacity:.8}}
-@keyframes d-fly{0%{transform:translate(-40px,150px);opacity:0}12%{opacity:.65}88%{opacity:.65}100%{transform:translate(230px,40px);opacity:0}}
+/* терминальная рябь и развёртка */
+.sf-scan{position:absolute;inset:-10% -2%;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.045) 0 1px,transparent 1px 3px);opacity:.5}
+main section.in .sf-scan{animation:t-scan 9s linear infinite,t-flicker 5.5s steps(2) infinite}
+@keyframes t-scan{from{transform:translateY(0)}to{transform:translateY(6px)}}
+@keyframes t-flicker{0%,96%{opacity:.5}97%{opacity:.28}98%{opacity:.62}99%{opacity:.36}}
+.sf-sweep{position:absolute;left:0;right:0;height:26%;pointer-events:none;top:-30%;
+  background:linear-gradient(180deg,transparent,var(--acc-soft) 55%,transparent);opacity:.55}
+main section.in .sf-sweep{animation:t-sweep 6.5s linear infinite;animation-delay:calc(var(--i) * .8s)}
+@keyframes t-sweep{0%{top:-30%}70%,100%{top:110%}}
+/* рамка терминала */
+.sf-frame{position:absolute;inset:8px;pointer-events:none;
+  background:
+   linear-gradient(var(--acc),var(--acc)) left top/16px 1.5px no-repeat,
+   linear-gradient(var(--acc),var(--acc)) left top/1.5px 16px no-repeat,
+   linear-gradient(var(--acc),var(--acc)) right top/16px 1.5px no-repeat,
+   linear-gradient(var(--acc),var(--acc)) right top/1.5px 16px no-repeat,
+   linear-gradient(var(--acc),var(--acc)) left bottom/16px 1.5px no-repeat,
+   linear-gradient(var(--acc),var(--acc)) left bottom/1.5px 16px no-repeat,
+   linear-gradient(var(--acc),var(--acc)) right bottom/16px 1.5px no-repeat,
+   linear-gradient(var(--acc),var(--acc)) right bottom/1.5px 16px no-repeat;
+  opacity:.45;transition:opacity .3s}
+.start:hover .sf-frame{opacity:.9}
+.sf-tag{position:absolute;left:14px;top:12px;font:500 .6rem var(--f-mono);letter-spacing:.16em;color:var(--acc);opacity:.6;pointer-events:none}
+.sf-live{position:absolute;right:14px;top:15px;width:6px;height:6px;border-radius:50%;background:var(--acc);pointer-events:none}
+main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
+@keyframes t-live{0%,55%{opacity:.9}56%,100%{opacity:.15}}
 .start-body{padding:1.1rem 1.2rem 1.3rem;display:flex;flex-direction:column;gap:.55rem;flex:1}
 .start-body h3{margin:0;font:500 1.45rem/1.15 var(--f-head);letter-spacing:.03em;color:var(--ink)}
 .start-body .brief-lbl{color:var(--acc);min-height:2.1em}
@@ -1846,56 +1846,27 @@ function musicUI(){
   });
 }
 
-const DECOR = {
-  crew: `<svg viewBox="0 0 200 200" aria-hidden="true">
-      <circle class="d-ring" cx="100" cy="100" r="86"/>
-      <circle class="d-ring slow" cx="100" cy="100" r="72"/>
-      <g class="d-orbit"><circle class="d-dot" cx="100" cy="14" r="2.6"/></g>
-      <g class="d-orbit rev"><circle class="d-dot" cx="100" cy="188" r="2"/></g>
-      <path class="d-spark" d="M22 58 l4 -9 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 z"/>
-      <path class="d-spark s2" d="M170 132 l3 -7 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 z"/>
-    </svg>`,
-  staff: `<svg viewBox="0 0 200 200" aria-hidden="true">
-      <ellipse class="d-ring dash" cx="100" cy="104" rx="88" ry="30"/>
-      <ellipse class="d-ring dash slow" cx="100" cy="104" rx="70" ry="22"/>
-      <g class="d-orbit"><circle class="d-dot" cx="188" cy="104" r="2.6"/></g>
-      <g class="d-blink"><rect class="d-led" x="16" y="150" width="7" height="3" rx="1.5"/>
-        <rect class="d-led l2" x="177" y="150" width="7" height="3" rx="1.5"/>
-        <rect class="d-led l3" x="16" y="60" width="7" height="3" rx="1.5"/></g>
-    </svg>`,
-  guest: `<svg viewBox="0 0 200 200" aria-hidden="true">
-      <circle class="d-ring dash" cx="100" cy="100" r="84"/>
-      <g class="d-ship"><path class="d-dot" d="M0 0 l16 4 l-16 4 l4 -4 z"/></g>
-      <path class="d-spark" d="M28 40 l3 -8 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 z"/>
-      <path class="d-spark s2" d="M168 66 l2.5 -6 l2.5 6 l6 2.5 l-6 2.5 l-2.5 6 l-2.5 -6 l-6 -2.5 z"/>
-      <path class="d-spark s3" d="M150 168 l2 -5 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 z"/>
-    </svg>`,
-  alien: `<svg viewBox="0 0 200 200" aria-hidden="true">
-      <ellipse class="d-ring" cx="100" cy="100" rx="86" ry="86"/>
-      <g class="d-orbit"><circle class="d-planet" cx="100" cy="14" r="5"/></g>
-      <g class="d-orbit rev slow"><circle class="d-dot" cx="100" cy="184" r="3"/></g>
-      <ellipse class="d-ring tilt dash" cx="100" cy="100" rx="90" ry="34"/>
-      <path class="d-spark" d="M24 128 l3 -7 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 z"/>
-      <path class="d-spark s2" d="M172 52 l2.5 -6 l2.5 6 l6 2.5 l-6 2.5 l-2.5 6 l-2.5 -6 l-6 -2.5 z"/>
-    </svg>`,
-};
 const START_IMG = {
-  crew:  { fig:"assets/starts/crew.webp",  key:"assets/starts/crew-key.webp" },
+  crew:  { fig:"assets/starts/crew.webp" },
   staff: { fig:"assets/starts/staff.webp", key:"assets/starts/staff-key.webp" },
-  guest: { fig:"assets/starts/guest.webp", key:"assets/starts/guest-key.webp" },
-  alien: { fig:"assets/starts/alien.webp", key:"assets/starts/alien-key.webp" },
+  guest: { fig:"assets/starts/guest.webp" },
+  alien: { fig:"assets/starts/alien.webp" },
 };
-function figure(kind){
+function figure(kind, n){
   const im = START_IMG[kind] || {};
   return `<div class="sf">
-    <div class="sf-decor">${DECOR[kind] || ""}</div>
     <img class="sf-fig" src="${im.fig || ""}" alt="" onerror="this.remove()">
-    <img class="sf-key" src="${im.key || ""}" alt="" aria-hidden="true" onerror="this.remove()">
+    ${im.key ? `<img class="sf-key" src="${im.key}" alt="" aria-hidden="true" onerror="this.remove()">` : ""}
+    <span class="sf-scan" aria-hidden="true"></span>
+    <span class="sf-sweep" aria-hidden="true"></span>
+    <span class="sf-frame" aria-hidden="true"></span>
+    <span class="sf-tag" aria-hidden="true">REC ${String(n).padStart(2,"0")}</span>
+    <span class="sf-live" aria-hidden="true"></span>
   </div>`;
 }
 function startsHTML(){
   const cards = STARTS.map((s, i) => `<article class="start glass ${s.accent}" style="--i:${i}">
-      <div class="start-art">${figure(s.fig)}<span class="start-ring" aria-hidden="true"></span></div>
+      <div class="start-art">${figure(s.fig, i + 1)}</div>
       <div class="start-body">
         <p class="brief-lbl">${esc(tr(s.sub))}</p>
         <h3>${esc(tr(s.h))}</h3>
