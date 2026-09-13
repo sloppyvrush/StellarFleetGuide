@@ -638,16 +638,22 @@ body.wasted-mode .wrap,body.wasted-mode .bar,body.wasted-mode #stars{filter:gray
 .start:hover .start-ring{animation:s-ring 2.8s ease-out infinite}
 @keyframes s-ring{0%{transform:scale(.9);opacity:.26}100%{transform:scale(1.22);opacity:0}}
 .sf{position:absolute;inset:0;color:var(--acc);overflow:hidden}
-.sf-fig,.sf-key{position:absolute;left:50%;bottom:0;transform:translateX(-50%);height:100%;width:auto;max-width:100%;object-fit:contain}
+.sf-fig,.sf-glow{position:absolute;left:50%;bottom:0;transform:translateX(-50%);height:100%;width:auto;max-width:100%;object-fit:contain}
 .sf-fig{filter:drop-shadow(0 0 16px var(--acc-soft))}
-.sf-key{opacity:0;filter:drop-shadow(0 0 10px var(--acc))}
+.sf-glow{opacity:0;filter:drop-shadow(0 0 12px var(--acc));transition:opacity .4s ease}
 main section.in .sf-fig{animation:s-in 1s cubic-bezier(.2,.9,.25,1) backwards,s-breathe 7s ease-in-out infinite;animation-delay:calc(var(--i) * .13s + .1s),calc(var(--i) * .5s + 1s)}
-main section.in .sf-key{animation:s-key 4.4s ease-in-out infinite;animation-delay:calc(var(--i) * .45s + 1.2s)}
+
 @keyframes s-in{from{opacity:0;transform:translateX(-50%) translateY(14px) scale(.98)}}
 @keyframes s-breathe{0%,100%{filter:drop-shadow(0 0 12px var(--acc-soft))}50%{filter:drop-shadow(0 0 24px var(--acc-soft))}}
-@keyframes s-key{0%,100%{opacity:0}42%,64%{opacity:1}}
+
 .start:hover .sf-fig{filter:drop-shadow(0 0 28px var(--acc-soft))}
-.start:hover .sf-key{opacity:1;animation:none}
+.start:hover .sf-glow,.start.lit .sf-glow,.start:focus-visible .sf-glow{opacity:1;animation:none}
+.start.lit{border-color:var(--acc)}
+.start.lit .sf-frame{opacity:.9}
+@media (hover:none){
+  main section.in .sf-glow{animation:g-breathe 7.5s ease-in-out infinite;animation-delay:calc(var(--i) * .9s + 1.2s)}
+  @keyframes g-breathe{0%,100%{opacity:0}42%,58%{opacity:.9}}
+}
 /* терминальная рябь и развёртка */
 .sf-scan{position:absolute;inset:-10% -2%;pointer-events:none;
   background:repeating-linear-gradient(0deg,rgba(255,255,255,.045) 0 1px,transparent 1px 3px);opacity:.5}
@@ -1847,16 +1853,16 @@ function musicUI(){
 }
 
 const START_IMG = {
-  crew:  { fig:"assets/starts/crew.webp" },
-  staff: { fig:"assets/starts/staff.webp", key:"assets/starts/staff-key.webp" },
-  guest: { fig:"assets/starts/guest.webp" },
-  alien: { fig:"assets/starts/alien.webp" },
+  crew:  { fig:"assets/starts/crew.webp",  glow:"assets/starts/crew-glow.webp" },
+  staff: { fig:"assets/starts/staff.webp", glow:"assets/starts/staff-glow.webp" },
+  guest: { fig:"assets/starts/guest.webp", glow:"assets/starts/guest-glow.webp" },
+  alien: { fig:"assets/starts/alien.webp", glow:"assets/starts/alien-glow.webp" },
 };
 function figure(kind, n){
   const im = START_IMG[kind] || {};
   return `<div class="sf">
     <img class="sf-fig" src="${im.fig || ""}" alt="" onerror="this.remove()">
-    ${im.key ? `<img class="sf-key" src="${im.key}" alt="" aria-hidden="true" onerror="this.remove()">` : ""}
+    <img class="sf-glow" src="${im.glow || ""}" alt="" aria-hidden="true" onerror="this.remove()">
     <span class="sf-scan" aria-hidden="true"></span>
     <span class="sf-sweep" aria-hidden="true"></span>
     <span class="sf-frame" aria-hidden="true"></span>
@@ -1865,7 +1871,7 @@ function figure(kind, n){
   </div>`;
 }
 function startsHTML(){
-  const cards = STARTS.map((s, i) => `<article class="start glass ${s.accent}" style="--i:${i}">
+  const cards = STARTS.map((s, i) => `<article class="start glass ${s.accent}" style="--i:${i}" data-act="lit" tabindex="0" role="button" aria-pressed="false">
       <div class="start-art">${figure(s.fig, i + 1)}</div>
       <div class="start-body">
         <p class="brief-lbl">${esc(tr(s.sub))}</p>
@@ -2212,6 +2218,8 @@ function typeStatus(){
 
 /* ---------- events ---------- */
 document.addEventListener("click", e => {
+  const litCard = e.target.closest('.start[data-act="lit"]');
+  if(litCard && !e.target.closest("a")){ const on = litCard.classList.toggle("lit"); litCard.setAttribute("aria-pressed", on ? "true" : "false"); }
   const go = e.target.closest(".fleet-go"); if(go){ e.preventDefault(); $("#crew-strip")?.scrollIntoView({behavior:"smooth"}); return; }
   if(e.target.closest("#menuBtn")){ document.body.classList.toggle("menu-open"); $("#menuBtn").setAttribute("aria-expanded", document.body.classList.contains("menu-open")); return; }
   if(e.target.closest("#topnav a")) document.body.classList.remove("menu-open");
