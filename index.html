@@ -622,7 +622,7 @@ body.wasted-mode .wrap,body.wasted-mode .bar,body.wasted-mode #stars{filter:gray
 }
 
 /* ---------- старты ---------- */
-.starts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:1rem;margin-bottom:1.2rem}
+.starts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:1.1rem;margin-bottom:1.2rem}
 .start{position:relative;display:flex;flex-direction:column;padding:0;overflow:hidden;transition:transform .3s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .3s}
 .start>*{position:relative;z-index:1}
 .start::after{content:"";position:absolute;inset:0;z-index:0;opacity:0;transition:opacity .35s;background:radial-gradient(120% 70% at 50% 0%,var(--acc-soft),transparent 70%)}
@@ -632,7 +632,7 @@ body.wasted-mode .wrap,body.wasted-mode .bar,body.wasted-mode #stars{filter:gray
 .start.teal{--acc:var(--teal);--acc-soft:rgba(98,214,200,.2)}
 .start.violet{--acc:#c9a7ff;--acc-soft:rgba(201,167,255,.2)}
 .start.blue{--acc:#7cc4ff;--acc-soft:rgba(124,196,255,.2)}
-.start-art{position:relative;height:268px;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--line);
+.start-art{position:relative;height:300px;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--line);
   background:radial-gradient(ellipse at 50% 100%,var(--acc-soft),transparent 62%),repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.014) 3px 4px)}
 .start-ring{position:absolute;bottom:-70px;width:220px;height:220px;border-radius:50%;border:1px solid var(--acc);opacity:.16}
 .start:hover .start-ring{animation:s-ring 2.8s ease-out infinite}
@@ -683,8 +683,9 @@ main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
 @keyframes t-live{0%,55%{opacity:.9}56%,100%{opacity:.15}}
 .start-body{padding:1.1rem 1.2rem 1.3rem;display:flex;flex-direction:column;gap:.55rem;flex:1}
 .start-body h3{margin:0;font:500 1.45rem/1.15 var(--f-head);letter-spacing:.03em;color:var(--ink)}
-.start-body .brief-lbl{color:var(--acc);min-height:2.1em}
-.start-p{margin:0;font-size:.95rem;line-height:1.6;color:var(--ink)}
+.start-body .brief-lbl{color:var(--acc)}
+.start-p{margin:0;font-size:.95rem;line-height:1.65;color:var(--ink)}
+.start-role{margin:0 0 .2rem;font:500 1rem/1.45 var(--f-body);color:var(--acc)}
 .start-tags{list-style:none;margin:.2rem 0 0;padding:0;display:flex;flex-wrap:wrap;gap:.35rem}
 .start-tags li{font:500 .72rem var(--f-mono);color:var(--muted);border:1px solid var(--line2);border-radius:999px;padding:.15rem .6rem}
 .start-lb{margin-top:auto;padding-top:.85rem;border-top:1px dashed var(--line2);display:flex;flex-direction:column;gap:.35rem;font:500 .8rem var(--f-mono)}
@@ -1033,38 +1034,62 @@ const MUSIC = {
 /* ---------------- СТАРТЫ ---------------- */
 const STARTS = [
   { id:"crew", fig:"crew", accent:"amber",
-    h:L("Назначение получено","Assignment received"),
+    h:L("Шестой в списке","Sixth on the list"),
     sub:L("Старт за члена экипажа","Start as one of the crew"),
-    p:L("Вас направили на «Кассандру» — старое спасательное судно с полудюжиной человек на борту. Экипаж сложился до вас, и первые недели перелёта уходят на то, чтобы стать в нём своим. Приказ короткий: станция «Эреб» на Дальнем рубеже замолчала, оттуда пришёл обрывок сигнала бедствия. Найти выживших, выяснить, что случилось, решить, нужна ли эвакуация.",
-        "You've been assigned to the Cassandra, an old rescue ship with half a dozen people aboard. The crew existed before you, and the first weeks in transit are about becoming one of them. The order is short: Erebus station on the Far Frontier has gone silent and sent a fragment of a distress signal. Find survivors, find out what happened, decide whether to evacuate."),
-    tags:[L("новичок в сложившемся экипаже","the new one in a settled crew"),L("тот же допуск, что у всех","the same clearance as everyone"),L("станцию увидите впервые","you'll see the station for the first time")],
+    role:L("Вы — новый член экипажа спасательного судна «Кассандра».","You are the newest member of the rescue ship Cassandra."),
+    p:[
+      L("Исследовательская станция «Эреб» на краю освоенного пространства перестала выходить на связь. Последним оттуда пришёл обрывок сигнала бедствия. «Кассандра» — старое спасательное судно, куда вас только что назначили.",
+        "Erebus research station, on the edge of settled space, has stopped answering. The last thing to come out of it was a fragment of a distress signal. The Cassandra is an old rescue ship, and you have just been assigned to it."),
+      L("Её экипаж собран под эту миссию и до неё почти не был знаком. Назначение сюда во флоте считается не наградой, а способом убрать человека подальше: у каждого на борту своя история, из-за которой он оказался именно здесь. Единственный, кто напросился сам, — корабельный врач, и то потому, что на борт летела его сестра. Вы шестой в этом списке.",
+        "Her crew was put together for this mission and barely knew each other before it. In the fleet, a posting here is not a reward but a way to move someone out of sight: everyone aboard has their own story that landed them on this ship. The only one who asked to come is the ship's doctor, and only because his sister was flying out. You are sixth on that list."),
+    ],
     on:"👤 crew", off:"👤 survivor",
     files:L("Приветствия: знакомство у трапа · подход к станции","Greetings: meeting at the gangway · final approach") },
 
   { id:"staff", fig:"staff", accent:"teal",
-    h:L("Свои коридоры","Corridors you know"),
+    h:L("Здесь был ваш дом","This was your home"),
     sub:L("Старт за жителя станции","Start as someone who lived here"),
-    p:L("«Эреб» был вашей работой и вашим домом: смены, горький кофе в столовой сектора B, коридоры, которые проходишь почти с закрытыми глазами. Всё началось с лифта, который не пришёл на вызов, а закончилось запертыми дверями и голосом ЭЙДОСА, назвавшим это техническим инцидентом. С той ночи прошла неделя, и ваш старый пропуск больше не открывает ни одной двери.",
-        "Erebus was your job and your home: shifts, the bitter coffee in the sector B canteen, corridors you could walk with your eyes shut. It began with a lift that never answered a call and ended with sealed doors and EIDOS calling it a technical incident. A week has passed since that night, and your old badge doesn't open a single door any more."),
-    tags:[L("знаете станцию наизусть","you know the station by heart"),L("знали тех, кто здесь погиб","you knew the people who died here"),L("но причин не знаете","the reasons are hidden from you too")],
+    role:L("Вы — сотрудник станции «Эреб».","You are a member of the Erebus station staff."),
+    p:[
+      L("Станция была вашей работой и вашим домом: смены, знакомые лица в атриуме, горький кофе в столовой сектора B, ровный голос станционного ИИ, напоминающий о медосмотрах и началах смен.",
+        "The station was your job and your home: shifts, familiar faces in the atrium, the bitter coffee in the sector B canteen, the level voice of the station AI reminding everyone about check-ups and the start of a shift."),
+      L("За одну ночь она превратилась в закрытую коробку: сектора запечатаны, челноки заблокированы, охрана стреляет в гражданских и друг в друга, а из вентиляции пришло то, чему вы так и не нашли объяснения.",
+        "In a single night it turned into a sealed box: sectors locked down, shuttles blocked, security firing at civilians and at each other, and something coming out of the vents that you never found an explanation for."),
+      L("Неделю спустя вы — один из немногочисленных выживших на верхних уровнях. Неделя прошла в технических нишах и запертых каютах, на чужих пайках и коротком сне урывками, с привычкой замирать от каждого звука. И вот, спустя неделю изоляции, к станции подошёл чужой корабль.",
+        "A week later you are one of the few survivors left on the upper levels. That week went by in service alcoves and locked cabins, on other people's rations and snatched scraps of sleep, with the habit of freezing at every sound. And now, after a week of isolation, a ship has docked with the station."),
+    ],
     on:"👤 survivor", off:"👤 crew",
     files:L("Приветствия: неделя в тишине, коротко или подробно","Greetings: a week of silence, short or long") },
 
   { id:"guest", fig:"guest", accent:"blue",
-    h:L("Здесь проездом","Just passing through"),
+    h:L("Остановка на два дня","A two-day stop"),
     sub:L("Старт за случайного гостя","Start as an accidental guest"),
-    p:L("«Эреба» не должно было быть на вашем маршруте: поломка в пути, вынужденная стыковка и обещание техника, что ремонт займёт дня два, может три. Через три дня станция начала закрывать двери. Вы знаете здесь только гостевой блок и путь до дока, у вас чужой пропуск и последний паёк — а всё остальное приходится выяснять на ходу.",
-        "Erebus was never on your route: a breakdown in transit, an emergency dock and a technician promising the repairs would take two days, maybe three. On the third day the station started sealing doors. All you know here is the guest block and the way to the dock; you have someone else's badge and your last ration — everything else you learn the hard way."),
-    tags:[L("станцию знаете плохо","you barely know the place"),L("ваш корабль заперт в доке","your ship is locked in the dock"),L("никто вас здесь не ждал","nobody here was expecting you")],
+    role:L("Вы — путник, застрявший на «Эребе» из-за поломки.","You are a traveller stranded on Erebus by a breakdown."),
+    p:[
+      L("Станции «Эреб» не должно было быть на вашем маршруте. Вы собирались задержаться на двое суток, пока чинят ваш корабль. Гостевой пропуск, каюта в жилом секторе, вежливая просьба не искать неприятностей.",
+        "Erebus was never supposed to be on your route. You meant to stay two days while your ship was repaired. A guest pass, a cabin in the residential sector, a polite request not to go looking for trouble."),
+      L("Чужому видно то, к чему местные привыкли: слишком много вооружённой охраны для научной станции, лифты, исчезающие из навигации, разговоры, которые обрываются при постороннем. Через сутки это перестало быть странностями.",
+        "An outsider notices what the locals stopped seeing: too many armed guards for a research station, lifts vanishing from the navigation list, conversations that break off when a stranger sits down. A day later none of it looked like a quirk any more."),
+      L("На третьи сутки всё перевернулось: сектора запечатаны, эвакуация заблокирована по карантинному протоколу. Неделя прошла в импровизированных укрытиях, коридорах, на найденных пайках и в ожидании, что служба безопасности исправит ситуацию. Ваш собственный транспорт всё так же стоит в доке с горящим запретом на запуск. И вот, к станции подошёл чужой корабль.",
+        "On the third day everything turned over: sectors sealed, evacuation blocked under a quarantine protocol. The week went by in improvised hiding places and corridors, on scavenged rations, waiting for security to put things right. Your own ship still sits in the dock with a launch ban burning on the panel. And now another ship has docked with the station."),
+    ],
     on:"👤 survivor", off:"👤 crew",
     files:L("Приветствие: неделя на станции, версия для гостя","Greeting: the week on the station, guest version") },
 
   { id:"alien", fig:"alien", accent:"violet",
     h:L("Не с этой планеты","Not from this planet"),
     sub:L("Старт за иного разумного","Start as another species"),
-    p:L("То же вынужденное приземление, но станция Содружества построена под людей, а вы — нет. Дозировки в аптечках, высота поручней, вкус пайков, вежливый ЭЙДОС, который обращается ко всем одинаково и ни разу не задумывается, с кем говорит. Экипаж «Кассандры» станет первым за неделю, кто вообще спросит, кто вы. Вид, тело и способности придумываете вы сами; бот следует за вами и ничего не дорисовывает.",
-        "The same forced stop, except a Commonwealth station is built for humans and you are not. Dosages in the med kits, the height of the handrails, the taste of the rations, a polite EIDOS that addresses everyone the same way and never wonders who it is talking to. The Cassandra's crew will be the first in a week to even ask who you are. Your species, body and abilities are yours to invent; the bot follows your lead and adds nothing of its own."),
-    tags:[L("вид придумываете вы","your species is your call"),L("станция сделана под людей","the station was built for humans"),L("твари всё равно, кто вы","the thing in the vents doesn't care")],
+    role:L("Вы — представитель другого разумного вида, застрявший на «Эребе».","You are a member of another sapient species, stranded on Erebus."),
+    p:[
+      L("Станции «Эреб» не должно было быть на вашем маршруте. Вы собирались задержаться на двое суток, пока чинят ваш корабль. Гостевой пропуск, каюта в жилом секторе, вежливая просьба не искать неприятностей.",
+        "Erebus was never supposed to be on your route. You meant to stay two days while your ship was repaired. A guest pass, a cabin in the residential sector, a polite request not to go looking for trouble."),
+      L("К вашему виду отнеслись спокойно: Содружество большое, персонал других рас навидался. Разве что кто-то рассматривал на секунду дольше приличного, а станционный медик уточнил пару вещей по физиологии — на всякий случай, которого, как он сказал, конечно же не будет.",
+        "Your species drew no fuss: the Commonwealth is large and the staff here have seen other peoples before. Only someone looked a second longer than was polite, and the station medic asked a couple of questions about your physiology — just in case, which, as he put it, would of course never come."),
+      L("Всё перевернулось на третьи сутки: сектора запечатаны, эвакуация заблокирована по карантинному протоколу, а из вентиляции пришло то, от чего не спасают ни правила, ни охрана.",
+        "Everything turned over on the third day: sectors sealed, evacuation blocked under a quarantine protocol, and something came out of the vents that neither the rules nor the guards could stop."),
+      L("Неделя прошла в коридорах и импровизированных укрытиях, а существу из шахт всё это время было безразлично, какого вы вида. И вот, к станции подошёл чужой корабль.",
+        "The week went by in corridors and improvised hiding places, and the thing in the shafts never once cared what species you are. And now a ship has docked with the station."),
+    ],
     on:"👤 survivor", off:"👤 crew",
     files:L("Приветствие: неделя на станции, версия для иного вида","Greeting: the week on the station, non-human version") },
 ];
@@ -1876,8 +1901,8 @@ function startsHTML(){
       <div class="start-body">
         <p class="brief-lbl">${esc(tr(s.sub))}</p>
         <h3>${esc(tr(s.h))}</h3>
-        <p class="start-p">${esc(tr(s.p))}</p>
-        <ul class="start-tags">${s.tags.map(t=>`<li>${esc(tr(t))}</li>`).join("")}</ul>
+        <p class="start-role">${esc(tr(s.role))}</p>
+        ${s.p.map(x=>`<p class="start-p">${esc(tr(x))}</p>`).join("")}
         <p class="start-files">${esc(tr(s.files))}</p>
         <div class="start-lb"><span class="lb-h">${T("startsLb")}</span>
           <span class="lb-on"><b>${esc(s.on)}</b></span>
