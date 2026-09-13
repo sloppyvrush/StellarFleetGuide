@@ -622,7 +622,7 @@ body.wasted-mode .wrap,body.wasted-mode .bar,body.wasted-mode #stars{filter:gray
 }
 
 /* ---------- старты ---------- */
-.starts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:1.1rem;margin-bottom:1.2rem}
+.starts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:1.1rem;margin-bottom:1.2rem}
 .start{position:relative;display:flex;flex-direction:column;padding:0;overflow:hidden;transition:transform .3s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .3s}
 .start>*{position:relative;z-index:1}
 .start::after{content:"";position:absolute;inset:0;z-index:0;opacity:0;transition:opacity .35s;background:radial-gradient(120% 70% at 50% 0%,var(--acc-soft),transparent 70%)}
@@ -889,7 +889,6 @@ const UI = {
   groupGuide: L("Гайд", "Guide"), groupCodex: L("Кодекс", "Codex"),
   dGuide: L("Шесть этапов тайны и подсказки по ступеням: намёк, направление, прямой ответ.", "Six stages of the mystery with step-by-step hints: nudge, direction, straight answer."),
   dStuck: L("Частые проблемы и готовые OOC-строки. Без спойлеров.", "Common problems and ready-made OOC lines. No spoilers."),
-  dTracker: L("Отмечайте найденные улики и выживших, которых можно спасти.", "Tick the evidence you've found and the survivors you can save."),
   dSetup: L("Как подключить бота, лорбук, память и длинные профили.", "How to set up the bot, the lorebook, memory and long profiles."),
   dCrew: L("Досье экипажа, людей станции и угроз.", "Dossiers on the crew, the station's people and the threats."),
   dShip: L("Схема «Кассандры» и все отсеки с картинками.", "The Cassandra's schematic and every compartment with images."),
@@ -911,7 +910,6 @@ const UI = {
   pill: L("Допуск: этап", "Clearance: stage"),
   navGuide: L("Прохождение", "Walkthrough"),
   navStuck: L("Застряли?", "Stuck?"),
-  navTracker: L("Трекер улик", "Evidence tracker"),
   navSetup: L("Настройка SillyTavern", "SillyTavern setup"),
   navCodex: L("Кодекс", "Codex"),
   navCrew: L("Экипаж и люди", "Crew & people"),
@@ -933,18 +931,10 @@ const UI = {
   stuckLede: L("Выберите, что пошло не так. Ни один ответ здесь не раскрывает сюжет.", "Pick what went wrong. None of these answers spoil the plot."),
   oocTitle: L("Можно вставить в сообщение:", "You can paste this into a message:"),
   copy: L("Копировать", "Copy"), copied: L("Скопировано", "Copied"),
-  trackerLede: L("Отмечайте найденное — так проще понять, где вы и куда идти дальше. Отметки хранятся только в вашем браузере.",
-                 "Tick what you've found — it makes it easier to see where you are and where to go next. Ticks are stored only in your browser."),
-  memTitle: L("Зачем эта сводка", "What the summary is for"),
   memText: L("В долгих прохождениях начало истории выпадает из контекста. Вставьте сводку в Author's Note чата — и бот будет помнить, что вы уже нашли. Если у вас есть расширение памяти, оно делает то же самое само, и сводка не нужна.",
              "In long runs the start of the story falls out of context. Paste the summary into the chat's Author's Note and the bot will remember what you've found. If you use a memory extension it does the same on its own and the summary isn't needed."),
   keyClue: L("ключевая улика", "key clue"),
-  noteTitle: L("Сводка для Author's Note", "Summary for the Author's Note"),
-  noteEmpty: L("Отметьте хотя бы одну находку.", "Tick at least one find."),
-  copyNote: L("Скопировать сводку", "Copy summary"),
-  clearTracker: L("Сбросить отметки", "Clear ticks"),
   resetConfirm: L("Сбросить этап, подсказки и все отметки?", "Reset your stage, hints and all ticks?"),
-  clearConfirm: L("Сбросить все отметки трекера?", "Clear all tracker ticks?"),
   suggestStage: L("Вы отметили ключевую улику этапа {n}. Перейти на этап {m}?", "You ticked a key clue of stage {n}. Move to stage {m}?"),
   rescueTitle: L("Спасение выживших", "Rescuing the survivors"),
   rescueLede: L("Необязательная линия. У каждого выжившего своё условие — отмечайте, что уже сделано.", "Optional thread. Each survivor has their own condition — tick what's done."),
@@ -960,7 +950,6 @@ const UI = {
   fixBtn: L("Позвать Дэниела", "Call Daniel"),
   wasted: L("ПОТРАЧЕНО", "WASTED"),
   fixedToast: L("Дэниел починил экран. И заодно то, что не было сломано.", "Daniel fixed the screen. And a few things that weren't broken."),
-  bubbleTracker: L("Флик тоже собирает находки. Правда, свои он никому не показывает.", "Flick collects finds too. He just never shows anyone his."),
   bubbleSetup: L("Флик уже проверил настройки. Кабели он тоже проверил. Зубами.", "Flick has already checked the settings. He checked the cables too. With his teeth."),
   bubbleGuide: L("Не спешите с прямым ответом: обычно хватает первого намёка. А если совсем запутались — наверху есть кнопка «Не знаю — определить».", "Don't rush to the straight answer: the first nudge is usually enough. And if you're completely lost, there's a \"Not sure — work it out\" button up top."),
   bubbleStuck: L("Хм… что-то пошло не так? Выберите вариант ниже — разберёмся без спойлеров.", "Hmm… something went wrong? Pick an option below — we'll sort it out without spoilers."),
@@ -1233,12 +1222,12 @@ const STUCK = [
     a:L("Модель иногда путает, что знает мастер, а что — персонаж.","The model sometimes mixes up what the narrator knows with what a character knows."),
     steps:[
       L("Поправьте одной OOC-строкой — этого хватает.","Correct it with one OOC line — that's enough."),
-      L("В долгих чатах помогает сводка из «Трекера улик» в Author's Note: персонажи опираются на список находок, а не на догадки модели.","In long chats the Evidence tracker summary in the Author's Note helps: characters lean on the list of finds instead of the model's guesses.")],
+      L("В долгих чатах помогает короткая сводка находок в Author's Note: персонажи опираются на неё, а не на догадки модели.","In long chats a short list of finds in the Author's Note helps: characters lean on it instead of the model's guesses.")],
     ooc:L("(OOC: Ethan wasn't there and doesn't know this. Only characters who saw it know.)","(OOC: Ethan wasn't there and doesn't know this. Only characters who saw it know.)") },
   { q:L("Бот забыл, что мы уже нашли","The bot forgot what we already found"),
     a:L("В очень длинных чатах начало истории выпадает из контекста.","In very long chats the start of the story falls out of context."),
     steps:[
-      L("Отметьте находки в «Трекере улик» и вставьте сводку в Author's Note чата.","Tick your finds in the Evidence tracker and paste the summary into the chat's Author's Note."),
+      L("Выпишите ключевые находки в Author's Note чата — коротким списком.","Write the key finds into the chat's Author's Note as a short list."),
       L("Если пользуетесь расширением памяти, сохраните последнюю крупную сцену как воспоминание.","If you use a memory extension, save the last major scene as a memory."),
       L("Упомяните ключевую находку в своём сообщении — персонажи её вспомнят.","Mention a key find in your message — the characters will pick it up.")],
     ooc:null },
@@ -1278,45 +1267,6 @@ const SETUP = [
 
 /* ---------------- ТРЕКЕР УЛИК ----------------
    note — строка на английском для Author's Note. key:true — ключевая улика этапа. */
-const EVIDENCE = [
-  { stage:1, items:[
-    { id:"e_help", t:L("Надпись «HELP» и брошенные вещи в стыковочном узле","\"HELP\" on the wall and abandoned belongings at the docking node"), where:L("стыковочный узел","docking node"), note:"docking node: people tried to flee, shuttles locked remotely" },
-    { id:"e_atrium", t:L("Записки и тела в атриуме; «SECTOR C IS LOST»","Notes and bodies in the atrium; \"SECTOR C IS LOST\""), where:L("атриум","atrium"), note:"atrium notes: survivors headed to the medical block" },
-    { id:"e_elev", t:L("Журнал лифтов: «Access blocked by EIDOS. Reason: quarantine»","Elevator log: \"Access blocked by EIDOS. Reason: quarantine\""), where:L("атриум","atrium"), note:"EIDOS blocked elevators to lower levels for 'quarantine'" },
-    { id:"e_morris", t:L("Планшет техника Р. Морриса: «Это не несчастный случай»","Technician R. Morris's tablet: \"This isn't an accident\""), where:L("жилой сектор","residential sector"), note:"Morris's tablet: 'this isn't an accident', gunfire near Shaft 4" },
-    { id:"e_442", t:L("Карта пациента 442","Patient 442's chart"), where:L("медблок","medical block"), note:"Patient 442: organism attached to face, mass behind sternum" },
-    { id:"e_l0", t:L("Список перевода пациентов в неизвестный сектор","A patient transfer list to an unknown sector"), where:L("медблок","medical block"), key:true, note:"transfer list: patients sent to 'L0 — PROJECT LAZARUS', not on any map" },
-  ]},
-  { stage:2, items:[
-    { id:"e_holtlog", t:L("Видеолог Холта: «Мне приказали арестовать Арден»","Holt's video log: \"They ordered me to arrest Arden\""), where:L("сектор охраны","security sector"), note:"Holt's log: ordered to arrest Arden, changed sides after reading the files" },
-    { id:"e_gaps", t:L("Дыры в нумерации серии H, пропавшие формы согласия","Gaps in H-series numbering, missing consent forms"), where:L("верхние лаборатории","upper labs"), note:"labs: H-series numbering gaps, deleted consent forms" },
-    { id:"e_venn", t:L("Переписка Арден и Венн","Arden's messages with Venn"), where:L("верхние лаборатории","upper labs"), note:"Arden demanded halt; Venn: subjects' origin 'not your purview'" },
-    { id:"e_notvol", t:L("Видео Арден «Они не добровольцы»","Arden's video \"They're Not Volunteers\""), where:L("верхние лаборатории / охрана","upper labs / security"), key:true, note:"Arden's videos: H-series subjects did not consent (some declared dead, some from clinics)" },
-  ]},
-  { stage:3, items:[
-    { id:"e_enterl0", t:L("Вход на Уровень Ноль","Entering Level Zero"), where:L("Уровень Ноль","Level Zero"), note:"entered Level Zero: containment cells, operating rooms" },
-    { id:"e_memo", t:L("Служебная записка «Расход материала»","The \"Material Consumption\" memo"), where:L("Уровень Ноль","Level Zero"), note:"memo: subjects treated as specimens; goal: 'a person who can survive the next war'" },
-    { id:"e_h37", t:L("Карта и интервью H-37","H-37's chart and interview"), where:L("камера H-37","H-37 cell"), note:"H-37 / Evan: transformed, mind intact" },
-    { id:"e_eidos", t:L("Журналы EIDOS: отказы в эвакуации","EIDOS logs: evacuation denials"), where:L("ядро EIDOS","EIDOS core"), note:"EIDOS denied shuttles by infection probability; conflicting directives" },
-    { id:"e_ardtx", t:L("Заглушённая передача Арден","Arden's jammed transmission"), where:L("центр связи","communications center"), note:"Arden's blocked transmission: specimens were NOT destroyed" },
-    { id:"e_lv", t:L("Код происхождения на контейнерах","The origin code on containers"), where:L("Уровень Ноль / анализ Дианы","Level Zero / Diana's analysis"), key:true, note:"origin code LV-938; organism was ordered destroyed" },
-  ]},
-  { stage:4, items:[
-    { id:"e_holttx", t:L("Предупреждение Холта в заглушённом фрагменте","Holt's warning in a jammed fragment"), where:L("центр связи","communications center"), note:"Holt warned: don't hand the rescue to human command" },
-    { id:"e_codes", t:L("Коды блокировки связи выше руководства станции","Comms blocking codes above station leadership"), where:L("центр связи","communications center"), note:"outbound block codes come from above station leadership" },
-    { id:"e_signed", t:L("Подписанный отчёт и приказ сверху в архиве","A signed report and an order from above in the archive"), where:L("архив LAZARUS","LAZARUS archive"), key:true, note:"archive: containers A1–A8 removed before sterilization, signed by a senior human official" },
-  ]},
-  { stage:5, items:[
-    { id:"e_arden2", t:L("Скрытое видео Арден: «Спасайте доказательства»","Arden's hidden video: \"Save the evidence\""), where:L("архив LAZARUS","LAZARUS archive"), note:"Arden: save the evidence, not LAZARUS" },
-    { id:"e_traffic", t:L("Зашифрованный трафик на борту «Кассандры»","Encrypted traffic aboard the Cassandra"), where:L("«Кассандра», CASS","the Cassandra, CASS"), note:"CASS found encrypted traffic aboard the Cassandra" },
-    { id:"e_omega", t:L("Фрагменты запечатанного файла OMEGA","Fragments of a sealed OMEGA file"), where:L("разные терминалы","various terminals"), key:true, note:"OMEGA file fragments: a protocol mentions 'witness handling'" },
-  ]},
-  { stage:6, items:[
-    { id:"e_list", t:L("Протокол OBELISK со списком имён","The OBELISK protocol with a list of names"), where:L("—","—"), note:"OBELISK: pre-arrival list naming the crew, marked TERMINATE" },
-    { id:"e_full", t:L("Полные расшифрованные приказы","The full decrypted orders"), where:L("—","—"), note:"full OBELISK orders decrypted" },
-  ]},
-];
-
 const RESCUE = [
   { id:"r_david", name:L("Дэвид Мерсер · H-18","David Mercer · H-18"), reqs:[ L("Запас стабилизатора L-18 из опечатанной аптеки Уровня Ноль","L-18 Stabilizer supply from Level Zero's sealed pharmacy"), L("Формула препарата из архива LAZARUS","The drug's formula from the LAZARUS archive"), L("Сообщение дочери Лили (по желанию)","A message to his daughter Lily (optional)") ],
     note:L("Без стабилизатора начинаются судороги, затем отказ органов.","Without the stabilizer: seizures, then organ failure.") },
@@ -1646,8 +1596,8 @@ function imgTag(src, alt, fbText){
 const initials = name => name.split(/[\s/]+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("");
 
 /* ---------- static bits ---------- */
-const ROUTES_ORDER = ["home","starts","guide","stuck","tracker","setup","crew","ship","station","world","about"];
-const NAVK = {home:"navHome",starts:"navStarts",guide:"navGuide",stuck:"navStuck",tracker:"navTracker",setup:"navSetup",crew:"navCrew",ship:"navShip",station:"navStation",world:"navWorld",about:"navAbout"};
+const ROUTES_ORDER = ["home","starts","guide","stuck","setup","crew","ship","station","world","about"];
+const NAVK = {home:"navHome",starts:"navStarts",guide:"navGuide",stuck:"navStuck",setup:"navSetup",crew:"navCrew",ship:"navShip",station:"navStation",world:"navWorld",about:"navAbout"};
 const route = () => { const r = location.hash.replace(/^#\/?/,"").split("/")[0]; return ROUTES_ORDER.includes(r) ? r : "home"; };
 function renderChrome(){
   document.documentElement.lang = S.lang;
@@ -1655,9 +1605,9 @@ function renderChrome(){
   $("#langBtn").textContent = S.lang === "ru" ? "EN" : "RU";
   $("#pill").textContent = `${T("stageShort")} ${S.stage}`;
   const r = route();
-  const NS = {home:"navHome",starts:"nsStarts",guide:"nsGuide",stuck:"nsStuck",tracker:"nsTracker",setup:"nsSetup",crew:"nsCrew",ship:"nsShip",station:"nsStation",world:"nsWorld",about:"nsAbout"};
+  const NS = {home:"navHome",starts:"nsStarts",guide:"nsGuide",stuck:"nsStuck",setup:"nsSetup",crew:"nsCrew",ship:"nsShip",station:"nsStation",world:"nsWorld",about:"nsAbout"};
   const link = k => `<a href="#/${k==="home"?"":k}" class="${r===k?"on":""}" ${r===k?'aria-current="page"':""}>${T(NS[k])}</a>`;
-  $("#topnav").innerHTML = `${link("home")}<span class="nav-sep" aria-hidden="true"></span><span class="nav-g">${T("groupGuide")}</span>${["starts","guide","stuck","tracker","setup"].map(link).join("")}
+  $("#topnav").innerHTML = `${link("home")}<span class="nav-sep" aria-hidden="true"></span><span class="nav-g">${T("groupGuide")}</span>${["starts","guide","stuck","setup"].map(link).join("")}
     <span class="nav-sep" aria-hidden="true"></span><span class="nav-g">${T("groupCodex")}</span>${["crew","ship","station","world"].map(link).join("")}<span class="nav-sep" aria-hidden="true"></span>${link("about")}`;
   $("#menuBtn").setAttribute("aria-label", T("menu"));
   $("#mstop").setAttribute("aria-label", tr(MUSIC.stop));
@@ -1688,11 +1638,11 @@ function crewStripHTML(){
   return `<section id="crew-strip" class="home-block"><h2>${T("stripH")}</h2><p class="lede">${T("stripLede")}</p><div class="dossier">${strip}</div></section>`;
 }
 function siteMapHTML(){
-  const ic = {starts:"▶",guide:"◈",stuck:"?",tracker:"✓",setup:"⚙",crew:"☰",ship:"⛭",station:"▤",world:"✦",about:"♥"};
+  const ic = {starts:"▶",guide:"◈",stuck:"?",setup:"⚙",crew:"☰",ship:"⛭",station:"▤",world:"✦",about:"♥"};
   const card = k => `<a class="sm-card glass glow" href="#/${k}"><span class="sm-ic" aria-hidden="true">${ic[k]}</span><b>${T(NAVK[k])}</b><span>${T("d"+k[0].toUpperCase()+k.slice(1))}</span></a>`;
   return `<section id="sitemap" class="home-block"><h2>${T("mapH")}</h2><p class="lede">${T("mapLede")}</p>
     <div class="start glass"><h3>${T("startH")}</h3><ol><li>${T("start1")}</li><li>${T("start2")}</li><li>${T("start3")}</li></ol></div>
-    <h3 class="sub-h">${T("groupGuide")}</h3><div class="sm-grid">${["starts","guide","stuck","tracker","setup"].map(card).join("")}</div>
+    <h3 class="sub-h">${T("groupGuide")}</h3><div class="sm-grid">${["starts","guide","stuck","setup"].map(card).join("")}</div>
     <h3 class="sub-h">${T("groupCodex")}</h3><div class="sm-grid">${["crew","ship","station","world"].map(card).join("")}</div>
     <div class="sm-grid" style="margin-top:.9rem">${card("about")}</div>
     ${musicHTML("home")}
@@ -2012,44 +1962,6 @@ function stuckHTML(){
     <div class="chips">${chips}</div>${ans}</section>`;
 }
 
-/* ---------- tracker ---------- */
-function noteText(){
-  const lines = [];
-  EVIDENCE.forEach(g => g.items.forEach(it => { if(S.ticks.has(it.id) && open(g.stage)) lines.push("- " + it.note); }));
-  if(!lines.length) return "";
-  return `[EREBUS — WHAT THE CREW HAS FOUND SO FAR]\nCurrent mystery stage: ${S.stage}\n${lines.join("\n")}\nOnly characters who saw or were told about a find know it.`;
-}
-function trackerHTML(){
-  let hidden = 0;
-  const sets = EVIDENCE.map(g => {
-    if(!open(g.stage)){ hidden++; return ""; }
-    return `<fieldset data-st="${g.stage}"><legend>${T("stageShort")} ${roman[g.stage]} — ${esc(tr(ACTS[g.stage-1].tag))}</legend>
-      ${g.items.map(it=>`<label><input type="checkbox" data-tick="${it.id}" data-stage="${g.stage}" data-key="${!!it.key}" ${S.ticks.has(it.id)?"checked":""}>
-        <span>${esc(tr(it.t))}${it.key?`<span class="key-clue">${T("keyClue")}</span>`:""}<br><span class="where">${esc(tr(it.where))}</span></span></label>`).join("")}
-    </fieldset>`;
-  }).join("");
-  const rescue = open(3)
-    ? `<fieldset data-st="3"><legend>${T("rescueTitle")}</legend><p class="where" style="margin:.2rem 0 .5rem">${T("rescueLede")}</p>
-        ${RESCUE.map(r=>`<p style="margin:.7rem 0 .1rem;font-weight:600">${esc(tr(r.name))}</p>
-          ${r.reqs.map((q,i)=>`<label><input type="checkbox" data-rescue="${r.id}_${i}" ${S.rescue.has(r.id+"_"+i)?"checked":""}><span>${esc(tr(q))}</span></label>`).join("")}
-          ${r.note?`<p class="where" style="margin:.1rem 0 0 1.6rem">${esc(tr(r.note))}</p>`:""}`).join("")}
-      </fieldset>`
-    : `<div class="locked">${T("rescueTitle")}: ${T("lockedGeneric")} 3.</div>`;
-  const note = noteText();
-  return `<section id="tracker"><h2>${T("navTracker")}</h2>
-    ${briefHTML({src:"assets/ui/flick-crystal.webp", speech:T("bubbleTracker"), lede:T("trackerLede"), kind:"flick"})}
-    <div id="suggest"></div>
-    <div class="trk">${sets}
-      ${hidden ? `<div class="locked">${bars(2,9)} ${T("lockedGeneric")} ${S.stage+1}+</div>` : ""}
-      ${rescue}
-      <div><h3 class="sub-h" style="margin-top:1rem">${T("noteTitle")}</h3>
-        <div class="infobox"><p><b>${T("memTitle")}.</b> ${T("memText")}</p></div>
-        <div class="note-out" id="noteOut">${note ? esc(note) : `<span style="color:var(--muted)">${T("noteEmpty")}</span>`}</div>
-        <div class="act-actions"><button class="btn" id="copyNote" ${note?"":"disabled"}>${T("copyNote")}</button>
-        <button class="btn ghost" id="clearTicks">${T("clearTracker")}</button></div></div>
-    </div></section>`;
-}
-
 /* ---------- setup ---------- */
 function setupHTML(){
   return `<section id="setup"><h2>${T("navSetup")}</h2>
@@ -2225,7 +2137,7 @@ function render(){
   const r = route();
   const views = {
     home: () => splashHTML() + crewStripHTML() + heroHTML() + siteMapHTML(),
-    guide: guideHTML, stuck: stuckHTML, tracker: trackerHTML, setup: setupHTML,
+    guide: guideHTML, stuck: stuckHTML, setup: setupHTML,
     starts: startsHTML, crew: crewHTML, ship: shipHTML, station: stationHTML, world: worldHTML, about: aboutHTML,
   };
   $("#main").innerHTML = views[r]() + pagerHTML(r) + `<footer>${T("footer")}</footer>`;
@@ -2289,7 +2201,6 @@ document.addEventListener("click", e => {
     (fromList ? $(`.star-list [data-star="${d.star}"]`) : $(`svg [data-star="${d.star}"]`))?.focus({preventScroll:true}); }
   else if(t.id==="hugBtn" || t.id==="meBtn"){ const r = t.getBoundingClientRect(); sparkle(r.left + r.width/2, r.top + r.height/2, t.id==="meBtn"); t.classList.remove("hugged"); void t.offsetWidth; t.classList.add("hugged"); }
   else if(t.id==="sysBtn"){ S.allSys=!S.allSys; render(); $("#sysBtn")?.focus(); }
-  else if(t.id==="copyNote"){ const n=noteText(); if(n) copy(n); }
   else if(t.id==="clearTicks"){ if(confirm(T("clearConfirm"))){ S.ticks.clear(); S.rescue.clear(); store.set("ticks",[]); store.set("rescue",[]); render(); } }
   else if(t.id==="wizOpen"){ openWizard(); }
   else if(t.id==="resetAll"){ if(confirm(T("resetConfirm"))){ S.ticks.clear(); S.rescue.clear(); S.hints={}; S.cards.clear(); store.set("cards",[]); store.set("ticks",[]); store.set("rescue",[]); store.set("hints",{}); prevStage=1; S.stage=1; store.set("stage",1); render(); } }
@@ -2306,7 +2217,6 @@ document.addEventListener("change", e => {
   const t = e.target;
   if(t.dataset.tick){
     t.checked ? S.ticks.add(t.dataset.tick) : S.ticks.delete(t.dataset.tick); store.set("ticks",[...S.ticks]);
-    $("#noteOut").textContent = noteText() || T("noteEmpty"); $("#copyNote").disabled = !noteText();
     const st = +t.dataset.stage;
     if(t.checked && t.dataset.key==="true" && st===S.stage && st<6){
       $("#suggest").innerHTML = `<div class="warnbox">${fmt(T("suggestStage"),{n:st,m:st+1})} <button class="btn" data-seg="${st+1}" style="margin-left:.5rem">${fmt(T("wizApply"),{n:st+1})}</button></div>`;
