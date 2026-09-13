@@ -1573,7 +1573,7 @@ const initials = name => name.split(/[\s/]+/).filter(Boolean).slice(0,2).map(w=>
 
 /* ---------- static bits ---------- */
 const ROUTES_ORDER = ["home","starts","guide","stuck","tracker","setup","crew","ship","station","world","about"];
-const NAVK = {home:"navHome",guide:"navGuide",stuck:"navStuck",tracker:"navTracker",setup:"navSetup",crew:"navCrew",ship:"navShip",station:"navStation",world:"navWorld",about:"navAbout"};
+const NAVK = {home:"navHome",starts:"navStarts",guide:"navGuide",stuck:"navStuck",tracker:"navTracker",setup:"navSetup",crew:"navCrew",ship:"navShip",station:"navStation",world:"navWorld",about:"navAbout"};
 const route = () => { const r = location.hash.replace(/^#\/?/,"").split("/")[0]; return ROUTES_ORDER.includes(r) ? r : "home"; };
 function renderChrome(){
   document.documentElement.lang = S.lang;
@@ -1581,7 +1581,7 @@ function renderChrome(){
   $("#langBtn").textContent = S.lang === "ru" ? "EN" : "RU";
   $("#pill").textContent = `${T("stageShort")} ${S.stage}`;
   const r = route();
-  const NS = {home:"navHome",guide:"nsGuide",stuck:"nsStuck",tracker:"nsTracker",setup:"nsSetup",crew:"nsCrew",ship:"nsShip",station:"nsStation",world:"nsWorld",about:"nsAbout"};
+  const NS = {home:"navHome",starts:"nsStarts",guide:"nsGuide",stuck:"nsStuck",tracker:"nsTracker",setup:"nsSetup",crew:"nsCrew",ship:"nsShip",station:"nsStation",world:"nsWorld",about:"nsAbout"};
   const link = k => `<a href="#/${k==="home"?"":k}" class="${r===k?"on":""}" ${r===k?'aria-current="page"':""}>${T(NS[k])}</a>`;
   $("#topnav").innerHTML = `${link("home")}<span class="nav-sep" aria-hidden="true"></span><span class="nav-g">${T("groupGuide")}</span>${["starts","guide","stuck","tracker","setup"].map(link).join("")}
     <span class="nav-sep" aria-hidden="true"></span><span class="nav-g">${T("groupCodex")}</span>${["crew","ship","station","world"].map(link).join("")}<span class="nav-sep" aria-hidden="true"></span>${link("about")}`;
