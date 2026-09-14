@@ -644,12 +644,12 @@ main section.in .sf-slide.s-f{animation:sl-a 22s ease-in-out infinite}
 main section.in .sf-slide.s-m{animation:sl-b 22s ease-in-out infinite}
 @keyframes sl-a{0%,40%{opacity:1}50%,90%{opacity:0}100%{opacity:1}}
 @keyframes sl-b{0%,40%{opacity:0}50%,90%{opacity:1}100%{opacity:0}}
-.sf-fig,.sf-glow{position:absolute;left:50%;bottom:0;transform:translateX(-50%);height:100%;width:auto;max-width:100%;object-fit:contain}
+.sf-fig,.sf-glow{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center bottom}
 .sf-fig{filter:drop-shadow(0 0 16px var(--acc-soft))}
 .sf-glow{opacity:0;filter:drop-shadow(0 0 12px var(--acc));transition:opacity .4s ease}
 main section.in .sf-fig{animation:s-in 1s cubic-bezier(.2,.9,.25,1) backwards,s-breathe 7s ease-in-out infinite;animation-delay:calc(var(--i) * .13s + .1s),calc(var(--i) * .5s + 1s)}
 
-@keyframes s-in{from{opacity:0;transform:translateX(-50%) translateY(14px) scale(.98)}}
+@keyframes s-in{from{opacity:0;transform:translateY(14px) scale(.98)}}
 @keyframes s-breathe{0%,100%{filter:drop-shadow(0 0 12px var(--acc-soft))}50%{filter:drop-shadow(0 0 24px var(--acc-soft))}}
 
 .start:hover .sf-fig{filter:drop-shadow(0 0 28px var(--acc-soft))}
@@ -968,7 +968,8 @@ const UI = {
   plCrew: L("Плейлист экипажа «Кассандры»","The Cassandra crew playlist"),
   plCrewLede: L("Одна песня на всех — про людей, которые не выбирали друг друга, но теперь связаны.","One song for all of them — about people who didn't choose each other and are bound together anyway."),
   plOpen: L("Открыть в Spotify","Open in Spotify"),
-  plHint: L("Нажмите на трек, чтобы найти его в Spotify.","Tap a track to find it on Spotify."),
+  plAuthor: L("Что у меня играет","What I listen to"),
+  plAuthorLede: L("Мой личный плейлист — под него всё это и писалось.","My own playlist — all of this was written to it."),
   noTouch: L("Не трогать", "Do not touch"),
   briefLbl: L("Инструктаж", "Briefing"),
   breakMsg: L("Ну я же предупреждала.", "Well, I did warn you."),
@@ -1115,49 +1116,16 @@ const STARTS = [
 ];
 
 /* ---------------- ПЛЕЙЛИСТЫ ----------------
-   spotify: вставьте сюда id плейлиста из ссылки open.spotify.com/playlist/ID —
-   и вместо списка появится настоящий плеер Spotify. Пока id пуст, показывается список треков. */
+   id — то, что стоит в ссылке после open.spotify.com/playlist/ и до знака «?». */
 const PLAYLISTS = {
-  adrian: { spotify:"", tracks:[
-    ["Florence + The Machine","Ship to Wreck"],
-    ["Muse","Starlight"],
-    ["Woodkid","Run Boy Run"],
-    ["Rag'n'Bone Man","Human"],
-  ]},
-  ethan: { spotify:"", tracks:[
-    ["Hozier","Arsonist's Lullabye"],
-    ["Linkin Park","Breaking the Habit"],
-    ["Bring Me The Horizon","Can You Feel My Heart"],
-    ["Johnny Cash","Hurt"],
-  ]},
-  alex: { spotify:"", tracks:[
-    ["Bastille","Good Grief"],
-    ["The Fray","How to Save a Life"],
-    ["Noah Kahan","Call Your Mom"],
-    ["My Chemical Romance","Dead!"],
-  ]},
-  diana: { spotify:"", tracks:[
-    ["Björk","Human Behaviour"],
-    ["Björk","Virus"],
-    ["AURORA","The Seed"],
-    ["AURORA","All Is Soft Inside"],
-  ]},
-  daniel: { spotify:"", tracks:[
-    ["Nine Inch Nails","The Hand That Feeds"],
-    ["Depeche Mode","Policy of Truth"],
-    ["Foo Fighters","The Pretender"],
-    ["twenty one pilots","Trapdoor"],
-    ["Scissor Sisters","I Can't Decide", L("бонус — с иронией","bonus — with a wink")],
-  ]},
-  cass: { spotify:"", tracks:[
-    ["Daft Punk","Touch"],
-    ["Daft Punk","Something About Us"],
-    ["The Postal Service","Such Great Heights"],
-    ["Sleeping At Last","Saturn"],
-  ]},
-  crew: { spotify:"", tracks:[
-    ["Fleetwood Mac","The Chain"],
-  ]},
+  crew:   "4OM2Kdda8oQogEynuhBESO",
+  adrian: "1RzeldfRlCTDptPoOIKzYC",
+  ethan:  "3UahKKYMo2nvMggiMgO1Dr",
+  alex:   "3gE69avWX4fu9RcF87gFG7",
+  diana:  "0UAby8Yfp4Tcjuwgp3lzoO",
+  daniel: "4PXYtC62HOiv2XEPD6u2Mo",
+  cass:   "1GPsxvvPaMPA4f8i47cZ3D",
+  author: "",
 };
 
 /* ---------------- ОБ АВТОРЕ ---------------- */
@@ -1960,6 +1928,7 @@ function aboutHTML(){
         <div class="me-tags">${A.tags.map(t=>`<span>${esc(tr(t))}</span>`).join("")}</div>
         <p class="muted-p">${esc(tr(A.promptsNote))}</p>
         <div class="tg-list">${ch}</div>
+        ${PLAYLISTS.author ? `<p class="brief-lbl pl-lbl">${T("plAuthor")}</p><p class="muted-p">${T("plAuthorLede")}</p>${playlistHTML("author", UI.plAuthor, true)}` : ""}
       </div>
       <figure class="me-fig">
         <div class="me-wrap">
@@ -2044,24 +2013,15 @@ function setupHTML(){
 
 /* ---------- плейлисты ---------- */
 const SPOT_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1DB954"/><path d="M6.6 9.3c3.6-1.1 7.9-.8 11 1M7.2 12.4c3-.9 6.5-.6 9.1.9M7.9 15.3c2.4-.6 5-.4 7.1.8" stroke="#08130c" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>';
-function playlistHTML(id, title){
-  const pl = PLAYLISTS[id]; if(!pl) return "";
-  const head = `<div class="pl-head"><span class="pl-ic">${SPOT_ICON}</span><b>${esc(tr(title || UI.plTitle))}</b></div>`;
-  if(pl.spotify){
-    return `<section class="playlist glass">${head}
-      <iframe class="pl-frame" src="https://open.spotify.com/embed/playlist/${esc(pl.spotify)}?utm_source=generator&theme=0"
-        width="100%" height="352" frameborder="0" loading="lazy"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe></section>`;
-  }
-  const rows = pl.tracks.map((t,i)=>{
-    const [artist, name, note] = t;
-    const q = encodeURIComponent(`${artist} ${name}`);
-    return `<a class="pl-row" href="https://open.spotify.com/search/${q}" target="_blank" rel="noopener">
-      <span class="pl-n">${String(i+1).padStart(2,"0")}</span>
-      <span class="pl-t"><b>${esc(name)}</b><small>${esc(artist)}${note?` · ${esc(tr(note))}`:""}</small></span>
-      <span class="pl-go" aria-hidden="true">↗</span></a>`;
-  }).join("");
-  return `<section class="playlist glass">${head}<div class="pl-list">${rows}</div><p class="pl-hint">${T("plHint")}</p></section>`;
+function playlistHTML(id, title, compact){
+  const pid = PLAYLISTS[id];
+  if(!pid) return "";
+  return `<section class="playlist glass">
+    <div class="pl-head"><span class="pl-ic">${SPOT_ICON}</span><b>${esc(tr(title || UI.plTitle))}</b></div>
+    <iframe class="pl-frame" src="https://open.spotify.com/embed/playlist/${esc(pid)}?utm_source=generator&theme=0"
+      height="${compact ? 152 : 352}" loading="lazy" tabindex="-1"
+      allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+  </section>`;
 }
 
 /* ---------- people ---------- */
@@ -2086,6 +2046,8 @@ function crewHTML(){
   return `<section id="crew"><h2>${T("navCrew")}</h2><p class="lede">${T("crewLede")}</p>
     <h3 class="sub-h">${T("crewH")}</h3><div class="people">${CREW.map(personHTML).join("")}</div>
     <h3 class="sub-h">${T("aboardH")}</h3><div class="people">${ABOARD.map(personHTML).join("")}</div>
+    ${PLAYLISTS.crew ? `<h3 class="sub-h">${T("plCrew")}</h3><p class="lede">${T("plCrewLede")}</p>
+      <div class="pl-wrap">${playlistHTML("crew", UI.plCrew)}</div>` : ""}
     <h3 class="sub-h">${T("threatsH")}</h3><div class="people">${THREATS.map(personHTML).join("")}</div>
     <h3 class="sub-h">${T("stationH")}</h3><div class="people">${STATION_PEOPLE.map(personHTML).join("")}</div>
     <h3 class="sub-h">${T("plCrew")}</h3><p class="lede">${T("plCrewLede")}</p>
