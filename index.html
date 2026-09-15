@@ -1966,7 +1966,7 @@ function cassInit(){
   clearTimeout(cassTimer);
   const wrap = document.querySelector(".cass-term"); if(!wrap) return;
   const out = wrap.querySelector(".ct-type"), face = wrap.querySelector(".ct-face");
-  let li = Math.floor(Math.random() * CASS_TERM.lines.length);
+  let li = 0;   // первой всегда идёт фраза про фотографию
   const step = () => {
     if(!document.body.contains(wrap)) return;
     const text = tr(CASS_TERM.lines[li % CASS_TERM.lines.length]); li++;
