@@ -709,7 +709,7 @@ main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
 @media (max-width:560px){.start-art{height:244px}}
 @media (prefers-reduced-motion:reduce){.start-fig *{animation:none!important}}
 /* ---------- плейлисты ---------- */
-.playlist{margin:1.1rem 0 .6rem;padding:1rem 1.1rem}
+.playlist{margin:1.2rem 0 .6rem;padding:1rem 1.1rem 1.1rem}
 .playlist>*{position:relative;z-index:1}
 .pl-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.7rem}
 .pl-head b{font:500 1rem var(--f-head);letter-spacing:.05em;color:var(--ink)}
@@ -726,8 +726,9 @@ main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
 .pl-row:hover .pl-go{opacity:1}
 .pl-hint{margin:.7rem 0 0;font:500 .74rem var(--f-mono);color:var(--muted)}
 .pl-frame{border:0;border-radius:12px;display:block}
-.pl-wrap{max-width:44rem;margin-bottom:1rem}
-.bio .playlist{margin-top:1.2rem}
+.pl-wrap{max-width:52rem;margin-bottom:1.4rem}
+.bio .playlist{margin-top:1.3rem}
+.bio .pl-frame{min-height:380px}
 /* ---------- me card ---------- */
 .me-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,400px);gap:2.2rem;align-items:center;padding-right:2.8rem}
 .me-text>*{position:relative;z-index:1}
@@ -799,47 +800,13 @@ main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
 @media (prefers-reduced-motion:reduce){.sparkles span{opacity:1!important;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy)))!important}}
 
 /* stop chip in header */
-.mstop{display:none;align-items:flex-end;gap:2px;height:2rem;padding:0 .55rem}
-body.music-on .mstop{display:flex}
-.mstop i{display:block;width:3px;height:30%;border-radius:2px;background:var(--amber);animation:eq 1s ease-in-out infinite}
-.mstop i:nth-child(2){animation-delay:-.3s}.mstop i:nth-child(3){animation-delay:-.6s}
-.mstop:hover i{background:var(--danger);animation-play-state:paused;height:60%}
-/* ---------- music plate ---------- */
-.music{display:flex;flex-direction:column;gap:.5rem;padding:.8rem 1rem;margin:2.6rem 0 0;max-width:46rem;overflow:hidden;border-color:var(--line2)}
-.music>*{position:relative;z-index:1}
-.music::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;background:linear-gradient(100deg,transparent 20%,rgba(98,214,200,.07) 45%,transparent 60%);background-size:250% 100%;animation:msweep 6s linear infinite}
-@keyframes msweep{from{background-position:120% 0}to{background-position:-120% 0}}
 .m-row{display:flex;align-items:center;gap:.9rem;min-width:0}
-.m-play{flex:none;width:2.9rem;height:2.9rem;border-radius:50%;border:1px solid var(--amber);background:radial-gradient(circle at 35% 30%,rgba(242,169,63,.35),rgba(242,169,63,.08));color:var(--amber);display:grid;place-items:center;position:relative;transition:transform .15s,box-shadow .25s}
-.m-play svg{width:1.25rem;height:1.25rem}
-.m-play:hover{transform:scale(1.06);box-shadow:0 0 18px rgba(242,169,63,.45)}
-.m-play::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(242,169,63,.5);animation:mring 2.4s ease-out infinite}
 .playing .m-play::after{animation:none;opacity:0}
 @keyframes mring{0%{transform:scale(.9);opacity:.9}100%{transform:scale(1.35);opacity:0}}
-.m-info{display:flex;flex-direction:column;min-width:0;flex:1}
-.m-lbl{font:500 .68rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
-.m-title{font:500 1.1rem/1.2 var(--f-head);letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.m-info small{color:var(--muted);font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .m-eq{display:flex;align-items:flex-end;gap:3px;height:1.5rem;flex:none}
 .m-eq i{display:block;width:3px;height:22%;border-radius:2px;background:linear-gradient(180deg,var(--amber),var(--teal));opacity:.5;transition:height .3s}
 .playing .m-eq i{opacity:1;animation:eq 1s ease-in-out infinite}
 .m-eq i:nth-child(2){animation-delay:-.3s}.m-eq i:nth-child(3){animation-delay:-.6s}.m-eq i:nth-child(4){animation-delay:-.15s}.m-eq i:nth-child(5){animation-delay:-.45s}
-@keyframes eq{0%,100%{height:20%}30%{height:95%}55%{height:45%}75%{height:80%}}
-.m-vol{display:flex;align-items:center;gap:.4rem;color:var(--muted);flex:none}
-.m-vol svg{width:1.1rem;height:1.1rem}
-.m-vol input[type=range]{-webkit-appearance:none;appearance:none;width:6.5rem;height:4px;border-radius:3px;background:linear-gradient(90deg,var(--teal),var(--line2));outline:none}
-.m-vol input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--ink);border:2px solid var(--teal);cursor:pointer;box-shadow:0 0 8px rgba(98,214,200,.5)}
-.m-vol input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:var(--ink);border:2px solid var(--teal);cursor:pointer}
-.m-spot{display:inline-flex;align-items:center;gap:.4rem;padding:.3rem .7rem .3rem .35rem;border-radius:999px;border:1px solid rgba(29,185,84,.45);background:rgba(29,185,84,.1);color:var(--ink);text-decoration:none;font-size:.8rem;white-space:nowrap;flex:none;transition:background .2s}
-.m-spot:hover{background:rgba(29,185,84,.22)}
-.m-spot svg{width:1.2rem;height:1.2rem}
-.m-list{display:flex;flex-wrap:wrap;gap:.4rem;padding-top:.5rem;border-top:1px solid var(--line)}
-.m-chip{border:1px solid var(--line2);background:var(--panel2);border-radius:999px;padding:.22rem .7rem;font-size:.8rem;color:var(--muted)}
-.m-chip:hover{color:var(--ink);border-color:var(--teal)}
-.m-chip.on{color:var(--ink);border-color:var(--amber);background:var(--amber-soft)}
-.m-miss{display:none;margin:0;font-size:.82rem;color:var(--danger)}
-.music.missing .m-miss{display:block}
-.thanks .music{margin:1.1rem 0 0;max-width:none;border-color:rgba(255,143,179,.4)}
 .thanks .m-play{border-color:#ff8fb3;color:#ff8fb3;background:radial-gradient(circle at 35% 30%,rgba(255,143,179,.35),rgba(255,143,179,.08))}
 .thanks .m-play::after{border-color:rgba(255,143,179,.5)}
 .thanks .m-lbl{color:#ff8fb3}
@@ -859,7 +826,6 @@ body.music-on .mstop{display:flex}
     <a class="stage-pill" href="#/guide" id="pill"></a>
     <button class="mini" id="langBtn" aria-label="Language"></button>
     <button class="mini" id="themeBtn" aria-label="Theme">◐</button>
-    <button class="mini mstop" id="mstop"><i></i><i></i><i></i></button>
     <button class="mini" id="menuBtn" aria-expanded="false" aria-controls="topnav"><span></span><span></span><span></span></button>
   </div>
 </div></header>
@@ -869,6 +835,7 @@ body.music-on .mstop{display:flex}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
+
 /* =====================================================================
    CONTENT — всё, что показывается на сайте, лежит здесь.
    Правьте тексты прямо в этом блоке. Каждая строка: { ru: "...", en: "..." }.
@@ -1023,34 +990,7 @@ const MASCOT = {
 /* ---------------- МУЗЫКА ----------------
    Играет через официальный плеер Spotify (id трека — из ссылки open.spotify.com/track/ID).
    pages — какие треки показывать на какой странице (можно несколько, их можно переключать). */
-const MUSIC = {
-  tracks: {
-    leaving:   { file:"leaving-earth",          id:"4zkynG1TXIknSEiJ9616rt", title:"Leaving Earth", by:"Clint Mansell", game:"Mass Effect 3" },
-    normandy:  { file:"the-normandy",           id:"6vIobsQLunzhFEUd8bjY2Z", title:"The Normandy", by:"Sam Hulick", game:"Mass Effect" },
-    sovereign: { file:"sovereigns-theme",       id:"2qzcAJYPxNp7TTIjtiMAfu", title:"Sovereign's Theme", by:"Sam Hulick", game:"Mass Effect" },
-    party:     { file:"party-music",            id:"3zMnS6wyBOZGKpe2poXDyt", title:"Party Music", by:"Sascha Dikiciyan & Cris Velasco", game:"Mass Effect 2" },
-    lost:      { file:"i-was-lost-without-you", id:"0t6LQNivrcogRLbv0PoUsT", title:"I Was Lost Without You", by:"Sam Hulick", game:"Mass Effect 3" },
-    memories:  { file:"memories",               id:"3oj12eHqHDiVPLi2kKbJLh", title:"Memories", by:"John Paesano", game:"Mass Effect: Andromeda" },
-    temple:    { file:"the-lost-temple",        id:"2vYSd6pKY5WThBG6w5EzjB", title:"The Lost Temple", by:"Trevor Morris", game:"Dragon Age: Inquisition" },
-    elder:     { file:"the-elder-one-theme",    id:"4OQ9F0GuFcuYQciQaalFn6", title:"The Elder One Theme", by:"Trevor Morris", game:"Dragon Age: Inquisition" },
-  },
-  pages: {
-    home:    ["leaving","normandy"],
-    crew:    ["memories","party"],
-    ship:    ["normandy","party"],
-    station: ["temple","sovereign"],
-    world:   ["elder","sovereign","leaving"],
-    about:   ["lost"],
-  },
-  lbl:  L("Саундтрек раздела","Section soundtrack"),
-  lblAbout: L("Для Милки","For Milka"),
-  play: L("Включить","Play"), pause: L("Пауза","Pause"),
-  now:  L("Сейчас играет","Now playing"),
-  open: L("Открыть в Spotify","Open in Spotify"),
-  vol: L("Громкость","Volume"),
-  stop: L("Выключить музыку","Stop the music"),
-  missing: L("Нет файла — слушать в Spotify","No file — listen on Spotify"),
-};
+
 
 /* ---------------- СТАРТЫ ---------------- */
 const STARTS = [
@@ -1124,8 +1064,8 @@ const PLAYLISTS = {
   alex:   "3gE69avWX4fu9RcF87gFG7",
   diana:  "0UAby8Yfp4Tcjuwgp3lzoO",
   daniel: "4PXYtC62HOiv2XEPD6u2Mo",
-  cass:   "1GPsxvvPaMPA4f8i47cZ3D",
-  author: "",
+  cass:   "",
+  author: "1GPsxvvPaMPA4f8i47cZ3D",
 };
 
 /* ---------------- ОБ АВТОРЕ ---------------- */
@@ -1587,6 +1527,7 @@ const REGIONS = [
   [1175,745,"Регион теней","Shadow Region"],[1395,612,"Дальний рубеж","Far Frontier"],[763,975,"Периферийные миры","Periphery Worlds"],
 ];
 
+
 /* ===================== APP ===================== */
 (function(){
 const $ = (s, r=document) => r.querySelector(s);
@@ -1605,7 +1546,6 @@ const S = {
   peek: new Set(),
   stuck: null, ship: "bridge", station: "dock", star: "erebus", allSys: false,
   fresh: null, booted: false, typed: false, seen: new Set(), mascot: {guide:0, stuck:0},
-  mIdx: {}, music: { page:null, idx:0, playing:false }, vol: Math.min(1, Math.max(0, store.get("vol", 0.25))),
 };
 let prevStage = S.stage;
 const tr = o => o == null ? "" : (typeof o === "string" ? o : (o[S.lang] ?? o.ru));
@@ -1649,7 +1589,6 @@ function renderChrome(){
   $("#topnav").innerHTML = `${link("home")}<span class="nav-sep" aria-hidden="true"></span><span class="nav-g">${T("groupGuide")}</span>${["starts","guide","stuck","setup"].map(link).join("")}
     <span class="nav-sep" aria-hidden="true"></span><span class="nav-g">${T("groupCodex")}</span>${["crew","ship","station","world"].map(link).join("")}<span class="nav-sep" aria-hidden="true"></span>${link("about")}`;
   $("#menuBtn").setAttribute("aria-label", T("menu"));
-  $("#mstop").setAttribute("aria-label", tr(MUSIC.stop));
 }
 
 /* ---------- home ---------- */
@@ -1684,7 +1623,6 @@ function siteMapHTML(){
     <h3 class="sub-h">${T("groupGuide")}</h3><div class="sm-grid">${["starts","guide","stuck","setup"].map(card).join("")}</div>
     <h3 class="sub-h">${T("groupCodex")}</h3><div class="sm-grid">${["crew","ship","station","world"].map(card).join("")}</div>
     <div class="sm-grid" style="margin-top:.9rem">${card("about")}</div>
-    ${musicHTML("home")}
   </section>`;
 }
 function pagerHTML(r){
@@ -1816,61 +1754,7 @@ function shatter(key){
   ov.querySelector("#fixScreen").onclick = () => { ov.classList.add("repair"); document.body.classList.remove("wasted-mode"); setTimeout(() => { ov.remove(); document.body.classList.remove("shake"); toast(T("fixedToast"), 9000); }, reduce ? 0 : 650); };
   setTimeout(() => ov.querySelector("#fixScreen")?.focus(), 3600);
 }
-/* ---------- music ---------- */
-const ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>';
-const ICON_PAUSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg>';
-const ICON_SPOT = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1DB954"/><path d="M6.6 9.3c3.6-1.1 7.9-.8 11 1M7.2 12.4c3-.9 6.5-.6 9.1.9M7.9 15.3c2.4-.6 5-.4 7.1.8" stroke="#08130c" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>';
-const ICON_VOL = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13L7.5 14.5H4z" fill="currentColor"/><path d="M15.5 9c1.2 1.6 1.2 4.4 0 6M18 6.8c2.3 2.8 2.3 7.6 0 10.4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>';
-function musicHTML(page, lblKey){
-  const list = MUSIC.pages[page]; if(!list) return "";
-  const idx = S.mIdx[page] || 0, t = MUSIC.tracks[list[idx]];
-  const on = S.music.playing && S.music.page === page && S.music.idx === idx;
-  const chips = list.length > 1 ? `<div class="m-list">${list.map((k,i)=>`<button class="m-chip ${i===idx?"on":""}" data-mtrack="${page}:${i}">${esc(MUSIC.tracks[k].title)}</button>`).join("")}</div>` : "";
-  return `<aside class="music glass ${on?"playing":""}" data-mpage="${page}" aria-label="${esc(tr(lblKey||MUSIC.lbl))}">
-    <div class="m-row">
-      <button class="m-play" data-mplay="${page}" aria-label="${on?esc(tr(MUSIC.pause)):esc(tr(MUSIC.play))}">${on?ICON_PAUSE:ICON_PLAY}</button>
-      <div class="m-info"><span class="m-lbl">♪ ${esc(tr(lblKey||MUSIC.lbl))}</span><b class="m-title">${esc(t.title)}</b><small>${esc(t.by)} · ${esc(t.game)}</small></div>
-      <div class="m-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <span class="m-vol">${ICON_VOL}<input type="range" min="0" max="100" value="${Math.round(S.vol*100)}" data-mvol aria-label="${esc(tr(MUSIC.vol))}"></span>
-      <a class="m-spot" href="https://open.spotify.com/track/${t.id}" target="_blank" rel="noopener">${ICON_SPOT}<span>Spotify</span></a>
-    </div>
-    ${chips}
-    <p class="m-miss">${esc(tr(MUSIC.missing))}</p>
-  </aside>`;
-}
-let audio = null;
-function musicPlay(page, idx){
-  const t = MUSIC.tracks[MUSIC.pages[page][idx]];
-  S.music.page = page; S.music.idx = idx; S.mIdx[page] = idx;
-  if(!audio){
-    audio = new Audio(); audio.loop = true; audio.preload = "none";
-    window.__audio = audio;
-    audio.addEventListener("error", () => { S.music.playing = false; document.querySelector(`.music[data-mpage="${S.music.page}"]`)?.classList.add("missing"); musicUI(); });
-    audio.addEventListener("playing", () => { S.music.playing = true; musicUI(); });
-    audio.addEventListener("pause", () => { S.music.playing = false; musicUI(); });
-  }
-  audio.volume = S.vol;
-  const src = `assets/music/${t.file}.mp3`;
-  document.querySelectorAll(".music").forEach(el => el.classList.remove("missing"));
-  if(!audio.src.endsWith(src)) audio.src = src;
-  audio.play().catch(() => { S.music.playing = false; musicUI(); });
-  S.music.playing = true; musicUI();
-}
-function musicPause(){ audio && audio.pause(); S.music.playing = false; musicUI(); }
-function setVol(v){ S.vol = v; store.set("vol", v); if(audio) audio.volume = v;
-  document.querySelectorAll("[data-mvol]").forEach(i => { if(+i.value !== Math.round(v*100)) i.value = Math.round(v*100); }); }
-function musicUI(){
-  document.body.classList.toggle("music-on", S.music.playing);
-  document.querySelectorAll(".music").forEach(el => {
-    const page = el.dataset.mpage, list = MUSIC.pages[page], idx = S.mIdx[page] || 0, t = MUSIC.tracks[list[idx]];
-    const on = S.music.playing && S.music.page === page && S.music.idx === idx;
-    el.classList.toggle("playing", on);
-    const b = el.querySelector(".m-play"); b.innerHTML = on ? ICON_PAUSE : ICON_PLAY; b.setAttribute("aria-label", on ? tr(MUSIC.pause) : tr(MUSIC.play));
-    el.querySelector(".m-title").textContent = t.title; el.querySelector(".m-info small").textContent = t.by + " · " + t.game;
-    el.querySelector(".m-spot").href = "https://open.spotify.com/track/" + t.id;
-    el.querySelectorAll(".m-chip").forEach((c,i) => c.classList.toggle("on", i === idx));
-  });
-}
+
 
 const START_IMG = {
   crew:  { f:"assets/starts/crew.webp",  fg:"assets/starts/crew-glow.webp",  m:"assets/starts/crew-m.webp",  mg:"assets/starts/crew-m-glow.webp" },
@@ -1956,8 +1840,7 @@ function aboutHTML(){
         <figcaption>${esc(tr(A.hugHint))}</figcaption></figure>
       <div class="thanks-t"><p class="brief-lbl">${esc(tr(A.thanksH))}</p>
         <p class="thanks-lead">${esc(tr(A.thanksLead))} <a class="friend" href="${A.friend.url}" target="_blank" rel="noopener">${esc(tr(A.friend.name))}</a></p>
-        ${A.thanks.map((t,i)=>`<p class="${i?"thanks-last":""}">${esc(tr(t))}</p>`).join("")}
-        ${musicHTML("about", MUSIC.lblAbout)}</div>
+        ${A.thanks.map((t,i)=>`<p class="${i?"thanks-last":""}">${esc(tr(t))}</p>`).join("")}</div>
     </div>
     <div class="about-card glass players"><p class="brief-lbl">${esc(tr(A.playersH))}</p><p>${esc(tr(A.players))}</p></div>
     <p class="bye">${esc(tr(A.bye))}</p>
@@ -2019,7 +1902,7 @@ function playlistHTML(id, title, compact){
   return `<section class="playlist glass">
     <div class="pl-head"><span class="pl-ic">${SPOT_ICON}</span><b>${esc(tr(title || UI.plTitle))}</b></div>
     <iframe class="pl-frame" src="https://open.spotify.com/embed/playlist/${esc(pid)}?utm_source=generator&theme=0"
-      height="${compact ? 152 : 352}" loading="lazy" tabindex="-1"
+      height="${compact ? 352 : 380}" loading="lazy" tabindex="-1"
       allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
   </section>`;
 }
@@ -2050,9 +1933,7 @@ function crewHTML(){
       <div class="pl-wrap">${playlistHTML("crew", UI.plCrew)}</div>` : ""}
     <h3 class="sub-h">${T("threatsH")}</h3><div class="people">${THREATS.map(personHTML).join("")}</div>
     <h3 class="sub-h">${T("stationH")}</h3><div class="people">${STATION_PEOPLE.map(personHTML).join("")}</div>
-    <h3 class="sub-h">${T("plCrew")}</h3><p class="lede">${T("plCrewLede")}</p>
-    <div class="pl-wrap">${playlistHTML("crew", UI.plCrew)}</div>
-    ${musicHTML("crew")}</section>`;
+</section>`;
 }
 
 /* ---------- detail panel ---------- */
@@ -2084,8 +1965,7 @@ function shipHTML(){
   const banner = `<figure class="ship-hero glass"><img src="${esc(I.img)}" alt="${esc(tr(I.title))}" data-zoom="${esc(I.full)}" data-name="${esc(tr(I.title))}" title="${T("openBoard")}" onerror="this.remove()">
     <figcaption><h3>${esc(tr(I.title))}</h3><p>${esc(tr(I.sub))}</p><div class="chips">${I.chips.map(c=>`<span class="tag">${esc(tr(c))}</span>`).join("")}</div></figcaption></figure>`;
   return `<section id="ship"><h2>${T("navShip")}</h2><p class="lede">${T("shipLede")}</p>${banner}
-    <div class="mapbox"><div class="svgwrap glass glow ship-svg">${svg}</div>${detailHTML(SHIP.find(r=>r.id===S.ship))}</div>
-    ${musicHTML("ship")}</section>`;
+    <div class="mapbox"><div class="svgwrap glass glow ship-svg">${svg}</div>${detailHTML(SHIP.find(r=>r.id===S.ship))}</div></section>`;
 }
 
 /* ---------- station ---------- */
@@ -2120,8 +2000,7 @@ function stationHTML(){
   const banner = `<figure class="ship-hero glass"><img src="${esc(SI.img)}" alt="${esc(tr(SI.title))}" data-zoom="${esc(SI.full)}" data-name="${esc(tr(SI.title))}" title="${T("openBoard")}" onerror="this.remove()">
     <figcaption><h3>${esc(tr(SI.title))}</h3><p>${esc(tr(SI.sub))}</p><div class="chips">${SI.chips.map(c=>`<span class="tag">${esc(tr(c))}</span>`).join("")}</div></figcaption></figure>`;
   return `<section id="station"><h2>${T("navStation")}</h2><p class="lede">${T("stationLede")}</p>${banner}
-    <div class="mapbox side"><div class="svgwrap glass glow">${svg}</div>${detailHTML(cur, tag)}</div>
-    ${musicHTML("station")}</section>`;
+    <div class="mapbox side"><div class="svgwrap glass glow">${svg}</div>${detailHTML(cur, tag)}</div></section>`;
 }
 
 /* ---------- world ---------- */
@@ -2160,8 +2039,7 @@ function worldHTML(){
   const tag = cur ? `<span class="tag ${cur.kind==="erebus"||cur.kind==="danger"?"warn":""}">${esc(tr(cur.sub))}</span>${cur.who&&cur.who.length?`<span class="who">${T("whoLbl")} ${cur.who.map(w=>`<b>${esc(tr(w))}</b>`).join(", ")}</span>`:""}` : "";
   return `<section id="world"><h2>${T("navWorld")}</h2><p class="lede">${T("worldLede")}</p>
     <div class="mapbox"><div class="svgwrap glass map-wrap">${svg}${legend}<p class="where" style="margin:.4rem .2rem 0">${T("mapNote")}</p></div>${chips}${detailHTML(cur, tag)}</div>
-    <div class="world-grid">${WORLD_CARDS.map(c=>`<div class="wcard glass glow"><h3>${esc(tr(c.h))}</h3><p>${esc(tr(c.p))}</p></div>`).join("")}</div>
-    ${musicHTML("world")}</section>`;
+    <div class="world-grid">${WORLD_CARDS.map(c=>`<div class="wcard glass glow"><h3>${esc(tr(c.h))}</h3><p>${esc(tr(c.p))}</p></div>`).join("")}</div></section>`;
 }
 
 /* ---------- wizard ---------- */
@@ -2206,7 +2084,6 @@ function render(){
     document.querySelectorAll("[data-st]").forEach(el => { const s=+el.dataset.st; if(s>prevStage && s<=S.stage) el.classList.add("unveil"); });
   }
   prevStage = S.stage;
-  musicUI();
   reveal(r);
   S.booted = true;
 }
@@ -2238,9 +2115,6 @@ document.addEventListener("click", e => {
   else if(d.peek){ const n=+d.peek; if(confirm(fmt(T("peekConfirm"),{n}))){ S.peek.add(n); S["open"+n]=true; render(); } }
   else if(d.stuck!==undefined){ const i=+d.stuck; S.fresh="stuck"; S.stuck = S.stuck===i?null:i; render(); $(`[data-stuck="${i}"]`)?.focus(); }
   else if(d.poke){ poke(d.poke); }
-  else if(d.mplay){ const p = d.mplay, i = S.mIdx[p] || 0; (S.music.playing && S.music.page === p && S.music.idx === i) ? musicPause() : musicPlay(p, i); }
-  else if(d.mtrack){ const [p,i] = d.mtrack.split(":"); musicPlay(p, +i); }
-  else if(t.id === "mstop"){ musicPause(); }
 
   else if(d.copy){ copy(d.copy); }
   else if(d.reveal){ if(confirm(fmt(T("revealConfirm"),{n:d.rs}))){ S.cards.add(d.reveal); store.set("cards",[...S.cards]); S.fresh="card"+d.reveal; render(); } }
