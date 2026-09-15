@@ -725,12 +725,21 @@ main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
 .pl-go{color:#1DB954;font-size:.95rem;opacity:.6}
 .pl-row:hover .pl-go{opacity:1}
 .pl-hint{margin:.7rem 0 0;font:500 .74rem var(--f-mono);color:var(--muted)}
-.pl-frame{border:0;border-radius:12px;display:block}
+.pl-frame{border:0;border-radius:12px;display:block;width:100%;min-width:0;min-height:360px}
 .pl-wrap{max-width:52rem;margin-bottom:1.4rem}
 .bio .playlist{margin-top:1.3rem}
-.bio .pl-frame{min-height:380px}
+.bio .pl-frame{min-height:400px}
+
+@media (max-width:560px){
+  .playlist{padding:.85rem .7rem .9rem}
+  .about-card.me-card{padding-left:.9rem;padding-right:.9rem}
+  .me-pl .pl-frame{min-height:400px}
+}
 /* ---------- me card ---------- */
 .me-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,400px);gap:2.2rem;align-items:center;padding-right:2.8rem}
+.me-pl{grid-column:1/-1;min-width:0;width:100%}
+.me-pl .playlist{margin:.4rem 0 0}
+.me-pl .pl-frame{min-height:420px}
 .me-text>*{position:relative;z-index:1}
 .me-fig{margin:0;position:relative;z-index:1;padding:0 3.2rem 2.6rem}
 .me-wrap{position:relative;width:100%;aspect-ratio:979/1000}
@@ -753,6 +762,7 @@ main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
 @media (max-width:820px){
   .me-card{grid-template-columns:1fr;padding-right:1.4rem;gap:1.4rem}
   .me-fig{max-width:min(420px,100%);margin:0 auto;padding:0 2.4rem 2.2rem}
+  .me-pl .pl-frame{min-height:380px}
   .me-note{font-size:clamp(.95rem,4.2vw,1.3rem)}
   .me-note.n1{left:-6%}.me-note.n2{right:-8%}
 }
@@ -1812,7 +1822,6 @@ function aboutHTML(){
         <div class="me-tags">${A.tags.map(t=>`<span>${esc(tr(t))}</span>`).join("")}</div>
         <p class="muted-p">${esc(tr(A.promptsNote))}</p>
         <div class="tg-list">${ch}</div>
-        ${PLAYLISTS.author ? `<p class="brief-lbl pl-lbl">${T("plAuthor")}</p><p class="muted-p">${T("plAuthorLede")}</p>${playlistHTML("author", UI.plAuthor, true)}` : ""}
       </div>
       <figure class="me-fig">
         <div class="me-wrap">
@@ -1829,6 +1838,7 @@ function aboutHTML(){
           <span class="me-sp s4">✧</span><span class="me-sp s5">★</span><span class="me-sp s6">♡</span>
         </div>
       </figure>
+      ${PLAYLISTS.author ? `<div class="me-pl"><p class="brief-lbl">${T("plAuthor")}</p><p class="muted-p">${T("plAuthorLede")}</p>${playlistHTML("author", UI.plAuthor)}</div>` : ""}
     </article>
     <div class="thanks glass">
       <figure class="hug">
