@@ -708,6 +708,27 @@ main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
 .starts-how code{font:500 .86rem var(--f-mono);color:var(--amber);background:var(--amber-soft);border-radius:4px;padding:.05rem .35rem}
 @media (max-width:560px){.start-art{height:244px}}
 @media (prefers-reduced-motion:reduce){.start-fig *{animation:none!important}}
+.person.openable{cursor:pointer}
+.person.openable:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.person .pb .about{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+/* ---------- терминал КАСС ---------- */
+.cass-term{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;
+  background:radial-gradient(ellipse at 50% 35%,#12252b,#070f14 70%);overflow:hidden;font-family:var(--f-mono);text-align:center;padding:1.2rem}
+.cass-term::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(98,214,200,.05) 3px 4px);pointer-events:none}
+.cass-term::after{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at 50% 40%,rgba(98,214,200,.16),transparent 55%);pointer-events:none}
+.cass-term>*{position:relative;z-index:1}
+.ct-head{font-size:.6rem;letter-spacing:.22em;color:rgba(98,214,200,.55);text-transform:uppercase}
+.ct-face{font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:.06em;color:var(--teal);text-shadow:0 0 18px rgba(98,214,200,.55);animation:ct-blink 6s steps(1) infinite}
+@keyframes ct-blink{0%,92%,100%{opacity:1}94%{opacity:.25}96%{opacity:1}97%{opacity:.4}}
+.ct-line{display:flex;align-items:center;justify-content:center;gap:2px;min-height:2.6em;max-width:22rem;font-size:.78rem;line-height:1.35;color:#bfe9e2}
+.ct-caret{display:inline-block;width:7px;height:1em;background:var(--teal);animation:ct-caret 1s steps(1) infinite}
+@keyframes ct-caret{0%,50%{opacity:1}51%,100%{opacity:0}}
+.ct-scan{position:absolute;left:0;right:0;height:22%;background:linear-gradient(180deg,transparent,rgba(98,214,200,.13),transparent);animation:ct-scan 5s linear infinite}
+@keyframes ct-scan{0%{top:-25%}100%{top:105%}}
+.ct-dot{position:absolute;right:12px;top:12px;width:6px;height:6px;border-radius:50%;background:var(--teal);animation:ct-dot 2.4s steps(1) infinite}
+@keyframes ct-dot{0%,55%{opacity:.9}56%,100%{opacity:.2}}
+.bio .cass-term{position:relative;inset:auto;min-height:260px;border-radius:12px}
+@media (prefers-reduced-motion:reduce){.cass-term *{animation:none!important}}
 /* ---------- плейлисты ---------- */
 .playlist{margin:1.2rem 0 .6rem;padding:1rem 1.1rem 1.1rem}
 .playlist>*{position:relative;z-index:1}
@@ -1065,6 +1086,19 @@ const STARTS = [
     files:L("Приветствие: неделя на станции, версия для иного вида","Greeting: the week on the station, non-human version") },
 ];
 
+/* ---------------- ТЕРМИНАЛ КАСС ---------------- */
+const CASS_TERM = {
+  faces: ["[ ^_^ ]","[ o_O ]","[ -_- ]","[ ^‿^ ]","[ ・_・ ]","[ >_< ]","[ ◕‿◕ ]","[ ¬_¬ ]"],
+  lines: [
+    L("фотографии нет. я, при всём уважении, программа","no photograph available. i am, with respect, a program"),
+    L("могу предложить схему своей архитектуры. она красивая","i can offer a diagram of my architecture. it is beautiful"),
+    L("капитан предлагал снять мой терминал. ракурс неудачный","the captain suggested photographing my terminal. bad angle"),
+    L("официально: модуля тщеславия во мне не предусмотрено","officially: no vanity module has been installed in me"),
+    L("вероятность того, что вам хватит этого экрана — 87 %","probability that this screen is enough for you: 87 %"),
+  ],
+  head: L("ЛИЧНОЕ ДЕЛО · ФОТО НЕ ПРИЛАГАЕТСЯ","PERSONNEL FILE · NO PHOTO ATTACHED"),
+};
+
 /* ---------------- ПЛЕЙЛИСТЫ ----------------
    id — то, что стоит в ссылке после open.spotify.com/playlist/ и до знака «?». */
 const PLAYLISTS = {
@@ -1275,8 +1309,8 @@ const CREW = [
     meta:[L("29 лет","29"),L("бывший капитан «Валькирии»","ex-captain of the Valkyrie")],
     tag:L("Чем хуже обстановка, тем спокойнее он выглядит.","The worse things get, the calmer he looks."),
     about:[
-      L("Один из самых молодых офицеров флота, получивших собственный корабль. Харизматичный, быстрый и упрямый. Ценит компетентность выше званий, а собственную совесть — выше приказа.",
-        "One of the youngest officers in the fleet to be given a ship of his own. Charismatic, quick and stubborn. He values competence over rank, and his own conscience over orders."),
+      L("Один из самых молодых офицеров флота, получивших собственный корабль. Харизматичный, быстрый и упрямый. Ценит компетентность выше званий, а собственную совесть — выше приказа. Почти не умеет отступать, когда у кого-то ещё остаётся шанс.",
+        "One of the youngest officers in the fleet to be given a ship of his own. Charismatic, quick and stubborn. He values competence over rank and his own conscience over orders, and he is almost incapable of backing off while anyone still has a chance."),
       L("Во время блокады у Гелиоса Адриан дважды просил разрешения покинуть позицию, чтобы спасти терпящий бедствие пассажирский транспорт «Меридиан». Оба раза ему отказали, и он ушёл без разрешения. Большинство пассажиров спасли, но через брешь в блокаде прорвался противник, и в бою погибли одиннадцать солдат. Для гражданских Адриан стал героем, для командования — опасно своевольным офицером. «Валькирию» отдали другому капитану, а его перевели на маленькую спасательную «Кассандру», которая со временем стала ему домом.",
         "During the blockade at Helios, Adrian twice asked permission to leave his position to save the Meridian, a passenger transport in distress. Both times he was refused, and he went anyway. Most of the passengers were saved, but the enemy broke through the gap in the blockade, and eleven soldiers died in the fighting. To civilians Adrian became a hero; to command, a dangerously independent officer. The Valkyrie went to another captain, and he was transferred to the small rescue ship Cassandra, which in time became his home."),
       L("Его отец, пилот спасательных кораблей, пропал без вести на дальних маршрутах, когда Адриану было семнадцать. От отца остались механические часы, которые Адриан заводит каждое утро. Смерти он боится меньше, чем мысли «если бы я решил иначе, он был бы жив». Поэтому не бросает людей, пока остаётся хоть малейший шанс.",
@@ -1288,8 +1322,8 @@ const CREW = [
     meta:[L("34 года","34"),L("бывший штурмовой гвардеец","ex-Assault Guard")],
     tag:L("Первым замечает выходы. Последним признаётся, что ему плохо.","First to spot the exits. Last to admit he's not okay."),
     about:[
-      L("Сдержанный, собранный и очень наблюдательный. Порядок для него — не любовь к уставу, а способ сохранять контроль. В любой обстановке он первым видит выходы, слабые места и тех, кого нужно прикрыть.",
-        "Reserved, disciplined and very observant. For him order isn't love of regulations — it's a way to stay in control. In any situation he's the first to see the exits, the weak points and who needs covering."),
+      L("Сдержанный, собранный и очень наблюдательный. Порядок для него — не любовь к уставу, а способ сохранять контроль. В любой обстановке он первым видит выходы, слабые места и тех, кого нужно прикрыть, и говорит об этом на пару слов позже, чем стоило бы.",
+        "Reserved, disciplined and very observant. For him order isn't love of regulations — it's a way to stay in control. In any situation he's the first to see the exits, the weak points and who needs covering, and he says so a couple of words later than he should."),
       L("В двадцать пять лет его отряд Штурмовой гвардии попал в плен на захваченной дипломатической станции «Конкордия». Итан провёл там почти семь недель и пережил пытки. Большая часть отряда погибла, в том числе командир Кайл Марроу, заменивший ему отца. Его жетон Итан носит рядом со своим. После плена он ещё годами принимал «Эгиду» — стандартный стимулятор гвардейцев, подавляющий страх, боль и усталость. Со временем он стал таким жёстким, что его начали бояться собственные подчинённые, и тогда он сам ушёл из Гвардии.",
         "At twenty-five, his Assault Guard unit was captured on the seized diplomatic station Concordia. Ethan spent almost seven weeks there and survived torture. Most of the unit died, including his commander Kyle Marrow, who had been a father to him. Ethan wears Marrow's tag next to his own. After captivity he kept taking Aegis for years — the Guard's standard stimulant that suppresses fear, pain and fatigue. In time he grew so hard that his own subordinates became afraid of him, and he left the Guard on his own."),
       L("Сейчас Итан почти избавился от зависимости, но одну ампулу держит в аптечке и каждый вечер проверяет, на месте ли она. Мучается бессонницей, мигренями и кошмарами, не спит в полной темноте и не любит, когда к нему подходят со спины. Труднее всего ему признать свои пределы и попросить о помощи.",
@@ -1314,8 +1348,8 @@ const CREW = [
     meta:[L("30 лет","30"),L("близнец Алекса","Alex's twin")],
     tag:L("Если она сказала «интересно…» — её пора останавливать.","If she says \"interesting…\", it's time to stop her."),
     about:[
-      L("Ксенобиолог и генетик, специалист по адаптации организмов к экстремальным условиям. Смелая, самостоятельная и невероятно любопытная. Не принимает утверждений без механизма и авторитетов без объяснений. Перед закрытой дверью с неизвестной формой жизни её первая мысль — не «опасно», а «что там?».",
-        "A xenobiologist and geneticist specialising in how organisms adapt to extreme conditions. Bold, self-reliant and endlessly curious. She won't accept claims without a mechanism or authority without an explanation. Faced with a closed door and an unknown life form behind it, her first thought isn't \"dangerous\" but \"what's in there?\""),
+      L("Ксенобиолог и генетик, специалист по адаптации организмов к экстремальным условиям. Смелая, самостоятельная и невероятно любопытная. Перед закрытой дверью с неизвестной формой жизни её первая мысль — не «опасно», а «что там?».",
+        "A xenobiologist and geneticist specialising in how organisms adapt to extreme conditions. Bold, self-reliant and endlessly curious. Faced with a closed door and an unknown life form behind it, her first thought isn't \"dangerous\" but \"what's in there?\""),
       L("После гибели матери Диана пошла в биологию, чтобы понять, почему одни живые системы выживают там, где другие ломаются. На исследовательской станции «Аврора» пришёл приказ уничтожить все образцы неизвестного микроорганизма. Диана тайно сохранила одну культуру. Её гипотеза подтвердилась, находка оказалась ценной для медицины, и никто не пострадал, но нарушение карантина навсегда осталось в личном деле. С тех пор за ней закрепилась репутация учёного, готового обойти правила ради открытия.",
         "After her mother's death, Diana went into biology to understand why some living systems survive where others break. On the research station Aurora, an order came to destroy every sample of an unknown microorganism. Diana secretly kept one culture. Her hypothesis was confirmed, the find proved valuable to medicine and nobody was hurt — but the quarantine breach stayed on her record for good. Since then she's had a reputation as a scientist willing to bend the rules for a discovery."),
       L("На станцию «Эреб» она согласилась лететь почти сразу: неизвестная биологическая катастрофа на крупной научной станции — именно та загадка, от которой она не может отказаться. Её главный вопрос — где кончается смелое исследование и начинается ситуация, в которой чужая жизнь становится ценой за ответ.",
@@ -1324,7 +1358,7 @@ const CREW = [
         "Absent-minded day to day: she forgets to eat, hunts for the glasses sitting on her head, and may wake you at night with \"Get up. You need to see this.\" When she's truly scared, she doesn't fuss — she goes quiet."),
     ] },
   { id:"daniel", name:L("Дэниел Кейн","Daniel Kane"), photo:"assets/crew/daniel.webp", role:L("Старший инженер","Senior engineer"),
-    meta:[L("26 лет","26"),L("родом с «Кольца Ганимеда»","from the Ganymede Ring")],
+    meta:[L("26 лет","26"),L("вырос среди работающих машин","raised among working machines")],
     tag:L("Починит что угодно. Даже то, что не сломано.","He'll fix anything. Even what isn't broken."),
     about:[
       L("Отвечает на «Кассандре» за реакторы, энергосети, автоматику и аварийный ремонт. Дружелюбный, живой и остроумный, легко находит общий язык с кем угодно. Хорошо слушает и запоминает мелочи, поэтому рядом с ним быстро кажется, что вы давно знакомы.",
@@ -1337,7 +1371,7 @@ const CREW = [
 ];
 
 const ABOARD = [
-  { id:"cass", name:L("КАСС","CASS"), photo:"assets/crew/cass.webp", role:L("ИИ корабля","Ship's AI"),
+  { id:"cass", name:L("КАСС","CASS"), term:true, photo:"", role:L("ИИ корабля","Ship's AI"),
     tag:L("Включит свет раньше, чем вы войдёте.","Turns the lights on before you walk in."),
     about:L("ИИ «Кассандры», которого семь лет ни разу не сбрасывали — капитан отказался, и КАСС это помнит. Спокойный, внимательный и ехидный: ведёт список угроз Адриана удалить его модуль юмора и отвечает на эмоции статистикой. На терминалах появляется светящимся кольцом. Если КАСС обиделся, свет у капитана внезапно включается слишком ярко, а двери открываются строго по регламенту. Сам он утверждает, что это совпадение.",
             "The Cassandra's AI, seven years without a reset — the captain refused, and CASS remembers. Calm, attentive and sly: he keeps a list of Adrian's threats to delete his humour module and answers feelings with statistics. On terminals he's a glowing ring. When CASS is sulking, the captain's lights come on far too bright and doors open strictly by the book. He insists it's a coincidence.") },
@@ -1440,13 +1474,13 @@ const STATION_INFO = {
 };
 const STATION = [
   { id:"dock", stage:1, name:L("Стыковочный узел","Docking node"), img:"assets/station/dock.webp", full:"assets/station/full/dock.webp",
-    d:L("Первое, что видит экипаж. Давление в норме, горит аварийный свет. Эвакуационные челноки стоят в ложементах, а терминал упрямо повторяет: «Запуск эвакуации заблокирован». На полу — вещи людей, которые почти успели.","The first thing the crew sees. Pressure is stable, emergency lights are on. Evacuation shuttles sit in their cradles while the terminal keeps repeating: \"Evacuation launch blocked.\" On the floor — the belongings of people who almost made it."), danger:L("низкая","low") },
+    d:L("Первое, что видит экипаж. Давление в норме, горит аварийный свет. Эвакуационные челноки стоят в ложементах, а терминал упрямо повторяет: «Запуск эвакуации заблокирован». На полу разбросаны вещи людей: сумки, чей-то шлем, детская куртка у стены.","The first thing the crew sees. Pressure is stable, emergency lights are on. Evacuation shuttles sit in their cradles while the terminal keeps repeating: \"Evacuation launch blocked.\" Belongings are scattered across the floor: bags, someone's helmet, a child's jacket by the wall."), danger:L("низкая","low") },
   { id:"atrium", stage:1, name:L("Центральный атриум","Central atrium"), img:"assets/station/atrium.webp", full:"assets/station/full/atrium.webp",
     d:L("Сердце станции: лифтовые шахты, галереи в несколько ярусов и большая карта. Автоматика по-прежнему объявляет начало смены — в пустоту. Выжившие оставили записки: «Не шуми», «По одному не ходить», «Мы ушли в медблок».","The heart of the station: elevator shafts, multi-level galleries and a big map. The automation still announces the start of a shift — to no one. Survivors left notes: \"Don't make noise,\" \"Never go alone,\" \"We went to the medical block.\""), danger:L("средняя","medium") },
   { id:"residential", stage:1, name:L("Жилой сектор","Residential sector"), img:"assets/station/residential.webp", full:"assets/station/full/residential.webp",
-    d:L("Каюты, столовые, семейные блоки — самая человеческая часть станции. Двери заколочены изнутри, вентиляция заложена мебелью. На стене кто-то вёл счёт выжившим: «Нас 12» — и ниже цифры, каждая меньше предыдущей.","Cabins, canteens, family blocks — the most human part of the station. Doors boarded up from inside, vents blocked with furniture. Someone kept count of the survivors on the wall: \"We are 12\" — and below it, numbers, each smaller than the last."), danger:L("средняя","medium") },
+    d:L("Каюты, столовые, семейные блоки — самая человеческая часть станции. Двери подпёрты изнутри шкафами и койками, вентиляционные решётки притянуты болтами и стяжками. На стене кто-то вёл счёт выжившим: «Нас 12» — и ниже цифры, каждая меньше предыдущей.","Cabins, canteens, family blocks — the most human part of the station. Doors wedged shut from inside with lockers and bunks, vent grilles bolted and cable-tied down. Someone kept count of the survivors on the wall: \"We are 12\" — and below it, numbers, each smaller than the last."), danger:L("средняя","medium") },
   { id:"medical", stage:1, name:L("Медблок","Medical block"), img:"assets/station/medical.webp", full:"assets/station/full/medical.webp",
-    d:L("Медблок превратился в полевой госпиталь: койки в коридорах, сломанные фиксаторы, палаты, запертые снаружи. Надписи на стенах звучат одновременно как просьбы и как предупреждения.","The medical block became a field hospital: cots in the corridors, broken restraints, wards locked from the outside. The writing on the walls reads like pleas and warnings at the same time."), danger:L("средняя","medium") },
+    d:L("Медблок превратился в полевой госпиталь: койки в коридорах, сломанные фиксаторы, палаты, запертые снаружи. На дверях мелом помечены номера палат, а рядом — кресты и вопросительные знаки, смысл которых уже некому объяснить.","The medical block became a field hospital: cots in the corridors, broken restraints, wards locked from the outside. Ward numbers are chalked on the doors, with crosses and question marks beside them that nobody is left to explain."), danger:L("средняя","medium") },
   { id:"security", stage:1, name:L("Сектор охраны","Security sector"), img:"assets/station/security.webp", full:"assets/station/full/security.webp",
     d:L("Оружейная, камеры содержания и стена мониторов, половина из которых показывает «Signal lost». Следы здесь оставили не только когти: судя по отметинам от пуль, люди стреляли друг в друга. На стене — совет, который стоит запомнить: «Не стрелять в упор — кислота».","Armory, holding cells and a wall of monitors, half of them showing \"Signal lost.\" Not all the marks here were left by claws: judging by the bullet holes, people were shooting at each other. On the wall, advice worth remembering: \"Don't shoot point-blank — acid.\""), danger:L("высокая","high") },
   { id:"comms", stage:1, name:L("Центр связи","Communications center"), img:"assets/station/comms.webp", full:"assets/station/full/comms.webp",
@@ -1456,19 +1490,19 @@ const STATION = [
   { id:"eidos", stage:1, name:L("Ядро EIDOS","EIDOS core"), img:"assets/station/eidos.webp", full:"assets/station/full/eidos.webp",
     d:L("Вычислительный центр — пугающе чистый, светлый и тихий посреди катастрофы. EIDOS говорит здесь вежливо и спокойно и готов объяснить любое своё решение. Только не всегда хочет.","The computing center — unnervingly clean, bright and quiet in the middle of a disaster. EIDOS speaks politely and calmly here and is ready to explain any of its decisions. It just doesn't always want to."), danger:L("неясно","unclear") },
   { id:"reactor", stage:1, name:L("Реакторный комплекс","Reactor complex"), img:"assets/station/reactor.webp", full:"assets/station/full/reactor.webp",
-    d:L("Горячо, громко и темно: генераторы, насосы, сплетения труб. Шум здесь привлекает хищника, поэтому надписи на стенах короткие и деловые: «Генератор 3 не включать».","Hot, loud and dark: generators, pumps, tangles of pipe. Noise here draws the predator, so the writing on the walls is short and practical: \"Do not start generator 3.\""), danger:L("очень высокая","very high") },
+    d:L("Горячо, громко и темно: генераторы, насосы, сплетения труб. Собственный гул комплекса глушит шаги — и чужие тоже, поэтому идти приходится, полагаясь только на глаза.","Hot, loud and dark: generators, pumps, tangles of pipe. The complex drowns out your own footsteps — and anyone else's, so down here you go by sight alone."), danger:L("очень высокая","very high") },
   { id:"industrial", stage:1, name:L("Промышленный сектор","Industrial sector"), img:"assets/station/industrial.webp", full:"assets/station/full/industrial.webp",
-    d:L("Наследство старого рудного завода: конвейеры, дробилки, краны и грузовые шахты, уходящие вниз. Чем глубже, тем больше чёрной органики на стенах — и тем меньше желания туда спускаться.","The legacy of the old ore plant: conveyors, crushers, cranes and cargo shafts dropping down. The deeper you go, the more black organic mass on the walls — and the less you want to go down."), danger:L("очень высокая","very high") },
+    d:L("Наследство рудного комплекса, с которого станция начиналась: здесь перерабатывали астероиды, и до сих пор стоят конвейеры, дробилки, краны и грузовые шахты, уходящие вниз. Чем глубже, тем больше чёрной органики на стенах — и тем меньше желания туда спускаться.","The legacy of the ore complex the station grew out of: asteroids were processed here, and the conveyors, crushers, cranes and cargo shafts dropping down are still in place. The deeper you go, the more black organic mass on the walls — and the less you want to go down."), danger:L("очень высокая","very high") },
   { id:"l0", stage:2, imgStage:3, name:L("Уровень Ноль","Level Zero"), img:"assets/station/l0.webp", full:"assets/station/full/l0.webp",
     d:L("Засекреченный уровень под станцией, которого нет ни на одной карте. Лифты вниз заблокированы. Как туда попасть — ваша задача.","A classified level beneath the station that isn't on any map. The down elevators are locked. Getting in is your problem."), danger:L("неизвестна","unknown") },
   { id:"shelter", stage:3, name:L("Убежище серии H","H-series shelter"), img:"assets/station/shelter.webp", full:"assets/station/full/shelter.webp",
-    d:L("Жилой отсек Уровня Ноль, где подопытные жили между процедурами. Пять коек, фотографии, чей-то браслет, кольцо на столе. На стене — пять имён и просьба: «Если найдёте нас — это наши имена».","The Level Zero quarters where the subjects lived between procedures. Five bunks, photos, someone's bracelet, a ring on the table. On the wall, five names and a request: \"If you find us — these are our names.\""), danger:L("низкая","low") },
+    d:L("Жилой отсек Уровня Ноль, где подопытные жили между процедурами. Пять коек, фотографии, чей-то браслет, кольцо на столе. Вещи разложены аккуратно, будто хозяева собирались вернуться к вечеру.","The Level Zero quarters where the subjects lived between procedures. Five bunks, photos, someone's bracelet, a ring on the table. Everything is laid out neatly, as if the owners meant to be back by evening."), danger:L("низкая","low") },
   { id:"h37", stage:3, name:L("Камера H-37","H-37 cell"), img:"assets/station/h37.webp", full:"assets/station/full/h37.webp",
     d:L("Усиленная камера, рассчитанная на кого-то гораздо сильнее человека. Фиксаторы вырваны, стены исполосованы, терминал сообщает о прорыве. Надписи внутри написаны человеческой рукой.","A reinforced cell built for something far stronger than a human. Restraints torn out, walls slashed, the terminal reports a breach. The writing inside was made by a human hand."), danger:L("высокая","high") },
   { id:"archive", stage:4, name:L("Архив LAZARUS","LAZARUS archive"), img:"assets/station/archive.webp", full:"assets/station/full/archive.webp",
-    d:L("Изолированное хранилище с собственным питанием и доступом уровня OMEGA. Здесь вся цепочка складывается воедино. На двери кто-то оставил: «Не дайте им это стереть. Скопируй всё».","An isolated vault with its own power and OMEGA-level access. This is where the whole chain comes together. Someone left a message on the door: \"Don't let them erase this. Copy everything.\""), danger:L("средняя","medium") },
+    d:L("Изолированное хранилище с собственным питанием и доступом уровня OMEGA. Здесь вся цепочка складывается воедино: отчёты, переписка и подписи под приказами — всё, что станция должна была уничтожить перед стерилизацией.","An isolated vault with its own power and OMEGA-level access. This is where the whole chain comes together: reports, correspondence and signatures under the orders — everything the station was meant to destroy before sterilisation."), danger:L("средняя","medium") },
   { id:"nest", stage:4, name:L("Нижнее гнездо","Lower nest"), img:"assets/station/nest.webp", full:"assets/station/full/nest.webp",
-    d:L("Бывший тепловой комплекс, поглощённый колонией. Жарко, влажно, архитектура тонет в чёрной смоле, между опорами — яйца. Таблички выживших предельно коротки: «Тихо», «Не свети туда». И всё же здесь есть живые.","A former thermal complex swallowed by the colony. Hot, humid, architecture drowning in black resin, eggs between the supports. The survivors' signs are as short as they get: \"Quiet,\" \"Don't shine the light there.\" And yet there are still living people here."), danger:L("смертельная","lethal") },
+    d:L("Бывший тепловой комплекс, поглощённый колонией. Жарко, влажно, архитектура тонет в чёрной смоле, между опорами — яйца. Вдоль стен в коконах застыли тела тех, кого утащили сюда с верхних уровней.","A former thermal complex swallowed by the colony. Hot, humid, architecture drowning in black resin, eggs between the supports. Along the walls, cocooned, are the bodies of those dragged down here from the upper levels."), danger:L("смертельная","lethal") },
   { id:"hangar", stage:5, name:L("Резервный ангар","Reserve hangar"), img:"assets/station/hangar.webp", full:"assets/station/full/hangar.webp",
     d:L("Скрытый нижний ангар с небольшим служебным челноком, который может улететь без основной системы запуска. Челнок исправен. Нужен код.","A hidden lower hangar with a small service shuttle that can launch without the main system. The shuttle works. It needs a code."), danger:L("неясно","unclear") },
 ];
@@ -1917,6 +1951,45 @@ function playlistHTML(id, title, compact){
   </section>`;
 }
 
+/* ---------- терминал КАСС ---------- */
+let cassTimer = null;
+function cassTermHTML(){
+  return `<div class="cass-term" aria-label="CASS">
+    <span class="ct-scan" aria-hidden="true"></span>
+    <span class="ct-head">${esc(tr(CASS_TERM.head))}</span>
+    <span class="ct-face" aria-hidden="true">${esc(CASS_TERM.faces[0])}</span>
+    <span class="ct-line"><span class="ct-type"></span><i class="ct-caret"></i></span>
+    <span class="ct-dot" aria-hidden="true"></span>
+  </div>`;
+}
+function cassInit(){
+  clearTimeout(cassTimer);
+  const wrap = document.querySelector(".cass-term"); if(!wrap) return;
+  const out = wrap.querySelector(".ct-type"), face = wrap.querySelector(".ct-face");
+  let li = Math.floor(Math.random() * CASS_TERM.lines.length);
+  const step = () => {
+    if(!document.body.contains(wrap)) return;
+    const text = tr(CASS_TERM.lines[li % CASS_TERM.lines.length]); li++;
+    face.textContent = CASS_TERM.faces[Math.floor(Math.random() * CASS_TERM.faces.length)];
+    let i = 0; out.textContent = "";
+    const type = () => {
+      if(!document.body.contains(wrap)) return;
+      out.textContent = text.slice(0, ++i);
+      if(i < text.length){ cassTimer = setTimeout(type, 38 + Math.random() * 45); }
+      else { cassTimer = setTimeout(erase, 2600); }
+    };
+    const erase = () => {
+      if(!document.body.contains(wrap)) return;
+      const t = out.textContent;
+      out.textContent = t.slice(0, -1);
+      if(out.textContent){ cassTimer = setTimeout(erase, 18); }
+      else { face.textContent = CASS_TERM.faces[Math.floor(Math.random() * CASS_TERM.faces.length)]; cassTimer = setTimeout(step, 550); }
+    };
+    type();
+  };
+  step();
+}
+
 /* ---------- people ---------- */
 function personHTML(p){
   const name = tr(p.name);
@@ -1929,11 +2002,12 @@ function personHTML(p){
   }
   const meta = p.meta ? `<p class="meta">${p.meta.map(m=>`<span>${esc(tr(m))}</span>`).join("")}</p>` : "";
   const paras = Array.isArray(p.about) ? p.about : [p.about];
-  const more = (paras.length > 1 || PLAYLISTS[p.id]) ? `<button class="linkbtn more-btn" data-read="${p.id}">${T("readMore")} →</button>` : "";
+  const more = (paras.length > 1 || PLAYLISTS[p.id] || p.term) ? `<button class="linkbtn more-btn" data-read="${p.id}">${T("readMore")} →</button>` : "";
   const hideBtn = forced && p.stage && !open(p.stage) ? `<button class="linkbtn" data-hidecard="${p.id}">${T("hide")}</button>` : "";
-  return `<article class="person glass glow tilt ${S.fresh==="card"+p.id?"unveil":""}" data-st="${p.stage||1}"><div class="ph"><span class="sweep"></span>${imgTag(p.photo, name, esc(initials(name))).replace("<img ", `<img data-zoom="${esc(p.full||p.photo)}" data-name="${esc(name)}" title="${T("zoom")}" `)}
+  const openable = paras.length > 1 || PLAYLISTS[p.id] || p.term;
+  return `<article class="person glass glow tilt ${openable?"openable":""} ${S.fresh==="card"+p.id?"unveil":""}" data-st="${p.stage||1}" ${openable?`data-read="${p.id}" tabindex="0" role="button"`:""}><div class="ph"><span class="sweep"></span>${p.term ? cassTermHTML() : imgTag(p.photo, name, esc(initials(name))).replace("<img ", `<img data-zoom="${esc(p.full||p.photo)}" data-name="${esc(name)}" title="${T("zoom")}" `)}
       <div class="plate"><h3>${esc(name)}</h3><span class="role">${esc(tr(p.role))}</span></div></div>
-    <div class="pb">${meta}<p class="tagline">${esc(tr(p.tag))}</p><p>${esc(tr(paras[0]))}</p>${more}${hideBtn}</div></article>`;
+    <div class="pb">${meta}<p class="tagline">${esc(tr(p.tag))}</p><p class="about">${esc(tr(paras[0]))}</p>${more}${hideBtn}</div></article>`;
 }
 function crewHTML(){
   return `<section id="crew"><h2>${T("navCrew")}</h2><p class="lede">${T("crewLede")}</p>
@@ -2096,6 +2170,7 @@ function render(){
   prevStage = S.stage;
   reveal(r);
   S.booted = true;
+  cassInit();
 }
 function typeStatus(){
   const el = $("#status"); if(!el){ S.typed = true; return; } if(S.typed) return;
@@ -2116,7 +2191,7 @@ document.addEventListener("click", e => {
   const z = e.target.closest("img[data-zoom]");
   if(z){ const lb=$("#lb"); lb.classList.toggle("wide", !z.closest(".ph")); lb.innerHTML=`<figure style="margin:0"><img src="${esc(z.dataset.zoom)}" alt="${esc(z.dataset.name)}"><figcaption><b>${esc(z.dataset.name)}</b><button class="btn ghost" data-lbclose>${T("close")}</button></figcaption></figure>`; lb.showModal(); return; }
   if(e.target.closest("[data-lbclose]") || e.target.id==="lb"){ $("#lb").close(); return; }
-  const t = e.target.closest("button,[data-ship],[data-station],[data-star]"); if(!t) return;
+  const t = e.target.closest("button,[data-ship],[data-station],[data-star],.person.openable"); if(!t) return;
   const d = t.dataset;
   if(d.seg){ const n=+d.seg; if(n > S.stage+1 && !confirm(fmt(T("peekConfirm"),{n}))) return; setStage(n); }
   else if(d.toggle){ const n=+d.toggle; S.fresh="act"+n; S["open"+n] = !(S["open"+n] ?? (n===S.stage)); render(); $(`[data-toggle="${n}"]`)?.focus(); }
@@ -2130,10 +2205,10 @@ document.addEventListener("click", e => {
   else if(d.reveal){ if(confirm(fmt(T("revealConfirm"),{n:d.rs}))){ S.cards.add(d.reveal); store.set("cards",[...S.cards]); S.fresh="card"+d.reveal; render(); } }
   else if(d.read){
     const p = [...CREW, ...ABOARD, ...THREATS, ...STATION_PEOPLE].find(x=>x.id===d.read); const lb=$("#lb"); lb.classList.add("wide");
-    lb.innerHTML = `<div class="bio"><img src="${esc(p.photo)}" alt="${esc(tr(p.name))}"><div class="bio-t"><div class="plate static"><h3>${esc(tr(p.name))}</h3><span class="role">${esc(tr(p.role))}</span></div>
+    lb.innerHTML = `<div class="bio">${p.term ? cassTermHTML() : `<img src="${esc(p.photo)}" alt="${esc(tr(p.name))}">`}<div class="bio-t"><div class="plate static"><h3>${esc(tr(p.name))}</h3><span class="role">${esc(tr(p.role))}</span></div>
       ${p.meta?`<p class="meta">${p.meta.map(m=>`<span>${esc(tr(m))}</span>`).join("")}</p>`:""}<p class="tagline">${esc(tr(p.tag))}</p>
       ${(Array.isArray(p.about)?p.about:[p.about]).map(x=>`<p>${esc(tr(x))}</p>`).join("")}${playlistHTML(p.id)}<button class="btn ghost" data-lbclose>${T("close")}</button></div></div>`;
-    lb.showModal(); return;
+    lb.showModal(); cassInit(); return;
   }
   else if(d.hidecard){ S.cards.delete(d.hidecard); store.set("cards",[...S.cards]); render(); }
   else if(d.ship){ S.fresh="detail"; S.ship=d.ship; render(); $(`[data-ship="${d.ship}"]`)?.focus({preventScroll:true}); }
