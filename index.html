@@ -773,18 +773,35 @@ main section.in .mdust{animation:m-dust 7s ease-in-out infinite}
 main section.in .mscan{animation:m-scan 7s linear infinite}
 @keyframes m-scan{0%{transform:translateY(-140px)}100%{transform:translateY(820px)}}
 @media (prefers-reduced-motion:reduce){.station-map *{animation:none!important}}
-/* ---------- личные вещи у карточек ---------- */
-.person .ph{overflow:visible}
-.person .ph img.pitem{position:absolute;left:var(--x);top:var(--y);width:var(--w);height:auto;z-index:4;pointer-events:none;
-  transform:translate(-50%,-50%);filter:drop-shadow(0 6px 14px rgba(0,0,0,.6));opacity:0}
-main section.in .person .ph img.pitem{animation:pi-in .7s ease-out forwards, pi-float 7s ease-in-out infinite;animation-delay:calc(var(--d) + .3s), calc(var(--d) + 1s)}
-@keyframes pi-in{from{opacity:0;transform:translate(-50%,-32%) scale(.82) rotate(-9deg)}to{opacity:.92;transform:translate(-50%,-50%) scale(1) rotate(-3deg)}}
-@keyframes pi-float{0%,100%{transform:translate(-50%,-50%) rotate(-3deg)}50%{transform:translate(-50%,-58%) rotate(3deg)}}
-.person .ph img.pitem.i1{animation-duration:.7s, 8.4s}
-.person .ph img.pitem.i2{animation-duration:.7s, 6.2s}
-.person:hover .ph img.pitem{filter:drop-shadow(0 8px 20px rgba(0,0,0,.6)) drop-shadow(0 0 12px rgba(242,169,63,.35))}
-@media (max-width:620px){.person .ph img.pitem{width:calc(var(--w) * .8)}}
-@media (prefers-reduced-motion:reduce){.person .ph img.pitem{animation:none!important;opacity:.92;transform:translate(-50%,-50%)}}
+/* ---------- личные вещи в «Читать полностью» ---------- */
+.bio.has-items{--s:1;grid-template-columns:minmax(0,5fr) minmax(0,8fr)}
+.bio-side{position:relative;min-width:0}
+.bio.has-items .bio-side{min-height:min(78vh,560px)}
+.bio.has-items .bio-t{padding-left:calc(118px * var(--s));padding-right:calc(205px * var(--s))}
+.bio-items{position:absolute;inset:0;pointer-events:none;z-index:3}
+#lb .bio .bitem{position:absolute;top:var(--y);width:calc(var(--w) * var(--s));height:auto;max-height:none;max-width:none;margin:0;border-radius:0;
+  aspect-ratio:auto;object-fit:contain;pointer-events:auto;cursor:default;opacity:0;transform:translate(-50%,-50%);
+  filter:drop-shadow(0 10px 22px rgba(0,0,0,.6));transition:filter .3s;
+  animation:pi-in .8s ease-out forwards, pi-float 7s ease-in-out infinite;animation-delay:calc(var(--d) + .15s), calc(var(--d) + .95s)}
+#lb .bio .bitem.l{left:0}
+#lb .bio .bitem.r{left:calc(100% - 100px * var(--s))}
+#lb .bio .bitem.i1{animation-duration:.8s, 8.4s}
+#lb .bio .bitem.i2{animation-duration:.8s, 6.2s}
+#lb .bio .bitem:hover{filter:drop-shadow(0 12px 26px rgba(0,0,0,.6)) drop-shadow(0 0 16px rgba(242,169,63,.45))}
+@keyframes pi-in{from{opacity:0;transform:translate(-50%,-32%) scale(.82) rotate(-9deg)}to{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-3deg)}}
+@keyframes pi-float{0%,100%{transform:translate(-50%,-50%) rotate(-3deg)}50%{transform:translate(-50%,-56%) rotate(3deg)}}
+@media (max-width:1180px){.bio.has-items{--s:.74}}
+@media (max-width:720px){
+  .bio.has-items{grid-template-columns:1fr}
+  .bio.has-items .bio-side{min-height:0}
+  .bio.has-items .bio-t{padding:.4rem .2rem .6rem}
+  .bio-items{position:static;display:flex;justify-content:center;align-items:center;gap:.4rem 1.2rem;flex-wrap:wrap;padding:.6rem 0 .2rem}
+  #lb .bio .bitem,#lb .bio .bitem.l,#lb .bio .bitem.r{position:relative;left:auto;top:auto;width:calc(var(--w) * .55);max-height:110px;object-fit:contain;
+    transform:none;animation-name:pim-in,pim-float}
+}
+@keyframes pim-in{from{opacity:0;transform:translateY(12px) scale(.85) rotate(-9deg)}to{opacity:1;transform:rotate(-3deg)}}
+@keyframes pim-float{0%,100%{transform:rotate(-3deg)}50%{transform:translateY(-6px) rotate(3deg)}}
+@media (prefers-reduced-motion:reduce){#lb .bio .bitem{animation:none!important;opacity:1}}
 /* ---------- npc и угрозы ---------- */
 .npc-locked .mono-fb{color:rgba(98,214,200,.55);background:radial-gradient(ellipse at 50% 40%,rgba(98,214,200,.12),transparent 65%)}
 .npc-locked{border-color:rgba(98,214,200,.28)}
@@ -1176,25 +1193,37 @@ const STARTS = [
     files:L("Приветствие: неделя на станции, версия для иного вида","Greeting: the week on the station, non-human version") },
 ];
 
-/* ---------------- ЛИЧНЫЕ ВЕЩИ (летают у карточек) ---------------- */
+/* ---------------- ЛИЧНЫЕ ВЕЩИ (летают вокруг текста в «Читать полностью») ----------------
+   pos: [сторона, y %, ширина px]
+   сторона "r" — поле справа от текста, "l" — на стыке фото и текста; y — высота в % от колонки текста. */
 const ITEMS = {
   ethan: [
-    { img:"assets/items/ethan-photo.webp",   t:L("Фотография отряда","Squad photograph"),        pos:[15,16,66] },
-    { img:"assets/items/ethan-tags.webp",    t:L("Жетоны: его и Кайла","Dog tags: his and Kyle's"), pos:[85,44,54] },
-    { img:"assets/items/ethan-lighter.webp", t:L("Зажигалка с гравировкой","Engraved lighter"),  pos:[18,70,42] },
+    { img:"assets/items/ethan-photo.webp",     t:L("Фотография отряда","Squad photograph"),          pos:["r",18,185] },
+    { img:"assets/items/ethan-tags.webp",      t:L("Жетоны: его и Кайла","Dog tags: his and Kyle's"), pos:["l",50,150] },
+    { img:"assets/items/ethan-lighter.webp",   t:L("Зажигалка с гравировкой","Engraved lighter"),    pos:["r",80,125] },
   ],
   adrian: [
-    { img:"assets/items/adrian-watch.webp",  t:L("Механические часы отца","His father's watch"), pos:[85,15,54] },
-    { img:"assets/items/adrian-map.webp",    t:L("Звёздная карта от отца","Star chart from his father"), pos:[15,45,64] },
-    { img:"assets/items/adrian-cards.webp",  t:L("Затёртая колода","A worn deck of cards"),      pos:[86,70,48] },
+    { img:"assets/items/adrian-watch.webp",    t:L("Механические часы отца","His father's watch"),   pos:["r",18,155] },
+    { img:"assets/items/adrian-map.webp",      t:L("Звёздная карта от отца","Star chart from his father"), pos:["l",50,185] },
+    { img:"assets/items/adrian-cards.webp",    t:L("Затёртая колода","A worn deck of cards"),        pos:["r",80,165] },
   ],
   alex: [
-    { img:"assets/items/alex-sketch.webp",   t:L("Скетчбук с экипажем","Sketchbook of the crew"), pos:[17,15,62] },
-    { img:"assets/items/alex-charm.webp",    t:L("Брелок с девочкой-пришельцем","Alien-girl charm"), pos:[85,64,44] },
+    { img:"assets/items/alex-sketch.webp",     t:L("Скетчбук с экипажем","Sketchbook of the crew"),  pos:["r",24,185] },
+    { img:"assets/items/alex-charm.webp",      t:L("Брелок с девочкой-пришельцем","Alien-girl charm"), pos:["l",68,115] },
   ],
   diana: [
-    { img:"assets/items/diana-vial.webp",    t:L("Образец «Авроры»","An Aurora sample"),          pos:[85,17,42] },
-    { img:"assets/items/diana-loupe.webp",   t:L("Полевой оптический блок","Field optics unit"),  pos:[15,64,56] },
+    { img:"assets/items/diana-loupe.webp",     t:L("Полевой оптический блок","Field optics unit"),   pos:["r",26,180] },
+    { img:"assets/items/diana-vial.webp",      t:L("Образец «Авроры»","An Aurora sample"),           pos:["l",68,110] },
+  ],
+  daniel: [
+    { img:"assets/items/daniel-wrench.webp",   t:L("Отцовский ключ с гравировкой M.K.","His father's wrench, engraved M.K."), pos:["r",18,165] },
+    { img:"assets/items/daniel-chili.webp",    t:L("Запас острого перца","His stash of chilli"),     pos:["l",50,190] },
+    { img:"assets/items/daniel-nut.webp",      t:L("Гайка, которую он крутит в пальцах","The nut he rolls between his fingers"), pos:["r",80,140] },
+  ],
+  flick: [
+    { img:"assets/items/flick-crystal.webp",   t:L("Блестящий камень из тайника","A shiny stone from his stash"), pos:["r",18,160] },
+    { img:"assets/items/flick-connector.webp", t:L("Стащенный разъём","A pilfered connector"),       pos:["l",50,110] },
+    { img:"assets/items/flick-spring.webp",    t:L("Пружина, которая теперь его","A spring that's his now"), pos:["r",80,165] },
   ],
 };
 
@@ -2167,9 +2196,7 @@ function personHTML(p){
   const openable = paras.length > 0 || PLAYLISTS[p.id] || p.term;
   const threatCls = isThreat ? " threat-card" : "";
   return `<article class="person glass glow tilt${threatCls} ${openable?"openable":""} ${S.fresh==="card"+p.id?"unveil":""}" data-st="${p.stage||1}" ${openable?`data-read="${p.id}" tabindex="0" role="button"`:""}><div class="ph"><span class="sweep"></span>${p.term ? cassTermHTML() : imgTag(p.photo, name, esc(initials(name))).replace("<img ", `<img data-zoom="${esc(p.full||p.photo)}" data-name="${esc(name)}" title="${T("zoom")}" `)}
-      <div class="plate"><h3>${esc(name)}</h3><span class="role">${esc(tr(p.role))}</span></div>
-      ${(ITEMS[p.id]||[]).map((it,i)=>`<img class="pitem i${i}" src="${esc(it.img)}" alt="" aria-hidden="true"
-        title="${esc(tr(it.t))}" style="--x:${it.pos[0]}%;--y:${it.pos[1]}%;--w:${it.pos[2]}px;--d:${i*.7}s" onerror="this.remove()">`).join("")}</div>
+      <div class="plate"><h3>${esc(name)}</h3><span class="role">${esc(tr(p.role))}</span></div></div>
     <div class="pb">${meta}<p class="tagline">${esc(tr(p.tag))}</p><p class="about">${esc(tr(paras[0]))}</p>${more}${hideBtn}</div></article>`;
 }
 function crewHTML(){
@@ -2393,9 +2420,12 @@ document.addEventListener("click", e => {
   else if(d.reveal){ if(confirm(fmt(T("revealConfirm"),{n:d.rs}))){ S.cards.add(d.reveal); store.set("cards",[...S.cards]); S.fresh="card"+d.reveal; render(); } }
   else if(d.read){
     const p = [...CREW, ...ABOARD, ...THREATS, ...STATION_PEOPLE].find(x=>x.id===d.read); const lb=$("#lb"); lb.classList.add("wide");
-    lb.innerHTML = `<div class="bio">${p.term ? cassTermHTML() : `<img src="${esc(p.photo)}" alt="${esc(tr(p.name))}">`}<div class="bio-t"><div class="plate static"><h3>${esc(tr(p.name))}</h3><span class="role">${esc(tr(p.role))}</span></div>
+    const its = ITEMS[p.id]||[];
+    const itemsHTML = its.length ? `<div class="bio-items">${its.map((it,i)=>`<img class="bitem ${it.pos[0]==="l"?"l":"r"} i${i}" src="${esc(it.img)}" alt="${esc(tr(it.t))}" title="${esc(tr(it.t))}"
+      style="--y:${it.pos[1]}%;--w:${it.pos[2]}px;--d:${i*.45}s" onerror="this.remove()">`).join("")}</div>` : "";
+    lb.innerHTML = `<div class="bio ${its.length?"has-items":""}">${p.term ? cassTermHTML() : `<img src="${esc(p.photo)}" alt="${esc(tr(p.name))}">`}<div class="bio-side">${itemsHTML}<div class="bio-t"><div class="plate static"><h3>${esc(tr(p.name))}</h3><span class="role">${esc(tr(p.role))}</span></div>
       ${p.meta?`<p class="meta">${p.meta.map(m=>`<span>${esc(tr(m))}</span>`).join("")}</p>`:""}<p class="tagline">${esc(tr(p.tag))}</p>
-      ${(Array.isArray(p.about)?p.about:[p.about]).map(x=>`<p>${esc(tr(x))}</p>`).join("")}${playlistHTML(p.id)}<button class="btn ghost" data-lbclose>${T("close")}</button></div></div>`;
+      ${(Array.isArray(p.about)?p.about:[p.about]).map(x=>`<p>${esc(tr(x))}</p>`).join("")}${playlistHTML(p.id)}<button class="btn ghost" data-lbclose>${T("close")}</button></div></div></div>`;
     lb.showModal(); cassInit(); return;
   }
   else if(d.hidecard){ S.cards.delete(d.hidecard); store.set("cards",[...S.cards]); render(); }
