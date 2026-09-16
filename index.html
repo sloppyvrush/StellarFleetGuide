@@ -224,17 +224,17 @@ th,td{border-bottom:1px solid var(--line);padding:.45rem .6rem;text-align:left;v
 th{font-weight:600;color:var(--muted)}
 
 /* ---------- people ---------- */
-.people{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:1fr;gap:1.1rem}
+.people{overflow:visible;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:1fr;gap:1.1rem}
 .people>*{grid-column:span 2}
 .people>:nth-last-child(2):nth-child(3n+1){grid-column:2 / span 2}
 .people>:last-child:nth-child(3n+1){grid-column:3 / span 2}
 @media (max-width:900px){
-  .people{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .people{overflow:visible;grid-template-columns:repeat(2,minmax(0,1fr))}
   .people>*,.people>:nth-last-child(2):nth-child(3n+1),.people>:last-child:nth-child(3n+1){grid-column:auto / span 1}
   .people>:last-child:nth-child(2n+1){grid-column:1 / -1;justify-self:center;width:calc(50% - .55rem)}
 }
 @media (max-width:560px){
-  .people{grid-template-columns:1fr;grid-auto-rows:auto}
+  .people{overflow:visible;grid-template-columns:1fr;grid-auto-rows:auto}
   .meta{white-space:normal}
   .people>:last-child:nth-child(2n+1){grid-column:auto;width:auto;justify-self:stretch}
 }
@@ -305,17 +305,17 @@ th,td{border-bottom:1px solid var(--line);padding:.45rem .6rem;text-align:left;v
 th{font-weight:600;color:var(--muted)}
 
 /* ---------- people ---------- */
-.people{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:1fr;gap:1.1rem}
+.people{overflow:visible;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:1fr;gap:1.1rem}
 .people>*{grid-column:span 2}
 .people>:nth-last-child(2):nth-child(3n+1){grid-column:2 / span 2}
 .people>:last-child:nth-child(3n+1){grid-column:3 / span 2}
 @media (max-width:900px){
-  .people{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .people{overflow:visible;grid-template-columns:repeat(2,minmax(0,1fr))}
   .people>*,.people>:nth-last-child(2):nth-child(3n+1),.people>:last-child:nth-child(3n+1){grid-column:auto / span 1}
   .people>:last-child:nth-child(2n+1){grid-column:1 / -1;justify-self:center;width:calc(50% - .55rem)}
 }
 @media (max-width:560px){
-  .people{grid-template-columns:1fr;grid-auto-rows:auto}
+  .people{overflow:visible;grid-template-columns:1fr;grid-auto-rows:auto}
   .meta{white-space:normal}
   .people>:last-child:nth-child(2n+1){grid-column:auto;width:auto;justify-self:stretch}
 }
@@ -729,6 +729,90 @@ main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
 @keyframes ct-dot{0%,55%{opacity:.9}56%,100%{opacity:.2}}
 .bio .cass-term{position:relative;inset:auto;min-height:260px;border-radius:12px}
 @media (prefers-reduced-motion:reduce){.cass-term *{animation:none!important}}
+@media (max-width:620px){
+  main ol{padding-left:1.35rem}
+  main ol li{padding-left:.15rem}
+  .block ol,.card ol{padding-left:1.4rem}
+}
+.sub-h{margin-left:0}
+/* ---------- интерактивная карта станции ---------- */
+.map-wrap{padding:0;overflow:hidden;position:relative;background:radial-gradient(ellipse at 50% 20%,#132029,#080e13 72%)}
+.station-map{display:block;width:100%;height:auto}
+.mdeck rect{fill:rgba(98,214,200,.035);stroke:rgba(98,214,200,.18);stroke-width:1.2;stroke-dasharray:6 8}
+.mdeck text{font:500 17px var(--f-mono);letter-spacing:.24em;fill:rgba(140,180,195,.5)}
+.mlink{fill:none;stroke:rgba(120,190,200,.35);stroke-width:2.4;stroke-linecap:round}
+.mlink.off{stroke:rgba(120,190,200,.12);stroke-dasharray:5 10}
+main section.in .mlink{stroke-dasharray:6 8;animation:m-flow 9s linear infinite}
+@keyframes m-flow{to{stroke-dashoffset:-140}}
+.mnode{cursor:pointer}
+.mhit{fill:transparent}
+.mnode .mdot{fill:#16242c;stroke:var(--teal);stroke-width:3;transition:all .2s}
+.mnode .mlbl{fill:#cfe3e8;font:500 19px var(--f-head);letter-spacing:.04em;text-anchor:middle;pointer-events:none}
+.mnode:hover .mdot,.mnode:focus-visible .mdot{fill:var(--teal);r:15}
+.mnode.sel .mdot{fill:var(--amber);stroke:#ffd08a}
+.mnode.sel .mlbl{fill:var(--amber)}
+.mnode.hot .mdot{stroke:var(--danger)}
+.mnode.locked .mdot{fill:#101922;stroke:rgba(140,170,185,.35);stroke-dasharray:4 5}
+.mnode.locked .mq{fill:rgba(140,170,185,.5);font:500 18px var(--f-head);text-anchor:middle}
+.mping{fill:none;stroke:var(--amber);stroke-width:2}
+main section.in .mping{animation:m-ping 2.4s ease-out infinite}
+@keyframes m-ping{0%{transform:scale(.7);opacity:.7}100%{transform:scale(1.8);opacity:0}}
+.mhand{font:700 25px "Caveat",cursive;fill:var(--amber);opacity:.85}
+.marrow{fill:none;stroke:var(--amber);stroke-width:2;opacity:.6;stroke-linecap:round;stroke-dasharray:180;stroke-dashoffset:180}
+main section.in .marrow{animation:m-draw 1.2s ease-out forwards;animation-delay:var(--d)}
+@keyframes m-draw{to{stroke-dashoffset:0}}
+.marrow-tip{fill:var(--amber);opacity:0}
+main section.in .marrow-tip{animation:m-tip .4s ease-out forwards;animation-delay:calc(var(--d) + 1s)}
+@keyframes m-tip{to{opacity:.8}}
+main section.in .mnote text{opacity:0;animation:m-note .6s ease-out forwards;animation-delay:calc(var(--d) + .5s)}
+@keyframes m-note{to{opacity:.85}}
+.mdust{fill:rgba(160,220,230,.35)}
+main section.in .mdust{animation:m-dust 7s ease-in-out infinite}
+@keyframes m-dust{0%,100%{opacity:.15}50%{opacity:.6}}
+.mscan{pointer-events:none}
+main section.in .mscan{animation:m-scan 7s linear infinite}
+@keyframes m-scan{0%{transform:translateY(-140px)}100%{transform:translateY(820px)}}
+@media (prefers-reduced-motion:reduce){.station-map *{animation:none!important}}
+/* ---------- личные вещи у карточек ---------- */
+.person .ph{overflow:visible}
+.person .ph img.pitem{position:absolute;left:var(--x);top:var(--y);width:var(--w);height:auto;z-index:4;pointer-events:none;
+  transform:translate(-50%,-50%);filter:drop-shadow(0 6px 14px rgba(0,0,0,.6));opacity:0}
+main section.in .person .ph img.pitem{animation:pi-in .7s ease-out forwards, pi-float 7s ease-in-out infinite;animation-delay:calc(var(--d) + .3s), calc(var(--d) + 1s)}
+@keyframes pi-in{from{opacity:0;transform:translate(-50%,-32%) scale(.82) rotate(-9deg)}to{opacity:.92;transform:translate(-50%,-50%) scale(1) rotate(-3deg)}}
+@keyframes pi-float{0%,100%{transform:translate(-50%,-50%) rotate(-3deg)}50%{transform:translate(-50%,-58%) rotate(3deg)}}
+.person .ph img.pitem.i1{animation-duration:.7s, 8.4s}
+.person .ph img.pitem.i2{animation-duration:.7s, 6.2s}
+.person:hover .ph img.pitem{filter:drop-shadow(0 8px 20px rgba(0,0,0,.6)) drop-shadow(0 0 12px rgba(242,169,63,.35))}
+@media (max-width:620px){.person .ph img.pitem{width:calc(var(--w) * .8)}}
+@media (prefers-reduced-motion:reduce){.person .ph img.pitem{animation:none!important;opacity:.92;transform:translate(-50%,-50%)}}
+/* ---------- npc и угрозы ---------- */
+.npc-locked .mono-fb{color:rgba(98,214,200,.55);background:radial-gradient(ellipse at 50% 40%,rgba(98,214,200,.12),transparent 65%)}
+.npc-locked{border-color:rgba(98,214,200,.28)}
+.danger-h{color:var(--danger)}
+.lede.small{font-size:.92rem;margin-top:-.3rem}
+.threat-card{border-color:rgba(232,99,79,.5)}
+.threat-card .plate{border-left-color:var(--danger)}
+.threat-card:hover{box-shadow:0 18px 40px -18px rgba(0,0,0,.75),0 0 22px -8px rgba(232,99,79,.5)}
+.threat-locked{border-color:rgba(232,99,79,.55);cursor:pointer;position:relative;overflow:hidden}
+.threat-locked:hover{border-color:var(--danger)}
+.threat-locked .ph{background:repeating-linear-gradient(45deg,rgba(232,99,79,.09) 0 14px,transparent 14px 28px),#140c0c;display:grid;place-items:center}
+.danger-sign{display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.danger-sign svg{width:96px;height:86px;overflow:visible}
+.dt-tri{fill:none;stroke:var(--danger);stroke-width:6;stroke-linejoin:round;filter:drop-shadow(0 0 10px rgba(232,99,79,.5))}
+.dt-skull path{fill:var(--danger)}
+.dt-eye{fill:#140c0c !important}
+.dt-word{font:500 .78rem var(--f-mono);letter-spacing:.34em;color:var(--danger);text-shadow:0 0 12px rgba(232,99,79,.6)}
+main section.in .danger-sign{animation:dt-pulse 2.6s ease-in-out infinite}
+main section.in .dt-tri{animation:dt-flick 4s steps(1) infinite}
+@keyframes dt-pulse{0%,100%{transform:scale(1);opacity:.92}50%{transform:scale(1.06);opacity:1}}
+@keyframes dt-flick{0%,86%,100%{opacity:1}88%{opacity:.3}90%{opacity:1}92%{opacity:.45}}
+.dt-scan{position:absolute;left:0;right:0;height:26%;background:linear-gradient(180deg,transparent,rgba(232,99,79,.18),transparent);pointer-events:none}
+main section.in .dt-scan{animation:dt-scan 4.5s linear infinite}
+@keyframes dt-scan{0%{top:-30%}100%{top:110%}}
+.plate.danger{border-left-color:var(--danger)}
+.btn.danger-btn{background:rgba(232,99,79,.14);border-color:rgba(232,99,79,.55);color:#ffb3a5}
+.btn.danger-btn:hover{background:rgba(232,99,79,.24)}
+.pl-wrap{margin-left:auto;margin-right:auto}
 /* ---------- плейлисты ---------- */
 .playlist{margin:1.2rem 0 .6rem;padding:1rem 1.1rem 1.1rem}
 .playlist>*{position:relative;z-index:1}
@@ -879,6 +963,12 @@ const UI = {
   navHome: L("Главная", "Home"), navAbout: L("Об авторе", "About"), nsAbout: L("Автор", "About"),
   dAbout: L("Кто сделал этого бота, где искать другие работы — и одна важная благодарность.", "Who made this bot, where to find more — and one important thank-you."),
   navStarts: L("Старты","Starts"), nsStarts: L("Старты","Starts"),
+  navNpc: L("NPC и угрозы","NPCs & threats"), nsNpc: L("NPC и угрозы","NPCs & threats"),
+  dNpc: L("Кого вы встретите на станции — и с чем лучше не встречаться.","Who you'll meet on the station — and what you'd rather not meet."),
+  npcLede: L("Люди, которых экипаж находит живыми, и то, что ходит по станции вместе с ними. Досье открываются по мере того, как вы до них доходите.","The people the crew finds alive, and what walks the station alongside them. Files open up as you reach them."),
+  threatsLede: L("Ниже — то, что убивает. Карточки закрыты: откройте, только если готовы увидеть заранее.","Below is what kills. The cards are sealed: open them only if you're ready to know in advance."),
+  dangerOpen: L("Открыть досье","Open the file"),
+  threatSealed: L("Досье запечатано","File sealed"),
   dStarts: L("Четыре начала: за экипаж, за жителя станции, за случайного гостя и за гостя не с Земли.","Four ways in: as crew, as a resident, as an accidental guest, or as a guest not from Earth."),
   startsLede: L("У бота несколько первых сообщений, и все они сводятся к четырём началам. Выберите своё, включите нужное приветствие в SillyTavern и переключите одну запись в лорбуке — на этом настройка заканчивается.","The bot has several opening messages that come down to four beginnings. Pick yours, choose that greeting in SillyTavern and flip a single lorebook entry — that's the whole setup."),
   startsHow: L("Как переключить","How to switch"),
@@ -964,7 +1054,7 @@ const UI = {
   readMore: L("Читать полностью", "Read more"),
   plTitle: L("Плейлист персонажа","Character playlist"),
   plCrew: L("Плейлист экипажа «Кассандры»","The Cassandra crew playlist"),
-  plCrewLede: L("Одна песня на всех — про людей, которые не выбирали друг друга, но теперь связаны.","One song for all of them — about people who didn't choose each other and are bound together anyway."),
+  plCrewLede: L("Общий плейлист «Кассандры» — то, что звучит на борту, когда шестеро чужих людей постепенно становятся экипажем.","The Cassandra's shared playlist — what plays on board while six strangers slowly turn into a crew."),
   plOpen: L("Открыть в Spotify","Open in Spotify"),
   plAuthor: L("Что у меня играет","What I listen to"),
   plAuthorLede: L("Мой личный плейлист — под него всё это и писалось.","My own playlist — all of this was written to it."),
@@ -1085,6 +1175,28 @@ const STARTS = [
     on:"👤 survivor", off:"👤 crew",
     files:L("Приветствие: неделя на станции, версия для иного вида","Greeting: the week on the station, non-human version") },
 ];
+
+/* ---------------- ЛИЧНЫЕ ВЕЩИ (летают у карточек) ---------------- */
+const ITEMS = {
+  ethan: [
+    { img:"assets/items/ethan-photo.webp",   t:L("Фотография отряда","Squad photograph"),        pos:[15,16,66] },
+    { img:"assets/items/ethan-tags.webp",    t:L("Жетоны: его и Кайла","Dog tags: his and Kyle's"), pos:[85,44,54] },
+    { img:"assets/items/ethan-lighter.webp", t:L("Зажигалка с гравировкой","Engraved lighter"),  pos:[18,70,42] },
+  ],
+  adrian: [
+    { img:"assets/items/adrian-watch.webp",  t:L("Механические часы отца","His father's watch"), pos:[85,15,54] },
+    { img:"assets/items/adrian-map.webp",    t:L("Звёздная карта от отца","Star chart from his father"), pos:[15,45,64] },
+    { img:"assets/items/adrian-cards.webp",  t:L("Затёртая колода","A worn deck of cards"),      pos:[86,70,48] },
+  ],
+  alex: [
+    { img:"assets/items/alex-sketch.webp",   t:L("Скетчбук с экипажем","Sketchbook of the crew"), pos:[17,15,62] },
+    { img:"assets/items/alex-charm.webp",    t:L("Брелок с девочкой-пришельцем","Alien-girl charm"), pos:[85,64,44] },
+  ],
+  diana: [
+    { img:"assets/items/diana-vial.webp",    t:L("Образец «Авроры»","An Aurora sample"),          pos:[85,17,42] },
+    { img:"assets/items/diana-loupe.webp",   t:L("Полевой оптический блок","Field optics unit"),  pos:[15,64,56] },
+  ],
+};
 
 /* ---------------- ТЕРМИНАЛ КАСС ---------------- */
 const CASS_TERM = {
@@ -1466,6 +1578,33 @@ const SHIP = [
 
 /* ---------------- «ЭРЕБ» ----------------
    Порядок = сверху вниз на разрезе. stage — когда уровень появляется; imgStage — когда показывается картинка (если позже). */
+/* координаты интерактивной карты станции: x,y в системе 0..1000 × 0..760 */
+const MAP_POS = {
+  dock:       [140,110], atrium:[500,140], residential:[850,110],
+  medical:    [880,250], security:[640,300], comms:[350,300], labs:[130,250],
+  reactor:    [300,430], industrial:[720,430],
+  l0:         [500,540], shelter:[210,640], h37:[210,720], archive:[500,660], eidos:[820,600],
+  nest:       [420,730], hangar:[790,720],
+};
+const MAP_LINKS = [
+  ["dock","atrium"],["atrium","residential"],["residential","medical"],["medical","security"],
+  ["atrium","security"],["atrium","comms"],["comms","labs"],["labs","dock"],["security","comms"],
+  ["comms","reactor"],["security","industrial"],["reactor","industrial"],
+  ["reactor","l0"],["industrial","l0"],["l0","shelter"],["shelter","h37"],["l0","archive"],
+  ["l0","eidos"],["archive","nest"],["archive","hangar"],["eidos","hangar"],
+];
+const MAP_DECKS = [
+  { y:60,  h:270, t:L("ВЕРХНИЕ УРОВНИ","UPPER LEVELS") },
+  { y:360, h:150, t:L("ПРОМЫШЛЕННЫЙ ЯРУС","INDUSTRIAL DECK") },
+  { y:530, h:220, t:L("НИЖНИЕ ГОРИЗОНТЫ","LOWER LEVELS") },
+];
+const MAP_NOTES = [
+  { x:120, y:210, to:[140,132], rot:-6,  t:L("мы вошли здесь","we came in here") },
+  { x:790, y:372, to:[730,412], rot:4,   t:L("шумно — её не слышно","too loud to hear it") },
+  { x:610, y:512, to:[516,528], rot:-3,  t:L("этого уровня нет на схеме","this level isn't on the plan"), stage:2 },
+  { x:250, y:782, to:[406,742], rot:5,   t:L("сюда не ходить","do not go here"), stage:5 },
+];
+
 const STATION_INFO = {
   title:L("Исследовательская станция «Эреб»","Erebus research station"),
   sub:L("Научный комплекс Содружества на Дальнем рубеже","A Commonwealth research complex on the Far Frontier"),
@@ -1619,8 +1758,8 @@ function imgTag(src, alt, fbText){
 const initials = name => name.split(/[\s/]+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("");
 
 /* ---------- static bits ---------- */
-const ROUTES_ORDER = ["home","starts","guide","stuck","setup","crew","ship","station","world","about"];
-const NAVK = {home:"navHome",starts:"navStarts",guide:"navGuide",stuck:"navStuck",setup:"navSetup",crew:"navCrew",ship:"navShip",station:"navStation",world:"navWorld",about:"navAbout"};
+const ROUTES_ORDER = ["home","starts","guide","stuck","setup","crew","npc","ship","station","world","about"];
+const NAVK = {home:"navHome",starts:"navStarts",guide:"navGuide",stuck:"navStuck",setup:"navSetup",crew:"navCrew",npc:"navNpc",ship:"navShip",station:"navStation",world:"navWorld",about:"navAbout"};
 const route = () => { const r = location.hash.replace(/^#\/?/,"").split("/")[0]; return ROUTES_ORDER.includes(r) ? r : "home"; };
 function renderChrome(){
   document.documentElement.lang = S.lang;
@@ -1628,10 +1767,10 @@ function renderChrome(){
   $("#langBtn").textContent = S.lang === "ru" ? "EN" : "RU";
   $("#pill").textContent = `${T("stageShort")} ${S.stage}`;
   const r = route();
-  const NS = {home:"navHome",starts:"nsStarts",guide:"nsGuide",stuck:"nsStuck",setup:"nsSetup",crew:"nsCrew",ship:"nsShip",station:"nsStation",world:"nsWorld",about:"nsAbout"};
+  const NS = {home:"navHome",starts:"nsStarts",guide:"nsGuide",stuck:"nsStuck",setup:"nsSetup",crew:"nsCrew",npc:"nsNpc",ship:"nsShip",station:"nsStation",world:"nsWorld",about:"nsAbout"};
   const link = k => `<a href="#/${k==="home"?"":k}" class="${r===k?"on":""}" ${r===k?'aria-current="page"':""}>${T(NS[k])}</a>`;
   $("#topnav").innerHTML = `${link("home")}<span class="nav-sep" aria-hidden="true"></span><span class="nav-g">${T("groupGuide")}</span>${["starts","guide","stuck","setup"].map(link).join("")}
-    <span class="nav-sep" aria-hidden="true"></span><span class="nav-g">${T("groupCodex")}</span>${["crew","ship","station","world"].map(link).join("")}<span class="nav-sep" aria-hidden="true"></span>${link("about")}`;
+    <span class="nav-sep" aria-hidden="true"></span><span class="nav-g">${T("groupCodex")}</span>${["crew","npc","ship","station","world"].map(link).join("")}<span class="nav-sep" aria-hidden="true"></span>${link("about")}`;
   $("#menuBtn").setAttribute("aria-label", T("menu"));
 }
 
@@ -1660,12 +1799,12 @@ function crewStripHTML(){
   return `<section id="crew-strip" class="home-block"><h2>${T("stripH")}</h2><p class="lede">${T("stripLede")}</p><div class="dossier">${strip}</div></section>`;
 }
 function siteMapHTML(){
-  const ic = {starts:"▶",guide:"◈",stuck:"?",setup:"⚙",crew:"☰",ship:"⛭",station:"▤",world:"✦",about:"♥"};
+  const ic = {starts:"▶",guide:"◈",stuck:"?",setup:"⚙",crew:"☰",npc:"☣",ship:"⛭",station:"▤",world:"✦",about:"♥"};
   const card = k => `<a class="sm-card glass glow" href="#/${k}"><span class="sm-ic" aria-hidden="true">${ic[k]}</span><b>${T(NAVK[k])}</b><span>${T("d"+k[0].toUpperCase()+k.slice(1))}</span></a>`;
   return `<section id="sitemap" class="home-block"><h2>${T("mapH")}</h2><p class="lede">${T("mapLede")}</p>
     <div class="start glass"><h3>${T("startH")}</h3><ol><li>${T("start1")}</li><li>${T("start2")}</li><li>${T("start3")}</li></ol></div>
     <h3 class="sub-h">${T("groupGuide")}</h3><div class="sm-grid">${["starts","guide","stuck","setup"].map(card).join("")}</div>
-    <h3 class="sub-h">${T("groupCodex")}</h3><div class="sm-grid">${["crew","ship","station","world"].map(card).join("")}</div>
+    <h3 class="sub-h">${T("groupCodex")}</h3><div class="sm-grid">${["crew","npc","ship","station","world"].map(card).join("")}</div>
     <div class="sm-grid" style="margin-top:.9rem">${card("about")}</div>
   </section>`;
 }
@@ -1952,7 +2091,6 @@ function playlistHTML(id, title, compact){
 }
 
 /* ---------- терминал КАСС ---------- */
-let cassTimer = null;
 function cassTermHTML(){
   return `<div class="cass-term" aria-label="CASS">
     <span class="ct-scan" aria-hidden="true"></span>
@@ -1963,9 +2101,13 @@ function cassTermHTML(){
   </div>`;
 }
 function cassInit(){
-  clearTimeout(cassTimer);
-  const wrap = document.querySelector(".cass-term"); if(!wrap) return;
+  document.querySelectorAll(".cass-term").forEach(cassRun);
+}
+function cassRun(wrap){
+  if(!wrap || wrap.dataset.on === "1") return;
+  wrap.dataset.on = "1";
   const out = wrap.querySelector(".ct-type"), face = wrap.querySelector(".ct-face");
+  let timer = null;
   let li = 0;   // первой всегда идёт фраза про фотографию
   const step = () => {
     if(!document.body.contains(wrap)) return;
@@ -1975,15 +2117,15 @@ function cassInit(){
     const type = () => {
       if(!document.body.contains(wrap)) return;
       out.textContent = text.slice(0, ++i);
-      if(i < text.length){ cassTimer = setTimeout(type, 38 + Math.random() * 45); }
-      else { cassTimer = setTimeout(erase, 2600); }
+      if(i < text.length){ timer = setTimeout(type, 38 + Math.random() * 45); }
+      else { timer = setTimeout(erase, 2600); }
     };
     const erase = () => {
       if(!document.body.contains(wrap)) return;
       const t = out.textContent;
       out.textContent = t.slice(0, -1);
-      if(out.textContent){ cassTimer = setTimeout(erase, 18); }
-      else { face.textContent = CASS_TERM.faces[Math.floor(Math.random() * CASS_TERM.faces.length)]; cassTimer = setTimeout(step, 550); }
+      if(out.textContent){ timer = setTimeout(erase, 18); }
+      else { face.textContent = CASS_TERM.faces[Math.floor(Math.random() * CASS_TERM.faces.length)]; timer = setTimeout(step, 550); }
     };
     type();
   };
@@ -1994,19 +2136,40 @@ function cassInit(){
 function personHTML(p){
   const name = tr(p.name);
   const forced = S.cards.has(p.id);
-  if(p.stage && !open(p.stage) && !forced){
-    return `<article class="person glass locked-card"><div class="ph"><div class="mono-fb">?</div>
+  const isThreat = typeof THREATS !== "undefined" && THREATS.some(t => t.id === p.id);
+  if((isThreat || (p.stage && !open(p.stage))) && !forced){
+    if(isThreat){
+      return `<article class="person glass locked-card threat-locked" data-open="${p.id}" tabindex="0" role="button" aria-label="${T("dangerOpen")}">
+        <div class="ph"><div class="danger-sign" aria-hidden="true">
+          <svg viewBox="0 0 120 106"><path class="dt-tri" d="M60 6 L114 100 H6 Z"/>
+            <g class="dt-skull">
+              <path d="M60 34 C71 34 78 43 78 53 C78 60 75 64 71 67 L71 74 C71 77 68 79 65 79 L55 79 C52 79 49 77 49 74 L49 67 C45 64 42 60 42 53 C42 43 49 34 60 34 Z"/>
+              <ellipse class="dt-eye" cx="53" cy="53" rx="5" ry="6"/><ellipse class="dt-eye" cx="67" cy="53" rx="5" ry="6"/>
+              <path class="dt-eye" d="M60 60 l3.4 6 h-6.8 z"/>
+              <rect class="dt-eye" x="54" y="70" width="2.6" height="7" rx="1"/>
+              <rect class="dt-eye" x="58.7" y="70" width="2.6" height="7" rx="1"/>
+              <rect class="dt-eye" x="63.4" y="70" width="2.6" height="7" rx="1"/></g></svg>
+          <span class="dt-word">DANGER</span></div>
+          <span class="dt-scan"></span>
+          <div class="plate danger"><h3>${bars(2, p.stage+3)}</h3></div></div>
+        <div class="pb"><p class="where danger-w">${T("threatSealed")}</p>
+        <div class="reveal-wrap"><button class="btn danger-btn" data-open="${p.id}">${T("dangerOpen")}</button></div></div></article>`;
+    }
+    return `<article class="person glass locked-card npc-locked"><div class="ph"><div class="mono-fb">?</div>
       <div class="plate"><h3>${bars(2, p.stage+3)}</h3></div></div>
       <div class="pb"><p class="where">${T("lockedGeneric")} ${p.stage}</p>
       <div class="reveal-wrap"><button class="btn amber" data-reveal="${p.id}" data-rs="${p.stage}">${T("reveal")}</button></div></div></article>`;
   }
   const meta = p.meta ? `<p class="meta">${p.meta.map(m=>`<span>${esc(tr(m))}</span>`).join("")}</p>` : "";
   const paras = Array.isArray(p.about) ? p.about : [p.about];
-  const more = (paras.length > 1 || PLAYLISTS[p.id] || p.term) ? `<button class="linkbtn more-btn" data-read="${p.id}">${T("readMore")} →</button>` : "";
+  const more = (paras.length || PLAYLISTS[p.id] || p.term) ? `<button class="linkbtn more-btn" data-read="${p.id}">${T("readMore")} →</button>` : "";
   const hideBtn = forced && p.stage && !open(p.stage) ? `<button class="linkbtn" data-hidecard="${p.id}">${T("hide")}</button>` : "";
-  const openable = paras.length > 1 || PLAYLISTS[p.id] || p.term;
-  return `<article class="person glass glow tilt ${openable?"openable":""} ${S.fresh==="card"+p.id?"unveil":""}" data-st="${p.stage||1}" ${openable?`data-read="${p.id}" tabindex="0" role="button"`:""}><div class="ph"><span class="sweep"></span>${p.term ? cassTermHTML() : imgTag(p.photo, name, esc(initials(name))).replace("<img ", `<img data-zoom="${esc(p.full||p.photo)}" data-name="${esc(name)}" title="${T("zoom")}" `)}
-      <div class="plate"><h3>${esc(name)}</h3><span class="role">${esc(tr(p.role))}</span></div></div>
+  const openable = paras.length > 0 || PLAYLISTS[p.id] || p.term;
+  const threatCls = isThreat ? " threat-card" : "";
+  return `<article class="person glass glow tilt${threatCls} ${openable?"openable":""} ${S.fresh==="card"+p.id?"unveil":""}" data-st="${p.stage||1}" ${openable?`data-read="${p.id}" tabindex="0" role="button"`:""}><div class="ph"><span class="sweep"></span>${p.term ? cassTermHTML() : imgTag(p.photo, name, esc(initials(name))).replace("<img ", `<img data-zoom="${esc(p.full||p.photo)}" data-name="${esc(name)}" title="${T("zoom")}" `)}
+      <div class="plate"><h3>${esc(name)}</h3><span class="role">${esc(tr(p.role))}</span></div>
+      ${(ITEMS[p.id]||[]).map((it,i)=>`<img class="pitem i${i}" src="${esc(it.img)}" alt="" aria-hidden="true"
+        title="${esc(tr(it.t))}" style="--x:${it.pos[0]}%;--y:${it.pos[1]}%;--w:${it.pos[2]}px;--d:${i*.7}s" onerror="this.remove()">`).join("")}</div>
     <div class="pb">${meta}<p class="tagline">${esc(tr(p.tag))}</p><p class="about">${esc(tr(paras[0]))}</p>${more}${hideBtn}</div></article>`;
 }
 function crewHTML(){
@@ -2015,8 +2178,7 @@ function crewHTML(){
     <h3 class="sub-h">${T("aboardH")}</h3><div class="people">${ABOARD.map(personHTML).join("")}</div>
     ${PLAYLISTS.crew ? `<h3 class="sub-h">${T("plCrew")}</h3><p class="lede">${T("plCrewLede")}</p>
       <div class="pl-wrap">${playlistHTML("crew", UI.plCrew)}</div>` : ""}
-    <h3 class="sub-h">${T("threatsH")}</h3><div class="people">${THREATS.map(personHTML).join("")}</div>
-    <h3 class="sub-h">${T("stationH")}</h3><div class="people">${STATION_PEOPLE.map(personHTML).join("")}</div>
+
 </section>`;
 }
 
@@ -2030,6 +2192,14 @@ function detailHTML(item, extra=""){
     : `<div class="img"><div class="mono-fb"><span>${bars(1,7)}<br>${T("imgLocked")} ${item.imgStage}</span></div></div>`;
   const paras = tr(item.d).split(/\n\s*\n|\n/).map(p=>`<p>${esc(p)}</p>`).join("");
   return `<div class="detail glass ${item.img?"":"noimg"}" aria-live="polite">${img}<div class="db ${S.fresh==="detail"?"fresh":""}"><h3>${esc(name)}</h3>${extra}${paras}</div></div>`;
+}
+
+/* ---------- npc & threats ---------- */
+function npcHTML(){
+  return `<section id="npc"><h2>${T("navNpc")}</h2><p class="lede">${T("npcLede")}</p>
+    <h3 class="sub-h">${T("stationH")}</h3><div class="people npc-people">${STATION_PEOPLE.map(personHTML).join("")}</div>
+    <h3 class="sub-h danger-h">${T("threatsH")}</h3><p class="lede small">${T("threatsLede")}</p>
+    <div class="people threats-people">${THREATS.map(personHTML).join("")}</div></section>`;
 }
 
 /* ---------- ship ---------- */
@@ -2054,37 +2224,54 @@ function shipHTML(){
 
 /* ---------- station ---------- */
 function stationHTML(){
+  const W = 1000, H = 800;
+  const known = id => { const l = STATION.find(x=>x.id===id); return l && open(l.imgStage || l.stage); };
+  const shown = id => { const l = STATION.find(x=>x.id===id); return l && open(l.stage); };
+  const decks = MAP_DECKS.map(d =>
+    `<g class="mdeck"><rect x="26" y="${d.y}" width="${W-52}" height="${d.h}" rx="16"/>
+      <text x="44" y="${d.y+26}">${esc(tr(d.t))}</text></g>`).join("");
+  const links = MAP_LINKS.map(([a2,b2]) => {
+    const A = MAP_POS[a2], B = MAP_POS[b2]; if(!A || !B) return "";
+    const vis = shown(a2) && shown(b2);
+    const mx = (A[0]+B[0])/2, my = (A[1]+B[1])/2;
+    return `<path class="mlink ${vis?"":"off"}" d="M${A[0]} ${A[1]} Q${mx} ${my} ${B[0]} ${B[1]}"/>`;
+  }).join("");
+  const nodes = STATION.map(l => {
+    const P = MAP_POS[l.id]; if(!P) return "";
+    const vis = shown(l.id), sel = S.station === l.id;
+    if(!vis) return `<g class="mnode locked" transform="translate(${P[0]},${P[1]})"><circle class="mdot" r="13"/><text class="mq" y="6">?</text></g>`;
+    const danger = /выс|смерт|high|lethal/i.test(tr(l.danger||""));
+    return `<g class="mnode ${sel?"sel":""} ${danger?"hot":""}" transform="translate(${P[0]},${P[1]})"
+        tabindex="0" role="button" data-station="${l.id}" aria-label="${esc(tr(l.name))}">
+      <circle class="mhit" r="34"/>
+      ${sel?'<circle class="mping" r="22"/>':""}
+      <circle class="mdot" r="13"/>
+      <text class="mlbl" y="${P[1] > 600 ? -26 : 34}">${esc(tr(l.name))}</text></g>`;
+  }).join("");
+  const notes = MAP_NOTES.filter(n => !n.stage || open(n.stage)).map((n,i) => {
+    const [tx,ty] = n.to;
+    const cx = (n.x+tx)/2 + (n.x < tx ? 40 : -40), cy = (n.y+ty)/2 - 30;
+    return `<g class="mnote" style="--d:${i*.5}s">
+      <path class="marrow" d="M${n.x} ${n.y} Q${cx} ${cy} ${tx} ${ty}"/>
+      <circle class="marrow-tip" cx="${tx}" cy="${ty}" r="4"/>
+      <text class="mhand" x="${n.x}" y="${n.y}" transform="rotate(${n.rot} ${n.x} ${n.y})">${esc(tr(n.t))}</text></g>`;
+  }).join("");
+  let dust = "";
+  for(let i=0;i<40;i++){ const x=(i*137+i*i*11)%W, y=(i*91+i*i*7)%H; dust += `<circle class="mdust" cx="${x}" cy="${y}" r="${(i%3)*.6+.7}" style="animation-delay:${(i%7)*.7}s"/>`; }
+  const svg = `<svg class="station-map" viewBox="0 0 ${W} ${H}" role="img" aria-label="${T("navStation")}">
+    <defs><linearGradient id="mscan" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="var(--teal)" stop-opacity="0"/><stop offset=".5" stop-color="var(--teal)" stop-opacity=".16"/><stop offset="1" stop-color="var(--teal)" stop-opacity="0"/></linearGradient></defs>
+    <g class="mdusts">${dust}</g>${decks}${links}${notes}${nodes}
+    <rect class="mscan" x="0" y="0" width="${W}" height="120" fill="url(#mscan)"/>
+  </svg>`;
   const vis = STATION.filter(l => open(l.stage));
-  const lockedLeft = STATION.some(l => !open(l.stage));
-  const rowH = 38, gap = 7, top = 20;
-  let y = top, rows = "", dividerDone = false;
-  vis.forEach((l, i) => {
-    if(l.stage >= 2 && !dividerDone){
-      rows += `<line x1="40" y1="${y+2}" x2="560" y2="${y+2}" stroke="var(--amber)" stroke-dasharray="6 5"/>`;
-      y += 10; dividerDone = true;
-    }
-    const inset = Math.min(i, 8) * 6;
-    rows += `<g class="hit ${S.station===l.id?"sel":""}" tabindex="0" role="button" data-station="${l.id}" aria-label="${esc(tr(l.name))}" data-st="${l.stage}">
-      <rect x="${60+inset}" y="${y}" width="${480-inset*2}" height="${rowH}" rx="3" fill="var(--solid)"/><rect class="shape" x="${60+inset}" y="${y}" width="${480-inset*2}" height="${rowH}" rx="3" fill="${l.stage>=2?"var(--amber-soft)":"var(--panel2)"}" stroke="var(--line2)" stroke-width="1.5"/>
-      <text x="300" y="${y+rowH/2+6}" text-anchor="middle" font-size="17" fill="var(--ink)">${esc(tr(l.name))}</text></g>`;
-    y += rowH + gap;
-  });
-  if(lockedLeft){
-    rows += `<rect x="120" y="${y}" width="360" height="${rowH}" rx="3" fill="var(--solid)" stroke="var(--line2)" stroke-dasharray="4 4"/>
-      <rect x="220" y="${y+14}" width="160" height="10" fill="var(--redact)"/>`;
-    y += rowH + gap;
-  }
-  const svg = `<svg viewBox="0 0 600 ${y+14}" role="img" aria-label="${T("navStation")}">
-    <line x1="300" y1="6" x2="300" y2="${y}" stroke="var(--line2)" stroke-width="10" opacity=".5"/>
-    <rect class="elev" x="294" y="8" width="12" height="22" rx="2" fill="var(--teal)" opacity=".65" style="--travel:${Math.max(40,y-40)}px;filter:drop-shadow(0 0 6px var(--teal))"/>
-    ${rows}</svg>`;
   const cur = vis.find(l=>l.id===S.station) || vis[0];
   const tag = cur ? `<span class="tag ${/выс|смерт|high|lethal/i.test(tr(cur.danger))?"warn":""}">${T("danger")}: ${esc(tr(cur.danger))}</span>` : "";
   const SI = STATION_INFO;
-  const banner = `<figure class="ship-hero glass"><img src="${esc(SI.img)}" alt="${esc(tr(SI.title))}" data-zoom="${esc(SI.full)}" data-name="${esc(tr(SI.title))}" title="${T("openBoard")}" onerror="this.remove()">
+  const banner = `<figure class="ship-hero glass"><img src="${esc(SI.img)}" alt="${esc(tr(SI.title))}" data-zoom="${esc(SI.full)}" data-name="${esc(tr(SI.title))}" title="${T("zoom")}">
     <figcaption><h3>${esc(tr(SI.title))}</h3><p>${esc(tr(SI.sub))}</p><div class="chips">${SI.chips.map(c=>`<span class="tag">${esc(tr(c))}</span>`).join("")}</div></figcaption></figure>`;
   return `<section id="station"><h2>${T("navStation")}</h2><p class="lede">${T("stationLede")}</p>${banner}
-    <div class="mapbox side"><div class="svgwrap glass glow">${svg}</div>${detailHTML(cur, tag)}</div></section>`;
+    <div class="mapbox side"><div class="svgwrap glass glow map-wrap">${svg}</div>${detailHTML(cur, tag)}</div></section>`;
 }
 
 /* ---------- world ---------- */
@@ -2157,7 +2344,7 @@ function render(){
   const views = {
     home: () => splashHTML() + crewStripHTML() + heroHTML() + siteMapHTML(),
     guide: guideHTML, stuck: stuckHTML, setup: setupHTML,
-    starts: startsHTML, crew: crewHTML, ship: shipHTML, station: stationHTML, world: worldHTML, about: aboutHTML,
+    starts: startsHTML, crew: crewHTML, npc: npcHTML, ship: shipHTML, station: stationHTML, world: worldHTML, about: aboutHTML,
   };
   $("#main").innerHTML = views[r]() + pagerHTML(r) + `<footer>${T("footer")}</footer>`;
   document.title = (r==="home" ? "" : T(NAVK[r]) + " · ") + "Erebus — " + T("brandSub");
@@ -2191,7 +2378,7 @@ document.addEventListener("click", e => {
   const z = e.target.closest("img[data-zoom]");
   if(z){ const lb=$("#lb"); lb.classList.toggle("wide", !z.closest(".ph")); lb.innerHTML=`<figure style="margin:0"><img src="${esc(z.dataset.zoom)}" alt="${esc(z.dataset.name)}"><figcaption><b>${esc(z.dataset.name)}</b><button class="btn ghost" data-lbclose>${T("close")}</button></figcaption></figure>`; lb.showModal(); return; }
   if(e.target.closest("[data-lbclose]") || e.target.id==="lb"){ $("#lb").close(); return; }
-  const t = e.target.closest("button,[data-ship],[data-station],[data-star],.person.openable"); if(!t) return;
+  const t = e.target.closest("button,[data-ship],[data-station],[data-star],.person.openable,[data-open]"); if(!t) return;
   const d = t.dataset;
   if(d.seg){ const n=+d.seg; if(n > S.stage+1 && !confirm(fmt(T("peekConfirm"),{n}))) return; setStage(n); }
   else if(d.toggle){ const n=+d.toggle; S.fresh="act"+n; S["open"+n] = !(S["open"+n] ?? (n===S.stage)); render(); $(`[data-toggle="${n}"]`)?.focus(); }
@@ -2202,6 +2389,7 @@ document.addEventListener("click", e => {
   else if(d.poke){ poke(d.poke); }
 
   else if(d.copy){ copy(d.copy); }
+  else if(d.open){ S.cards.add(d.open); store.set("cards",[...S.cards]); S.fresh="card"+d.open; render(); }
   else if(d.reveal){ if(confirm(fmt(T("revealConfirm"),{n:d.rs}))){ S.cards.add(d.reveal); store.set("cards",[...S.cards]); S.fresh="card"+d.reveal; render(); } }
   else if(d.read){
     const p = [...CREW, ...ABOARD, ...THREATS, ...STATION_PEOPLE].find(x=>x.id===d.read); const lb=$("#lb"); lb.classList.add("wide");
