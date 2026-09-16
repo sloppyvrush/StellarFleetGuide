@@ -421,6 +421,7 @@ svg text{font-family:var(--f-body);pointer-events:none}
 @media (max-width:620px){.detail{grid-template-columns:1fr}}
 .detail .img{aspect-ratio:16/10;background:linear-gradient(160deg,var(--panel2),transparent);position:relative;min-height:100%}
 .detail .img img{cursor:zoom-in;position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover}
+.detail .img:has(> img) > .mono-fb,.ph:has(> img) > .mono-fb{visibility:hidden}
 .detail .img .mono-fb{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:.9rem;text-align:center;padding:1rem}
 .detail .db{padding:1.1rem 1.3rem;position:relative;z-index:1}
 .fresh{animation:open .4s ease-out}
@@ -744,7 +745,9 @@ main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
 .mlink.off{stroke:rgba(120,190,200,.12);stroke-dasharray:5 10}
 main section.in .mlink{stroke-dasharray:6 8;animation:m-flow 9s linear infinite}
 @keyframes m-flow{to{stroke-dashoffset:-140}}
-.mnode{cursor:pointer}
+.mnode{cursor:pointer;outline:none}
+.mnode:focus,.mnode:focus-visible,.station-map:focus{outline:none}
+.mnode:focus-visible .mlbl{fill:var(--teal)}
 .mhit{fill:transparent}
 .mnode .mdot{fill:#16242c;stroke:var(--teal);stroke-width:3;transition:all .2s}
 .mnode .mlbl{fill:#cfe3e8;font:500 19px var(--f-head);letter-spacing:.04em;text-anchor:middle;pointer-events:none}
@@ -753,19 +756,28 @@ main section.in .mlink{stroke-dasharray:6 8;animation:m-flow 9s linear infinite}
 .mnode.sel .mlbl{fill:var(--amber)}
 .mnode.hot .mdot{stroke:var(--danger)}
 .mnode.locked .mdot{fill:#101922;stroke:rgba(140,170,185,.35);stroke-dasharray:4 5}
-.mnode.locked .mq{fill:rgba(140,170,185,.5);font:500 18px var(--f-head);text-anchor:middle}
+.mnode.locked .mq{fill:rgba(140,170,185,.55);font:500 18px var(--f-head);text-anchor:middle;pointer-events:none;transition:fill .2s}
+.mnode.locked .mdot{transition:all .2s}
+.mnode.locked:hover .mdot,.mnode.locked:focus-visible .mdot{stroke:var(--amber);stroke-dasharray:none;fill:rgba(242,169,63,.12);r:15}
+.mnode.locked:hover .mq,.mnode.locked:focus-visible .mq{fill:var(--amber)}
+.map-bar{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;padding:.6rem 1rem .75rem;border-top:1px solid var(--line);position:relative;z-index:1}
+.map-hint{font:500 .78rem/1.35 var(--f-mono);color:var(--muted);flex:1 1 14rem}
+.map-bar .btn.small{padding:.35rem .8rem;font-size:.82rem}
+.map-bar .linkbtn.small{font-size:.8rem}
 .mping{fill:none;stroke:var(--amber);stroke-width:2}
 main section.in .mping{animation:m-ping 2.4s ease-out infinite}
 @keyframes m-ping{0%{transform:scale(.7);opacity:.7}100%{transform:scale(1.8);opacity:0}}
-.mhand{font:700 25px "Caveat",cursive;fill:var(--amber);opacity:.85}
-.marrow{fill:none;stroke:var(--amber);stroke-width:2;opacity:.6;stroke-linecap:round;stroke-dasharray:180;stroke-dashoffset:180}
+.mhand{font:700 28px "Caveat",cursive;fill:#e6cfa4;opacity:1;letter-spacing:.015em;stroke:rgba(6,11,15,.82);stroke-width:4.5px;stroke-linejoin:round;paint-order:stroke fill}
+.marrow{fill:none;stroke:#d9bd8e;stroke-width:1.7;opacity:.8;stroke-linecap:round;stroke-dasharray:180;stroke-dashoffset:180}
 main section.in .marrow{animation:m-draw 1.2s ease-out forwards;animation-delay:var(--d)}
 @keyframes m-draw{to{stroke-dashoffset:0}}
-.marrow-tip{fill:var(--amber);opacity:0}
+.marrow-tip{fill:none;stroke:#d9bd8e;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:0}
 main section.in .marrow-tip{animation:m-tip .4s ease-out forwards;animation-delay:calc(var(--d) + 1s)}
 @keyframes m-tip{to{opacity:.8}}
 main section.in .mnote text{opacity:0;animation:m-note .6s ease-out forwards;animation-delay:calc(var(--d) + .5s)}
-@keyframes m-note{to{opacity:.85}}
+@keyframes m-note{to{opacity:1}}
+main section.in .station-map.calm .mnote text,main section.in .station-map.calm .marrow,main section.in .station-map.calm .marrow-tip{animation:none;opacity:1;stroke-dashoffset:0}
+main section.in .station-map.calm .marrow,main section.in .station-map.calm .marrow-tip{opacity:.8}
 .mdust{fill:rgba(160,220,230,.35)}
 main section.in .mdust{animation:m-dust 7s ease-in-out infinite}
 @keyframes m-dust{0%,100%{opacity:.15}50%{opacity:.6}}
@@ -773,18 +785,26 @@ main section.in .mdust{animation:m-dust 7s ease-in-out infinite}
 main section.in .mscan{animation:m-scan 7s linear infinite}
 @keyframes m-scan{0%{transform:translateY(-140px)}100%{transform:translateY(820px)}}
 @media (prefers-reduced-motion:reduce){.station-map *{animation:none!important}}
-/* ---------- личные вещи у карточек ---------- */
-.person .ph{overflow:visible}
-.person .ph img.pitem{position:absolute;left:var(--x);top:var(--y);width:var(--w);height:auto;z-index:4;pointer-events:none;
-  transform:translate(-50%,-50%);filter:drop-shadow(0 6px 14px rgba(0,0,0,.6));opacity:0}
-main section.in .person .ph img.pitem{animation:pi-in .7s ease-out forwards, pi-float 7s ease-in-out infinite;animation-delay:calc(var(--d) + .3s), calc(var(--d) + 1s)}
-@keyframes pi-in{from{opacity:0;transform:translate(-50%,-32%) scale(.82) rotate(-9deg)}to{opacity:.92;transform:translate(-50%,-50%) scale(1) rotate(-3deg)}}
-@keyframes pi-float{0%,100%{transform:translate(-50%,-50%) rotate(-3deg)}50%{transform:translate(-50%,-58%) rotate(3deg)}}
-.person .ph img.pitem.i1{animation-duration:.7s, 8.4s}
-.person .ph img.pitem.i2{animation-duration:.7s, 6.2s}
-.person:hover .ph img.pitem{filter:drop-shadow(0 8px 20px rgba(0,0,0,.6)) drop-shadow(0 0 12px rgba(242,169,63,.35))}
-@media (max-width:620px){.person .ph img.pitem{width:calc(var(--w) * .8)}}
-@media (prefers-reduced-motion:reduce){.person .ph img.pitem{animation:none!important;opacity:.92;transform:translate(-50%,-50%)}}
+/* ---------- памятные вещи в «Читать полностью» ---------- */
+.keeps{margin:1.3rem 0 .6rem;padding:1rem 1.1rem 1.2rem}
+.keeps>*{position:relative;z-index:1}
+.keeps .pl-ic{color:var(--amber)}
+.keep-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.9rem}
+.keep{margin:0;display:flex;flex-direction:column;align-items:center;gap:.55rem;padding:.4rem .4rem .8rem;border-radius:12px;
+  background:radial-gradient(ellipse at 50% 42%,rgba(242,169,63,.16),transparent 62%),var(--panel2);border:1px solid var(--line);
+  opacity:0;animation:kp-in .7s cubic-bezier(.2,.8,.3,1.2) forwards;animation-delay:calc(var(--d) + .2s);transition:border-color .3s}
+.keep:hover{border-color:rgba(242,169,63,.45)}
+.keep-stage{height:220px;width:100%;display:grid;place-items:center;perspective:600px}
+#lb .keep img{width:auto;height:auto;max-width:88%;max-height:196px;margin:0;border-radius:0;aspect-ratio:auto;object-fit:contain;
+  filter:drop-shadow(0 14px 18px rgba(0,0,0,.55));animation:kp-float var(--fd,6.5s) ease-in-out infinite;animation-delay:calc(var(--d) * -1);
+  transition:filter .35s, scale .35s;cursor:default}
+.keep:hover img{scale:1.08;filter:drop-shadow(0 18px 22px rgba(0,0,0,.55)) drop-shadow(0 0 18px rgba(242,169,63,.5))}
+.keep figcaption{font:500 .8rem/1.3 var(--f-mono);color:#f2b35a;text-align:center;letter-spacing:.02em;max-width:95%}
+.keep:nth-child(2){--fd:7.8s}.keep:nth-child(3){--fd:5.9s}
+@keyframes kp-in{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes kp-float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-10px) rotate(3deg)}}
+@media (max-width:720px){.keep-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.keep:last-child:nth-child(odd){grid-column:1/-1}.keep-stage{height:160px}#lb .keep img{max-height:140px}}
+@media (prefers-reduced-motion:reduce){.keep,#lb .keep img{animation:none!important;opacity:1}}
 /* ---------- npc и угрозы ---------- */
 .npc-locked .mono-fb{color:rgba(98,214,200,.55);background:radial-gradient(ellipse at 50% 40%,rgba(98,214,200,.12),transparent 65%)}
 .npc-locked{border-color:rgba(98,214,200,.28)}
@@ -1052,6 +1072,7 @@ const UI = {
   reveal: L("Рассекретить", "Declassify"), revealConfirm: L("Карточка откроется раньше этапа {n} и может содержать спойлеры. Открыть?", "This card normally opens at stage {n} and may contain spoilers. Open it?"),
   hide: L("Скрыть снова", "Hide again"),
   readMore: L("Читать полностью", "Read more"),
+  keepsakes: L("Памятные вещи", "Keepsakes"),
   plTitle: L("Плейлист персонажа","Character playlist"),
   plCrew: L("Плейлист экипажа «Кассандры»","The Cassandra crew playlist"),
   plCrewLede: L("Общий плейлист «Кассандры» — то, что звучит на борту, когда шестеро чужих людей постепенно становятся экипажем.","The Cassandra's shared playlist — what plays on board while six strangers slowly turn into a crew."),
@@ -1070,7 +1091,13 @@ const UI = {
   more: L("Подробнее", "More"),
   voice: L("Голос", "Voice"), habits: L("Привычки", "Habits"), withYou: L("С вами", "With you"),
   shipLede: L("Ваш дом на время миссии. Нажмите на отсек на схеме — или на картинку, чтобы открыть все кадры.", "Your home for the mission. Tap a compartment on the schematic — or the image to open all shots."),
-  stationLede: L("Разрез станции сверху вниз. Засекреченные уровни появятся, когда вы до них дойдёте.", "Station cross-section, top to bottom. Classified levels appear once you reach them."),
+  stationLede: L("Разрез станции сверху вниз. Засекреченные уровни появятся, когда вы до них дойдёте, — или рассекретьте их вручную.", "Station cross-section, top to bottom. Classified levels appear once you reach them — or declassify them by hand."),
+  mapHint: L("«?» — закрытая локация. Нажмите на неё, чтобы рассекретить.", "“?” marks a classified location. Click it to declassify."),
+  mapManual: L("Часть карты рассекречена вручную.", "Part of the map was declassified by hand."),
+  mapAll: L("Рассекретить всю карту", "Declassify the whole map"),
+  mapHide: L("Скрыть рассекреченное", "Hide declassified"),
+  mapRevealOne: L("Эта локация обычно открывается на этапе {n} и может содержать спойлеры. Рассекретить?", "This location normally opens at stage {n} and may contain spoilers. Declassify it?"),
+  mapAllConfirm: L("Откроются все локации, включая уровни поздних этапов. Это спойлеры. Продолжить?", "Every location will open, including late-stage levels. These are spoilers. Continue?"),
   worldLede: L("Карта Содружества на 2378 год. Яркие точки — места, важные для истории и персонажей; остальные системы приглушены.", "The Commonwealth map as of 2378. Bright points are places that matter to the story and the characters; other systems are dimmed."),
   mapNote: L("Картографический атлас Содружества, издание 2378-07-А.", "Commonwealth Cartographic Atlas, edition 2378-07-A."),
   pickHint: L("Выберите точку на схеме.", "Pick a point on the diagram."),
@@ -1176,25 +1203,36 @@ const STARTS = [
     files:L("Приветствие: неделя на станции, версия для иного вида","Greeting: the week on the station, non-human version") },
 ];
 
-/* ---------------- ЛИЧНЫЕ ВЕЩИ (летают у карточек) ---------------- */
+/* ---------------- ПАМЯТНЫЕ ВЕЩИ (блок в окне «Читать полностью») ----------------
+   img — картинка из assets/items/, t — подпись под ней. Порядок в списке = порядок в блоке. */
 const ITEMS = {
   ethan: [
-    { img:"assets/items/ethan-photo.webp",   t:L("Фотография отряда","Squad photograph"),        pos:[15,16,66] },
-    { img:"assets/items/ethan-tags.webp",    t:L("Жетоны: его и Кайла","Dog tags: his and Kyle's"), pos:[85,44,54] },
-    { img:"assets/items/ethan-lighter.webp", t:L("Зажигалка с гравировкой","Engraved lighter"),  pos:[18,70,42] },
+    { img:"assets/items/ethan-photo.webp",     t:L("Фото Итана с сослуживцами","Ethan with his squadmates") },
+    { img:"assets/items/ethan-tags.webp",      t:L("Жетоны Итана и его погибшего командира Кайла Марроу","Ethan's dog tags and those of his fallen commander, Kyle Marrow") },
+    { img:"assets/items/ethan-lighter.webp",   t:L("Зажигалка с гравировкой","Engraved lighter") },
   ],
   adrian: [
-    { img:"assets/items/adrian-watch.webp",  t:L("Механические часы отца","His father's watch"), pos:[85,15,54] },
-    { img:"assets/items/adrian-map.webp",    t:L("Звёздная карта от отца","Star chart from his father"), pos:[15,45,64] },
-    { img:"assets/items/adrian-cards.webp",  t:L("Затёртая колода","A worn deck of cards"),      pos:[86,70,48] },
+    { img:"assets/items/adrian-watch.webp",    t:L("Механические часы отца","His father's watch") },
+    { img:"assets/items/adrian-map.webp",      t:L("Звёздная карта от отца","Star chart from his father") },
+    { img:"assets/items/adrian-cards.webp",    t:L("Затёртая колода","A worn deck of cards") },
   ],
   alex: [
-    { img:"assets/items/alex-sketch.webp",   t:L("Скетчбук с экипажем","Sketchbook of the crew"), pos:[17,15,62] },
-    { img:"assets/items/alex-charm.webp",    t:L("Брелок с девочкой-пришельцем","Alien-girl charm"), pos:[85,64,44] },
+    { img:"assets/items/alex-sketch.webp",     t:L("Скетчбук с экипажем","Sketchbook of the crew") },
+    { img:"assets/items/alex-charm.webp",      t:L("Брелок с девочкой-пришельцем","Alien-girl charm") },
   ],
   diana: [
-    { img:"assets/items/diana-vial.webp",    t:L("Образец «Авроры»","An Aurora sample"),          pos:[85,17,42] },
-    { img:"assets/items/diana-loupe.webp",   t:L("Полевой оптический блок","Field optics unit"),  pos:[15,64,56] },
+    { img:"assets/items/diana-loupe.webp",     t:L("Полевой оптический блок","Field optics unit") },
+    { img:"assets/items/diana-vial.webp",      t:L("Образец «Авроры»","An Aurora sample") },
+  ],
+  daniel: [
+    { img:"assets/items/daniel-wrench.webp",   t:L("Отцовский ключ с гравировкой M.K.","His father's wrench, engraved M.K.") },
+    { img:"assets/items/daniel-chili.webp",    t:L("Запас острого перца","His stash of chilli") },
+    { img:"assets/items/daniel-nut.webp",      t:L("Гайка, которую он крутит в пальцах","The nut he rolls between his fingers") },
+  ],
+  flick: [
+    { img:"assets/items/flick-crystal.webp",   t:L("Блестящий камень из тайника","A shiny stone from his stash") },
+    { img:"assets/items/flick-connector.webp", t:L("Стащенный разъём","A pilfered connector") },
+    { img:"assets/items/flick-spring.webp",    t:L("Пружина, которая теперь его","A spring that's his now") },
   ],
 };
 
@@ -1596,13 +1634,18 @@ const MAP_LINKS = [
 const MAP_DECKS = [
   { y:60,  h:270, t:L("ВЕРХНИЕ УРОВНИ","UPPER LEVELS") },
   { y:360, h:150, t:L("ПРОМЫШЛЕННЫЙ ЯРУС","INDUSTRIAL DECK") },
-  { y:530, h:220, t:L("НИЖНИЕ ГОРИЗОНТЫ","LOWER LEVELS") },
+  { y:530, h:220, t:L("НИЖНИЕ УРОВНИ","LOWER LEVELS") },
 ];
+/* рукописные пометки экипажа на карте.
+   loc — к какой локации относится (пометка видна, когда видна локация); x,y — где стоит текст;
+   anchor:"end" — текст заканчивается в точке x (для пометок слева от цели); to — куда указывает стрелка; a — откуда она начинается (необязательно). */
 const MAP_NOTES = [
-  { x:120, y:210, to:[140,132], rot:-6,  t:L("мы вошли здесь","we came in here") },
-  { x:790, y:372, to:[730,412], rot:4,   t:L("шумно — её не слышно","too loud to hear it") },
-  { x:610, y:512, to:[516,528], rot:-3,  t:L("этого уровня нет на схеме","this level isn't on the plan"), stage:2 },
-  { x:250, y:782, to:[406,742], rot:5,   t:L("сюда не ходить","do not go here"), stage:5 },
+  { loc:"dock",    x:270, y:104, rot:-3, to:[160,106], a:[262,98], t:L("шаттлы заблокированы","shuttles locked out") },
+  { loc:"atrium",  x:622, y:86,  rot:3,  to:[518,126], t:L("в лифт №3 не садиться","stay out of elevator 3") },
+  { loc:"reactor", x:336, y:410, rot:-3, to:[314,424], t:L("генератор 3 не запускать","don't start generator 3") },
+  { loc:"l0",      x:610, y:512, rot:-3, to:[518,532], t:L("сюда переводили пациентов","patients were sent here") },
+  { loc:"nest",    x:396, y:778, rot:3,  to:[426,746], anchor:"end", t:L("там ещё есть живые","people still alive in there") },
+  { loc:"hangar",  x:772, y:782, rot:-3, to:[792,738], anchor:"end", t:L("шаттл исправен, нужен код","shuttle works, needs a code") },
 ];
 
 const STATION_INFO = {
@@ -1726,6 +1769,7 @@ const S = {
   ticks: new Set(store.get("ticks", [])),
   rescue: new Set(store.get("rescue", [])),
   cards: new Set(store.get("cards", [])),
+  mapOpen: new Set(store.get("mapOpen", [])),
   peek: new Set(),
   stuck: null, ship: "bridge", station: "dock", star: "erebus", allSys: false,
   fresh: null, booted: false, typed: false, seen: new Set(), mascot: {guide:0, stuck:0},
@@ -1736,6 +1780,7 @@ const T = k => tr(UI[k]);
 const fmt = (s, m) => s.replace(/\{(\w)\}/g, (_, k) => m[k]);
 const roman = ["","I","II","III","IV","V","VI"];
 const open = n => n <= S.stage || S.peek.has(n);
+const stOpen = l => open(l.stage) || S.mapOpen.has(l.id);
 const bars = (n=3, seed=1) => { let o=""; for(let i=0;i<n;i++){ const w = 3 + ((seed*7 + i*13) % 6); o += `<span class="redact" style="width:${w}em"></span>`; } return o; };
 function toast(msg, ms=1800){
   const t=$("#toast"); t.innerHTML=`<span>${esc(msg)}</span>${ms>3000?'<button class="toast-x" aria-label="×">×</button>':""}`; t.classList.add("show"); clearTimeout(toast.h);
@@ -2079,6 +2124,7 @@ function setupHTML(){
 
 /* ---------- плейлисты ---------- */
 const SPOT_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1DB954"/><path d="M6.6 9.3c3.6-1.1 7.9-.8 11 1M7.2 12.4c3-.9 6.5-.6 9.1.9M7.9 15.3c2.4-.6 5-.4 7.1.8" stroke="#08130c" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>';
+const KEEP_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M2 5.5h20V9H2z"/><path d="M12 5.5V21"/><path d="M12 5.5C10.5 2 7 2 7 4s3 1.5 5 1.5c2 0 5 .5 5-1.5s-3.5-2-5 1.5"/></svg>`;
 function playlistHTML(id, title, compact){
   const pid = PLAYLISTS[id];
   if(!pid) return "";
@@ -2167,9 +2213,7 @@ function personHTML(p){
   const openable = paras.length > 0 || PLAYLISTS[p.id] || p.term;
   const threatCls = isThreat ? " threat-card" : "";
   return `<article class="person glass glow tilt${threatCls} ${openable?"openable":""} ${S.fresh==="card"+p.id?"unveil":""}" data-st="${p.stage||1}" ${openable?`data-read="${p.id}" tabindex="0" role="button"`:""}><div class="ph"><span class="sweep"></span>${p.term ? cassTermHTML() : imgTag(p.photo, name, esc(initials(name))).replace("<img ", `<img data-zoom="${esc(p.full||p.photo)}" data-name="${esc(name)}" title="${T("zoom")}" `)}
-      <div class="plate"><h3>${esc(name)}</h3><span class="role">${esc(tr(p.role))}</span></div>
-      ${(ITEMS[p.id]||[]).map((it,i)=>`<img class="pitem i${i}" src="${esc(it.img)}" alt="" aria-hidden="true"
-        title="${esc(tr(it.t))}" style="--x:${it.pos[0]}%;--y:${it.pos[1]}%;--w:${it.pos[2]}px;--d:${i*.7}s" onerror="this.remove()">`).join("")}</div>
+      <div class="plate"><h3>${esc(name)}</h3><span class="role">${esc(tr(p.role))}</span></div></div>
     <div class="pb">${meta}<p class="tagline">${esc(tr(p.tag))}</p><p class="about">${esc(tr(paras[0]))}</p>${more}${hideBtn}</div></article>`;
 }
 function crewHTML(){
@@ -2186,9 +2230,9 @@ function crewHTML(){
 function detailHTML(item, extra=""){
   if(!item) return `<div class="detail glass"><div class="db"><p>${T("pickHint")}</p></div></div>`;
   const name = tr(item.name);
-  const imgOpen = !item.imgStage || open(item.imgStage);
+  const imgOpen = !item.imgStage || open(item.imgStage) || (STATION.includes(item) && S.mapOpen.has(item.id));
   const img = !item.img ? "" : imgOpen
-    ? `<div class="img">${imgTag(item.img, name, `${T("noImg")}<br><code>${esc(item.img)}</code>`).replace("<img ", `<img data-zoom="${esc(item.full||item.img)}" data-name="${esc(name)}" title="${T("openBoard")}" `)}</div>`
+    ? `<div class="img">${imgTag(item.img, name, `${T("noImg")}<br><code>${esc(item.img)}</code>`).replace(' loading="lazy"', ' decoding="sync"').replace("<img ", `<img data-zoom="${esc(item.full||item.img)}" data-name="${esc(name)}" title="${T("openBoard")}" `)}</div>`
     : `<div class="img"><div class="mono-fb"><span>${bars(1,7)}<br>${T("imgLocked")} ${item.imgStage}</span></div></div>`;
   const paras = tr(item.d).split(/\n\s*\n|\n/).map(p=>`<p>${esc(p)}</p>`).join("");
   return `<div class="detail glass ${item.img?"":"noimg"}" aria-live="polite">${img}<div class="db ${S.fresh==="detail"?"fresh":""}"><h3>${esc(name)}</h3>${extra}${paras}</div></div>`;
@@ -2224,54 +2268,66 @@ function shipHTML(){
 
 /* ---------- station ---------- */
 function stationHTML(){
-  const W = 1000, H = 800;
-  const known = id => { const l = STATION.find(x=>x.id===id); return l && open(l.imgStage || l.stage); };
-  const shown = id => { const l = STATION.find(x=>x.id===id); return l && open(l.stage); };
+  const W = 1000, H = S.mapH || 800, ky = H / 800, Y = v => Math.round(v * ky);
+  const shown = id => { const l = STATION.find(x=>x.id===id); return l && stOpen(l); };
   const decks = MAP_DECKS.map(d =>
-    `<g class="mdeck"><rect x="26" y="${d.y}" width="${W-52}" height="${d.h}" rx="16"/>
-      <text x="44" y="${d.y+26}">${esc(tr(d.t))}</text></g>`).join("");
+    `<g class="mdeck"><rect x="26" y="${Y(d.y)}" width="${W-52}" height="${Y(d.h)}" rx="16"/>
+      <text x="44" y="${Y(d.y)+26}">${esc(tr(d.t))}</text></g>`).join("");
   const links = MAP_LINKS.map(([a2,b2]) => {
-    const A = MAP_POS[a2], B = MAP_POS[b2]; if(!A || !B) return "";
+    const A0 = MAP_POS[a2], B0 = MAP_POS[b2]; if(!A0 || !B0) return "";
+    const A = [A0[0], Y(A0[1])], B = [B0[0], Y(B0[1])];
     const vis = shown(a2) && shown(b2);
     const mx = (A[0]+B[0])/2, my = (A[1]+B[1])/2;
     return `<path class="mlink ${vis?"":"off"}" d="M${A[0]} ${A[1]} Q${mx} ${my} ${B[0]} ${B[1]}"/>`;
   }).join("");
   const nodes = STATION.map(l => {
-    const P = MAP_POS[l.id]; if(!P) return "";
+    const P0 = MAP_POS[l.id]; if(!P0) return ""; const P = [P0[0], Y(P0[1])];
     const vis = shown(l.id), sel = S.station === l.id;
-    if(!vis) return `<g class="mnode locked" transform="translate(${P[0]},${P[1]})"><circle class="mdot" r="13"/><text class="mq" y="6">?</text></g>`;
+    if(!vis) return `<g class="mnode locked" transform="translate(${P[0]},${P[1]})" tabindex="0" role="button"
+        data-mapreveal="${l.id}" data-rs="${l.stage}" aria-label="${T("mapRevealOne").replace("{n}", l.stage)}"><title>${T("mapHint")}</title>
+      <circle class="mhit" r="30"/><circle class="mdot" r="13"/><text class="mq" y="6">?</text></g>`;
     const danger = /выс|смерт|high|lethal/i.test(tr(l.danger||""));
     return `<g class="mnode ${sel?"sel":""} ${danger?"hot":""}" transform="translate(${P[0]},${P[1]})"
         tabindex="0" role="button" data-station="${l.id}" aria-label="${esc(tr(l.name))}">
       <circle class="mhit" r="34"/>
       ${sel?'<circle class="mping" r="22"/>':""}
       <circle class="mdot" r="13"/>
-      <text class="mlbl" y="${P[1] > 600 ? -26 : 34}">${esc(tr(l.name))}</text></g>`;
+      <text class="mlbl" y="${P0[1] > 600 ? -26 : 34}">${esc(tr(l.name))}</text></g>`;
   }).join("");
-  const notes = MAP_NOTES.filter(n => !n.stage || open(n.stage)).map((n,i) => {
-    const [tx,ty] = n.to;
-    const cx = (n.x+tx)/2 + (n.x < tx ? 40 : -40), cy = (n.y+ty)/2 - 30;
-    return `<g class="mnote" style="--d:${i*.5}s">
-      <path class="marrow" d="M${n.x} ${n.y} Q${cx} ${cy} ${tx} ${ty}"/>
-      <circle class="marrow-tip" cx="${tx}" cy="${ty}" r="4"/>
-      <text class="mhand" x="${n.x}" y="${n.y}" transform="rotate(${n.rot} ${n.x} ${n.y})">${esc(tr(n.t))}</text></g>`;
+  const notes = MAP_NOTES.filter(n => !n.loc || shown(n.loc)).map((n,i) => {
+    const end = n.anchor === "end";
+    const tx = n.to[0], ty = Y(n.to[1]), ny = Y(n.y);
+    const ax = n.a ? n.a[0] : n.x + (end ? 8 : 4), ay = n.a ? Y(n.a[1]) : ny - (end ? 14 : 24);
+    const bend = end ? -26 : 26;
+    const cx = (ax+tx)/2 + (ay > ty ? bend : -bend), cy = (ay+ty)/2 - 12;
+    const ang = Math.atan2(ty-cy, tx-cx), hl = 10, hw = .5;
+    const h1 = [tx - hl*Math.cos(ang-hw), ty - hl*Math.sin(ang-hw)], h2 = [tx - hl*Math.cos(ang+hw), ty - hl*Math.sin(ang+hw)];
+    return `<g class="mnote" style="--d:${i*.4}s">
+      <path class="marrow" d="M${ax} ${ay} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${tx} ${ty}"/>
+      <path class="marrow-tip" d="M${h1[0].toFixed(1)} ${h1[1].toFixed(1)} L${tx} ${ty} L${h2[0].toFixed(1)} ${h2[1].toFixed(1)}"/>
+      <text class="mhand" x="${n.x}" y="${ny}" ${end?'text-anchor="end"':""} transform="rotate(${n.rot} ${n.x} ${ny})">${esc(tr(n.t))}</text></g>`;
   }).join("");
   let dust = "";
   for(let i=0;i<40;i++){ const x=(i*137+i*i*11)%W, y=(i*91+i*i*7)%H; dust += `<circle class="mdust" cx="${x}" cy="${y}" r="${(i%3)*.6+.7}" style="animation-delay:${(i%7)*.7}s"/>`; }
-  const svg = `<svg class="station-map" viewBox="0 0 ${W} ${H}" role="img" aria-label="${T("navStation")}">
+  const calm = S.notesAt && Date.now() - S.notesAt > 2500 ? " calm" : "";
+  const svg = `<svg class="station-map${calm}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${T("navStation")}">
     <defs><linearGradient id="mscan" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="var(--teal)" stop-opacity="0"/><stop offset=".5" stop-color="var(--teal)" stop-opacity=".16"/><stop offset="1" stop-color="var(--teal)" stop-opacity="0"/></linearGradient></defs>
     <g class="mdusts">${dust}</g>${decks}${links}${notes}${nodes}
     <rect class="mscan" x="0" y="0" width="${W}" height="120" fill="url(#mscan)"/>
   </svg>`;
-  const vis = STATION.filter(l => open(l.stage));
+  const vis = STATION.filter(stOpen);
   const cur = vis.find(l=>l.id===S.station) || vis[0];
+  const lockedN = STATION.filter(l => !stOpen(l)).length, manualN = STATION.filter(l => !open(l.stage) && S.mapOpen.has(l.id)).length;
+  const mapBar = (lockedN || manualN) ? `<div class="map-bar"><span class="map-hint">${lockedN ? T("mapHint") : T("mapManual")}</span>
+    ${lockedN ? `<button class="btn ghost small" data-mapall="1">${T("mapAll")}</button>` : ""}
+    ${manualN ? `<button class="linkbtn small" data-maphide="1">${T("mapHide")}</button>` : ""}</div>` : "";
   const tag = cur ? `<span class="tag ${/выс|смерт|high|lethal/i.test(tr(cur.danger))?"warn":""}">${T("danger")}: ${esc(tr(cur.danger))}</span>` : "";
   const SI = STATION_INFO;
   const banner = `<figure class="ship-hero glass"><img src="${esc(SI.img)}" alt="${esc(tr(SI.title))}" data-zoom="${esc(SI.full)}" data-name="${esc(tr(SI.title))}" title="${T("zoom")}">
     <figcaption><h3>${esc(tr(SI.title))}</h3><p>${esc(tr(SI.sub))}</p><div class="chips">${SI.chips.map(c=>`<span class="tag">${esc(tr(c))}</span>`).join("")}</div></figcaption></figure>`;
   return `<section id="station"><h2>${T("navStation")}</h2><p class="lede">${T("stationLede")}</p>${banner}
-    <div class="mapbox side"><div class="svgwrap glass glow map-wrap">${svg}</div>${detailHTML(cur, tag)}</div></section>`;
+    <div class="mapbox side"><div class="svgwrap glass glow map-wrap">${svg}${mapBar}</div>${detailHTML(cur, tag)}</div></section>`;
 }
 
 /* ---------- world ---------- */
@@ -2338,6 +2394,41 @@ function openWizard(){
 }
 
 /* ---------- render ---------- */
+/* карта станции по высоте равна боковому окну с картинкой */
+function fitStationMap(){
+  if(route() !== "station") return;
+  const box = $(".mapbox.side"), wrap = box && box.querySelector(".map-wrap"), det = box && box.querySelector(".detail"), svg = wrap && wrap.querySelector("svg");
+  if(!svg || !det) return;
+  const sideBySide = getComputedStyle(box).gridTemplateColumns.split(" ").length > 1;
+  let H = 800;
+  if(sideBySide){
+    const sh = svg.getBoundingClientRect(), extra = wrap.offsetHeight - sh.height;
+    H = Math.round(1000 * (det.offsetHeight - extra) / sh.width);
+    H = Math.max(800, Math.min(1500, H));
+  }
+  if(Math.abs(H - (S.mapH || 800)) >= 4){
+    S.mapH = H;
+    const tmp = document.createElement("div"); tmp.innerHTML = stationHTML();
+    svg.replaceWith(tmp.querySelector(".station-map"));
+  }
+  clampMapNotes();
+}
+/* рукописные заметки не должны вылезать за край карты */
+function clampMapNotes(){
+  const svg = $(".station-map"); if(!svg) return;
+  const vb = svg.viewBox.baseVal;
+  svg.querySelectorAll("text.mhand").forEach(t => {
+    let bb; try{ bb = t.getBBox(); }catch(e){ return; }
+    if(!bb.width) return;
+    const dx = Math.max(0, bb.x + bb.width - (vb.width - 16)) - Math.max(0, 16 - bb.x);
+    const dy = Math.max(0, bb.y + bb.height - (vb.height - 10));
+    if(!dx && !dy) return;
+    const x = +t.getAttribute("x") - dx, y = +t.getAttribute("y") - dy;
+    const rot = (t.getAttribute("transform")||"").match(/rotate\(([-\d.]+)/);
+    t.setAttribute("x", x); t.setAttribute("y", y);
+    if(rot) t.setAttribute("transform", `rotate(${rot[1]} ${x} ${y})`);
+  });
+}
 function render(){
   renderChrome();
   const r = route();
@@ -2356,6 +2447,7 @@ function render(){
   }
   prevStage = S.stage;
   reveal(r);
+  fitStationMap();
   S.booted = true;
   cassInit();
 }
@@ -2369,6 +2461,8 @@ function typeStatus(){
 }
 
 /* ---------- events ---------- */
+addEventListener("resize", () => { clearTimeout(fitStationMap.t); fitStationMap.t = setTimeout(fitStationMap, 120); });
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitStationMap);
 document.addEventListener("click", e => {
   const litCard = e.target.closest('.start[data-act="lit"]');
   if(litCard && !e.target.closest("a")){ const on = litCard.classList.toggle("lit"); litCard.setAttribute("aria-pressed", on ? "true" : "false"); }
@@ -2378,7 +2472,7 @@ document.addEventListener("click", e => {
   const z = e.target.closest("img[data-zoom]");
   if(z){ const lb=$("#lb"); lb.classList.toggle("wide", !z.closest(".ph")); lb.innerHTML=`<figure style="margin:0"><img src="${esc(z.dataset.zoom)}" alt="${esc(z.dataset.name)}"><figcaption><b>${esc(z.dataset.name)}</b><button class="btn ghost" data-lbclose>${T("close")}</button></figcaption></figure>`; lb.showModal(); return; }
   if(e.target.closest("[data-lbclose]") || e.target.id==="lb"){ $("#lb").close(); return; }
-  const t = e.target.closest("button,[data-ship],[data-station],[data-star],.person.openable,[data-open]"); if(!t) return;
+  const t = e.target.closest("button,[data-ship],[data-station],[data-mapreveal],[data-star],.person.openable,[data-open]"); if(!t) return;
   const d = t.dataset;
   if(d.seg){ const n=+d.seg; if(n > S.stage+1 && !confirm(fmt(T("peekConfirm"),{n}))) return; setStage(n); }
   else if(d.toggle){ const n=+d.toggle; S.fresh="act"+n; S["open"+n] = !(S["open"+n] ?? (n===S.stage)); render(); $(`[data-toggle="${n}"]`)?.focus(); }
@@ -2393,13 +2487,20 @@ document.addEventListener("click", e => {
   else if(d.reveal){ if(confirm(fmt(T("revealConfirm"),{n:d.rs}))){ S.cards.add(d.reveal); store.set("cards",[...S.cards]); S.fresh="card"+d.reveal; render(); } }
   else if(d.read){
     const p = [...CREW, ...ABOARD, ...THREATS, ...STATION_PEOPLE].find(x=>x.id===d.read); const lb=$("#lb"); lb.classList.add("wide");
+    const its = ITEMS[p.id]||[];
+    const keeps = its.length ? `<section class="keeps glass"><div class="pl-head"><span class="pl-ic">${KEEP_ICON}</span><b>${T("keepsakes")}</b></div>
+      <div class="keep-grid">${its.map((it,k)=>`<figure class="keep" style="--d:${k*.18}s"><div class="keep-stage">
+        <img src="${esc(it.img)}" alt="${esc(tr(it.t))}" onerror="this.closest('.keep').remove()"></div><figcaption>${esc(tr(it.t))}</figcaption></figure>`).join("")}</div></section>` : "";
     lb.innerHTML = `<div class="bio">${p.term ? cassTermHTML() : `<img src="${esc(p.photo)}" alt="${esc(tr(p.name))}">`}<div class="bio-t"><div class="plate static"><h3>${esc(tr(p.name))}</h3><span class="role">${esc(tr(p.role))}</span></div>
       ${p.meta?`<p class="meta">${p.meta.map(m=>`<span>${esc(tr(m))}</span>`).join("")}</p>`:""}<p class="tagline">${esc(tr(p.tag))}</p>
-      ${(Array.isArray(p.about)?p.about:[p.about]).map(x=>`<p>${esc(tr(x))}</p>`).join("")}${playlistHTML(p.id)}<button class="btn ghost" data-lbclose>${T("close")}</button></div></div>`;
+      ${(Array.isArray(p.about)?p.about:[p.about]).map(x=>`<p>${esc(tr(x))}</p>`).join("")}${keeps}${playlistHTML(p.id)}<button class="btn ghost" data-lbclose>${T("close")}</button></div></div>`;
     lb.showModal(); cassInit(); return;
   }
   else if(d.hidecard){ S.cards.delete(d.hidecard); store.set("cards",[...S.cards]); render(); }
   else if(d.ship){ S.fresh="detail"; S.ship=d.ship; render(); $(`[data-ship="${d.ship}"]`)?.focus({preventScroll:true}); }
+  else if(d.mapreveal){ if(confirm(fmt(T("mapRevealOne"),{n:d.rs}))){ S.mapOpen.add(d.mapreveal); store.set("mapOpen",[...S.mapOpen]); S.station=d.mapreveal; S.fresh="detail"; render(); $(`[data-station="${d.mapreveal}"]`)?.focus({preventScroll:true}); } }
+  else if(d.mapall){ if(confirm(T("mapAllConfirm"))){ STATION.forEach(l => S.mapOpen.add(l.id)); store.set("mapOpen",[...S.mapOpen]); render(); } }
+  else if(d.maphide){ S.mapOpen.clear(); store.set("mapOpen",[]); if(!STATION.some(l=>l.id===S.station && open(l.stage))) S.station="dock"; render(); }
   else if(d.station){ S.fresh="detail"; S.station=d.station; render(); $(`[data-station="${d.station}"]`)?.focus({preventScroll:true}); }
   else if(d.star){ const fromList = !!t.closest(".star-list"); S.fresh="detail"; S.star=d.star; render();
     (fromList ? $(`.star-list [data-star="${d.star}"]`) : $(`svg [data-star="${d.star}"]`))?.focus({preventScroll:true}); }
@@ -2407,14 +2508,14 @@ document.addEventListener("click", e => {
   else if(t.id==="sysBtn"){ S.allSys=!S.allSys; render(); $("#sysBtn")?.focus(); }
   else if(t.id==="clearTicks"){ if(confirm(T("clearConfirm"))){ S.ticks.clear(); S.rescue.clear(); store.set("ticks",[]); store.set("rescue",[]); render(); } }
   else if(t.id==="wizOpen"){ openWizard(); }
-  else if(t.id==="resetAll"){ if(confirm(T("resetConfirm"))){ S.ticks.clear(); S.rescue.clear(); S.hints={}; S.cards.clear(); store.set("cards",[]); store.set("ticks",[]); store.set("rescue",[]); store.set("hints",{}); prevStage=1; S.stage=1; store.set("stage",1); render(); } }
+  else if(t.id==="resetAll"){ if(confirm(T("resetConfirm"))){ S.ticks.clear(); S.rescue.clear(); S.hints={}; S.cards.clear(); store.set("cards",[]); S.mapOpen.clear(); store.set("mapOpen",[]); store.set("ticks",[]); store.set("rescue",[]); store.set("hints",{}); prevStage=1; S.stage=1; store.set("stage",1); render(); } }
   else if(t.id==="langBtn"){ S.lang = S.lang==="ru"?"en":"ru"; store.set("lang",S.lang); render(); }
   else if(t.id==="themeBtn"){
     const next = document.documentElement.dataset.theme==="light" ? "dark" : "light"; document.documentElement.dataset.theme = next; store.set("theme", next);
   }
 });
 document.addEventListener("keydown", e => {
-  if((e.key==="Enter"||e.key===" ") && e.target.matches("svg .hit")){ e.preventDefault(); e.target.dispatchEvent(new MouseEvent("click",{bubbles:true})); }
+  if((e.key==="Enter"||e.key===" ") && e.target.matches("svg .hit, .station-map .mnode")){ e.preventDefault(); e.target.dispatchEvent(new MouseEvent("click",{bubbles:true})); }
 });
 document.addEventListener("input", e => { if(e.target.dataset.mvol !== undefined) setVol(+e.target.value / 100); });
 document.addEventListener("change", e => {
@@ -2447,7 +2548,7 @@ let rio;
 function reveal(r){
   if(!("IntersectionObserver" in window)){ document.querySelectorAll("main section").forEach(s=>s.classList.add("in")); return; }
   rio?.disconnect();
-  rio = new IntersectionObserver(es => es.forEach(en => { if(en.isIntersecting){ en.target.classList.add("in"); S.seen.add(r+en.target.id); rio.unobserve(en.target); } }), {rootMargin:"0px 0px -5% 0px"});
+  rio = new IntersectionObserver(es => es.forEach(en => { if(en.isIntersecting){ en.target.classList.add("in"); S.seen.add(r+en.target.id); if(en.target.id==="station" && !S.notesAt) S.notesAt = Date.now(); rio.unobserve(en.target); } }), {rootMargin:"0px 0px -5% 0px"});
   document.querySelectorAll("main section.rv:not(.in)").forEach(s => rio.observe(s));
 }
 addEventListener("hashchange", () => {
