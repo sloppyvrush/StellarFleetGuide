@@ -421,6 +421,7 @@ svg text{font-family:var(--f-body);pointer-events:none}
 @media (max-width:620px){.detail{grid-template-columns:1fr}}
 .detail .img{aspect-ratio:16/10;background:linear-gradient(160deg,var(--panel2),transparent);position:relative;min-height:100%}
 .detail .img img{cursor:zoom-in;position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover}
+.detail .img:has(> img) > .mono-fb,.ph:has(> img) > .mono-fb{visibility:hidden}
 .detail .img .mono-fb{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:.9rem;text-align:center;padding:1rem}
 .detail .db{padding:1.1rem 1.3rem;position:relative;z-index:1}
 .fresh{animation:open .4s ease-out}
@@ -744,7 +745,9 @@ main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
 .mlink.off{stroke:rgba(120,190,200,.12);stroke-dasharray:5 10}
 main section.in .mlink{stroke-dasharray:6 8;animation:m-flow 9s linear infinite}
 @keyframes m-flow{to{stroke-dashoffset:-140}}
-.mnode{cursor:pointer}
+.mnode{cursor:pointer;outline:none}
+.mnode:focus,.mnode:focus-visible,.station-map:focus{outline:none}
+.mnode:focus-visible .mlbl{fill:var(--teal)}
 .mhit{fill:transparent}
 .mnode .mdot{fill:#16242c;stroke:var(--teal);stroke-width:3;transition:all .2s}
 .mnode .mlbl{fill:#cfe3e8;font:500 19px var(--f-head);letter-spacing:.04em;text-anchor:middle;pointer-events:none}
@@ -757,15 +760,17 @@ main section.in .mlink{stroke-dasharray:6 8;animation:m-flow 9s linear infinite}
 .mping{fill:none;stroke:var(--amber);stroke-width:2}
 main section.in .mping{animation:m-ping 2.4s ease-out infinite}
 @keyframes m-ping{0%{transform:scale(.7);opacity:.7}100%{transform:scale(1.8);opacity:0}}
-.mhand{font:700 25px "Caveat",cursive;fill:var(--amber);opacity:.85}
-.marrow{fill:none;stroke:var(--amber);stroke-width:2;opacity:.6;stroke-linecap:round;stroke-dasharray:180;stroke-dashoffset:180}
+.mhand{font:700 30px "Caveat",cursive;fill:#ffc463;opacity:1;letter-spacing:.01em;stroke:#070d12;stroke-width:6px;stroke-linejoin:round;paint-order:stroke fill;filter:drop-shadow(0 0 6px rgba(242,169,63,.35))}
+.marrow{fill:none;stroke:#ffc463;stroke-width:2.6;opacity:.95;stroke-linecap:round;stroke-dasharray:180;stroke-dashoffset:180}
 main section.in .marrow{animation:m-draw 1.2s ease-out forwards;animation-delay:var(--d)}
 @keyframes m-draw{to{stroke-dashoffset:0}}
 .marrow-tip{fill:var(--amber);opacity:0}
 main section.in .marrow-tip{animation:m-tip .4s ease-out forwards;animation-delay:calc(var(--d) + 1s)}
-@keyframes m-tip{to{opacity:.8}}
+@keyframes m-tip{to{opacity:1}}
 main section.in .mnote text{opacity:0;animation:m-note .6s ease-out forwards;animation-delay:calc(var(--d) + .5s)}
-@keyframes m-note{to{opacity:.85}}
+@keyframes m-note{to{opacity:1}}
+main section.in .station-map.calm .mnote text,main section.in .station-map.calm .marrow,main section.in .station-map.calm .marrow-tip{animation:none;opacity:1;stroke-dashoffset:0}
+main section.in .station-map.calm .marrow{opacity:.95}
 .mdust{fill:rgba(160,220,230,.35)}
 main section.in .mdust{animation:m-dust 7s ease-in-out infinite}
 @keyframes m-dust{0%,100%{opacity:.15}50%{opacity:.6}}
@@ -1625,13 +1630,13 @@ const MAP_LINKS = [
 const MAP_DECKS = [
   { y:60,  h:270, t:L("ВЕРХНИЕ УРОВНИ","UPPER LEVELS") },
   { y:360, h:150, t:L("ПРОМЫШЛЕННЫЙ ЯРУС","INDUSTRIAL DECK") },
-  { y:530, h:220, t:L("НИЖНИЕ ГОРИЗОНТЫ","LOWER LEVELS") },
+  { y:530, h:220, t:L("НИЖНИЕ УРОВНИ","LOWER LEVELS") },
 ];
 const MAP_NOTES = [
   { x:120, y:210, to:[140,132], rot:-6,  t:L("мы вошли здесь","we came in here") },
-  { x:790, y:372, to:[730,412], rot:4,   t:L("шумно — её не слышно","too loud to hear it") },
+  { x:712, y:370, to:[722,410], rot:4,   t:L("шумно — её не слышно","too loud to hear it") },
   { x:610, y:512, to:[516,528], rot:-3,  t:L("этого уровня нет на схеме","this level isn't on the plan"), stage:2 },
-  { x:250, y:782, to:[406,742], rot:5,   t:L("сюда не ходить","do not go here"), stage:5 },
+  { x:240, y:770, to:[406,742], rot:5,   t:L("сюда не ходить","do not go here"), stage:5 },
 ];
 
 const STATION_INFO = {
@@ -2215,7 +2220,7 @@ function detailHTML(item, extra=""){
   const name = tr(item.name);
   const imgOpen = !item.imgStage || open(item.imgStage);
   const img = !item.img ? "" : imgOpen
-    ? `<div class="img">${imgTag(item.img, name, `${T("noImg")}<br><code>${esc(item.img)}</code>`).replace("<img ", `<img data-zoom="${esc(item.full||item.img)}" data-name="${esc(name)}" title="${T("openBoard")}" `)}</div>`
+    ? `<div class="img">${imgTag(item.img, name, `${T("noImg")}<br><code>${esc(item.img)}</code>`).replace(' loading="lazy"', ' decoding="sync"').replace("<img ", `<img data-zoom="${esc(item.full||item.img)}" data-name="${esc(name)}" title="${T("openBoard")}" `)}</div>`
     : `<div class="img"><div class="mono-fb"><span>${bars(1,7)}<br>${T("imgLocked")} ${item.imgStage}</span></div></div>`;
   const paras = tr(item.d).split(/\n\s*\n|\n/).map(p=>`<p>${esc(p)}</p>`).join("");
   return `<div class="detail glass ${item.img?"":"noimg"}" aria-live="polite">${img}<div class="db ${S.fresh==="detail"?"fresh":""}"><h3>${esc(name)}</h3>${extra}${paras}</div></div>`;
@@ -2251,20 +2256,21 @@ function shipHTML(){
 
 /* ---------- station ---------- */
 function stationHTML(){
-  const W = 1000, H = 800;
+  const W = 1000, H = S.mapH || 800, ky = H / 800, Y = v => Math.round(v * ky);
   const known = id => { const l = STATION.find(x=>x.id===id); return l && open(l.imgStage || l.stage); };
   const shown = id => { const l = STATION.find(x=>x.id===id); return l && open(l.stage); };
   const decks = MAP_DECKS.map(d =>
-    `<g class="mdeck"><rect x="26" y="${d.y}" width="${W-52}" height="${d.h}" rx="16"/>
-      <text x="44" y="${d.y+26}">${esc(tr(d.t))}</text></g>`).join("");
+    `<g class="mdeck"><rect x="26" y="${Y(d.y)}" width="${W-52}" height="${Y(d.h)}" rx="16"/>
+      <text x="44" y="${Y(d.y)+26}">${esc(tr(d.t))}</text></g>`).join("");
   const links = MAP_LINKS.map(([a2,b2]) => {
-    const A = MAP_POS[a2], B = MAP_POS[b2]; if(!A || !B) return "";
+    const A0 = MAP_POS[a2], B0 = MAP_POS[b2]; if(!A0 || !B0) return "";
+    const A = [A0[0], Y(A0[1])], B = [B0[0], Y(B0[1])];
     const vis = shown(a2) && shown(b2);
     const mx = (A[0]+B[0])/2, my = (A[1]+B[1])/2;
     return `<path class="mlink ${vis?"":"off"}" d="M${A[0]} ${A[1]} Q${mx} ${my} ${B[0]} ${B[1]}"/>`;
   }).join("");
   const nodes = STATION.map(l => {
-    const P = MAP_POS[l.id]; if(!P) return "";
+    const P0 = MAP_POS[l.id]; if(!P0) return ""; const P = [P0[0], Y(P0[1])];
     const vis = shown(l.id), sel = S.station === l.id;
     if(!vis) return `<g class="mnode locked" transform="translate(${P[0]},${P[1]})"><circle class="mdot" r="13"/><text class="mq" y="6">?</text></g>`;
     const danger = /выс|смерт|high|lethal/i.test(tr(l.danger||""));
@@ -2273,19 +2279,20 @@ function stationHTML(){
       <circle class="mhit" r="34"/>
       ${sel?'<circle class="mping" r="22"/>':""}
       <circle class="mdot" r="13"/>
-      <text class="mlbl" y="${P[1] > 600 ? -26 : 34}">${esc(tr(l.name))}</text></g>`;
+      <text class="mlbl" y="${P0[1] > 600 ? -26 : 34}">${esc(tr(l.name))}</text></g>`;
   }).join("");
   const notes = MAP_NOTES.filter(n => !n.stage || open(n.stage)).map((n,i) => {
-    const [tx,ty] = n.to;
-    const cx = (n.x+tx)/2 + (n.x < tx ? 40 : -40), cy = (n.y+ty)/2 - 30;
+    const tx = n.to[0], ty = Y(n.to[1]), ny = Y(n.y);
+    const cx = (n.x+tx)/2 + (n.x < tx ? 40 : -40), cy = (ny+ty)/2 - 30;
     return `<g class="mnote" style="--d:${i*.5}s">
-      <path class="marrow" d="M${n.x} ${n.y} Q${cx} ${cy} ${tx} ${ty}"/>
+      <path class="marrow" d="M${n.x} ${ny} Q${cx} ${cy} ${tx} ${ty}"/>
       <circle class="marrow-tip" cx="${tx}" cy="${ty}" r="4"/>
-      <text class="mhand" x="${n.x}" y="${n.y}" transform="rotate(${n.rot} ${n.x} ${n.y})">${esc(tr(n.t))}</text></g>`;
+      <text class="mhand" x="${n.x}" y="${ny}" transform="rotate(${n.rot} ${n.x} ${ny})">${esc(tr(n.t))}</text></g>`;
   }).join("");
   let dust = "";
   for(let i=0;i<40;i++){ const x=(i*137+i*i*11)%W, y=(i*91+i*i*7)%H; dust += `<circle class="mdust" cx="${x}" cy="${y}" r="${(i%3)*.6+.7}" style="animation-delay:${(i%7)*.7}s"/>`; }
-  const svg = `<svg class="station-map" viewBox="0 0 ${W} ${H}" role="img" aria-label="${T("navStation")}">
+  const calm = S.notesAt && Date.now() - S.notesAt > 2500 ? " calm" : "";
+  const svg = `<svg class="station-map${calm}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${T("navStation")}">
     <defs><linearGradient id="mscan" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="var(--teal)" stop-opacity="0"/><stop offset=".5" stop-color="var(--teal)" stop-opacity=".16"/><stop offset="1" stop-color="var(--teal)" stop-opacity="0"/></linearGradient></defs>
     <g class="mdusts">${dust}</g>${decks}${links}${notes}${nodes}
@@ -2365,6 +2372,41 @@ function openWizard(){
 }
 
 /* ---------- render ---------- */
+/* карта станции по высоте равна боковому окну с картинкой */
+function fitStationMap(){
+  if(route() !== "station") return;
+  const box = $(".mapbox.side"), wrap = box && box.querySelector(".map-wrap"), det = box && box.querySelector(".detail"), svg = wrap && wrap.querySelector("svg");
+  if(!svg || !det) return;
+  const sideBySide = getComputedStyle(box).gridTemplateColumns.split(" ").length > 1;
+  let H = 800;
+  if(sideBySide){
+    const sh = svg.getBoundingClientRect(), extra = wrap.offsetHeight - sh.height;
+    H = Math.round(1000 * (det.offsetHeight - extra) / sh.width);
+    H = Math.max(800, Math.min(1500, H));
+  }
+  if(Math.abs(H - (S.mapH || 800)) >= 4){
+    S.mapH = H;
+    const tmp = document.createElement("div"); tmp.innerHTML = stationHTML();
+    svg.replaceWith(tmp.querySelector(".station-map"));
+  }
+  clampMapNotes();
+}
+/* рукописные заметки не должны вылезать за край карты */
+function clampMapNotes(){
+  const svg = $(".station-map"); if(!svg) return;
+  const vb = svg.viewBox.baseVal;
+  svg.querySelectorAll("text.mhand").forEach(t => {
+    let bb; try{ bb = t.getBBox(); }catch(e){ return; }
+    if(!bb.width) return;
+    const dx = Math.max(0, bb.x + bb.width - (vb.width - 16)) - Math.max(0, 16 - bb.x);
+    const dy = Math.max(0, bb.y + bb.height - (vb.height - 10));
+    if(!dx && !dy) return;
+    const x = +t.getAttribute("x") - dx, y = +t.getAttribute("y") - dy;
+    const rot = (t.getAttribute("transform")||"").match(/rotate\(([-\d.]+)/);
+    t.setAttribute("x", x); t.setAttribute("y", y);
+    if(rot) t.setAttribute("transform", `rotate(${rot[1]} ${x} ${y})`);
+  });
+}
 function render(){
   renderChrome();
   const r = route();
@@ -2383,6 +2425,7 @@ function render(){
   }
   prevStage = S.stage;
   reveal(r);
+  fitStationMap();
   S.booted = true;
   cassInit();
 }
@@ -2396,6 +2439,8 @@ function typeStatus(){
 }
 
 /* ---------- events ---------- */
+addEventListener("resize", () => { clearTimeout(fitStationMap.t); fitStationMap.t = setTimeout(fitStationMap, 120); });
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitStationMap);
 document.addEventListener("click", e => {
   const litCard = e.target.closest('.start[data-act="lit"]');
   if(litCard && !e.target.closest("a")){ const on = litCard.classList.toggle("lit"); litCard.setAttribute("aria-pressed", on ? "true" : "false"); }
@@ -2477,7 +2522,7 @@ let rio;
 function reveal(r){
   if(!("IntersectionObserver" in window)){ document.querySelectorAll("main section").forEach(s=>s.classList.add("in")); return; }
   rio?.disconnect();
-  rio = new IntersectionObserver(es => es.forEach(en => { if(en.isIntersecting){ en.target.classList.add("in"); S.seen.add(r+en.target.id); rio.unobserve(en.target); } }), {rootMargin:"0px 0px -5% 0px"});
+  rio = new IntersectionObserver(es => es.forEach(en => { if(en.isIntersecting){ en.target.classList.add("in"); S.seen.add(r+en.target.id); if(en.target.id==="station" && !S.notesAt) S.notesAt = Date.now(); rio.unobserve(en.target); } }), {rootMargin:"0px 0px -5% 0px"});
   document.querySelectorAll("main section.rv:not(.in)").forEach(s => rio.observe(s));
 }
 addEventListener("hashchange", () => {
