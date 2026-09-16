@@ -626,12 +626,17 @@ body.wasted-mode .wrap,body.wasted-mode .bar,body.wasted-mode #stars{filter:gray
   margin:calc(var(--ch) * .2) 0 1.8rem;padding:1.3rem 2rem 1.3rem 0;min-height:calc(var(--ch) * .8);
   background:radial-gradient(520px 260px at 0% 100%,rgba(242,169,63,.07),transparent 70%),var(--panel);border:1px solid var(--line);border-radius:14px;
   backdrop-filter:blur(10px) saturate(1.2);-webkit-backdrop-filter:blur(10px) saturate(1.2)}
-.brief-guide{--cw:230px;--ch:310px}.brief-stuck{--cw:220px;--ch:250px}.brief-flick{--cw:200px;--ch:200px}.brief-flick-wide{--cw:210px;--ch:190px}
+.brief-guide{--cw:230px;--ch:310px;margin-top:calc(var(--ch) * .5)}.brief-stuck{--cw:220px;--ch:250px}.brief-flick{--cw:200px;--ch:200px}.brief-flick-wide{--cw:210px;--ch:190px}
 .brief-side{display:contents}
 .brief-char{position:relative;align-self:end;margin:calc(var(--ch) * -.2) 0 -1.3rem;height:var(--ch);width:var(--cw);display:flex;align-items:flex-end;justify-content:center;z-index:2}
 .brief-char img,.brief-char .m-btn{max-width:100%;max-height:100%}
 .brief-char img{width:auto;height:auto;object-fit:contain;display:block;filter:drop-shadow(0 12px 20px rgba(0,0,0,.5));animation:bob 5s ease-in-out infinite;transform-origin:50% 100%}
 .brief-char .m-btn{display:flex;align-items:flex-end;justify-content:center;height:100%;width:100%}
+@media (min-width:701px){
+.brief-guide:not([data-level]) .brief-char,.brief-guide[data-level="1"] .brief-char{height:calc(var(--ch) * 1.24);margin-top:calc(var(--ch) * -.44);justify-content:flex-end;margin-right:-1.4rem}
+.brief-guide:not([data-level]) .brief-char .m-btn,.brief-guide[data-level="1"] .brief-char .m-btn{justify-content:flex-end}
+}
+@media (max-width:700px){.brief-guide{margin-top:3rem}.brief-guide:not([data-level]) .brief-char,.brief-guide[data-level="1"] .brief-char{height:calc(var(--ch) * .78);margin-top:-4.6rem}}
 .brief-char .m-btn img{max-height:100%}
 .brief-card{background:none;border:0;padding:.2rem 0 .2rem 1.6rem;min-height:0;backdrop-filter:none;-webkit-backdrop-filter:none;border-left:1px dashed var(--line2);border-radius:0}
 .brief-lbl{margin:0 0 .3rem;font:500 .72rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
@@ -647,9 +652,17 @@ body.wasted-mode .wrap,body.wasted-mode .bar,body.wasted-mode #stars{filter:gray
   border-radius:18px 34px 20px 30px / 30px 16px 32px 20px;transform:rotate(1.6deg);animation:bub-sketch 6s ease-in-out 1s infinite}
 .brief .bubble::after{content:"";position:absolute;left:-27px;top:calc(50% - 13px);width:30px;height:26px;border:0;transform:none;
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 26'%3E%3Cpath d='M30 5 C22 8 12 11 2 14 C12 15 21 18 30 22' fill='%23121c22' stroke='%23e8d6b0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center/contain}
-.brief .bubble .bub-t{display:block;animation:bub-write 1.5s steps(28,end) .45s both}
+.brief .bubble .bub-t{display:block}
+.bub-t .w{white-space:nowrap}
+.bub-t .ch{opacity:0;transition:opacity .14s ease-out}
+.bub-t .ch.on{opacity:1}
+.pencil{position:absolute;left:0;top:0;width:30px;height:30px;margin:-23px 0 0 -7px;pointer-events:none;z-index:3;opacity:0;transition:opacity .35s;
+  filter:drop-shadow(0 3px 3px rgba(0,0,0,.45))}
+.pencil svg{width:100%;height:100%;display:block;transform-origin:7px 23px}
+.pencil.on{opacity:1}
+.pencil.on svg{animation:pen-wiggle .16s ease-in-out infinite alternate}
+@keyframes pen-wiggle{from{transform:rotate(-6deg) translateY(0)}to{transform:rotate(5deg) translateY(-1.5px)}}
 .brief.poked .bubble{animation:bub-in .45s cubic-bezier(.3,1.6,.5,1) both, bub-idle 6s ease-in-out 1s infinite}
-.brief.poked .bubble .bub-t{animation:bub-write .9s steps(20,end) .1s both}
 .brief.angry .bubble{--ink-line:#ef8a78;color:#ffd9cf;box-shadow:0 0 0 1px rgba(232,99,79,.18),0 12px 30px -16px rgba(0,0,0,.7)}
 .brief.angry .bubble::before{border-color:rgba(239,138,120,.45)}
 .brief.angry .bubble::after{background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 26'%3E%3Cpath d='M30 5 C22 8 12 11 2 14 C12 15 21 18 30 22' fill='%23121c22' stroke='%23ef8a78' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
@@ -659,7 +672,7 @@ body.wasted-mode .wrap,body.wasted-mode .bar,body.wasted-mode #stars{filter:gray
 @keyframes bub-write{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
 .brief.poked .brief-char img{animation:poke .55s cubic-bezier(.3,1.6,.5,1)}
 .brief[data-level="4"] .brief-char img,.brief[data-level="5"] .brief-char img,.brief-stuck[data-level="3"] .brief-char img{animation:poke .55s cubic-bezier(.3,1.6,.5,1),fume 1.1s .55s ease-in-out infinite}
-@media (prefers-reduced-motion:reduce){.brief .bubble,.brief .bubble::before,.brief .bubble .bub-t{animation:none!important}}
+@media (prefers-reduced-motion:reduce){.brief .bubble,.brief .bubble::before,.pencil svg{animation:none!important}.bub-t .ch{opacity:1}}
 @media (max-width:1100px){
   .brief{grid-template-columns:var(--cw) minmax(0,1fr);gap:1rem 1.6rem;padding-right:1.5rem}
   .brief-char{grid-row:1 / span 2}
@@ -2057,6 +2070,45 @@ function briefHTML(o){
     <div class="brief-side"><blockquote class="bubble" aria-live="polite"><span class="bub-t">${esc(o.speech)}</span></blockquote>
       <div class="brief-card glass"><p class="brief-lbl">${T("briefLbl")}</p><p class="brief-text">${o.lede}</p></div></div></div>`;
 }
+const PENCIL_SVG = `<svg viewBox="0 0 32 32" aria-hidden="true"><g transform="rotate(45 16 16)">
+  <rect x="12.6" y="-3.5" width="6.8" height="4.5" rx="1.2" fill="#e8a1ab" stroke="#3a2a14" stroke-width=".9"/>
+  <rect x="12.6" y=".6" width="6.8" height="2" fill="#b9bcc2" stroke="#3a2a14" stroke-width=".9"/>
+  <rect x="12.6" y="2.6" width="6.8" height="17.6" fill="#f2b33d" stroke="#3a2a14" stroke-width=".9"/>
+  <path d="M15 2.6 V20.2" stroke="#d9951f" stroke-width="1.2"/>
+  <path d="M12.6 20.2 L16 28 L19.4 20.2 Z" fill="#f1d7ac" stroke="#3a2a14" stroke-width=".9" stroke-linejoin="round"/>
+  <path d="M14.9 25.4 L16 28 L17.1 25.4 Z" fill="#2c2c30"/></g></svg>`;
+/* облачко «пишется» карандашом */
+function writeBubble(el, force){
+  if(!el) return;
+  const text = el.textContent;
+  const key = (el.closest("[data-mascot]")?.dataset.mascot || el.closest(".brief")?.className || "") + "|" + text;
+  writeBubble.seen = writeBubble.seen || new Set();
+  if(!force && writeBubble.seen.has(key)) return;
+  writeBubble.seen.add(key);
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const bub = el.closest(".bubble"); if(!bub) return;
+  cancelAnimationFrame(el._raf);
+  el.innerHTML = text.split(/(\s+)/).map(w => /^\s+$/.test(w) ? " " : w ? `<span class="w">${[...w].map(c => `<span class="ch">${esc(c)}</span>`).join("")}</span>` : "").join("");
+  let pen = bub.querySelector(".pencil");
+  if(!pen){ pen = document.createElement("i"); pen.className = "pencil"; pen.innerHTML = PENCIL_SVG; bub.appendChild(pen); }
+  const chs = [...el.querySelectorAll(".ch")];
+  const total = Math.min(3000, Math.max(900, chs.length * 27)), delay = 380;
+  let t0 = 0, shown = 0;
+  const place = c => { pen.style.transform = `translate(${c.offsetLeft + c.offsetWidth}px, ${c.offsetTop + c.offsetHeight * .78}px)`; };
+  if(chs[0]) place(chs[0]);
+  const step = now => {
+    if(!t0) t0 = now + delay;
+    if(now >= t0){
+      pen.classList.add("on");
+      const n = Math.min(chs.length, Math.ceil((now - t0) / total * chs.length));
+      for(; shown < n; shown++) chs[shown].classList.add("on");
+      if(shown) place(chs[shown - 1]);
+    }
+    if(shown < chs.length) el._raf = requestAnimationFrame(step);
+    else setTimeout(() => pen.classList.remove("on"), 250);
+  };
+  el._raf = requestAnimationFrame(step);
+}
 function poke(key){
   const m = MASCOT[key], fig = document.querySelector(`[data-mascot="${key}"]`); if(!fig) return;
   if(!poke.pre){ poke.pre = true; Object.values(MASCOT).forEach(x => [x.final, ...x.steps.map(s=>s.img)].forEach(src => { const i = new Image(); i.src = src; })); }
@@ -2064,7 +2116,7 @@ function poke(key){
   if(next > m.steps.length){ shatter(key); return; }
   S.mascot[key] = next;
   const img = fig.querySelector("img"), bub = fig.querySelector(".bubble");
-  img.src = m.steps[next-1].img; (bub.querySelector(".bub-t") || bub).textContent = tr(m.steps[next-1].t);
+  img.src = m.steps[next-1].img; const bt0 = bub.querySelector(".bub-t") || bub; bt0.textContent = tr(m.steps[next-1].t); writeBubble(bt0, true);
   fig.classList.add("angry"); fig.classList.remove("poked"); void fig.offsetWidth; fig.classList.add("poked");
   fig.dataset.level = next;
 }
@@ -2101,7 +2153,7 @@ function shatter(key){
   if(reduce){ hit(); wasted(); } else { setTimeout(hit, 620); setTimeout(wasted, 1700); }
   S.mascot[key] = 0;
   const fig = document.querySelector(`[data-mascot="${key}"]`);
-  if(fig){ fig.classList.remove("angry"); delete fig.dataset.level; fig.querySelector("img").src = m.base; const bt = fig.querySelector(".bubble .bub-t") || fig.querySelector(".bubble"); bt.textContent = fig.dataset.base; }
+  if(fig){ fig.classList.remove("angry"); delete fig.dataset.level; fig.querySelector("img").src = m.base; const bt = fig.querySelector(".bubble .bub-t") || fig.querySelector(".bubble"); bt.textContent = fig.dataset.base; writeBubble(bt, true); }
   ov.querySelector("#fixScreen").onclick = () => { ov.classList.add("repair"); document.body.classList.remove("wasted-mode"); setTimeout(() => { ov.remove(); document.body.classList.remove("shake"); toast(T("fixedToast"), 9000); }, reduce ? 0 : 650); };
   setTimeout(() => ov.querySelector("#fixScreen")?.focus(), 3600);
 }
@@ -2597,6 +2649,7 @@ function render(){
   }
   prevStage = S.stage;
   reveal(r);
+  document.querySelectorAll(".brief .bub-t").forEach(el => writeBubble(el));
   fitStationMap();
   S.booted = true;
   cassInit();
