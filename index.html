@@ -20,21 +20,13 @@
   --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
   color-scheme:dark;
 }
-:root[data-theme="light"]{
-  --bg:#e6ebee; --bg2:#dbe2e6; --panel:rgba(248,250,251,.82); --solid:#f5f7f8; --panel2:rgba(205,216,222,.6);
-  --ink:#15222a; --muted:#52646e; --line:rgba(40,70,85,.16); --line2:rgba(40,70,85,.3);
-  --amber:#a8650b; --amber-soft:rgba(168,101,11,.12); --teal:#177a71; --teal-soft:rgba(23,122,113,.1); --danger:#a3352b;
-  --redact:#1c2a32; --focus:#177a71; --glowc:23,122,113; color-scheme:light;
-}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:5.5rem;overflow-x:hidden}
 body{margin:0;background:radial-gradient(1200px 700px at 85% -10%,rgba(242,169,63,.08),transparent 60%),radial-gradient(900px 600px at -10% 30%,rgba(98,214,200,.06),transparent 60%),var(--bg);background-attachment:fixed;color:var(--ink);font:400 1rem/1.62 var(--f-body);-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:clip;max-width:100vw}
 #stars{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
-:root[data-theme="light"] #stars{opacity:.25}
 body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.05;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:59;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px);opacity:.25}
-:root[data-theme="light"] body::before{opacity:.06}
 img{max-width:100%;display:block}
 a{color:var(--teal)}
 :focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
@@ -421,6 +413,36 @@ svg text{font-family:var(--f-body);pointer-events:none}
 @media (max-width:620px){.detail{grid-template-columns:1fr}}
 .detail .img{aspect-ratio:16/10;background:linear-gradient(160deg,var(--panel2),transparent);position:relative;min-height:100%}
 .detail .img img{cursor:zoom-in;position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover}
+/* рябь как на портретах */
+.detail .img::after,.ship-hero::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px);opacity:.8}
+.detail .img::after{background:radial-gradient(ellipse at 50% 50%,transparent 58%,rgba(4,9,12,.45)),repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px)}
+.ship-hero figcaption{z-index:3}
+/* терминальная рамка */
+.term-fx{position:absolute;inset:0;z-index:3;pointer-events:none}
+.term-fx::before{content:"";position:absolute;inset:9px;border:1px solid rgba(98,214,200,.22);border-radius:6px;box-shadow:inset 0 0 22px rgba(98,214,200,.08)}
+.term-fx .tc{position:absolute;width:22px;height:22px;border:2px solid var(--teal);opacity:.85;filter:drop-shadow(0 0 5px rgba(98,214,200,.6))}
+.term-fx .tl{top:9px;left:9px;border-right:0;border-bottom:0;border-top-left-radius:6px}
+.term-fx .tr{top:9px;right:9px;border-left:0;border-bottom:0;border-top-right-radius:6px}
+.term-fx .bl{bottom:9px;left:9px;border-right:0;border-top:0;border-bottom-left-radius:6px}
+.term-fx .br{bottom:9px;right:9px;border-left:0;border-top:0;border-bottom-right-radius:6px}
+.term-fx .tsweep{position:absolute;left:9px;right:9px;height:18%;top:0;background:linear-gradient(180deg,transparent,rgba(98,214,200,.12),transparent)}
+.term-fx .tled{position:absolute;top:20px;right:40px;width:26px;height:26px;border-radius:50%;border:1.5px dashed rgba(98,214,200,.6)}
+.term-fx .tled::after{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--danger);box-shadow:0 0 10px var(--danger)}
+.term-fx .tlbl{position:absolute;top:25px;right:74px;font:500 .64rem/1 var(--f-mono);letter-spacing:.18em;color:rgba(220,240,238,.85);
+  text-shadow:0 0 6px rgba(0,0,0,.9);background:rgba(4,10,13,.45);padding:.2rem .4rem;border-radius:4px}
+main section.in .term-fx .tc{animation:tc-breathe 3.6s ease-in-out infinite}
+main section.in .term-fx .tl{--dx:4px;--dy:4px} main section.in .term-fx .tr{--dx:-4px;--dy:4px}
+main section.in .term-fx .bl{--dx:4px;--dy:-4px} main section.in .term-fx .br{--dx:-4px;--dy:-4px}
+main section.in .term-fx .tsweep{animation:t-sweep 5.5s linear infinite}
+main section.in .term-fx .tled{animation:spin 9s linear infinite}
+main section.in .term-fx .tled::after{animation:t-led 1.6s steps(2) infinite}
+main section.in .term-fx::before{animation:t-edge 3.6s ease-in-out infinite}
+@keyframes tc-breathe{0%,100%{transform:translate(0,0);opacity:.85}50%{transform:translate(var(--dx),var(--dy));opacity:.45}}
+@keyframes t-sweep{0%{top:-18%}100%{top:100%}}
+@keyframes t-led{50%{opacity:.25}}
+@keyframes t-edge{0%,100%{border-color:rgba(98,214,200,.18)}50%{border-color:rgba(98,214,200,.42)}}
+@media (prefers-reduced-motion:reduce){.term-fx *,.term-fx::before{animation:none!important}}
 .detail .img:has(> img) > .mono-fb,.ph:has(> img) > .mono-fb{visibility:hidden}
 .detail .img .mono-fb{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:.9rem;text-align:center;padding:1rem}
 .detail .db{padding:1.1rem 1.3rem;position:relative;z-index:1}
@@ -467,13 +489,17 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;padd
 #topnav a.on{color:var(--ink);background:var(--amber-soft);box-shadow:inset 0 -2px 0 var(--amber)}
 .nav-sep{width:1px;height:1.2rem;background:var(--line2);margin:0 .35rem}
 .nav-g{display:none;font:500 .72rem var(--f-body);color:var(--muted);letter-spacing:.08em;text-transform:uppercase;padding:.8rem .6rem .2rem}
+@keyframes menu-pulse{0%,100%{box-shadow:0 0 0 0 rgba(242,169,63,.0),0 0 6px rgba(242,169,63,.25)}50%{box-shadow:0 0 0 5px rgba(242,169,63,.14),0 0 18px rgba(242,169,63,.55)}}
+@media (prefers-reduced-motion:reduce){#menuBtn{animation:none!important}}
 #menuBtn{display:none;flex-direction:column;justify-content:center;gap:4px;width:2.3rem;height:2rem;padding:0 .55rem}
 #menuBtn span{display:block;height:2px;background:var(--ink);border-radius:2px;transition:transform .25s,opacity .25s}
 .menu-open #menuBtn span:nth-child(1){transform:translateY(6px) rotate(45deg)}
 .menu-open #menuBtn span:nth-child(2){opacity:0}
 .menu-open #menuBtn span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
 @media (max-width:1180px){
-  #menuBtn{display:flex}
+  #menuBtn{display:flex;border-color:rgba(242,169,63,.6);background:rgba(242,169,63,.1);animation:menu-pulse 3.2s ease-in-out infinite}
+  #menuBtn span{background:#f5c77e}
+  .menu-open #menuBtn{animation:none;box-shadow:0 0 0 1px rgba(242,169,63,.5)}
   #topnav{position:absolute;left:0;right:0;top:100%;margin:0;flex-direction:column;align-items:stretch;background:var(--solid);border-bottom:1px solid var(--line2);padding:.4rem 1rem 1rem;box-shadow:0 20px 40px -20px rgba(0,0,0,.7);
     transform:translateY(-8px);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;max-height:calc(100vh - 3.5rem);overflow:auto}
   .menu-open #topnav{opacity:1;transform:none;pointer-events:auto}
@@ -832,6 +858,19 @@ main section.in .dt-scan{animation:dt-scan 4.5s linear infinite}
 .plate.danger{border-left-color:var(--danger)}
 .btn.danger-btn{background:rgba(232,99,79,.14);border-color:rgba(232,99,79,.55);color:#ffb3a5}
 .btn.danger-btn:hover{background:rgba(232,99,79,.24)}
+/* закрытые NPC: вопрос и этап прямо на картинке */
+.npc-locked{cursor:pointer;position:relative;overflow:hidden;border-color:rgba(98,214,200,.4)}
+.npc-locked:hover{border-color:var(--teal)}
+.npc-locked .ph{display:grid;place-items:center;background:repeating-linear-gradient(45deg,rgba(98,214,200,.07) 0 14px,transparent 14px 28px),#0d171b}
+.q-sign svg{width:104px;height:104px}
+.q-ring{fill:none;stroke:var(--teal);stroke-width:4;stroke-dasharray:18 10;filter:drop-shadow(0 0 10px rgba(98,214,200,.5))}
+.q-ring2{fill:rgba(98,214,200,.07);stroke:rgba(98,214,200,.35);stroke-width:1.5}
+.q-mark{font:700 52px var(--f-head);fill:var(--teal);text-anchor:middle;filter:drop-shadow(0 0 8px rgba(98,214,200,.55))}
+.q-word{color:var(--teal);text-shadow:0 0 12px rgba(98,214,200,.55);letter-spacing:.22em;text-align:center;padding:0 .8rem}
+.q-scan{background:linear-gradient(180deg,transparent,rgba(98,214,200,.14),transparent)}
+main section.in .q-ring{transform-origin:60px 60px;animation:spin 16s linear infinite}
+main section.in .q-mark{animation:uq-blink 3.4s steps(1) infinite}
+.hide-wrap{margin-top:.35rem}
 /* неприятное изображение */
 .gfx-warn{display:flex;align-items:center;gap:.45rem;margin:.15rem 0 .5rem;padding:.35rem .6rem;border-radius:8px;border:1px dashed rgba(242,169,63,.45);
   background:rgba(242,169,63,.07);font:500 .74rem/1.3 var(--f-mono);color:#f2c077;letter-spacing:.02em}
@@ -986,7 +1025,6 @@ main section.in .unclear-locked .uq-q{animation:uq-blink 3.2s steps(1) infinite}
   <div class="bar-tools">
     <a class="stage-pill" href="#/guide" id="pill"></a>
     <button class="mini" id="langBtn" aria-label="Language"></button>
-    <button class="mini" id="themeBtn" aria-label="Theme">◐</button>
     <button class="mini" id="menuBtn" aria-expanded="false" aria-controls="topnav"><span></span><span></span><span></span></button>
   </div>
 </div></header>
@@ -1016,6 +1054,7 @@ const UI = {
   threatsLede: L("Ниже — то, что убивает. Карточки закрыты: откройте, только если готовы увидеть заранее.","Below is what kills. The cards are sealed: open them only if you're ready to know in advance."),
   dangerOpen: L("Открыть досье","Open the file"),
   threatSealed: L("Досье запечатано","File sealed"),
+  npcSealed: L("Досье засекречено до нужного этапа","File classified until its stage"),
   unclearSealed: L("Неясно, угроза ли это. Досье запечатано","Unclear whether he's a threat. File sealed"),
   gfxWarn: L("Изображение может быть неприятным","The image may be disturbing"),
   askCancel: L("Отмена","Cancel"), askOpen: L("Открыть","Open"), askShow: L("Показать","Show"), askGo: L("Перейти","Go"), askYes: L("Да, сбросить","Yes, reset"),
@@ -1594,10 +1633,6 @@ const STATION_PEOPLE = [
     tag:L("Отвечает на обвинения статистикой.","She answers accusations with statistics."),
     about:L("Даже после катастрофы — чистая форма и безупречная причёска. Говорит тихо, никогда не повышает голос и смотрит на людей так, будто одновременно видит в них данные. Не злодейка из фильма — и именно это пугает. Особенно её интересует Диана.",
             "Even after the disaster: a clean uniform and perfect hair. She speaks quietly, never raises her voice, and looks at people as if she's seeing data at the same time. Not a movie villain — which is exactly what's frightening. Diana interests her most of all.") },
-  { id:"evan", stage:3, sealed:true, graphic:true, name:L("Эван","Evan"), photo:"assets/people/evan.webp", full:"assets/people/full/evan.webp", role:L("Выживший · H-37","Survivor · H-37"),
-    tag:L("«Меня зовут Эван. Не номер».","\"My name is Evan. Not a number.\""),
-    about:L("Когда-то он был человеком — и до сих пор это помнит. Выше двух метров, кожа почти чёрная, глаза болят от яркого света. Опасен и нестабилен: может сорваться, а через минуту прийти в себя. Иногда посреди разговора замирает, поворачивает голову к вентиляции и тихо говорит: «Тише. Оно идёт».",
-            "He was a man once — and he still remembers it. Over two metres tall, skin nearly black, eyes that hurt in bright light. Dangerous and unstable: he can snap, then come back to himself a minute later. Sometimes mid-sentence he freezes, turns toward a vent and says quietly: \"Quiet. It's coming.\"") },
   { id:"david", stage:3, name:L("Дэвид Мерсер","David Mercer"), photo:"assets/people/david.webp", full:"assets/people/full/david.webp", role:L("Выживший · H-18","Survivor · H-18"),
     tag:L("Сначала спросит, правда ли вы не из проекта.","First he'll ask if you're really not from the project."),
     about:L("Бывший морпех, которого экспериментальная терапия снова поставила на ноги — и больше не отпустила. Худой, двигается неуверенно, у койки — фото дочери Лили. После «вы правда не из проекта?» его второй вопрос: можно ли отправить сообщение домой.",
@@ -1618,6 +1653,10 @@ const STATION_PEOPLE = [
     tag:L("Уверен, что жив, только пока полезен.","Sure he's alive only while he's useful."),
     about:L("Двадцатидвухлетний парень, подписавший контракт ради денег для семьи, — и до сих пор пишущий родителям выдуманные истории о скучной работе техника. Хищник почему-то часто проходит мимо него. Этим пользовались. Этим он и сломан.",
             "A twenty-two-year-old who signed up for money for his family — and still writes his parents made-up stories about a boring technician job. For some reason the predator often walks right past him. People used that. That's what broke him.") },
+  { id:"evan", stage:3, sealed:true, graphic:true, name:L("Эван","Evan"), photo:"assets/people/evan.webp", full:"assets/people/full/evan.webp", role:L("Выживший · H-37","Survivor · H-37"),
+    tag:L("«Меня зовут Эван. Не номер».","\"My name is Evan. Not a number.\""),
+    about:L("Когда-то он был человеком — и до сих пор это помнит. Выше двух метров, кожа почти чёрная, глаза болят от яркого света. Опасен и нестабилен: может сорваться, а через минуту прийти в себя. Иногда посреди разговора замирает, поворачивает голову к вентиляции и тихо говорит: «Тише. Оно идёт».",
+            "He was a man once — and he still remembers it. Over two metres tall, skin nearly black, eyes that hurt in bright light. Dangerous and unstable: he can snap, then come back to himself a minute later. Sometimes mid-sentence he freezes, turns toward a vent and says quietly: \"Quiet. It's coming.\"") },
 ];
 
 /* ---------------- «КАССАНДРА» ----------------
@@ -2250,7 +2289,7 @@ function personHTML(p){
               <clipPath id="uqL-${p.id}"><path d="M-10 -10 H61 L55 28 L65 50 L54 74 L62 116 H-10Z"/></clipPath>
               <clipPath id="uqR-${p.id}"><path d="M130 -10 H61 L55 28 L65 50 L54 74 L62 116 H130Z"/></clipPath></defs>
             <g clip-path="url(#uqL-${p.id})"><path class="dt-tri" d="M60 6 L114 100 H6 Z"/>
-              <g class="dt-skull" transform="translate(44 66) scale(.7) translate(-60 -56)">
+              <g class="dt-skull" transform="translate(43 71) scale(.7) translate(-60 -56)">
                 <path d="M60 34 C71 34 78 43 78 53 C78 60 75 64 71 67 L71 74 C71 77 68 79 65 79 L55 79 C52 79 49 77 49 74 L49 67 C45 64 42 60 42 53 C42 43 49 34 60 34 Z"/>
                 <ellipse class="dt-eye" cx="53" cy="53" rx="5" ry="6"/><ellipse class="dt-eye" cx="67" cy="53" rx="5" ry="6"/>
                 <path class="dt-eye" d="M60 60 l3.4 6 h-6.8 z"/>
@@ -2269,7 +2308,7 @@ function personHTML(p){
       return `<article class="person glass locked-card threat-locked" data-open="${p.id}" tabindex="0" role="button" aria-label="${T("dangerOpen")}">
         <div class="ph"><div class="danger-sign" aria-hidden="true">
           <svg viewBox="0 0 120 106"><path class="dt-tri" d="M60 6 L114 100 H6 Z"/>
-            <g class="dt-skull">
+            <g class="dt-skull" transform="translate(0 13)">
               <path d="M60 34 C71 34 78 43 78 53 C78 60 75 64 71 67 L71 74 C71 77 68 79 65 79 L55 79 C52 79 49 77 49 74 L49 67 C45 64 42 60 42 53 C42 43 49 34 60 34 Z"/>
               <ellipse class="dt-eye" cx="53" cy="53" rx="5" ry="6"/><ellipse class="dt-eye" cx="67" cy="53" rx="5" ry="6"/>
               <path class="dt-eye" d="M60 60 l3.4 6 h-6.8 z"/>
@@ -2282,15 +2321,20 @@ function personHTML(p){
         <div class="pb"><p class="where danger-w">${T("threatSealed")}</p>${gfx}
         <div class="reveal-wrap"><button class="btn danger-btn" data-open="${p.id}">${T("dangerOpen")}</button></div></div></article>`;
     }
-    return `<article class="person glass locked-card npc-locked"><div class="ph"><div class="mono-fb">?</div>
-      <div class="plate"><h3>${bars(2, p.stage+3)}</h3></div></div>
-      <div class="pb"><p class="where">${T("lockedGeneric")} ${p.stage}</p>
+    return `<article class="person glass locked-card npc-locked" data-reveal="${p.id}" data-rs="${p.stage}" tabindex="0" role="button" aria-label="${T("reveal")}">
+      <div class="ph"><div class="danger-sign q-sign" aria-hidden="true">
+          <svg viewBox="0 0 120 120"><circle class="q-ring" cx="60" cy="60" r="50"/><circle class="q-ring2" cx="60" cy="60" r="38"/>
+            <text class="q-mark" x="60" y="78">?</text></svg>
+          <span class="dt-word q-word">${T("lockedGeneric").toUpperCase()} ${p.stage}</span></div>
+        <span class="dt-scan q-scan"></span>
+        <div class="plate"><h3>${bars(2, p.stage+3)}</h3></div></div>
+      <div class="pb"><p class="where">${T("npcSealed")}</p>
       <div class="reveal-wrap"><button class="btn amber" data-reveal="${p.id}" data-rs="${p.stage}">${T("reveal")}</button></div></div></article>`;
   }
   const meta = p.meta ? `<p class="meta">${p.meta.map(m=>`<span>${esc(tr(m))}</span>`).join("")}</p>` : "";
   const paras = Array.isArray(p.about) ? p.about : [p.about];
   const more = (paras.length || PLAYLISTS[p.id] || p.term) ? `<button class="linkbtn more-btn" data-read="${p.id}">${T("readMore")} →</button>` : "";
-  const hideBtn = forced && (isThreat || p.sealed || (p.stage && !open(p.stage))) ? `<button class="linkbtn" data-hidecard="${p.id}">${T("hide")}</button>` : "";
+  const hideBtn = forced && (isThreat || p.sealed || (p.stage && !open(p.stage))) ? `<div class="reveal-wrap hide-wrap"><button class="btn ${(isThreat || p.sealed) ? "danger-btn" : "amber"}" data-hidecard="${p.id}">${T("hide")}</button></div>` : "";
   const openable = paras.length > 0 || PLAYLISTS[p.id] || p.term;
   const threatCls = (isThreat || p.sealed) ? " threat-card" : "";
   return `<article class="person glass glow tilt${threatCls} ${openable?"openable":""} ${S.fresh==="card"+p.id?"unveil":""}" data-st="${p.stage||1}" ${openable?`data-read="${p.id}" tabindex="0" role="button"`:""}><div class="ph"><span class="sweep"></span>${p.term ? cassTermHTML() : imgTag(p.photo, name, esc(initials(name))).replace("<img ", `<img data-zoom="${esc(p.full||p.photo)}" data-name="${esc(name)}" title="${T("zoom")}" `)}
@@ -2313,7 +2357,8 @@ function detailHTML(item, extra=""){
   const name = tr(item.name);
   const imgOpen = !item.imgStage || open(item.imgStage) || (STATION.includes(item) && S.mapOpen.has(item.id));
   const img = !item.img ? "" : imgOpen
-    ? `<div class="img">${imgTag(item.img, name, `${T("noImg")}<br><code>${esc(item.img)}</code>`).replace(' loading="lazy"', ' decoding="sync"').replace("<img ", `<img data-zoom="${esc(item.full||item.img)}" data-name="${esc(name)}" title="${T("openBoard")}" `)}</div>`
+    ? `<div class="img">${imgTag(item.img, name, `${T("noImg")}<br><code>${esc(item.img)}</code>`).replace(' loading="lazy"', ' decoding="sync"').replace("<img ", `<img data-zoom="${esc(item.full||item.img)}" data-name="${esc(name)}" title="${T("openBoard")}" `)}
+      <span class="term-fx" aria-hidden="true"><i class="tsweep"></i><i class="tc tl"></i><i class="tc tr"></i><i class="tc bl"></i><i class="tc br"></i><i class="tlbl">${esc(String(item.id||"").toUpperCase())} · LIVE</i><i class="tled"></i></span></div>`
     : `<div class="img"><div class="mono-fb"><span>${bars(1,7)}<br>${T("imgLocked")} ${item.imgStage}</span></div></div>`;
   const paras = tr(item.d).split(/\n\s*\n|\n/).map(p=>`<p>${esc(p)}</p>`).join("");
   return `<div class="detail glass ${item.img?"":"noimg"}" aria-live="polite">${img}<div class="db ${S.fresh==="detail"?"fresh":""}"><h3>${esc(name)}</h3>${extra}${paras}</div></div>`;
@@ -2553,7 +2598,7 @@ document.addEventListener("click", e => {
   const z = e.target.closest("img[data-zoom]");
   if(z){ const lb=$("#lb"); lb.classList.toggle("wide", !z.closest(".ph")); lb.innerHTML=`<figure style="margin:0"><img src="${esc(z.dataset.zoom)}" alt="${esc(z.dataset.name)}"><figcaption><b>${esc(z.dataset.name)}</b><button class="btn ghost" data-lbclose>${T("close")}</button></figcaption></figure>`; lb.showModal(); return; }
   if(e.target.closest("[data-lbclose]") || e.target.id==="lb"){ $("#lb").close(); return; }
-  const t = e.target.closest("button,[data-ship],[data-station],[data-mapreveal],[data-star],.person.openable,[data-open]"); if(!t) return;
+  const t = e.target.closest("button,[data-ship],[data-station],[data-mapreveal],[data-star],.person.openable,[data-open],[data-reveal]"); if(!t) return;
   const d = t.dataset;
   if(d.seg){ const n=+d.seg;
     if(n <= S.stage) return setStage(n);
@@ -2601,9 +2646,6 @@ document.addEventListener("click", e => {
   else if(t.id==="wizOpen"){ openWizard(); }
   else if(t.id==="resetAll"){ ask({ tone:"danger", title:T("askResetT"), text:T("resetConfirm"), ok:T("askYes") }).then(ok => { if(ok){ S.ticks.clear(); S.rescue.clear(); S.hints={}; S.cards.clear(); store.set("cards",[]); S.mapOpen.clear(); store.set("mapOpen",[]); store.set("ticks",[]); store.set("rescue",[]); store.set("hints",{}); prevStage=1; S.stage=1; store.set("stage",1); render(); } }); }
   else if(t.id==="langBtn"){ S.lang = S.lang==="ru"?"en":"ru"; store.set("lang",S.lang); render(); }
-  else if(t.id==="themeBtn"){
-    const next = document.documentElement.dataset.theme==="light" ? "dark" : "light"; document.documentElement.dataset.theme = next; store.set("theme", next);
-  }
 });
 document.addEventListener("keydown", e => {
   if((e.key==="Enter"||e.key===" ") && e.target.matches("svg .hit, .station-map .mnode")){ e.preventDefault(); e.target.dispatchEvent(new MouseEvent("click",{bubbles:true})); }
@@ -2682,7 +2724,7 @@ document.addEventListener("pointerout", e => { const c = e.target.closest?.(".ti
   init(); draw(); addEventListener("resize",()=>{ init(); if(reduce) draw(); });
 })();
 
-const th = store.get("theme", "dark"); document.documentElement.dataset.theme = th;
+document.documentElement.dataset.theme = "dark"; try{ localStorage.removeItem("erebus.theme"); }catch(e){}
 render();
 })();
 </script>
