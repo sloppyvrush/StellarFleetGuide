@@ -1,17 +1,17 @@
 {
-    "id": "c000c862-2796-41b2-afce-559a0d26dde5",
-    "scriptName": "EREBUS • Video UI",
-    "findRegex": "/(?:```+\\w*\\s*)?<erebus_video>\\s*[*_]{0,2}STATUS:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}LOCATION:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}TITLE:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}TIME:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}SOURCE:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}SUBJECT:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}FRAME:[*_]{0,2}\\s*([\\s\\S]*?)\\s*[*_]{0,2}TEXT:[*_]{0,2}\\s*([\\s\\S]*?)\\s*<\\/erebus_video>(?:\\s*```+)?/gi",
-    "replaceString": "<div style=\"margin:14px 0;max-width:100%;font-family:Arial,sans-serif;background:#090d11;border:1px solid #344957;border-radius:7px;box-shadow:0 8px 24px #000a;overflow:hidden\">\n<div style=\"padding:9px 12px;background:linear-gradient(90deg,#18242d,#0e1419);border-bottom:1px solid #30414d;display:flex;justify-content:space-between;gap:8px\">\n<span style=\"font-size:10px;letter-spacing:1.4px;color:#a9d4eb\">▣ EREB//VISUAL ARCHIVE</span>\n<span style=\"font-size:9px;color:#7f9dad\">$1</span>\n</div>\n<div style=\"padding:12px\">\n<div style=\"position:relative;overflow:hidden;background:linear-gradient(180deg,#101921,#070a0d);border:1px solid #3a4d5a;border-radius:4px;box-shadow:inset 0 0 30px #000\">\n<div style=\"position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,#a9d4eb08 3px 4px);pointer-events:none\"></div>\n<div style=\"position:relative;padding:10px 12px 12px\">\n<div style=\"display:flex;justify-content:space-between;font-size:9px;letter-spacing:1px\"><span style=\"color:#e88989;text-shadow:0 0 7px #c55\">● REC</span><span style=\"color:#7895a5\">$4</span></div>\n<div style=\"margin-top:17px;font-size:13px;font-weight:bold;color:#d7eaf5\">$3</div>\n<div style=\"font-size:9px;color:#6f8a9a;margin-top:3px\">$2 // $5</div>\n<div style=\"margin-top:12px;padding:10px;background:#d8effa08;border:1px dashed #3a5362;color:#b9ced9;font-size:11px;line-height:1.55;white-space:pre-line\"><span style=\"font-size:9px;color:#8db8ce\">FRAME ANALYSIS //</span><br>$7</div>\n</div></div>\n<div style=\"margin-top:9px;padding:9px 11px;border-left:2px solid #59798c;background:#ffffff05;color:#c8d9e2;font-size:11px;line-height:1.65;white-space:pre-line\"><span style=\"font-size:9px;color:#8db3c7\">AUDIO TRANSCRIPT //</span><br>$8</div>\n<div style=\"display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:9px;font-size:9px;color:#708a99\"><span>SOURCE // $5</span><span>SUBJECT // <b style=\"color:#aac6d5\">$6</b></span></div>\n</div></div>",
-    "trimStrings": [],
-    "placement": [
-        2
-    ],
-    "disabled": false,
-    "markdownOnly": true,
-    "promptOnly": false,
-    "runOnEdit": true,
-    "substituteRegex": 0,
-    "minDepth": null,
-    "maxDepth": null
+  "id": "c000c862-2796-41b2-afce-559a0d26dde5",
+  "scriptName": "EREBUS • Video UI",
+  "findRegex": "/(?:```+\\w*\\s*)?<erebus_video>\\s*[*_]{0,2}STATUS:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}LOCATION:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}TITLE:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}TIME:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}SOURCE:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}SUBJECT:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}FRAME:[*_]{0,2}\\s*([\\s\\S]*?)\\s*[*_]{0,2}TEXT:[*_]{0,2}\\s*([\\s\\S]*?)\\s*<\\/erebus_video>(?:\\s*```+)?/gi",
+  "replaceString": "<div style=\"margin:14px 0;max-width:100%;font-family:Arial,sans-serif;background:#090d11;border:1px solid #344957;border-radius:7px;box-shadow:0 8px 24px #000a;overflow:hidden\">\n<div style=\"padding:9px 12px;background:linear-gradient(90deg,#18242d,#0e1419);border-bottom:1px solid #30414d;display:flex;justify-content:space-between;gap:8px\">\n<span style=\"font-size:10px;letter-spacing:1.4px;color:#a9d4eb\">▣ EREB//VISUAL ARCHIVE</span>\n<span style=\"font-size:9px;color:#7f9dad\">$1</span>\n</div>\n<div style=\"padding:12px\">\n<div style=\"position:relative;overflow:hidden;background:linear-gradient(180deg,#101921,#070a0d);border:1px solid #3a4d5a;border-radius:4px;box-shadow:inset 0 0 30px #000\">\n<div style=\"position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,#a9d4eb08 3px 4px);pointer-events:none\"></div>\n<div style=\"position:relative;padding:10px 12px 12px\">\n<div style=\"display:flex;justify-content:space-between;font-size:9px;letter-spacing:1px\"><span style=\"color:#e88989;text-shadow:0 0 7px #c55\">● REC</span><span style=\"color:#7895a5\">$4</span></div>\n<div style=\"margin-top:17px;font-size:13px;font-weight:bold;color:#d7eaf5\">$3</div>\n<div style=\"font-size:9px;color:#6f8a9a;margin-top:3px\">$2 // $5</div>\n<div style=\"margin-top:12px;padding:10px;background:#d8effa08;border:1px dashed #3a5362;color:#b9ced9;font-size:11px;line-height:1.55;white-space:pre-line\"><span style=\"font-size:9px;color:#8db8ce\">FRAME ANALYSIS //</span><br>$7</div>\n</div></div>\n<div style=\"margin-top:9px;padding:9px 11px;border-left:2px solid #59798c;background:#ffffff05;color:#c8d9e2;font-size:11px;line-height:1.65;white-space:pre-line;text-indent:-1.05em;padding-left:1.05em\"><span style=\"font-size:9px;color:#8db3c7\">AUDIO TRANSCRIPT //</span><br>$8</div>\n<div style=\"display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:9px;font-size:9px;color:#708a99\"><span>SOURCE // $5</span><span>SUBJECT // <b style=\"color:#aac6d5\">$6</b></span></div>\n</div></div>",
+  "trimStrings": [],
+  "placement": [
+    2
+  ],
+  "disabled": false,
+  "markdownOnly": true,
+  "promptOnly": false,
+  "runOnEdit": true,
+  "substituteRegex": 0,
+  "minDepth": null,
+  "maxDepth": null
 }

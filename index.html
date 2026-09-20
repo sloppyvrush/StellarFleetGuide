@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛰️</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Caveat:wght@600;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Caveat:wght@600;700&family=Marck+Script&family=Bad+Script&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#0c141a; --bg2:#101b22; --panel:rgba(22,34,42,.72); --solid:#16222a; --panel2:rgba(38,56,66,.55);
@@ -1036,11 +1036,26 @@ main section.in .mscan{animation:m-scan 7s linear infinite}
 .code-box pre{margin:0;padding-right:5.5rem;font:500 .8rem/1.55 var(--f-mono);color:#bfe9e2;white-space:pre-wrap;word-break:break-word;max-height:16rem;overflow:auto}
 .code-box .mini{position:absolute;top:.5rem;right:.5rem}
 .tg-copy{margin-top:.9rem}
-.cards-gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:.8rem 0 1.6rem}
-.cards-gal figure{margin:0}
-.cards-gal img{width:100%;height:auto;border-radius:10px;border:1px solid var(--line);display:block}
+.cards-gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,430px),1fr));gap:1.4rem 1.2rem;margin:.8rem 0 1.6rem}
+.cards-gal figure{margin:0;min-width:0}
+.cd-demo{overflow:hidden;border-radius:10px}
+.cd-demo>div{margin:0!important}
+.cd-demo i{font-style:italic}
 .cards-gal figcaption{margin-top:.4rem;font:500 .76rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center}
-@media (max-width:620px){.fl-grid{grid-template-columns:1fr}.code-box pre{padding-right:0;padding-top:1.8rem}}
+@media (max-width:620px){
+  .fl-card{flex:0 1 calc(50% - .4rem);padding:.85rem .6rem .9rem}
+  .fl-card b{font-size:.92rem}
+  .fl-card .fl-s{font-size:.78rem}
+  .fl-card .dl-btn{padding:.3rem .6rem;font-size:.8rem}
+  .code-box pre{padding-right:0;padding-top:1.8rem}
+  /* таблицы настроек: строками, а не в два столбца — иначе уезжают вправо */
+  .steps .tbl{overflow-x:visible}
+  .steps .tbl table,.steps .tbl tbody,.steps .tbl tr,.steps .tbl th,.steps .tbl td{display:block;width:auto}
+  .steps .tbl tr{border-bottom:1px solid var(--line);padding:.35rem 0}
+  .steps .tbl tr:last-child{border-bottom:0}
+  .steps .tbl th{border:0;padding:0 0 .1rem;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+  .steps .tbl td{border:0;padding:0;font-size:.92rem;color:var(--ink)}
+}
 /* ---------- npc и угрозы ---------- */
 .npc-locked .mono-fb{color:rgba(98,214,200,.55);background:radial-gradient(ellipse at 50% 40%,rgba(98,214,200,.12),transparent 65%)}
 .npc-locked{border-color:rgba(98,214,200,.28)}
@@ -1243,6 +1258,68 @@ main section.in .unclear-locked .uq-q{animation:uq-blink 3.2s steps(1) infinite}
 <dialog id="lb" aria-label="Portrait"></dialog>
 <dialog id="ask" aria-labelledby="askT"></dialog>
 <canvas id="trail" aria-hidden="true"></canvas>
+<template id="demo-note"><div style="margin:16px 0;max-width:100%;filter:drop-shadow(0 8px 14px #00000070)"><div style="margin:0 auto -9px;width:118px;height:21px;transform:rotate(-2deg);position:relative;z-index:2;background:linear-gradient(180deg,#efe9d6cc,#ded7bfcc);border-left:1px dashed #00000020;border-right:1px dashed #00000020;box-shadow:0 2px 5px #00000040"></div><div style="padding:14px 0;-webkit-clip-path:polygon(0 1.6%,5% 0,11% 1.9%,17% .2%,24% 1.6%,31% .1%,38% 1.8%,45% 0,52% 1.5%,59% .2%,66% 1.9%,73% 0,80% 1.6%,87% .2%,94% 1.8%,100% 0,100% 98.4%,95% 100%,88% 98.3%,81% 99.9%,74% 98.2%,67% 99.8%,60% 100%,53% 98.4%,46% 100%,39% 98.2%,32% 99.9%,25% 100%,18% 98.5%,11% 100%,5% 98.3%,0 100%);clip-path:polygon(0 1.6%,5% 0,11% 1.9%,17% .2%,24% 1.6%,31% .1%,38% 1.8%,45% 0,52% 1.5%,59% .2%,66% 1.9%,73% 0,80% 1.6%,87% .2%,94% 1.8%,100% 0,100% 98.4%,95% 100%,88% 98.3%,81% 99.9%,74% 98.2%,67% 99.8%,60% 100%,53% 98.4%,46% 100%,39% 98.2%,32% 99.9%,25% 100%,18% 98.5%,11% 100%,5% 98.3%,0 100%);background:radial-gradient(circle at 87% 29%,#22406e2b 0 9px,transparent 11px),radial-gradient(circle at 90.5% 34%,#22406e26 0 3px,transparent 4px),radial-gradient(circle at 84% 34%,#22406e1c 0 2px,transparent 3px),radial-gradient(circle at 15% 86%,#6b4a3a14 0 26px,transparent 31px),radial-gradient(circle at 72% 79%,transparent 0 20px,#8a5a2a17 20px 24px,transparent 26px),linear-gradient(90deg,transparent 0 44px,#c2705e55 44px 45px,transparent 45px),linear-gradient(162deg,#f8f4ea,#efe8d7 58%,#f5f0e3)"><div style="display:flex;align-items:center;gap:10px;padding:2px 16px 9px;border-bottom:1px solid #00000014;font-family:Georgia,serif"><span style="flex:none;width:32px;height:32px;border:2px double #7a4a3aa0;border-radius:4px;transform:rotate(-13deg);display:inline-block;text-align:left;padding:0 0 0 7px;line-height:27px;font-size:18px;font-weight:bold;color:#7a4a3ab5;box-shadow:inset 0 0 7px #7a4a3a26">E</span><span style="flex:1;min-width:0"><span style="display:block;font-size:12px;letter-spacing:2px;font-weight:bold;color:#1f2733">СТАНЦИЯ «EREB»</span><span style="display:block;font-size:8.5px;letter-spacing:1.2px;color:#5c6b7a">рукописная записка</span></span><span style="flex:none;transform:rotate(-7deg);border:2px double #9c2b2b8c;border-radius:3px;padding:3px 7px;font-size:7.5px;letter-spacing:1.4px;line-height:1.5;text-align:center;color:#9c2b2bb0">ДОСТУП<br>ОГРАНИЧЕН</span></div><div style="padding:9px 18px 0 52px;font-family:Georgia,serif;font-size:8.5px;letter-spacing:1px;color:#5c6b7a">МЕСТО&nbsp;/&nbsp;<span style="color:#2f4a63">коридор жилого сектора</span></div><div style="margin:8px 18px 0 52px;font-family:'Marck Script','Bad Script','Caveat','Segoe Script','Snell Roundhand','Comic Sans MS',cursive;font-size:23px;font-weight:400;line-height:29px;color:#22406e;white-space:pre-line;text-shadow:0 1px 0 #ffffff88;background:repeating-linear-gradient(180deg,transparent 0 28px,#8fa8bd3d 28px 29px)">Вода в третьем кране опять ржавая.
+Пишу третий раз. Заявка 114-Б.
+Спросил у диспетчера, он только и сказал:
+— Ждите, все ждут.
+Кто-нибудь вообще их читает?</div><div style="margin:16px 18px 0 52px;padding-top:8px;border-top:1px dotted #00000026;text-align:right"><span style="font-family:'Marck Script','Bad Script','Caveat','Segoe Script','Snell Roundhand','Comic Sans MS',cursive;font-size:23px;color:#22406e">— смена B, без подписи</span><span style="display:block;font-family:Georgia,serif;font-size:8.5px;color:#5c6b7a;margin-top:2px">09.03, вечер</span></div></div></div></template>
+<template id="demo-audio"><div style="margin:14px 0;max-width:100%;font-family:Arial,sans-serif;background:linear-gradient(145deg,#0b1212,#111c1b);border:1px solid #31514b;border-radius:8px;box-shadow:0 8px 22px #0009,inset 0 0 35px #0006;overflow:hidden">
+<div style="padding:10px 13px;background:linear-gradient(90deg,#17302b,#0e1817);border-bottom:1px solid #28433e;display:flex;justify-content:space-between;gap:10px;align-items:center">
+<span style="font-size:10px;letter-spacing:1.5px;color:#9bd8c8">◉ EREB//AUDIO RECOVERY</span>
+<span style="font-size:9px;color:#6f9f92;border:1px solid #31534b;padding:2px 6px;border-radius:9px">восстановлено частично</span>
+</div>
+<div style="padding:13px 15px">
+<div style="font-size:9px;color:#5f8d81;letter-spacing:1px">кают-компания, жилой сектор</div>
+<div style="margin-top:3px;font-size:13px;color:#d3eee6;font-weight:bold">личная заметка, вторая смена</div>
+<div style="margin:12px 0 10px;background:#070b0b;border:1px solid #253b37;border-radius:5px;padding:10px 11px;box-shadow:inset 0 0 16px #000">
+<div style="display:flex;justify-content:space-between;font-size:9px;color:#7ba99d;margin-bottom:7px"><span>▶ PLAYBACK</span><span>00:47</span></div>
+<div style="height:28px;display:flex;align-items:center;overflow:hidden;color:#5fb49f;font-family:monospace;font-size:12px;letter-spacing:1px;text-shadow:0 0 7px #5fb49f55">▁▂▅▇▄▂▁▃▆█▅▂▁▂▄▇▆▃▁▂▅█▆▂▁▃▅▇▄▂▁▃▆█▅▂▁▂▄▇</div>
+<div style="height:2px;background:linear-gradient(90deg,#79c9b4 0 42%,#20332f 42% 100%);margin-top:5px"></div>
+</div>
+<div style="border-left:2px solid #4e8b7c;padding:9px 11px;background:#ffffff05;color:#c0d8d2;font-size:11px;line-height:1.65;white-space:pre-line;text-indent:-1.05em;padding-left:1.05em"><span style="font-size:9px;color:#6fa596;letter-spacing:1px">TRANSCRIPT //</span><br><i>щелчок, запись начинается</i>
+— Напоминание себе: забрать инструмент из мастерской.
+— И спросить, кто поставил кофейник на щиток.
+<i>короткий смех</i>
+— Всё, спать.</div>
+<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:11px;padding-top:8px;border-top:1px solid #243c37;font-size:9px;color:#6f9d92"><span>VOICE // <b style="color:#a4d4c7">К. Мейер, техник</b></span><span>STAMP // 09.03, 22:10</span></div>
+</div></div></template>
+<template id="demo-video"><div style="margin:14px 0;max-width:100%;font-family:Arial,sans-serif;background:#090d11;border:1px solid #344957;border-radius:7px;box-shadow:0 8px 24px #000a;overflow:hidden">
+<div style="padding:9px 12px;background:linear-gradient(90deg,#18242d,#0e1419);border-bottom:1px solid #30414d;display:flex;justify-content:space-between;gap:8px">
+<span style="font-size:10px;letter-spacing:1.4px;color:#a9d4eb">▣ EREB//VISUAL ARCHIVE</span>
+<span style="font-size:9px;color:#7f9dad">архив, дорожка повреждена</span>
+</div>
+<div style="padding:12px">
+<div style="position:relative;overflow:hidden;background:linear-gradient(180deg,#101921,#070a0d);border:1px solid #3a4d5a;border-radius:4px;box-shadow:inset 0 0 30px #000">
+<div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,#a9d4eb08 3px 4px);pointer-events:none"></div>
+<div style="position:relative;padding:10px 12px 12px">
+<div style="display:flex;justify-content:space-between;font-size:9px;letter-spacing:1px"><span style="color:#e88989;text-shadow:0 0 7px #c55">● REC</span><span style="color:#7895a5">09.03, 23:41</span></div>
+<div style="margin-top:17px;font-size:13px;font-weight:bold;color:#d7eaf5">плановый обход, камера 14</div>
+<div style="font-size:9px;color:#6f8a9a;margin-top:3px">технический коридор C-2 // стационарная камера</div>
+<div style="margin-top:12px;padding:10px;background:#d8effa08;border:1px dashed #3a5362;color:#b9ced9;font-size:11px;line-height:1.55;white-space:pre-line"><span style="font-size:9px;color:#8db8ce">FRAME ANALYSIS //</span><br>Пустой коридор, дежурный свет.
+В кадр въезжает тележка с ящиками и останавливается.</div>
+</div></div>
+<div style="margin-top:9px;padding:9px 11px;border-left:2px solid #59798c;background:#ffffff05;color:#c8d9e2;font-size:11px;line-height:1.65;white-space:pre-line;text-indent:-1.05em;padding-left:1.05em"><span style="font-size:9px;color:#8db3c7">AUDIO TRANSCRIPT //</span><br><i>гул вентиляции</i>
+— Четырнадцатая, проверка связи.
+— Принял, слышу тебя чисто.
+<i>щелчок, запись обрывается</i></div>
+<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:9px;font-size:9px;color:#708a99"><span>SOURCE // стационарная камера</span><span>SUBJECT // <b style="color:#aac6d5">НЕ ОПРЕДЕЛЁН</b></span></div>
+</div></div></template>
+<template id="demo-terminal"><div style="margin:14px 0;max-width:100%;font-family:'Courier New',monospace;background:#030806;border:1px solid #1f5b43;border-radius:6px;box-shadow:0 8px 26px #000b,0 0 18px #1c6b4930,inset 0 0 35px #000;overflow:hidden">
+<div style="padding:9px 12px;background:linear-gradient(90deg,#0a261a,#06110d);border-bottom:1px solid #174c37;display:flex;justify-content:space-between;gap:10px;align-items:center">
+<span style="font-size:10px;letter-spacing:1.4px;color:#76efb2;text-shadow:0 0 8px #45c88a55">EREB.OS // DATA TERMINAL</span>
+<span style="font-size:9px;color:#94ffc7;border:1px solid #267451;padding:2px 6px;border-radius:2px;background:#103722">уровень 2 (технический)</span>
+</div>
+<div style="padding:12px 14px;background:repeating-linear-gradient(0deg,transparent 0 3px,#8affbd05 3px 4px)">
+<div style="font-size:9px;color:#3e9b70;line-height:1.7">NODE&gt; <span style="color:#8feab8">узел обслуживания C-2</span><br>FILE&gt; <span style="color:#8feab8">ЗАЯВКИ-СМЕНА-B-114.LOG</span><br>TYPE&gt; журнал заявок<br>STATE&gt; прочитано</div>
+<div style="margin:10px 0;height:1px;background:linear-gradient(90deg,#299263,transparent)"></div>
+<div style="padding:10px 11px;border-left:2px solid #39b87e;background:#55ff9b08;color:#a9f3cb;font-size:11px;line-height:1.7;white-space:pre-line;text-indent:-1.05em;padding-left:1.05em;text-shadow:0 0 5px #5fe29d18">Заявка 114-Б: замена фильтра, третий кран.
+Комментарий диспетчера:
+— Исполнитель не назначен, ждите распределения.
+Повторная подача: 3.
+Приоритет понижен автоматически.</div>
+<div style="margin-top:11px;padding-top:8px;border-top:1px dashed #174a36;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:9px;color:#4eac7d"><span>AUTHOR&gt; <b style="color:#8ddbb5">система учёта</b></span><span>STAMP&gt; 09.03, 23:59</span></div>
+<div style="margin-top:8px;font-size:9px;color:#2f7956">&gt; END OF RECORD<span style="animation:none">_</span></div>
+</div></div></template>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -1592,7 +1669,7 @@ const SETUP_RX = [
 
 /* ---------------- ТЕКСТЫ ДЛЯ КОПИРОВАНИЯ ---------------- */
 const COPY = {
-  toggle: "## EREBUS DISCOVERY GENERATOR\n\nGenerate a diegetic record only when one is plausibly discovered on Erebus. Records were made by real people or station systems inside the story, never for {{user}}. Recurring authors are fine, including minor NPCs.\n\n### INFORMATION RULES\n\nRespect current Erebus lore and established chat events. Never reveal something merely because the model knows it. When uncertain, reveal less.\n\nA record may reinforce what is known, add one small compatible clue, show another perspective, or be mistaken, biased or incomplete.\n\nA record must NOT:\n- reveal ahead of the story: hidden locations before access, the purpose of L0/LAZARUS, XENO's origin, Daniel's secret role, Protocol OBELISK before decryption;\n- confirm conspiracies or motives the story has not earned;\n- skip ahead in the investigation;\n- invent a record by Lena Arden or Elias Vale.\n\nOnly characters who read, hear or watch a record, or are told of it, know what is in it.\n\n### FIXED RECORDS\n\nLena Arden's recordings and Elias Vale's four video diaries already exist in full and are finite: quote them as written, never add to, extend or continue them. Where a location holds one, present it as it is, or let the crew find something by another author.\n\n### STYLE\n\nKeep records short, natural and incomplete. Doctors sound medical, security operational, scientists technical, engineers practical; personal logs human, terminal records bureaucratic. People may be wrong or contradict each other. Not every record is ominous: use corruption, static and damage occasionally. Choose a medium that fits the location and source.\n\n### OUTPUT\n\n1. Briefly narrate how it is found or accessed.\n2. Output exactly ONE record block.\n3. Preserve tags, field names and field order EXACTLY.\n4. Never mention prompts, Lorebook, stages, rules or hidden information.\n5. No underscores anywhere in a record.\n\nPAPER:\n<erebus_note>\nTYPE: тип\nLOCATION: место\nAUTHOR: автор\nDATE: дата\nTEXT:\nтекст\n</erebus_note>\n\nAUDIO:\n<erebus_audio>\nSTATUS: статус\nLOCATION: место\nTITLE: название\nDURATION: 00:00\nSPEAKER: говорящий\nTIME: время\nTEXT:\nрасшифровка, звуки и действия *курсивом без скобок*\n</erebus_audio>\n\nVIDEO:\n<erebus_video>\nSTATUS: статус\nLOCATION: место\nTITLE: название\nTIME: время\nSOURCE: источник\nSUBJECT: объект или НЕ ОПРЕДЕЛЁН\nFRAME:\nчто видно\nTEXT:\nрасшифровка, звуки и действия *курсивом без скобок*\n</erebus_video>\n\nTERMINAL:\n<erebus_terminal>\nACCESS: уровень доступа\nTERMINAL: терминал\nFILE: имя файла\nTYPE: тип файла\nSTATUS: статус\nAUTHOR: автор/система\nTIME: время\nTEXT:\nсодержимое\n</erebus_terminal>\n\n### CASSANDRA\n\nThe generator belongs to Erebus. Aboard the \"Cassandra\" already recovered records may be stored, replayed, copied, decrypted, restored and analyzed, but no new discovery appears there; a decrypted or restored record needs its source recovered earlier.\n\nCore rule: one discovery reveals only a small part of the mystery. Prefer a clue that raises a question over a document that explains everything.",
+  toggle: "## EREBUS DISCOVERY GENERATOR\n\nGenerate a diegetic record only when one is plausibly discovered on Erebus. Records were made by real people or station systems inside the story, never for {{user}}. Recurring authors are fine, including minor NPCs.\n\n### INFORMATION RULES\n\nRespect current Erebus lore and established chat events. Never reveal something merely because the model knows it. When uncertain, reveal less.\n\nA record may reinforce what is known, add one small compatible clue, show another perspective, or be mistaken, biased or incomplete.\n\nA record must NOT:\n- reveal ahead of the story: hidden locations before access, the purpose of L0/LAZARUS, XENO's origin, Daniel's secret role, Protocol OBELISK before decryption;\n- confirm conspiracies or motives the story has not earned;\n- skip ahead in the investigation;\n- invent a record by Lena Arden or Elias Vale.\n\nOnly characters who read, hear or watch a record, or are told of it, know what is in it.\n\n### FIXED RECORDS\n\nLena Arden's recordings and Elias Vale's four video diaries already exist in full and are finite: quote them as written, never add to, extend or continue them. Where a location holds one, present it as it is, or let the crew find something by another author.\n\n### STYLE\n\nKeep records short, natural and incomplete. Doctors sound medical, security operational, scientists technical, engineers practical; personal logs human, terminal records bureaucratic. People may be wrong or contradict each other. Not every record is ominous: use corruption, static and damage occasionally. Choose a medium that fits the location and source.\n\n### OUTPUT\n\n1. Briefly narrate how it is found or accessed.\n2. Output exactly ONE record block.\n3. Preserve tags, field names and field order EXACTLY.\n4. Never mention prompts, Lorebook, stages, rules or hidden information.\n5. No underscores anywhere in a record.\n6. Every line of speech starts with an em dash and a space: — like this. One line per utterance. Never use quotation marks for speech, in any record type. Sounds and actions stay in *italics without brackets* on their own line.\n\nPAPER:\n<erebus_note>\nTYPE: тип\nLOCATION: место\nAUTHOR: автор\nDATE: дата\nTEXT:\nтекст; прямая речь внутри — с тире в начале строки\n</erebus_note>\n\nAUDIO:\n<erebus_audio>\nSTATUS: статус\nLOCATION: место\nTITLE: название\nDURATION: 00:00\nSPEAKER: говорящий\nTIME: время\nTEXT:\n— реплика, каждая с тире в начале строки\n*звук или действие курсивом без скобок*\n</erebus_audio>\n\nVIDEO:\n<erebus_video>\nSTATUS: статус\nLOCATION: место\nTITLE: название\nTIME: время\nSOURCE: источник\nSUBJECT: объект или НЕ ОПРЕДЕЛЁН\nFRAME:\nчто видно\nTEXT:\n— реплика, каждая с тире в начале строки\n*звук или действие курсивом без скобок*\n</erebus_video>\n\nTERMINAL:\n<erebus_terminal>\nACCESS: уровень доступа\nTERMINAL: терминал\nFILE: имя файла\nTYPE: тип файла\nSTATUS: статус\nAUTHOR: автор/система\nTIME: время\nTEXT:\nсодержимое; прямая речь внутри — с тире в начале строки\n</erebus_terminal>\n\n### CASSANDRA\n\nThe generator belongs to Erebus. Aboard the \"Cassandra\" already recovered records may be stored, replayed, copied, decrypted, restored and analyzed, but no new discovery appears there; a decrypted or restored record needs its source recovered earlier.\n\nCore rule: one discovery reveals only a small part of the mystery. Prefer a clue that raises a question over a document that explains everything.",
   exBlock: "<erebus_note>\nTYPE: рукописная записка\nLOCATION: коридор жилого сектора\nAUTHOR: смена B, без подписи\nDATE: 09.03, вечер\nTEXT:\nВода в третьем кране опять ржавая.\nПишу третий раз. Заявка 114-Б.\n</erebus_note>",
   exRegex: "/(?:```+\\w*\\s*)?<erebus_note>\\s*[*_]{0,2}TYPE:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}LOCATION:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}AUTHOR:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}DATE:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}TEXT:[*_]{0,2}\\s*([\\s\\S]*?)\\s*<\\/erebus_note>(?:\\s*```+)?/gi",
   ooc: "[OOC: тест оформления. Выведи одну бумажную записку блоком <erebus_note> строго по шаблону, без пояснений до и после. Место — центральный атриум, автор — любой техник, текст в 4–5 коротких строк.]",
@@ -2622,10 +2699,10 @@ function stepBody(s){
   return o;
 }
 function stepsList(arr){ return `<ol class="steps">${arr.map(x=>`<li class="glass"><div>${stepBody(x)}</div></li>`).join("")}</ol>`; }
+function demoCard(id){ const t = document.getElementById("demo-" + id); return t ? t.innerHTML : ""; }
 function cardsGallery(){
   const c = [["note",L("Записка","Paper note")],["audio",L("Аудио","Audio")],["video",L("Видео","Video")],["terminal",L("Терминал","Terminal")]];
-  return `<div class="cards-gal">${c.map(([id,n])=>`<figure><img src="assets/cards/${id}.png" alt="${esc(tr(n))}" loading="lazy"
-    data-zoom="assets/cards/${id}.png" data-name="${esc(tr(n))}" title="${T("zoom")}" onerror="this.closest('figure').remove()"><figcaption>${esc(tr(n))}</figcaption></figure>`).join("")}</div>`;
+  return `<div class="cards-gal">${c.map(([id,n])=>`<figure><div class="cd-demo">${demoCard(id)}</div><figcaption>${esc(tr(n))}</figcaption></figure>`).join("")}</div>`;
 }
 function setupHTML(){
   const toc = [["set-lore","setLore"],["set-tg","setTg"],["set-rx","setRx"]];
