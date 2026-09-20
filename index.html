@@ -1144,7 +1144,11 @@ main section.in .unclear-locked .uq-q{animation:uq-blink 3.2s steps(1) infinite}
 .pl-go{color:#1DB954;font-size:.95rem;opacity:.6}
 .pl-row:hover .pl-go{opacity:1}
 .pl-hint{margin:.7rem 0 0;font:500 .74rem var(--f-mono);color:var(--muted)}
-.pl-frame{border:0;border-radius:12px;display:block;width:100%;min-width:0;min-height:360px}
+.pl-frame{border:0;border-radius:12px;display:block;width:100%;min-width:0;min-height:360px;background:#121a1d;color-scheme:dark}
+.pl-box{position:relative;border-radius:12px;background:#121a1d;overflow:hidden}
+.pl-box::after{content:"";position:absolute;inset:0;border-radius:12px;border:1px solid var(--line);pointer-events:none}
+.pl-open{display:inline-block;margin:.55rem 0 0;font:500 .82rem var(--f-mono);letter-spacing:.04em;color:var(--teal);text-decoration:none;opacity:.8}
+.pl-open:hover{opacity:1;text-decoration:underline}
 .pl-wrap{max-width:52rem;margin-bottom:1.4rem}
 .bio .playlist{margin-top:1.3rem}
 .bio .pl-frame{min-height:400px}
@@ -1493,6 +1497,7 @@ const UI = {
   deepF: L("Чего боится", "What they fear"),
   deepS: L("Что не рассказывает", "What they don't talk about"),
   plTitle: L("Плейлист персонажа","Character playlist"),
+  plOpen: L("Открыть в Spotify","Open in Spotify"),
   plCrew: L("Плейлист экипажа «Кассандры»","The Cassandra crew playlist"),
   plCrewLede: L("Общий плейлист «Кассандры» — то, что звучит на борту, когда шестеро чужих людей постепенно становятся экипажем.","The Cassandra's shared playlist — what plays on board while six strangers slowly turn into a crew."),
   plOpen: L("Открыть в Spotify","Open in Spotify"),
@@ -2764,9 +2769,10 @@ function playlistHTML(id, title, compact){
   if(!pid) return "";
   return `<section class="playlist glass">
     <div class="pl-head"><span class="pl-ic">${SPOT_ICON}</span><b>${esc(tr(title || UI.plTitle))}</b></div>
-    <iframe class="pl-frame" src="https://open.spotify.com/embed/playlist/${esc(pid)}?utm_source=generator&theme=0"
+    <div class="pl-box"><iframe class="pl-frame" src="https://open.spotify.com/embed/playlist/${esc(pid)}?utm_source=generator&theme=0"
       height="${compact ? 352 : 380}" loading="lazy" tabindex="-1"
-      allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+      allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe></div>
+    <a class="pl-open" href="https://open.spotify.com/playlist/${esc(pid)}" target="_blank" rel="noopener">${T("plOpen")} ↗</a>
   </section>`;
 }
 
