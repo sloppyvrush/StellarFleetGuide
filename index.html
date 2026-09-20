@@ -871,7 +871,32 @@ main section.in .mscan{animation:m-scan 7s linear infinite}
 @media (prefers-reduced-motion:reduce){.keep,#lb .keep img{animation:none!important;opacity:1}}
 /* ---------- файлы, код, галерея карточек ---------- */
 .lede.small{font-size:.92rem;margin-top:-.2rem}
-.files-block{margin-top:2.2rem}
+.files-block{margin:.6rem 0 1.8rem}
+.dl-btn.soon{opacity:.5;cursor:default;border-style:dashed}
+.dl-btn.soon:hover{transform:none;background:var(--teal-soft);border-color:rgba(98,214,200,.45)}
+/* оглавление */
+.toc{padding:.9rem 1.1rem;margin:0 0 1.6rem}
+.toc>b{display:block;font:500 .74rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;position:relative;z-index:1}
+.toc-row{display:flex;flex-wrap:wrap;gap:.5rem;position:relative;z-index:1}
+.toc-item{display:inline-flex;align-items:center;gap:.5rem;background:var(--panel2);border:1px solid var(--line);
+  border-radius:9px;padding:.45rem .85rem;color:var(--ink);font:500 .9rem var(--f-body);cursor:pointer;transition:border-color .2s,transform .15s,background .2s}
+.toc-item:hover{border-color:var(--amber);background:var(--amber-soft);transform:translateY(-1px)}
+.toc-item i{font:500 .72rem var(--f-mono);color:var(--amber);font-style:normal}
+/* кнопки на первом экране */
+.splash-get{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1.1rem 0 .2rem;opacity:0;animation:fadein 1s 3s forwards}
+.splash-get .btn{font-size:.9rem;text-decoration:none;color:var(--ink)}
+.splash-get a.btn:hover{text-decoration:none}
+.splash-note{max-width:44rem;margin:.9rem auto 0;color:var(--muted);font-size:.88rem;line-height:1.55;opacity:0;animation:fadein 1s 3.2s forwards}
+.splash-note .linkbtn{color:var(--teal);white-space:nowrap}
+.dd{position:relative}
+.dd>summary{list-style:none;cursor:pointer}
+.dd>summary::-webkit-details-marker{display:none}
+.dd-menu{position:absolute;left:50%;transform:translateX(-50%);top:calc(100% + .4rem);z-index:20;min-width:13rem;
+  display:flex;flex-direction:column;padding:.35rem;border-radius:10px;box-shadow:0 18px 40px -18px rgba(0,0,0,.8)}
+.dd-menu a,.dd-menu span{padding:.5rem .7rem;border-radius:7px;text-decoration:none;color:var(--ink);font-size:.88rem;text-align:left}
+.dd-menu a:hover{background:var(--teal-soft)}
+.dd-menu span.soon{color:var(--muted);cursor:default}
+@media (max-width:620px){.splash-get{flex-direction:column;align-items:stretch}.dd-menu{left:0;transform:none;width:100%}}
 .fl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.8rem}
 .fl-card{display:flex;flex-direction:column;gap:.3rem;padding:1rem 1.1rem 1.1rem;position:relative}
 .fl-card>*{position:relative;z-index:1}
@@ -1189,12 +1214,21 @@ const UI = {
   setupTg: L("Тогл с генератором записей","The record generator prompt"),
   setupTavo: L("Tavo","Tavo"),
   filesH: L("Скачать","Downloads"),
-  filesLede: L("Всё, что нужно для игры. Файлы кладутся в SillyTavern или Tavo — как именно, написано в «Настройке».","Everything you need to play. The files go into SillyTavern or Tavo — the Setup page explains how."),
-  filesMore: L("Подробные настройки — на странице «Настройка»","Step-by-step instructions are on the Setup page"),
-  filesGo: L("Открыть настройку →","Open Setup →"),
+  filesLede: L("Всё, что нужно для игры.","Everything you need to play."),
   dl: L("Скачать","Download"),
+  soon: L("скоро","soon"),
   copyToggle: L("Скопировать текст тогла","Copy the prompt text"),
-  cardsH: L("Как это выглядит","What it looks like"),
+  cardsH: L("Как выглядят улики","What the records look like"),
+  tocH: L("Что настроить","What to set up"),
+  setLore: L("Настройки лорбука","Lorebook settings"),
+  setTg: L("Тогл: улики в истории","The prompt: records in the story"),
+  setRx: L("Оформление улик","How records look"),
+  homeCard: L("Скачать карточку бота","Download the bot card"),
+  homeCardN: L("Обычная","Standard"),
+  homeCardV: L("Под векторизацию","For vector search"),
+  homeRx: L("Скачать оформление улик","Download the record styling"),
+  homeSet: L("Обязательно загляните в «Настройку»: там написано, какие записи включить и выключить в лорбуке и как настроить тогл и оформление. Без этого часть истории просто не заработает.","Do read the Setup page: it says which lorebook entries to switch on and off, and how to set up the prompt and the styling. Without that, parts of the story simply won't fire."),
+  homeSetGo: L("Открыть настройку →","Open Setup →"),
   navCodex: L("Кодекс", "Codex"),
   navCrew: L("Экипаж и люди", "Crew & people"),
   navShip: L("«Кассандра»", "The Cassandra"),
@@ -1394,57 +1428,28 @@ const ITEMS = {
 
 
 /* ---------------- НАСТРОЙКА: ОФОРМЛЕНИЕ, ТОГЛ, TAVO ---------------- */
-const SETUP_RX = [
-  { h:L("Скачайте четыре файла оформления","Download the four card scripts"),
-    p:L("Записка, аудио, видео и терминал — каждый отдельный скрипт. Можно поставить не все: без файла запись просто останется обычным текстом.","Paper note, audio, video and terminal — one script each. You don't need all four: without a file, that record simply stays plain text."),
-    files:["note","audio","video","terminal"] },
-  { h:L("Импортируйте их","Import them"),
-    p:L("Extensions (кубик вверху) → Regex → Import, по одному файлу за раз. После импорта скрипты появятся в списке и сразу заработают.","Extensions (the cube at the top) → Regex → Import, one file at a time. They show up in the list and start working right away.") },
-  { h:L("Проверьте два переключателя","Check two switches"),
-    p:L("Остальные галочки не нужны. Смысл в том, что карточка рисуется только у вас на экране: модель её не видит и не пытается повторить вёрстку.","No other checkboxes are needed. The point is that the card is drawn only on your screen: the model never sees the markup and doesn't try to imitate it."),
-    table:[[L("Где применять","Affects"),L("Только ответы бота (AI output)","AI output only")],
-           [L("Только для отображения","Only format display"),L("Включено","On")]] },
-  { h:L("Как это работает","How it works"),
-    p:L("Бот выводит блок с тегами — скрипт находит его и заменяет карточкой. Сравните: слева то, что пишет модель, справа то, что ищет скрипт.","The bot writes a tagged block; the script finds it and swaps in the card. Below: what the model writes, and the pattern that catches it."),
-    code:[["exBlock",L("Что выводит бот","What the bot writes")],["exRegex",L("Что ищет скрипт (поле Find Regex у записки)","What the script looks for (the note's Find Regex field)")]] },
-  { h:L("Проверьте на живом примере","Try it live"),
-    p:L("Вставьте это в чат. Должна появиться карточка записки.","Paste this into the chat. A note card should appear."),
-    code:[["ooc",L("Проверочная команда","Test command")]] },
-  { h:L("Если карточки нет","If no card appears"),
-    p:L("Три поломки выглядят по-разному. Видите блок с тегами <erebus_note> — скрипт не сработал: проверьте, что он включён и стоит на ответах бота. Видите текст с <div style=…> — скрипт сработал, но движок не рисует HTML. Карточка есть, но бледная и без штампа — часть оформления вырезана, и это уже мелочь.","The three failures look different. You see the raw <erebus_note> block — the script didn't fire: check that it's enabled and set to AI output. You see text starting with <div style=…> — the script fired but the client doesn't render HTML. The card appears but looks plain — some styling was stripped, which is cosmetic.") },
-];
-
 const SETUP_TG = [
-  { h:L("Что это такое","What it is"),
-    p:L("Тогл — блок инструкций, который лежит в пресете и включается галочкой. Он говорит боту, когда уместно найти запись, что в ней можно раскрывать, а что рано, и в каком виде её вывести — именно теми тегами, которые ловят скрипты оформления. Без него записи будут появляться как попало и без разметки.","The prompt is a block of instructions that lives in your preset and is switched on with a checkbox. It tells the bot when a record may plausibly be found, what it may reveal and what is too early, and how to output it — with exactly the tags the card scripts look for. Without it, records appear at random and unformatted.") },
-  { h:L("Создайте промпт в пресете","Create a prompt in your preset"),
-    p:L("Откройте настройки пресета, найдите список Prompts и нажмите + (новый промпт). Имя — любое, например «Записки».","Open your preset settings, find the Prompts list and hit + for a new prompt. Name it anything, for example \"Records\"."),
-    table:[[L("Роль","Role"),L("System","System")],
+  { h:L("Зачем он нужен","What it's for"),
+    p:L("По ходу истории экипаж находит улики: рукописные записки, аудиозаписи, видео с камер наблюдения и файлы в терминалах. Из них и собирается правда о станции — это важная часть истории, и играть с ними я очень советую. Тогл следит за тем, чтобы улики появлялись вовремя и не выдавали того, до чего вы ещё не дошли.","As the story goes on, the crew finds records: handwritten notes, audio logs, security camera footage and terminal files. The truth about the station is assembled out of them — it's a big part of the story, and I really recommend playing with it. The prompt makes sure records turn up at the right moment and never give away what you haven't reached yet.") },
+  { h:L("Куда его вставить","Where to put it"),
+    p:L("В SillyTavern: настройки пресета → список Prompts → кнопка +. В Tavo: New prompt. Дальше одинаково.","In SillyTavern: preset settings → the Prompts list → the + button. In Tavo: New prompt. The rest is the same."),
+    table:[[L("Имя","Name"),L("Любое, например «Улики»","Anything, for example \"Records\"")],
+           [L("Роль","Role"),L("System","System")],
            [L("Позиция","Position"),L("В чате, глубина 3–4","In chat, depth 3–4")],
            [L("Галочка в списке","Checkbox in the list"),L("Включена","On")]] },
-  { h:L("Почему глубина 3–4","Why depth 3–4"),
-    p:L("Чем ближе блок к концу промпта, тем охотнее модель ему следует. В самом начале инструкция размывается, и вы получите запись без тегов, которую скрипт не поймает. Но ближе тройки стоять не стоит: на первой и второй позиции лежат правила темпа из лорбука, и толкаться с ними не надо.","The closer a block sits to the end of the prompt, the more reliably the model follows it. At the very top it gets diluted and you end up with untagged records the script can't catch. Don't go closer than 3, though: depths 1–2 hold the pacing rules from the lorebook, and they shouldn't compete.") },
   { h:L("Вставьте текст","Paste the text"),
-    p:L("Кнопка ниже копирует его целиком. Внутри есть шаблоны с тегами — их править нельзя, скрипты оформления завязаны на точный порядок и написание полей.","The button below copies the whole thing. It contains the tag templates — don't edit those: the card scripts depend on the exact field names and order."),
+    p:L("Кнопка копирует его целиком. Внутри есть шаблоны с тегами — их менять нельзя, на них завязано оформление.","The button copies the whole thing. It contains tag templates — don't change those, the styling depends on them."),
     toggle:true },
 ];
 
-const SETUP_TAVO = [
-  { h:L("Лорбук — тот же файл","The lorebook — same file"),
-    p:L("Tavo понимает формат SillyTavern как есть, включая регулярные выражения в ключах. Отдельной версии не нужно: импортируйте тот же файл, что и для SillyTavern.","Tavo reads the SillyTavern format as is, regex keys included. No separate version is needed: import the same file you'd use for SillyTavern.") },
-  { h:L("Оформление записей","The card scripts"),
-    p:L("Если импорт файлов не сработает, скрипт создаётся вручную: полей всего семь, а значения берутся из файла — Find Regex и Replace With копируются целиком.","If importing the files doesn't work, a script can be made by hand: there are only seven fields, and the values come from the file — copy Find Regex and Replace With as they are."),
-    table:[[L("Область применения","Scope"),L("Сообщения персонажа","Character messages")],
-           [L("Время выполнения","Execution timing"),L("При отображении","On display")],
-           [L("Параметры замены","Replace parameters"),L("Без замены","No replace")],
-           [L("Обрезка до замены","Trim out"),L("Пусто","Empty")]] },
-  { h:L("Тогл","The generator prompt"),
-    p:L("New prompt → имя любое, Role — SYSTEM, Injection position — с глубиной 3–4. Если варианта с глубиной нет и доступен только Relative, работать будет, но следите за первыми находками: без тегов — значит, инструкция утонула.","New prompt → any name, Role SYSTEM, Injection position with a depth of 3–4. If only Relative is available it still works, but watch the first few records: untagged output means the instruction sank too far up.") },
-  { h:L("Задайте имя персоны","Set your persona name"),
-    p:L("Иначе экипаж будет обращаться к вам «User» прямо в тексте. Это не поломка лорбука, а пустое поле имени в настройках.","Otherwise the crew will address you as \"User\" in the prose. That's not a lorebook problem — it's an empty persona name in the settings.") },
-  { h:L("За чем стоит последить","What to keep an eye on"),
-    p:L("Задержки, липкость и двухслойные ключи в Tavo есть, и лорбук на них рассчитан. Если вдруг в одной сцене всплывут сразу два этапа тайны — значит, движок не поддержал группы записей; напишите об этом, это чинится настройками.","Delays, sticky and two-layer keys all exist in Tavo, and the lorebook relies on them. If two mystery stages ever surface in one scene, the engine didn't honour inclusion groups — that's fixable in settings.") },
+const SETUP_RX = [
+  { h:L("Скачайте файлы","Download the files"),
+    p:L("Одним архивом или по отдельности — можно поставить не все: без файла улика просто останется обычным текстом.","As one archive or one by one — you don't need all of them: without a file, a record simply stays plain text."),
+    files:["rxall","note","audio","video","terminal"] },
+  { h:L("Поставьте их","Add them"),
+    p:L("В SillyTavern: Extensions (кубик вверху) → Regex → Import, по одному файлу. В Tavo: импорт регулярных выражений. Проверьте, что скрипт применяется только к ответам бота и только для отображения — остальные галочки не нужны.","In SillyTavern: Extensions (the cube at the top) → Regex → Import, one file at a time. In Tavo: import regular expressions. Check that the script applies to the bot's messages only and on display only — no other checkboxes are needed.") },
 ];
+
 
 /* ---------------- ТЕКСТЫ ДЛЯ КОПИРОВАНИЯ ---------------- */
 const COPY = {
@@ -1456,18 +1461,19 @@ const COPY = {
 
 /* ---------------- ФАЙЛЫ ДЛЯ СКАЧИВАНИЯ ---------------- */
 const FILES = [
-  { ic:"📖", n:L("Лорбук","Lorebook"), f:"downloads/Erebus_Lorebook_EN_v4.json",
-    s:L("73 записи. Основной файл — подходит и SillyTavern, и Tavo.","73 entries. The main file — works in both SillyTavern and Tavo.") },
-  { ic:"🔗", n:L("Лорбук для векторного поиска","Lorebook for vector search"),
-    f:"downloads/Erebus_Lorebook_EN_v4_vector.json",
-    s:L("То же самое, но 31 запись помечена для Vector Storage. Нужен, только если расширение настроено.","The same book with 31 entries marked for Vector Storage. Only needed if that extension is set up.") },
-  { ic:"📄", n:L("Оформление: записка","Card: paper note"), f:"downloads/regex-erebus-note.json",
+  { id:"card", ic:"🗂", n:L("Карточка бота","Bot card"), f:"", soon:true,
+    s:L("Карточка вместе с лорбуком внутри — всё, что нужно для игры.","The character card with the lorebook inside — everything you need to play.") },
+  { id:"cardv", ic:"🔗", n:L("Карточка бота: под векторизацию","Bot card: for vector search"), f:"", soon:true,
+    s:L("То же самое, но записи помечены для Vector Storage. Нужна, только если расширение настроено.","The same card, with entries marked for Vector Storage. Only if that extension is set up.") },
+  { id:"rxall", ic:"🎨", n:L("Оформление улик","Record styling"), f:"downloads/erebus-regex-all.zip",
+    s:L("Все четыре файла сразу: записка, аудио, видео, терминал.","All four files at once: paper note, audio, video, terminal.") },
+  { id:"note", ic:"📄", n:L("Оформление: записка","Styling: paper note"), f:"downloads/regex-erebus-note.json",
     s:L("Рукописный лист с рваными краями.","A handwritten sheet with torn edges.") },
-  { ic:"🎧", n:L("Оформление: аудио","Card: audio"), f:"downloads/regex-erebus-audio.json",
+  { id:"audio", ic:"🎧", n:L("Оформление: аудио","Styling: audio"), f:"downloads/regex-erebus-audio.json",
     s:L("Панель воспроизведения с расшифровкой.","A playback panel with a transcript.") },
-  { ic:"🎞", n:L("Оформление: видео","Card: video"), f:"downloads/regex-erebus-video.json",
+  { id:"video", ic:"🎞", n:L("Оформление: видео","Styling: video"), f:"downloads/regex-erebus-video.json",
     s:L("Кадр с камеры и две дорожки.","A camera frame and two tracks.") },
-  { ic:"🖥", n:L("Оформление: терминал","Card: terminal"), f:"downloads/regex-erebus-terminal.json",
+  { id:"terminal", ic:"🖥", n:L("Оформление: терминал","Styling: terminal"), f:"downloads/regex-erebus-terminal.json",
     s:L("Зелёный экран станции.","The station's green screen.") },
 ];
 
@@ -1657,20 +1663,15 @@ const STUCK = [
 /* ---------------- НАСТРОЙКА ---------------- */
 const SETUP = [
   { h:L("Импортируйте карточку","Import the card"),
-    p:L("Characters → Import. Когда SillyTavern спросит про встроенный лорбук, согласитесь — в нём живёт вся тайна.","Characters → Import. When SillyTavern asks about the embedded lorebook, accept it — the whole mystery lives there.") },
-  { h:L("Не подключайте лорбук дважды","Don't attach the lorebook twice"),
-    p:L("Он уже привязан к персонажу. Не добавляйте его ещё и в «Active World(s) for all chats» — иначе записи будут срабатывать в других чатах.","It's already bound to the character. Don't also add it to \"Active World(s) for all chats\", or entries will fire in other chats.") },
+    p:L("Скачайте карточку выше и добавьте её в приложение: в SillyTavern это Characters → Import, в Tavo — импорт персонажа. Когда спросят про встроенный лорбук, соглашайтесь: в нём живёт вся история.","Download the card above and add it to your app: Characters → Import in SillyTavern, import a character in Tavo. When you're asked about the embedded lorebook, accept it — the whole story lives there.") },
+  { h:L("Лорбук уже внутри","The lorebook is already inside"),
+    p:L("Он привязан к карточке. Отдельно подключать его не нужно.","It's bound to the card. There's no need to attach it separately.") },
   { h:L("Выберите старт","Choose your start"),
-    p:L("Первых сообщений три: за члена экипажа «Кассандры», за человека, застрявшего на станции, и за гостя не с Земли. Что они из себя представляют — на странице «Старты»; там же написано, какую запись с 👤 включить в лорбуке, а какую выключить. Включённой всегда должна быть ровно одна.","There are three opening messages: as a member of the Cassandra's crew, as someone stranded on the station, and as a guest not from Earth. The Starts page describes each and tells you which 👤 entry to enable in the lorebook and which to disable. Exactly one must be enabled at any time."),
-    table:[[L("Старт за экипаж","Crew start"),L("👤 crew — вкл. · 👤 survivor — выкл.","👤 crew — on · 👤 survivor — off")],
-           [L("Выживший или гость","Survivor or guest"),L("👤 survivor — вкл. · 👤 crew — выкл.","👤 survivor — on · 👤 crew — off")]] },
-  { h:L("Профили: короткие и длинные ⭐","Profiles: short and long ⭐"),
-    p:L("У каждого персонажа есть короткий профиль (включён) и длинный ⭐ (выключен). На коротких можно спокойно играть всю историю — они экономят токены и держат характеры. Если хочется больше деталей и предыстории, выберите одного-двух фаворитов, включите их ⭐ запись, а короткую этого же персонажа выключите, чтобы они не дублировали друг друга. Каждый длинный профиль занимает ~2,3 тыс. токенов, так что включать все сразу не стоит.",
-        "Every character has a short profile (on) and a long ⭐ one (off). The short ones are enough for the whole story — they save tokens and keep everyone in character. If you want more detail and backstory, pick one or two favourites, enable their ⭐ entry and disable that character's short one so the two don't duplicate each other. Each long profile costs about 2.3k tokens, so don't switch them all on at once.") },
-  { h:L("Язык","Language"),
-    p:L("Лорбук на английском ради экономии токенов, но его ключи понимают и русский. Играть можно на любом языке — бот отвечает на том, на котором пишете вы.","The lorebook is in English to save tokens, but its keywords understand Russian too. Play in either language — the bot answers in the one you write in.") },
-  { h:L("Всё остальное менять не нужно","Nothing else needs changing"),
-    p:L("Лорбук рассчитан на стандартные настройки: где важна глубина сканирования, она задана внутри самих записей, а ключевые записи мастера защищены от урезания по бюджету.","The lorebook is built for default settings: where scan depth matters it is set inside the entries themselves, and the key GM entries are protected from being trimmed by the token budget.") },
+    p:L("Историю можно начать с трёх сторон: за члена экипажа «Кассандры», за человека, застрявшего на станции, и за гостя не с Земли. Выберите первое сообщение, а в лорбуке включите одну запись с 👤 и выключите вторую.","You can start from three sides: as one of the Cassandra's crew, as someone stranded on the station, or as a guest not from Earth. Pick the opening message, then switch on one 👤 entry in the lorebook and switch the other off."),
+    table:[[L("Старт за экипаж","Crew start"),L("👤 crew — включить, 👤 survivor — выключить","👤 crew — on, 👤 survivor — off")],
+           [L("Выживший или гость","Survivor or guest"),L("👤 survivor — включить, 👤 crew — выключить","👤 survivor — on, 👤 crew — off")]] },
+  { h:L("Профили персонажей","Character profiles"),
+    p:L("У каждого персонажа две записи: короткая (включена) и длинная ⭐ (выключена). Выберите одного-двух любимых, включите их ⭐, а короткие записи этих же персонажей выключите. Остальных не трогайте.","Every character has two entries: a short one (on) and a long ⭐ one (off). Pick one or two favourites, switch on their ⭐ entry and switch off the short entry for those same characters. Leave everyone else as is.") },
 ];
 
 /* ---------------- ТРЕКЕР УЛИК ----------------
@@ -2090,6 +2091,17 @@ function splashHTML(){
     <p class="fleet-sub">${T("fleetSub")}</p>
     <p class="fleet-mission"><span class="blip"></span>${T("fleetMission")}</p>
     <a class="btn amber fleet-go" href="#crew-strip">${T("fleetStart")} ↓</a>
+    <div class="splash-get">
+      <details class="dd"><summary class="btn">${T("homeCard")} ▾</summary>
+        <div class="dd-menu glass">
+          ${FILES.filter(f=>f.id==="card"||f.id==="cardv").map(f=> f.f
+            ? `<a href="${esc(f.f)}" download>${esc(tr(f.id==="card"?UI.homeCardN:UI.homeCardV))}</a>`
+            : `<span class="soon">${esc(tr(f.id==="card"?UI.homeCardN:UI.homeCardV))} · ${T("soon")}</span>`).join("")}
+        </div></details>
+      <a class="btn" href="downloads/erebus-regex-all.zip" download>${T("homeRx")}</a>
+      <button class="btn" data-copyid="toggle">${T("copyToggle")}</button>
+    </div>
+    <p class="splash-note">${T("homeSet")} <a class="linkbtn" href="#/setup">${T("homeSetGo")}</a></p>
   </section>`;
 }
 function crewStripHTML(){
@@ -2408,16 +2420,16 @@ function stuckHTML(){
 /* ---------- setup ---------- */
 function fileById(id){ return FILES.find(x => x.f.indexOf("regex-erebus-"+id+".json") > -1); }
 function dlBtn(it, small){
+  if(!it.f) return `<span class="dl-btn${small?" small":""} soon"><span aria-hidden="true">${it.ic}</span>${esc(tr(it.n))} · ${T("soon")}</span>`;
   return `<a class="dl-btn${small?" small":""}" href="${esc(it.f)}" download><span aria-hidden="true">${it.ic}</span>${esc(tr(it.n))}</a>`;
 }
-function filesHTML(compact){
-  return `<section class="files-block${compact?" compact":""}"><h3 class="sub-h">${T("filesH")}</h3>
+function filesHTML(){
+  return `<section class="files-block"><h3 class="sub-h">${T("filesH")}</h3>
     <p class="lede small">${T("filesLede")}</p>
     <div class="fl-grid">${FILES.map(it=>`<article class="fl-card glass glow">
       <span class="fl-ic" aria-hidden="true">${it.ic}</span>
       <b>${esc(tr(it.n))}</b><span class="fl-s">${esc(tr(it.s))}</span>
-      <a class="dl-btn" href="${esc(it.f)}" download>${T("dl")}</a></article>`).join("")}</div>
-    ${compact ? `<p class="fl-more">${T("filesMore")} <a class="linkbtn" href="#/setup">${T("filesGo")}</a></p>` : ""}</section>`;
+      ${it.f ? `<a class="dl-btn" href="${esc(it.f)}" download>${T("dl")}</a>` : `<span class="dl-btn soon">${T("soon")}</span>`}</article>`).join("")}</div></section>`;
 }
 function stepBody(s){
   let o = `<h3>${esc(tr(s.h))}</h3><p>${esc(tr(s.p))}</p>`;
@@ -2431,18 +2443,20 @@ function stepBody(s){
 function stepsList(arr){ return `<ol class="steps">${arr.map(x=>`<li class="glass"><div>${stepBody(x)}</div></li>`).join("")}</ol>`; }
 function cardsGallery(){
   const c = [["note",L("Записка","Paper note")],["audio",L("Аудио","Audio")],["video",L("Видео","Video")],["terminal",L("Терминал","Terminal")]];
-  return `<div class="cards-gal">${c.map(([id,n])=>`<figure><img src="assets/cards/${id}.png" alt="${esc(tr(n))}" loading="lazy" onerror="this.closest('figure').remove()"><figcaption>${esc(tr(n))}</figcaption></figure>`).join("")}</div>`;
+  return `<div class="cards-gal">${c.map(([id,n])=>`<figure><img src="assets/cards/${id}.png" alt="${esc(tr(n))}" loading="lazy"
+    data-zoom="assets/cards/${id}.png" data-name="${esc(tr(n))}" title="${T("zoom")}" onerror="this.closest('figure').remove()"><figcaption>${esc(tr(n))}</figcaption></figure>`).join("")}</div>`;
 }
 function setupHTML(){
+  const toc = [["set-lore","setLore"],["set-tg","setTg"],["set-rx","setRx"]];
   return `<section id="setup"><h2>${T("navSetup")}</h2>
+    ${filesHTML()}
+    <nav class="toc glass"><b>${T("tocH")}</b><div class="toc-row">${toc.map(([id,k],i)=>
+      `<button class="toc-item" data-goto="${id}"><i>${String(i+1).padStart(2,"0")}</i>${T(k)}</button>`).join("")}</div></nav>
     ${briefHTML({src:"assets/ui/flick-stand.webp", speech:T("bubbleSetup"), lede:T("setupLede"), kind:"flick-wide"})}
-    <h3 class="sub-h">${T("setupST")}</h3>${stepsList(SETUP)}
-    <h3 class="sub-h">${T("setupRx")}</h3>
-    <p class="lede small">${T("cardsH")}</p>${cardsGallery()}
-    ${stepsList(SETUP_RX)}
-    <h3 class="sub-h">${T("setupTg")}</h3>${stepsList(SETUP_TG)}
-    <h3 class="sub-h">${T("setupTavo")}</h3>${stepsList(SETUP_TAVO)}
-    ${filesHTML(false)}</section>`;
+    <h3 class="sub-h" id="set-lore">${T("setLore")}</h3>${stepsList(SETUP)}
+    <h3 class="sub-h" id="set-tg">${T("setTg")}</h3>${stepsList(SETUP_TG)}
+    <h3 class="sub-h" id="set-rx">${T("setRx")}</h3>${stepsList(SETUP_RX)}
+    <p class="lede small">${T("cardsH")}</p>${cardsGallery()}</section>`;
 }
 
 /* ---------- плейлисты ---------- */
@@ -2783,7 +2797,7 @@ function render(){
   renderChrome();
   const r = route();
   const views = {
-    home: () => splashHTML() + crewStripHTML() + heroHTML() + siteMapHTML() + `<section class="home-block">${filesHTML(true)}</section>`,
+    home: () => splashHTML() + crewStripHTML() + heroHTML() + siteMapHTML(),
     guide: guideHTML, stuck: stuckHTML, setup: setupHTML,
     starts: startsHTML, crew: crewHTML, npc: npcHTML, ship: shipHTML, station: stationHTML, world: worldHTML, about: aboutHTML,
   };
@@ -2839,6 +2853,7 @@ document.addEventListener("click", e => {
 
   else if(d.copy){ copy(d.copy); }
   else if(d.copyid){ copy(COPY[d.copyid]); }
+  else if(d.goto){ document.getElementById(d.goto)?.scrollIntoView({behavior:"smooth",block:"start"}); }
   else if(d.open){
     const id = d.open, p = [...THREATS, ...STATION_PEOPLE].find(x => x.id === id) || {};
     const spoil = p.stage && !open(p.stage) ? " " + fmt(T("revealConfirm"),{n:p.stage}).replace(/\s*[^.!]*\?$/, "") : "";
