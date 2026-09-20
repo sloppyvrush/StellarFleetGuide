@@ -22,8 +22,8 @@
 }
 *{box-sizing:border-box}
 @media (pointer:fine){
-  html,body{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Ccircle cx='13' cy='13' r='7.5' fill='none' stroke='%2362d6c8' stroke-width='1.3' opacity='.9'/%3E%3Ccircle cx='13' cy='13' r='1.6' fill='%23f2a93f'/%3E%3Cpath d='M13 1v4M13 21v4M1 13h4M21 13h4' stroke='%2362d6c8' stroke-width='1.3' stroke-linecap='round' opacity='.8'/%3E%3C/svg%3E") 13 13,auto}
-  a,button,summary,[role="button"],.person.openable,.mnode,input,label,select,textarea{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Ccircle cx='13' cy='13' r='8.5' fill='rgba(242,169,63,.12)' stroke='%23f2a93f' stroke-width='1.6'/%3E%3Ccircle cx='13' cy='13' r='2.2' fill='%23f2a93f'/%3E%3Cpath d='M13 0v3.5M13 22.5V26M0 13h3.5M22.5 13H26' stroke='%23f2a93f' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") 13 13,pointer}
+  html,body{cursor:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2728%27%20height%3D%2728%27%20viewBox%3D%270%200%2028%2028%27%3E%3Cg%20stroke%3D%27%2308141a%27%20stroke-width%3D%271.1%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M6.6%2011.2%204.2%2017.8%2011%2014.7Z%27%20fill%3D%27%2362d6c8%27%2F%3E%3Cpath%20d%3D%27M11.2%206.6%2017.8%204.2%2014.7%2011Z%27%20fill%3D%27%2362d6c8%27%2F%3E%3Cpath%20d%3D%27M2%202%209.6%204.6%2017.4%2014.4%2014.4%2017.4%204.6%209.6Z%27%20fill%3D%27%23dff2ee%27%2F%3E%3Ccircle%20cx%3D%278.2%27%20cy%3D%278.2%27%20r%3D%271.9%27%20fill%3D%27%230e2b30%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") 2 2,auto}
+  a,button,summary,[role="button"],.person.openable,.mnode,input,label,select,textarea{cursor:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2728%27%20height%3D%2728%27%20viewBox%3D%270%200%2028%2028%27%3E%3Cg%20stroke%3D%27%2308141a%27%20stroke-width%3D%271.1%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M6.6%2011.2%204.2%2017.8%2011%2014.7Z%27%20fill%3D%27%23f2a93f%27%2F%3E%3Cpath%20d%3D%27M11.2%206.6%2017.8%204.2%2014.7%2011Z%27%20fill%3D%27%23f2a93f%27%2F%3E%3Cpath%20d%3D%27M16.8%2014.2%2022.4%2022.4%2014.2%2016.8Z%27%20fill%3D%27%23ff8a3c%27%20opacity%3D%27.95%27%2F%3E%3Cpath%20d%3D%27M16.2%2015.4%2020.6%2020.6%2015.4%2016.2Z%27%20fill%3D%27%23fff3c4%27%20stroke%3D%27none%27%2F%3E%3Cpath%20d%3D%27M2%202%209.6%204.6%2017.4%2014.4%2014.4%2017.4%204.6%209.6Z%27%20fill%3D%27%23ffe9c8%27%2F%3E%3Ccircle%20cx%3D%278.2%27%20cy%3D%278.2%27%20r%3D%271.9%27%20fill%3D%27%233a1f06%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") 2 2,pointer}
   #trail{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:95}
 }
 @media (pointer:coarse),(prefers-reduced-motion:reduce){#trail{display:none}}
@@ -506,6 +506,7 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;padd
 .egg svg{width:100%;height:100%;fill:currentColor;display:block}
 .egg .e-eye{fill:var(--bg)}
 .egg:hover{opacity:.55;color:var(--amber)}
+.egg-say[hidden]{display:none}
 .egg-say{display:flex;justify-content:center;margin:.5rem 0 0;
   font:700 clamp(.9rem,2.2vw,1.2rem)/1.2 "Marck Script","Caveat","Segoe Script",cursive;
   color:#f2c077;text-shadow:0 0 12px rgba(242,192,119,.35)}
@@ -520,7 +521,7 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;padd
   92%{opacity:1;transform:none}
   95%{opacity:.7;text-shadow:1.5px 0 rgba(232,99,79,.6)}
   96%{opacity:1}}
-.cr-copy{margin:1.3rem 0 0;font:500 .74rem var(--f-mono);letter-spacing:.08em;color:var(--muted);opacity:.7}
+.cr-copy{max-width:none;width:100%;margin:1.3rem 0 0;font:500 .74rem var(--f-mono);letter-spacing:.08em;color:var(--muted);opacity:.7}
 /* шапка */
 .brand{gap:.55rem}
 .brand-t{font:600 1.05rem/1 var(--f-head);letter-spacing:.2em}
@@ -700,7 +701,9 @@ body.wasted-mode .wrap,body.wasted-mode .bar,body.wasted-mode #stars{filter:gray
   backdrop-filter:blur(10px) saturate(1.2);-webkit-backdrop-filter:blur(10px) saturate(1.2)}
 .brief-guide{--cw:230px;--ch:310px;margin-top:calc(var(--ch) * .5)}.brief-stuck{--cw:220px;--ch:250px}.brief-flick{--cw:200px;--ch:200px}.brief-flick-wide{--cw:210px;--ch:190px}
 #setup .brief{margin-bottom:.8rem}
-#setup .files-block{margin-top:0}
+#setup .files-block{margin-top:0;padding-top:1.4rem}
+#setup .files-block .sub-h{margin-top:.2rem}
+#setup .brief{margin-bottom:.4rem;padding-bottom:0}
 .brief-side{display:contents}
 .brief-char{position:relative;align-self:end;margin:calc(var(--ch) * -.2) 0 -1.3rem;height:var(--ch);width:var(--cw);display:flex;align-items:flex-end;justify-content:center;z-index:2}
 .brief-char img,.brief-char .m-btn{max-width:100%;max-height:100%}
@@ -867,6 +870,13 @@ main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
 .ct-dot{position:absolute;right:12px;top:12px;width:6px;height:6px;border-radius:50%;background:var(--teal);animation:ct-dot 2.4s steps(1) infinite}
 @keyframes ct-dot{0%,55%{opacity:.9}56%,100%{opacity:.2}}
 .bio .cass-term{position:relative;inset:auto;min-height:260px;border-radius:12px}
+.ct-face{white-space:nowrap}
+@media (max-width:620px){
+  .person .cass-term{padding:.7rem .55rem 3.2rem;gap:.35rem}
+  .person .ct-head{font-size:.5rem;letter-spacing:.12em;line-height:1.35}
+  .person .ct-face{font-size:1.45rem}
+  .person .ct-line{font-size:.66rem;line-height:1.3;min-height:2.2em;max-width:100%}
+}
 @media (prefers-reduced-motion:reduce){.cass-term *{animation:none!important}}
 @media (max-width:620px){
   main ol{padding-left:1.35rem}
@@ -987,8 +997,10 @@ main section.in .mscan{animation:m-scan 7s linear infinite}
 .dd-menu a:hover{background:var(--teal-soft)}
 .dd-menu span.soon{color:var(--muted);cursor:default}
 @media (max-width:620px){.splash-get{flex-direction:column;align-items:stretch}.dd-menu{left:0;transform:none;width:100%}}
+.steps .tbl th{width:15rem}
+.tb-cap{margin:.9rem 0 .35rem;font:600 .82rem var(--f-mono);letter-spacing:.09em;text-transform:uppercase;color:var(--teal)}
 .fl-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem}
-.fl-card{flex:0 1 clamp(220px,28%,300px)}
+.fl-card{flex:0 1 clamp(190px,23%,255px)}
 .fl-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.3rem;padding:1rem 1.1rem 1.1rem;position:relative}
 .fl-card>*{position:relative;z-index:1}
 .fl-ic{font-size:1.5rem;line-height:1}
@@ -1548,10 +1560,18 @@ const SETUP_TG = [
     p:L("По ходу истории экипаж находит улики: рукописные записки, аудиозаписи, видео с камер наблюдения и файлы в терминалах. Из них и собирается правда о станции — это важная часть истории, и играть с ними я очень советую. Тогл следит за тем, чтобы улики появлялись вовремя и не выдавали того, до чего вы ещё не дошли.","As the story goes on, the crew finds records: handwritten notes, audio logs, security camera footage and terminal files. The truth about the station is assembled out of them — it's a big part of the story, and I really recommend playing with it. The prompt makes sure records turn up at the right moment and never give away what you haven't reached yet.") },
   { h:L("Куда его вставить","Where to put it"),
     p:L("И там, и там он вставляется в пресет. В SillyTavern: настройки пресета → список Prompts → кнопка +. В Tavo: тот же пресет → New prompt. Дальше настройки одинаковые.","In both apps it goes into the preset. In SillyTavern: preset settings → the Prompts list → the + button. In Tavo: the same preset → New prompt. The rest is identical."),
-    table:[[L("Имя","Name"),L("Любое, например «Улики»","Anything, for example \"Records\"")],
-           [L("Роль","Role"),L("System","System")],
-           [L("Позиция","Position"),L("В чате, глубина 3–4","In chat, depth 3–4")],
-           [L("Галочка в списке","Checkbox in the list"),L("Включена","On")]] },
+    tables:[
+      [L("SillyTavern","SillyTavern"),
+       [[L("Имя","Name"),L("Любое, например «Улики»","Anything, for example \"Records\"")],
+        [L("Роль","Role"),L("System","System")],
+        [L("Позиция","Position"),L("In-chat @ Depth, глубина 3–4","In-chat @ Depth, depth 3–4")],
+        [L("Галочка в списке","Checkbox in the list"),L("Включена","On")]]],
+      [L("Tavo","Tavo"),
+       [[L("Имя","Name"),L("Любое, например «Улики»","Anything, for example \"Records\"")],
+        [L("Роль","Role"),L("System","System")],
+        [L("Позиция","Position"),L("In chat, глубина 3–4","In chat, depth 3–4")],
+        [L("Переключатель","Toggle"),L("Включён","On")]]],
+    ] },
   { h:L("Вставьте текст","Paste the text"),
     p:L("Кнопка копирует его целиком. Внутри есть шаблоны с тегами — их менять нельзя, на них завязано оформление.","The button copies the whole thing. It contains tag templates — don't change those, the styling depends on them."),
     toggle:true },
@@ -1605,6 +1625,8 @@ const FILES = [
     s:L("Карточка вместе с лорбуком внутри — всё, что нужно для игры.","The character card with the lorebook inside — everything you need to play.") },
   { id:"cardv", ic:"🔗", n:L("Карточка бота: под векторизацию","Bot card: for vector search"), f:"", soon:true,
     s:L("То же самое, но записи помечены для Vector Storage. Нужна, только если расширение настроено.","The same card, with entries marked for Vector Storage. Only if that extension is set up.") },
+  { id:"tgcopy", ic:"🧩", n:L("Тогл на улики","Records prompt"), copyid:"toggle",
+    s:L("Текст, который вставляется в пресет — без него улики не будут появляться по правилам.","The text that goes into your preset — without it records won't follow the rules.") },
   { id:"rxall", ic:"🎨", n:L("Оформление улик","Record styling"), f:"downloads/erebus-regex-all.zip",
     s:L("Один архив со всеми четырьмя файлами: записка, аудио, видео и терминал.","One archive with all four files: paper note, audio, video and terminal.") },
 ];
@@ -2550,7 +2572,7 @@ function stuckHTML(){
 }
 
 /* ---------- setup ---------- */
-function fileById(id){ return FILES.find(x => x.f.indexOf("regex-erebus-"+id+".json") > -1); }
+function fileById(id){ return FILES.find(x => x.id===id && x.f) || FILES.find(x => (x.f||"").indexOf("regex-erebus-"+id+".json") > -1); }
 function dlBtn(it, small){
   if(!it.f) return `<span class="dl-btn${small?" small":""} soon"><span aria-hidden="true">${it.ic}</span>${esc(tr(it.n))} · ${T("soon")}</span>`;
   return `<a class="dl-btn${small?" small":""}" href="${esc(it.f)}" download><span aria-hidden="true">${it.ic}</span>${esc(tr(it.n))}${small?" · "+T("dlAll"):""}</a>`;
@@ -2581,10 +2603,13 @@ function filesHTML(){
     <div class="fl-grid">${FILES.map(it=>`<article class="fl-card glass glow">
       <span class="fl-ic" aria-hidden="true">${it.ic}</span>
       <b>${esc(tr(it.n))}</b><span class="fl-s">${esc(tr(it.s))}</span>
-      ${it.f ? `<a class="dl-btn" href="${esc(it.f)}" download>${T("dl")}</a>` : `<span class="dl-btn soon">${T("soon")}</span>`}</article>`).join("")}</div></section>`;
+      ${it.copyid ? `<button class="dl-btn" data-copyid="${it.copyid}">${T("copy")}</button>`
+        : it.f ? `<a class="dl-btn" href="${esc(it.f)}" download>${T("dl")}</a>` : `<span class="dl-btn soon">${T("soon")}</span>`}</article>`).join("")}</div></section>`;
 }
 function stepBody(s){
   let o = `<h3>${esc(tr(s.h))}</h3><p>${esc(tr(s.p))}</p>`;
+  if(s.tables) o += s.tables.map(([cap,rows])=>`<p class="tb-cap">${esc(tr(cap))}</p><div class="tbl"><table><tbody>${
+      rows.map(r=>`<tr><th scope="row">${esc(tr(r[0]))}</th><td>${esc(tr(r[1]))}</td></tr>`).join("")}</tbody></table></div>`).join("");
   if(s.table) o += `<div class="tbl"><table><tbody>${s.table.map(r=>`<tr><th scope="row">${esc(tr(r[0]))}</th><td>${esc(tr(r[1]))}</td></tr>`).join("")}</tbody></table></div>`;
   if(s.files) o += `<div class="dl-row">${s.files.map(id=>{const it=fileById(id); return it?dlBtn(it,true):"";}).join("")}</div>`;
   if(s.code) o += s.code.map(([id,lbl])=>`<p class="code-lbl">${esc(tr(lbl))}</p>
