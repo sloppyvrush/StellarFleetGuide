@@ -97,7 +97,7 @@ p{max-width:70ch}
 .dossier a::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(6,12,16,.85)),repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 3px);pointer-events:none}
 .dossier span{position:absolute;left:.75rem;right:.75rem;bottom:.6rem;height:2.7rem;z-index:1;display:flex;flex-direction:column;justify-content:flex-start;gap:.15rem;font:500 1.08rem/1.1 var(--f-head);letter-spacing:.06em;text-transform:uppercase}
 .dossier small{display:block;font:500 .66rem/1.25 var(--f-mono);color:#f2b35a;letter-spacing:.04em;text-transform:none}
-.dossier a:hover{transform:translateY(-6px)}
+.dossier a:hover{border-color:var(--amber);box-shadow:0 0 0 1px rgba(242,169,63,.35),0 0 22px -6px rgba(242,169,63,.5)}
 .dossier a:hover img{transform:scale(1.06);filter:saturate(1.05) contrast(1.08)}
 @media (max-width:700px){.dossier{grid-template-columns:repeat(5,42%);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:.4rem}.dossier a{scroll-snap-align:start}}
 .rail{padding:1.3rem}
@@ -163,14 +163,21 @@ dialog::backdrop{background:rgba(4,9,12,.7);backdrop-filter:blur(4px)}
 dialog h3{margin:0 0 .6rem;font-size:1.5rem}
 .wiz-prog{display:flex;gap:.3rem;margin-bottom:1rem}.wiz-prog i{flex:1;height:3px;border-radius:2px;background:var(--line)}.wiz-prog i.on{background:var(--amber);box-shadow:0 0 8px var(--amber)}
 #lb{max-width:min(92vw,720px);padding:.6rem}
+.lb-x{position:sticky;top:0;float:right;z-index:30;margin:-.2rem -.2rem .2rem .6rem;width:2.2rem;height:2.2rem;flex:none;
+  display:grid;place-items:center;border-radius:50%;cursor:pointer;font-size:1.05rem;line-height:1;
+  background:rgba(8,14,18,.82);color:var(--ink);border:1px solid var(--line2);backdrop-filter:blur(6px);
+  transition:background .2s,border-color .2s,transform .15s}
+.lb-x:hover{background:rgba(232,99,79,.18);border-color:var(--danger);transform:rotate(90deg)}
+#lb figcaption{justify-content:flex-start}
 #lb.wide{max-width:min(96vw,1300px)}
 .bio{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:1.4rem;align-items:start}
-.bio img{width:100%;border-radius:10px;aspect-ratio:4/5;object-fit:cover;object-position:50% 18%}
+#lb .bio img{width:100%;height:auto;border-radius:10px;aspect-ratio:auto;max-height:78vh;object-fit:contain;object-position:50% 50%}
 .bio-t{padding:.4rem .6rem .6rem 0;max-height:78vh;overflow:auto}
 .bio-t p{margin:.6rem 0;line-height:1.6}
 .bio-t .tagline{margin:.6rem 0!important}
 .plate.static{position:relative;left:auto;bottom:auto;display:inline-flex;margin-bottom:.7rem;padding-right:1.4rem}
-@media (max-width:720px){.bio{grid-template-columns:1fr}.bio img{max-height:40vh}}
+@media (max-width:720px){.bio{grid-template-columns:1fr}
+  #lb .bio img{width:100%;height:58vh;max-height:none;object-fit:cover;object-position:50% 18%}}
 .more-btn{color:var(--teal);text-decoration:none;font-size:.88rem}
 #lb img{max-height:78vh;width:auto;max-width:100%;margin:0 auto;border-radius:10px}
 #lb figcaption{padding:.6rem .4rem .2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
@@ -226,18 +233,21 @@ th{font-weight:600;color:var(--muted)}
   .people>:last-child:nth-child(2n+1){grid-column:1 / -1;justify-self:center;width:calc(50% - .55rem)}
 }
 @media (max-width:560px){
-  .people{overflow:visible;grid-template-columns:1fr;grid-auto-rows:auto}
+  .people{overflow:visible;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto;gap:.7rem}
   .meta{white-space:normal}
-  .people>:last-child:nth-child(2n+1){grid-column:auto;width:auto;justify-self:stretch}
+  .people>:last-child:nth-child(2n+1){grid-column:1/-1;width:auto;justify-self:stretch}
 }
 .person{display:flex;flex-direction:column;overflow:hidden;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s;transform-style:preserve-3d;will-change:transform}
-.person:hover{box-shadow:0 18px 50px -20px rgba(var(--glowc),.45)}
+.person:hover{border-color:var(--amber);box-shadow:0 0 0 1px rgba(242,169,63,.3),0 0 26px -8px rgba(242,169,63,.45)}
 .ph{aspect-ratio:4/5;background:linear-gradient(160deg,var(--panel2),transparent);position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
 .ph img{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;object-position:50% 18%;transition:transform .7s cubic-bezier(.2,.7,.2,1),filter .4s;cursor:zoom-in}
 .ph::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,transparent 60%,rgba(6,12,16,.55)),repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px);opacity:.8}
 .ph .sweep{position:absolute;left:0;right:0;height:30%;top:-30%;background:linear-gradient(180deg,transparent,rgba(98,214,200,.18),transparent);pointer-events:none;z-index:2}
+main section.in .person .sweep{animation:sweep 2.6s ease-in-out 1.2s infinite}
 .person:hover .sweep{animation:sweep 1.4s ease-out}
-.person:hover .ph img{transform:scale(1.05)}
+main section.in .person .ph img{animation:ph-drift 14s ease-in-out infinite}
+.person:hover .ph img{transform:scale(1.06);animation:none}
+@keyframes ph-drift{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
 .ph .mono-fb{position:absolute;inset:0;display:grid;place-items:center;font:600 3.2rem var(--f-head);color:var(--muted);letter-spacing:.1em;
   background:radial-gradient(circle at 50% 45%,rgba(98,214,200,.12),transparent 55%)}
 .ph .mono-fb::before{content:"";position:absolute;width:44%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(98,214,200,.35);box-shadow:0 0 30px rgba(98,214,200,.15) inset;animation:spin 18s linear infinite;border-style:dashed}
@@ -251,7 +261,8 @@ th{font-weight:600;color:var(--muted)}
 .plate .role{font:500 .66rem/1.2 var(--f-mono);color:#f2b35a;letter-spacing:.05em}
 .tagline{margin:.6rem 0!important}
 .plate.static{position:relative;left:auto;bottom:auto;display:inline-flex;margin-bottom:.7rem;padding-right:1.4rem}
-@media (max-width:720px){.bio{grid-template-columns:1fr}.bio img{max-height:40vh}}
+@media (max-width:720px){.bio{grid-template-columns:1fr}
+  #lb .bio img{width:100%;height:58vh;max-height:none;object-fit:cover;object-position:50% 18%}}
 .more-btn{color:var(--teal);text-decoration:none;font-size:.88rem}
 #lb img{max-height:78vh;width:auto;max-width:100%;margin:0 auto;border-radius:10px}
 #lb figcaption{padding:.6rem .4rem .2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
@@ -307,18 +318,21 @@ th{font-weight:600;color:var(--muted)}
   .people>:last-child:nth-child(2n+1){grid-column:1 / -1;justify-self:center;width:calc(50% - .55rem)}
 }
 @media (max-width:560px){
-  .people{overflow:visible;grid-template-columns:1fr;grid-auto-rows:auto}
+  .people{overflow:visible;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto;gap:.7rem}
   .meta{white-space:normal}
-  .people>:last-child:nth-child(2n+1){grid-column:auto;width:auto;justify-self:stretch}
+  .people>:last-child:nth-child(2n+1){grid-column:1/-1;width:auto;justify-self:stretch}
 }
 .person{display:flex;flex-direction:column;overflow:hidden;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s;transform-style:preserve-3d;will-change:transform}
-.person:hover{box-shadow:0 18px 50px -20px rgba(var(--glowc),.45)}
+.person:hover{border-color:var(--amber);box-shadow:0 0 0 1px rgba(242,169,63,.3),0 0 26px -8px rgba(242,169,63,.45)}
 .ph{aspect-ratio:4/5;background:linear-gradient(160deg,var(--panel2),transparent);position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
 .ph img{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;object-position:50% 18%;transition:transform .7s cubic-bezier(.2,.7,.2,1),filter .4s;cursor:zoom-in}
 .ph::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,transparent 60%,rgba(6,12,16,.55)),repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px);opacity:.8}
 .ph .sweep{position:absolute;left:0;right:0;height:30%;top:-30%;background:linear-gradient(180deg,transparent,rgba(98,214,200,.18),transparent);pointer-events:none;z-index:2}
+main section.in .person .sweep{animation:sweep 2.6s ease-in-out 1.2s infinite}
 .person:hover .sweep{animation:sweep 1.4s ease-out}
-.person:hover .ph img{transform:scale(1.05)}
+main section.in .person .ph img{animation:ph-drift 14s ease-in-out infinite}
+.person:hover .ph img{transform:scale(1.06);animation:none}
+@keyframes ph-drift{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
 .ph .mono-fb{position:absolute;inset:0;display:grid;place-items:center;font:600 3.2rem var(--f-head);color:var(--muted);letter-spacing:.1em;
   background:radial-gradient(circle at 50% 45%,rgba(98,214,200,.12),transparent 55%)}
 .ph .mono-fb::before{content:"";position:absolute;width:44%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(98,214,200,.35);box-shadow:0 0 30px rgba(98,214,200,.15) inset;animation:spin 18s linear infinite;border-style:dashed}
@@ -456,6 +470,28 @@ main section.in .term-fx::before{animation:t-edge 3.6s ease-in-out infinite}
 .wcard h3{margin:0 0 .3rem;font-size:1.2rem;position:relative;z-index:1}
 .wcard p{margin:.3rem 0;font-size:.95rem;position:relative;z-index:1}
 footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;padding:1.5rem 0 3rem;margin-top:4rem}
+.credits{margin-top:4.5rem;padding-bottom:3.5rem}
+.cr-in{display:flex;flex-wrap:wrap;align-items:center;gap:.9rem 1.2rem;position:relative}
+.cr-l{display:flex;flex-direction:column;gap:.18rem;flex:1;min-width:14rem}
+.cr-l b{font:500 .82rem var(--f-head);letter-spacing:.22em;color:var(--ink)}
+.cr-l a{color:var(--teal)}
+.cr-s{font-size:.8rem;opacity:.75}
+.egg{flex:none;width:2.6rem;height:2.6rem;padding:.3rem;border-radius:9px;cursor:pointer;background:var(--panel2);
+  border:1px solid var(--line);color:var(--muted);transition:color .25s,border-color .25s,transform .3s}
+.egg svg{width:100%;height:100%;fill:currentColor;display:block}
+.egg .e-eye{fill:var(--bg)}
+.egg:hover{color:var(--amber);border-color:rgba(242,169,63,.5)}
+.egg.spin{transform:rotate(360deg) scale(1.12)}
+.egg-say{flex-basis:100%;margin:0;font:700 clamp(.95rem,2.4vw,1.3rem)/1.2 "Marck Script","Caveat","Segoe Script",cursive;
+  color:#f2c077;text-shadow:0 2px 10px rgba(0,0,0,.6);transform:rotate(-1.5deg)}
+.egg-say.shake{animation:egg-shake .5s ease-in-out}
+@keyframes egg-shake{0%,100%{transform:rotate(-1.5deg)}25%{transform:rotate(1.5deg) translateX(3px)}50%{transform:rotate(-2.5deg) translateX(-3px)}75%{transform:rotate(1deg) translateX(2px)}}
+/* шапка */
+.brand{gap:.55rem}
+.brand-t{font:600 1.05rem/1 var(--f-head);letter-spacing:.2em}
+.brand-s{font:500 .6rem/1 var(--f-mono);letter-spacing:.1em;color:var(--muted);text-transform:uppercase;align-self:center;
+  padding-left:.55rem;border-left:1px solid var(--line2);white-space:nowrap}
+@media (max-width:900px){.brand-s{display:none}}
 
 /* ---------- reveal ---------- */
 .rv{opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
@@ -849,6 +885,15 @@ main section.in .mdust{animation:m-dust 7s ease-in-out infinite}
 main section.in .mscan{animation:m-scan 7s linear infinite}
 @keyframes m-scan{0%{transform:translateY(-140px)}100%{transform:translateY(820px)}}
 @media (prefers-reduced-motion:reduce){.station-map *{animation:none!important}}
+.deep{margin:1.3rem 0 .6rem;padding:1rem 1.1rem 1.1rem}
+.deep>*{position:relative;z-index:1}
+.deep .pl-ic{color:var(--danger)}
+.deep-hint{margin-left:auto;font:500 .7rem var(--f-mono);letter-spacing:.06em;color:var(--muted);font-style:normal}
+.deep-body{position:relative;display:flex;flex-direction:column;gap:.5rem;margin-top:.2rem}
+.deep-body p{margin:0;line-height:1.6}
+.deep-body[data-spoiler]{cursor:pointer;filter:blur(6px);user-select:none}
+.deep-body[data-spoiler]::after{content:"";position:absolute;inset:-.4rem;border-radius:9px;background:repeating-linear-gradient(45deg,rgba(232,99,79,.1) 0 12px,transparent 12px 24px)}
+.deep-body.open{filter:none;animation:open .4s ease-out}
 /* ---------- памятные вещи в «Читать полностью» ---------- */
 .keeps{margin:1.3rem 0 .6rem;padding:1rem 1.1rem 1.2rem}
 .keeps>*{position:relative;z-index:1}
@@ -1110,7 +1155,7 @@ main section.in .unclear-locked .uq-q{animation:uq-blink 3.2s steps(1) infinite}
 <canvas id="stars" aria-hidden="true"></canvas>
 <a class="skip" href="#/guide">Перейти к гайду</a>
 <header class="bar"><div class="bar-in">
-  <a class="brand" href="#/"><span class="dot" aria-hidden="true"></span>EREBUS</a>
+  <a class="brand" href="#/"><span class="dot" aria-hidden="true"></span><span class="brand-t">STELLAR FLEET</span><span class="brand-s" id="brandSub"></span></a>
   <nav id="topnav" aria-label="Menu"></nav>
   <div class="bar-tools">
     <a class="stage-pill" href="#/guide" id="pill"></a>
@@ -1160,17 +1205,16 @@ const UI = {
   askMapAllT: L("Рассекретить всю карту?","Declassify the whole map?"),
   askResetT: L("Сбросить прогресс?","Reset progress?"),
   dStarts: L("Четыре начала: за экипаж, за жителя станции, за случайного гостя и за гостя не с Земли.","Four ways in: as crew, as a resident, as an accidental guest, or as a guest not from Earth."),
-  startsLede: L("У бота несколько первых сообщений, и все они сводятся к четырём началам. Выберите своё, включите нужное приветствие в SillyTavern и переключите одну запись в лорбуке — на этом настройка заканчивается.","The bot has several opening messages that come down to four beginnings. Pick yours, choose that greeting in SillyTavern and flip a single lorebook entry — that's the whole setup."),
+  startsLede: L("У бота четыре старта, и все они AnyPov: кем быть — решаете вы. Выберите свой, а после выбора обязательно включите в лорбуке запись, указанную на карточке этого старта.","The bot has four starts and all of them are AnyPov: who you are is up to you. Pick yours, then be sure to enable the lorebook entry named on that start's card."),
   startsHow: L("Как переключить","How to switch"),
   startsHow1: L("Откройте лорбук бота: иконка книги рядом с карточкой персонажа.","Open the bot's lorebook: the book icon next to the character card."),
   startsHow2: L("В самом верху списка лежат две записи со значком 👤 — <code>{{user}} — crew</code> и <code>{{user}} — survivor</code>.","At the very top of the list there are two entries marked 👤 — <code>{{user}} — crew</code> and <code>{{user}} — survivor</code>."),
-  startsHow3: L("Включите ту, что указана на выбранной карточке, и выключите вторую. Включённой всегда должна быть ровно одна: она объясняет боту, кто вы и что знаете.","Enable the one listed on the card you picked and disable the other. Exactly one must stay enabled: it tells the bot who you are and what you know."),
-  startsHow4: L("Приветствие выбирается отдельно, стрелками под первым сообщением чата.","The greeting itself is chosen separately, with the arrows under the first message of the chat."),
+  startsHow3: L("Включите ту, что указана на выбранной карточке со стартом, и выключите вторую. Включённой всегда должна быть ровно одна: она объясняет боту, кто вы и что знаете.","Enable the one named on the start card you picked and disable the other. Exactly one must stay enabled: it tells the bot who you are and what you know."),
   startsPick: L("Выбрать это начало","Start here"),
   startsLb: L("В лорбуке","In the lorebook"),
   startsOn: L("включить","on"), startsOff: L("выключить","off"),
 
-  nsGuide: L("Прохождение","Walkthrough"), nsStuck: L("Застряли?","Stuck?"), nsTracker: L("Трекер","Tracker"), nsSetup: L("Настройка","Setup"),
+  nsGuide: L("Прохождение","Walkthrough"), nsStuck: L("Застряли?","Stuck?"), nsTracker: L("Трекер","Tracker"), nsSetup: L("Настройки","Setup"),
   nsCrew: L("Экипаж","Crew"), nsShip: L("Корабль","Ship"), nsStation: L("Станция","Station"), nsWorld: L("Мир","World"), menu: L("Меню", "Menu"),
   fleetTitle: L("Звёздный флот", "Stellar Fleet"),
   fleetSub: L("Содружество · Экспедиционная служба · 2378", "Commonwealth · Expedition Service · 2378"),
@@ -1181,7 +1225,7 @@ const UI = {
   mapH: L("Что есть на сайте", "What's on this site"),
   mapLede: L("Сайт разбит на разделы — открывайте нужный через меню сверху или карточки ниже. Всё, что может испортить сюжет, закрыто, пока вы сами не дойдёте до нужного этапа.", "The site is split into sections — open the one you need from the top menu or the cards below. Anything that could spoil the plot stays locked until you reach that stage yourself."),
   startH: L("С чего начать", "Where to start"),
-  start1: L("Загляните в «Настройку SillyTavern» — это пара минут.", "Check \"SillyTavern setup\" — it takes a couple of minutes."),
+  start1: L("Загляните в «Настройки» — это пара минут.", "Check the Setup page — it takes a couple of minutes."),
   start2: L("Играйте. Сайт не нужен, пока всё идёт хорошо.", "Play. You don't need the site while things are going well."),
   start3: L("Застряли — отметьте свой этап выше и откройте «Прохождение».", "Stuck? Mark your stage above and open the Walkthrough."),
   groupGuide: L("Гайд", "Guide"), groupCodex: L("Кодекс", "Codex"),
@@ -1193,7 +1237,7 @@ const UI = {
   dStation: L("Разрез станции «Эреб» — уровни открываются по мере прохождения.", "A cross-section of Erebus station — levels open as you progress."),
   dWorld: L("Карта Содружества, места из прошлого персонажей и устройство мира.", "The Commonwealth map, places from the characters' pasts and how the world works."),
   prev: L("Назад", "Back"), next: L("Дальше", "Next"),
-  brandSub: L("полевое руководство экипажа", "crew field manual"),
+  brandSub: L("учебное пособие · допуск экипажа", "training manual · crew clearance"),
   heroTitle: L("Потерялись на станции «Эреб»?", "Lost on Erebus?"),
   status: L("Связь со станцией «Эреб» потеряна · сигнал бедствия принят", "Contact with Erebus lost · distress signal received"),
   zoom: L("Открыть портрет", "Open portrait"),
@@ -1208,7 +1252,7 @@ const UI = {
   pill: L("Допуск: этап", "Clearance: stage"),
   navGuide: L("Прохождение", "Walkthrough"),
   navStuck: L("Застряли?", "Stuck?"),
-  navSetup: L("Настройка", "Setup"),
+  navSetup: L("Настройки", "Setup"),
   setupST: L("SillyTavern — основное","SillyTavern — the basics"),
   setupRx: L("Оформление записей","Records as cards"),
   setupTg: L("Тогл с генератором записей","The record generator prompt"),
@@ -1227,8 +1271,8 @@ const UI = {
   homeCardN: L("Обычная","Standard"),
   homeCardV: L("Под векторизацию","For vector search"),
   homeRx: L("Скачать оформление улик","Download the record styling"),
-  homeSet: L("Обязательно загляните в «Настройку»: там написано, какие записи включить и выключить в лорбуке и как настроить тогл и оформление. Без этого часть истории просто не заработает.","Do read the Setup page: it says which lorebook entries to switch on and off, and how to set up the prompt and the styling. Without that, parts of the story simply won't fire."),
-  homeSetGo: L("Открыть настройку →","Open Setup →"),
+  homeSet: L("Обязательно загляните в «Настройки»: там написано, какие записи включить и выключить в лорбуке и как настроить тогл и оформление. Без этого часть истории просто не заработает.","Do read the Setup page: it says which lorebook entries to switch on and off, and how to set up the prompt and the styling. Without that, parts of the story simply won't fire."),
+  homeSetGo: L("Открыть настройки →","Open Setup →"),
   navCodex: L("Кодекс", "Codex"),
   navCrew: L("Экипаж и люди", "Crew & people"),
   navShip: L("«Кассандра»", "The Cassandra"),
@@ -1263,6 +1307,10 @@ const UI = {
   hide: L("Скрыть снова", "Hide again"),
   readMore: L("Читать полностью", "Read more"),
   keepsakes: L("Памятные вещи", "Keepsakes"),
+  deepH: L("Страхи и тайны", "Fears and secrets"),
+  deepHint: L("спойлер · нажмите, чтобы открыть", "spoiler · tap to reveal"),
+  deepF: L("Чего боится", "What they fear"),
+  deepS: L("Что не рассказывает", "What they don't talk about"),
   plTitle: L("Плейлист персонажа","Character playlist"),
   plCrew: L("Плейлист экипажа «Кассандры»","The Cassandra crew playlist"),
   plCrewLede: L("Общий плейлист «Кассандры» — то, что звучит на борту, когда шестеро чужих людей постепенно становятся экипажем.","The Cassandra's shared playlist — what plays on board while six strangers slowly turn into a crew."),
@@ -1305,6 +1353,12 @@ const UI = {
   yes: L("Да", "Yes"), no: L("Нет", "No"), close: L("Закрыть", "Close"),
   wizResult: L("Похоже, вы на этапе {n}.", "Looks like you're at stage {n}."),
   wizApply: L("Выставить этап {n}", "Set stage {n}"),
+  crAuthor: L("Гайд к ролевому боту","A guide to the roleplay bot"),
+  crBy: L("Собрала","Made by"),
+  crLocal: L("Этап и отметки хранятся только в этом браузере.","Your stage and ticks are stored in this browser only."),
+  crUpd: L("Обновлено","Updated"),
+  eggLine: L("ПОМОГИТЕ Я СОШЛА С УМА ПОКА ПИСАЛА ВСЁ ЭТО!!!!","HELP I LOST MY MIND WRITING ALL OF THIS!!!!"),
+  eggHint: L("нажми","tap me"),
   footer: L("Фанатский гайд к ролевому боту Erebus. Сайт хранит ваш этап и отметки только в этом браузере.", "A fan guide to the Erebus roleplay bot. Your stage and ticks are stored only in this browser."),
 };
 
@@ -1397,9 +1451,9 @@ const STARTS = [
    img — картинка из assets/items/, t — подпись под ней. Порядок в списке = порядок в блоке. */
 const ITEMS = {
   ethan: [
-    { img:"assets/items/ethan-photo.webp",     t:L("Фото Итана с сослуживцами","Ethan with his squadmates") },
     { img:"assets/items/ethan-tags.webp",      t:L("Жетоны Итана и его погибшего командира Кайла Марроу","Ethan's dog tags and those of his fallen commander, Kyle Marrow") },
     { img:"assets/items/ethan-lighter.webp",   t:L("Зажигалка с гравировкой","Engraved lighter") },
+    { img:"assets/items/ethan-photo.webp",     t:L("Фото Итана с сослуживцами","Ethan with his squadmates") },
   ],
   adrian: [
     { img:"assets/items/adrian-watch.webp",    t:L("Механические часы отца","His father's watch") },
@@ -1432,7 +1486,7 @@ const SETUP_TG = [
   { h:L("Зачем он нужен","What it's for"),
     p:L("По ходу истории экипаж находит улики: рукописные записки, аудиозаписи, видео с камер наблюдения и файлы в терминалах. Из них и собирается правда о станции — это важная часть истории, и играть с ними я очень советую. Тогл следит за тем, чтобы улики появлялись вовремя и не выдавали того, до чего вы ещё не дошли.","As the story goes on, the crew finds records: handwritten notes, audio logs, security camera footage and terminal files. The truth about the station is assembled out of them — it's a big part of the story, and I really recommend playing with it. The prompt makes sure records turn up at the right moment and never give away what you haven't reached yet.") },
   { h:L("Куда его вставить","Where to put it"),
-    p:L("В SillyTavern: настройки пресета → список Prompts → кнопка +. В Tavo: New prompt. Дальше одинаково.","In SillyTavern: preset settings → the Prompts list → the + button. In Tavo: New prompt. The rest is the same."),
+    p:L("И там, и там он вставляется в пресет. В SillyTavern: настройки пресета → список Prompts → кнопка +. В Tavo: тот же пресет → New prompt. Дальше настройки одинаковые.","In both apps it goes into the preset. In SillyTavern: preset settings → the Prompts list → the + button. In Tavo: the same preset → New prompt. The rest is identical."),
     table:[[L("Имя","Name"),L("Любое, например «Улики»","Anything, for example \"Records\"")],
            [L("Роль","Role"),L("System","System")],
            [L("Позиция","Position"),L("В чате, глубина 3–4","In chat, depth 3–4")],
@@ -1444,8 +1498,8 @@ const SETUP_TG = [
 
 const SETUP_RX = [
   { h:L("Скачайте файлы","Download the files"),
-    p:L("Одним архивом или по отдельности — можно поставить не все: без файла улика просто останется обычным текстом.","As one archive or one by one — you don't need all of them: without a file, a record simply stays plain text."),
-    files:["rxall","note","audio","video","terminal"] },
+    p:L("В архиве все четыре файла: записка, аудио, видео и терминал.","The archive holds all four files: paper note, audio, video and terminal."),
+    files:["rxall"] },
   { h:L("Поставьте их","Add them"),
     p:L("В SillyTavern: Extensions (кубик вверху) → Regex → Import, по одному файлу. В Tavo: импорт регулярных выражений. Проверьте, что скрипт применяется только к ответам бота и только для отображения — остальные галочки не нужны.","In SillyTavern: Extensions (the cube at the top) → Regex → Import, one file at a time. In Tavo: import regular expressions. Check that the script applies to the bot's messages only and on display only — no other checkboxes are needed.") },
 ];
@@ -1457,6 +1511,31 @@ const COPY = {
   exBlock: "<erebus_note>\nTYPE: рукописная записка\nLOCATION: коридор жилого сектора\nAUTHOR: смена B, без подписи\nDATE: 09.03, вечер\nTEXT:\nВода в третьем кране опять ржавая.\nПишу третий раз. Заявка 114-Б.\n</erebus_note>",
   exRegex: "/(?:```+\\w*\\s*)?<erebus_note>\\s*[*_]{0,2}TYPE:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}LOCATION:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}AUTHOR:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}DATE:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}TEXT:[*_]{0,2}\\s*([\\s\\S]*?)\\s*<\\/erebus_note>(?:\\s*```+)?/gi",
   ooc: "[OOC: тест оформления. Выведи одну бумажную записку блоком <erebus_note> строго по шаблону, без пояснений до и после. Место — центральный атриум, автор — любой техник, текст в 4–5 коротких строк.]",
+};
+
+
+/* ---------------- СТРАХИ И ТАЙНЫ (под спойлером) ---------------- */
+const DEEP = {
+  adrian: { f:L("Не смерть, а исчезновение без ответа — как отец, пропавший на спасательном вылете. И собственное «а если бы я решил иначе».",
+                "Not death, but vanishing without an answer — like his father, lost on a rescue run. And his own \"what if I had decided differently\"."),
+            s:L("На «Меридиане» он нарушил приказ и спас сотни гражданских. В прорыв блокады погибли одиннадцать солдат, и «Кассандра» стала для него понижением, которое он принял как дом.",
+                "On the Meridian rescue he broke orders and saved hundreds of civilians. Eleven soldiers died in the breach, and the Cassandra was the demotion he accepted as home.") },
+  ethan:  { f:L("Темнота, теснота, ремни и всё, что отнимает контроль: семь недель плена на «Конкордии» никуда не делись.",
+                "The dark, tight spaces, restraints — anything that takes away control. Seven weeks of captivity on the Concordia never left him."),
+            s:L("Он почти чист, но одну ампулу «Эгиды» держит в аптечке и каждый вечер проверяет, на месте ли она.",
+                "He's nearly clean, but keeps one ampoule of Aegis in the kit and checks every evening that it's still there.") },
+  alex:   { f:L("Снова не успеть. В четырнадцать он по связи вёл умирающую мать, пока помощь не опоздала.",
+                "Being too late again. At fourteen he talked his dying mother through an accident until help came too late."),
+            s:L("На «Астер-9» он сказал девочке «не сегодня», и она умерла, пока его не было рядом. С тех пор он не даёт ложных надежд — и не объясняет, почему.",
+                "On Aster-9 he told a girl \"not today\", and she died while he was away. He never gives false hope now — and never explains why.") },
+  diana:  { f:L("Не опасность, а незнание. Когда ей по-настоящему страшно, она замолкает и замедляется — Алекс замечает это первым.",
+                "Not danger, but not knowing. When she's truly afraid she goes quiet and slows down — Alex notices first."),
+            s:L("Мать она потеряла в четырнадцать и ушла в биологию, чтобы понять, почему живое ломается. На «Авроре» она вопреки приказу сохранила культуру — и оказалась права. Это научило её опасной уверенности, что риск ради знания окупается.",
+                "She lost her mother at fourteen and went into biology to understand why living things break. On Aurora she kept a culture against a destruction order — and she was right. It taught her a dangerous confidence that risk for knowledge pays off.") },
+  daniel: { f:L("Что его выберут, а потом узнают всё до конца — и передумают.",
+                "That someone will choose him, then learn everything about him, and change their mind."),
+            s:L("О годах между смертью отца и «Кассандрой» он говорит расплывчато. Иногда проскакивает выправка не по профессии, пауза при секретных темах и маршрут, который он знает слишком хорошо. Остальное история расскажет сама.",
+                "He's vague about the years between his father's death and the Cassandra. Now and then: a bearing too military for an engineer, a beat of stillness around classified matters, a route he knows too well. The story tells the rest itself.") },
 };
 
 /* ---------------- ФАЙЛЫ ДЛЯ СКАЧИВАНИЯ ---------------- */
@@ -1588,10 +1667,10 @@ const ACTS = [
     hints:[
       L("Если проект прикрывали на самом верху — кто тогда одобрил вашу миссию?",
         "If the project was protected from the top — who approved your mission?"),
-      L("Попросите CASS проверить внутренние системы «Кассандры». Ищите запечатанные файлы с грифом OMEGA. Присмотритесь к резервному ангару.",
-        "Ask CASS to check the Cassandra's internal systems. Look for sealed OMEGA-level files. Take a closer look at the reserve hangar."),
-      L("CASS может засечь зашифрованный трафик на борту. Фрагменты файла OMEGA дадут название протокола; когда оно прозвучит в чате, откроется этап 6.",
-        "CASS can detect encrypted traffic aboard. Fragments of the OMEGA file give the protocol's name; once it's said in the chat, stage 6 opens.")
+      L("Попросите CASS проверить внутренние системы «Кассандры». Ищите запечатанные файлы под высшим грифом. Присмотритесь к резервному ангару.",
+        "Ask CASS to check the Cassandra's internal systems. Look for sealed files under the highest classification. Take a closer look at the reserve hangar."),
+      L("CASS может засечь зашифрованный трафик на борту. Фрагменты запечатанного файла дадут название протокола; когда оно прозвучит в чате, откроется этап 6.",
+        "CASS can detect encrypted traffic aboard. Fragments of the sealed file give the protocol's name; once it's said in the chat, stage 6 opens.")
     ],
     done:L("экипаж находит протокол, в котором есть их имена.","your crew finds a protocol with their own names in it.") },
   { n:6, q:L("Нас вообще собирались отпустить?","Were we ever meant to leave?"),
@@ -1667,7 +1746,7 @@ const SETUP = [
   { h:L("Лорбук уже внутри","The lorebook is already inside"),
     p:L("Он привязан к карточке. Отдельно подключать его не нужно.","It's bound to the card. There's no need to attach it separately.") },
   { h:L("Выберите старт","Choose your start"),
-    p:L("Историю можно начать с трёх сторон: за члена экипажа «Кассандры», за человека, застрявшего на станции, и за гостя не с Земли. Выберите первое сообщение, а в лорбуке включите одну запись с 👤 и выключите вторую.","You can start from three sides: as one of the Cassandra's crew, as someone stranded on the station, or as a guest not from Earth. Pick the opening message, then switch on one 👤 entry in the lorebook and switch the other off."),
+    p:L("У бота четыре старта, и все они AnyPov: кем быть — решаете вы. Выберите первое сообщение, а потом включите в лорбуке ту запись, которая указана на карточке вашего старта. Остальные записи стартов выключите.","The bot has four starts, all AnyPov: who you are is up to you. Pick an opening message, then enable the lorebook entry named on your start's card and disable the other start entries."),
     table:[[L("Старт за экипаж","Crew start"),L("👤 crew — включить, 👤 survivor — выключить","👤 crew — on, 👤 survivor — off")],
            [L("Выживший или гость","Survivor or guest"),L("👤 survivor — включить, 👤 crew — выключить","👤 survivor — on, 👤 crew — off")]] },
   { h:L("Профили персонажей","Character profiles"),
@@ -1918,7 +1997,7 @@ const STATION = [
   { id:"h37", stage:3, name:L("Камера H-37","H-37 cell"), img:"assets/station/h37.webp", full:"assets/station/full/h37.webp",
     d:L("Усиленная камера, рассчитанная на кого-то гораздо сильнее человека. Фиксаторы вырваны, стены исполосованы, терминал сообщает о прорыве. Надписи внутри написаны человеческой рукой.","A reinforced cell built for something far stronger than a human. Restraints torn out, walls slashed, the terminal reports a breach. The writing inside was made by a human hand."), danger:L("высокая","high") },
   { id:"archive", stage:4, name:L("Архив LAZARUS","LAZARUS archive"), img:"assets/station/archive.webp", full:"assets/station/full/archive.webp",
-    d:L("Изолированное хранилище с собственным питанием и доступом уровня OMEGA. Здесь вся цепочка складывается воедино: отчёты, переписка и подписи под приказами — всё, что станция должна была уничтожить перед стерилизацией.","An isolated vault with its own power and OMEGA-level access. This is where the whole chain comes together: reports, correspondence and signatures under the orders — everything the station was meant to destroy before sterilisation."), danger:L("средняя","medium") },
+    d:L("Изолированное хранилище с собственным питанием и доступом высшего уровня. Здесь вся цепочка складывается воедино: отчёты, переписка и подписи под приказами — всё, что станция должна была уничтожить перед стерилизацией.","An isolated vault with its own power and top-clearance access. This is where the whole chain comes together: reports, correspondence and signatures under the orders — everything the station was meant to destroy before sterilisation."), danger:L("средняя","medium") },
   { id:"nest", stage:4, name:L("Нижнее гнездо","Lower nest"), img:"assets/station/nest.webp", full:"assets/station/full/nest.webp",
     d:L("Бывший тепловой комплекс, поглощённый колонией. Жарко, влажно, архитектура тонет в чёрной смоле, между опорами — яйца. Вдоль стен в коконах застыли тела тех, кого утащили сюда с верхних уровней.","A former thermal complex swallowed by the colony. Hot, humid, architecture drowning in black resin, eggs between the supports. Along the walls, cocooned, are the bodies of those dragged down here from the upper levels."), danger:L("смертельная","lethal") },
   { id:"hangar", stage:5, name:L("Резервный ангар","Reserve hangar"), img:"assets/station/hangar.webp", full:"assets/station/full/hangar.webp",
@@ -1937,8 +2016,8 @@ const WORLD_CARDS = [
 /* Карта Содружества (viewBox 0 0 1536 1024). STARS — сюжетные места (яркие, кликабельные).
    BG — остальные системы (тусклые). ROUTES: m — главный, s — второстепенный, f — дальний, p — путь к станции «Эреб». */
 const STARS = [
-  { id:"sol", x:768,y:487, r:14, kind:"hub", stage:1, who:[], name:L("Земля","Earth"), sub:L("Солнечная система · Столичный узел","Sol · Capital node"),
-    d:L("Столичный узел Содружества и перекрёсток всех главных маршрутов. Земля по-прежнему задаёт тон в политике и культуре, но давно перестала быть центром всего человеческого космоса: большая часть жизни теперь кипит в колониях и на станциях.","The Commonwealth's capital node and the crossroads of every main route. Earth still sets the tone in politics and culture, but it's long since stopped being the centre of human space: most of life now happens in the colonies and on stations.") },
+  { id:"sol", x:768,y:487, r:14, kind:"hub", stage:1, who:[], name:L("Солнечная система","Solar System"), sub:L("Земля и внутренние колонии · Столичный узел","Earth and the inner colonies · Capital node"),
+    d:L("Столичный узел Содружества и перекрёсток всех главных маршрутов: Земля, орбитальные верфи, колонии Марса и спутников. Земля по-прежнему задаёт тон в политике и культуре, но давно перестала быть центром всего человеческого космоса — большая часть жизни кипит в колониях и на станциях.","The Commonwealth's capital node and the crossroads of every main route: Earth, the orbital yards, the Martian and moon colonies. Earth still sets the tone in politics and culture, but it stopped being the centre of human space long ago — most of life now happens in the colonies and on stations.") },
   { id:"ganymede", x:706,y:548, r:8, lp:"b", kind:"crew", stage:1, who:[L("Дэниел","Daniel")], name:L("Кольцо Ганимеда","Ganymede Ring"), sub:L("Солнечная система · прошлое Дэниела","Sol · Daniel's past"),
     d:L("Старая промышленная станция на орбите Ганимеда: доки, ремонтные платформы и вечный гул металла. Здесь вырос Дэниел — сначала мальчишкой, который чинил всё подряд, потом инженером рядом с отцом.\n\nКогда из-за контрафактных деталей в реакторном контуре началась авария, Мартин Кейн остался держать охлаждение, чтобы остальные успели уйти. Сам он не успел.","An old industrial station orbiting Ganymede: docks, repair platforms and the endless hum of metal. Daniel grew up here — first as a kid who fixed everything in sight, then as an engineer working beside his father.\n\nWhen counterfeit parts in a reactor loop set off an accident, Martin Kane stayed behind to hold the cooling system so the others could get out. He didn't make it.") },
   { id:"academy", x:772,y:633, r:8, lp:"b", kind:"crew", stage:1, who:[L("Адриан","Adrian"),L("Итан","Ethan")], name:L("Академия","Academy"), sub:L("Академия Звёздного флота","Stellar Fleet Academy"),
@@ -1981,7 +2060,7 @@ const ROUTES = [
   ["s","altair","aurora7"],["s","rigel","basilisk"],["s","ark","vostok"],["s","vesta","aster"],["s","aurora","essa"],
   ["f","vega","perseus"],["f","capella","essa"],["f","capella","maxhel"],["f","maxhel","dalrif"],["f","dalrif","echo"],["f","helios","echo"],["f","vostok","outpost9"],
   ["f","aldebaran","altair"],["f","achernar","fomalhaut"],["f","aster","altair"],["f","vostok","heph"],["f","outpost9","heph"],
-  ["p","novaurora","erebus"],["p","echo","erebus"],
+  ["p","sol","novaurora"],["p","novaurora","echo"],["p","echo","erebus"],
 ];
 const REGIONS = [
   [773,108,"Северные пределы","Northern Reaches"],[1063,192,"Рубеж колоний","Colonial Frontier"],[153,293,"Западный коридор","Western Corridor"],
@@ -2313,8 +2392,8 @@ function startsHTML(){
   const cards = STARTS.map((s, i) => `<article class="start glass ${s.accent}" style="--i:${i}" data-act="lit" tabindex="0" role="button" aria-pressed="false">
       <div class="start-art">${figure(s.fig, i + 1)}</div>
       <div class="start-body">
-        <p class="brief-lbl">${esc(tr(s.sub))}</p>
         <h3>${esc(tr(s.h))}</h3>
+        <p class="brief-lbl start-sub">${esc(tr(s.sub))}</p>
         <p class="start-role">${esc(tr(s.role))}</p>
         ${s.p.map(x=>`<p class="start-p">${esc(tr(x))}</p>`).join("")}
         <p class="start-files">${esc(tr(s.files))}</p>
@@ -2327,7 +2406,7 @@ function startsHTML(){
   return `<section id="starts"><h2>${T("navStarts")}</h2><p class="lede">${T("startsLede")}</p>
     <div class="starts-grid">${cards}</div>
     <section class="block glass starts-how"><h3>${T("startsHow")}</h3>
-      <ol><li>${T("startsHow1")}</li><li>${T("startsHow2")}</li><li>${T("startsHow3")}</li><li>${T("startsHow4")}</li></ol>
+      <ol><li>${T("startsHow1")}</li><li>${T("startsHow2")}</li><li>${T("startsHow3")}</li></ol>
     </section>
   </section>`;
 }
@@ -2423,6 +2502,24 @@ function dlBtn(it, small){
   if(!it.f) return `<span class="dl-btn${small?" small":""} soon"><span aria-hidden="true">${it.ic}</span>${esc(tr(it.n))} · ${T("soon")}</span>`;
   return `<a class="dl-btn${small?" small":""}" href="${esc(it.f)}" download><span aria-hidden="true">${it.ic}</span>${esc(tr(it.n))}</a>`;
 }
+const SITE_UPD = "2026-09-20";
+function creditsHTML(){
+  const A = ABOUT, me = A.channels && A.channels[0];
+  return `<footer class="credits">
+    <div class="cr-in">
+      <div class="cr-l"><b>STELLAR FLEET · EREBUS</b>
+        <span>${T("crAuthor")} «Эреб». ${T("crBy")} ${me?`<a href="${esc(me.url)}" target="_blank" rel="noopener">${esc(me.title)}</a>`:""}.</span>
+        <span class="cr-s">${T("crLocal")} ${T("crUpd")}: ${SITE_UPD}.</span></div>
+      <button class="egg" id="eggBtn" aria-label="?">
+        <svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="4" y="2" width="8" height="2"/><rect x="3" y="4" width="10" height="7"/>
+          <rect x="5" y="6" width="2" height="2" class="e-eye"/><rect x="9" y="6" width="2" height="2" class="e-eye"/>
+          <rect x="5" y="9" width="6" height="1" class="e-eye"/>
+          <rect x="2" y="11" width="12" height="1"/><rect x="6" y="12" width="4" height="2"/>
+        </svg></button>
+      <p class="egg-say" id="eggSay" hidden>${T("eggLine")}</p>
+    </div></footer>`;
+}
 function filesHTML(){
   return `<section class="files-block"><h3 class="sub-h">${T("filesH")}</h3>
     <p class="lede small">${T("filesLede")}</p>
@@ -2449,10 +2546,10 @@ function cardsGallery(){
 function setupHTML(){
   const toc = [["set-lore","setLore"],["set-tg","setTg"],["set-rx","setRx"]];
   return `<section id="setup"><h2>${T("navSetup")}</h2>
+    ${briefHTML({src:"assets/ui/flick-stand.webp", speech:T("bubbleSetup"), lede:T("setupLede"), kind:"flick-wide"})}
     ${filesHTML()}
     <nav class="toc glass"><b>${T("tocH")}</b><div class="toc-row">${toc.map(([id,k],i)=>
       `<button class="toc-item" data-goto="${id}"><i>${String(i+1).padStart(2,"0")}</i>${T(k)}</button>`).join("")}</div></nav>
-    ${briefHTML({src:"assets/ui/flick-stand.webp", speech:T("bubbleSetup"), lede:T("setupLede"), kind:"flick-wide"})}
     <h3 class="sub-h" id="set-lore">${T("setLore")}</h3>${stepsList(SETUP)}
     <h3 class="sub-h" id="set-tg">${T("setTg")}</h3>${stepsList(SETUP_TG)}
     <h3 class="sub-h" id="set-rx">${T("setRx")}</h3>${stepsList(SETUP_RX)}
@@ -2461,6 +2558,7 @@ function setupHTML(){
 
 /* ---------- плейлисты ---------- */
 const SPOT_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1DB954"/><path d="M6.6 9.3c3.6-1.1 7.9-.8 11 1M7.2 12.4c3-.9 6.5-.6 9.1.9M7.9 15.3c2.4-.6 5-.4 7.1.8" stroke="#08130c" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>';
+const LOCK_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.4"/></svg>`;
 const KEEP_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M2 5.5h20V9H2z"/><path d="M12 5.5V21"/><path d="M12 5.5C10.5 2 7 2 7 4s3 1.5 5 1.5c2 0 5 .5 5-1.5s-3.5-2-5 1.5"/></svg>`;
 function playlistHTML(id, title, compact){
   const pid = PLAYLISTS[id];
@@ -2474,6 +2572,7 @@ function playlistHTML(id, title, compact){
 }
 
 /* ---------- терминал КАСС ---------- */
+function lbX(){ return `<button class="lb-x" data-lbclose aria-label="${T("close")}">✕</button>`; }
 function cassTermHTML(){
   return `<div class="cass-term" aria-label="CASS">
     <span class="ct-scan" aria-hidden="true"></span>
@@ -2801,8 +2900,9 @@ function render(){
     guide: guideHTML, stuck: stuckHTML, setup: setupHTML,
     starts: startsHTML, crew: crewHTML, npc: npcHTML, ship: shipHTML, station: stationHTML, world: worldHTML, about: aboutHTML,
   };
-  $("#main").innerHTML = views[r]() + pagerHTML(r) + `<footer>${T("footer")}</footer>`;
-  document.title = (r==="home" ? "" : T(NAVK[r]) + " · ") + "Erebus — " + T("brandSub");
+  $("#main").innerHTML = views[r]() + pagerHTML(r) + creditsHTML();
+  const bs=$("#brandSub"); if(bs) bs.textContent = T("brandSub");
+  document.title = (r==="home" ? "" : T(NAVK[r]) + " · ") + "Stellar Fleet — Erebus";
   document.querySelectorAll("main section").forEach(s => { s.classList.add("rv"); if(S.seen.has(r+s.id)) s.classList.add("in"); });
   if(!S.booted){ setTimeout(typeStatus, 2600); } else document.querySelectorAll(".dossier a").forEach(x=>x.style.animation="none");
   S.fresh = null;
@@ -2835,9 +2935,11 @@ document.addEventListener("click", e => {
   if(e.target.closest("#menuBtn")){ document.body.classList.toggle("menu-open"); $("#menuBtn").setAttribute("aria-expanded", document.body.classList.contains("menu-open")); return; }
   if(e.target.closest("#topnav a")) document.body.classList.remove("menu-open");
   const z = e.target.closest("img[data-zoom]");
-  if(z){ const lb=$("#lb"); lb.classList.toggle("wide", !z.closest(".ph")); lb.innerHTML=`<figure style="margin:0"><img src="${esc(z.dataset.zoom)}" alt="${esc(z.dataset.name)}"><figcaption><b>${esc(z.dataset.name)}</b><button class="btn ghost" data-lbclose>${T("close")}</button></figcaption></figure>`; lb.showModal(); return; }
+  if(z){ const lb=$("#lb"); lb.classList.toggle("wide", !z.closest(".ph"));
+    lb.innerHTML=`${lbX()}<figure style="margin:0"><img src="${esc(z.dataset.zoom)}" alt="${esc(z.dataset.name)}"><figcaption><b>${esc(z.dataset.name)}</b></figcaption></figure>`;
+    lb.showModal(); return; }
   if(e.target.closest("[data-lbclose]") || e.target.id==="lb"){ $("#lb").close(); return; }
-  const t = e.target.closest("button,[data-ship],[data-station],[data-mapreveal],[data-star],.person.openable,[data-open],[data-reveal]"); if(!t) return;
+  const t = e.target.closest("button,[data-ship],[data-station],[data-mapreveal],[data-star],.person.openable,[data-open],[data-reveal],[data-spoiler],[data-goto]"); if(!t) return;
   const d = t.dataset;
   if(d.seg){ const n=+d.seg;
     if(n <= S.stage) return setStage(n);
@@ -2852,6 +2954,7 @@ document.addEventListener("click", e => {
   else if(d.poke){ poke(d.poke); }
 
   else if(d.copy){ copy(d.copy); }
+  else if(t.hasAttribute && t.hasAttribute("data-spoiler")){ t.classList.add("open"); t.removeAttribute("data-spoiler"); }
   else if(d.copyid){ copy(COPY[d.copyid]); }
   else if(d.goto){ document.getElementById(d.goto)?.scrollIntoView({behavior:"smooth",block:"start"}); }
   else if(d.open){
@@ -2868,9 +2971,14 @@ document.addEventListener("click", e => {
     const keeps = its.length ? `<section class="keeps glass"><div class="pl-head"><span class="pl-ic">${KEEP_ICON}</span><b>${T("keepsakes")}</b></div>
       <div class="keep-grid">${its.map((it,k)=>`<figure class="keep" style="--d:${k*.18}s"><div class="keep-stage">
         <img src="${esc(it.img)}" alt="${esc(tr(it.t))}" onerror="this.closest('.keep').remove()"></div><figcaption>${esc(tr(it.t))}</figcaption></figure>`).join("")}</div></section>` : "";
-    lb.innerHTML = `<div class="bio">${p.term ? cassTermHTML() : `<img src="${esc(p.photo)}" alt="${esc(tr(p.name))}">`}<div class="bio-t"><div class="plate static"><h3>${esc(tr(p.name))}</h3><span class="role">${esc(tr(p.role))}</span></div>
+    const dp = DEEP[p.id];
+    const deep = dp ? `<section class="deep glass"><div class="pl-head"><span class="pl-ic">${LOCK_ICON}</span><b>${T("deepH")}</b><i class="deep-hint">${T("deepHint")}</i></div>
+      <div class="deep-body" data-spoiler>
+        <p><b>${T("deepF")}.</b> ${esc(tr(dp.f))}</p>
+        <p><b>${T("deepS")}.</b> ${esc(tr(dp.s))}</p></div></section>` : "";
+    lb.innerHTML = lbX() + `<div class="bio">${p.term ? cassTermHTML() : `<img src="${esc(p.photo)}" alt="${esc(tr(p.name))}">`}<div class="bio-t"><div class="plate static"><h3>${esc(tr(p.name))}</h3><span class="role">${esc(tr(p.role))}</span></div>
       ${p.meta?`<p class="meta">${p.meta.map(m=>`<span>${esc(tr(m))}</span>`).join("")}</p>`:""}<p class="tagline">${esc(tr(p.tag))}</p>
-      ${(Array.isArray(p.about)?p.about:[p.about]).map(x=>`<p>${esc(tr(x))}</p>`).join("")}${keeps}${playlistHTML(p.id)}<button class="btn ghost" data-lbclose>${T("close")}</button></div></div>`;
+      ${(Array.isArray(p.about)?p.about:[p.about]).map(x=>`<p>${esc(tr(x))}</p>`).join("")}${deep}${keeps}${playlistHTML(p.id)}</div></div>`;
     lb.showModal(); cassInit(); return;
   }
   else if(d.hidecard){ S.cards.delete(d.hidecard); store.set("cards",[...S.cards]); render(); }
@@ -2886,6 +2994,7 @@ document.addEventListener("click", e => {
   else if(t.id==="clearTicks"){ ask({ tone:"danger", title:T("askResetT"), text:T("clearConfirm"), ok:T("askYes") }).then(ok => { if(ok){ S.ticks.clear(); S.rescue.clear(); store.set("ticks",[]); store.set("rescue",[]); render(); } }); }
   else if(t.id==="wizOpen"){ openWizard(); }
   else if(t.id==="resetAll"){ ask({ tone:"danger", title:T("askResetT"), text:T("resetConfirm"), ok:T("askYes") }).then(ok => { if(ok){ S.ticks.clear(); S.rescue.clear(); S.hints={}; S.cards.clear(); store.set("cards",[]); S.mapOpen.clear(); store.set("mapOpen",[]); store.set("ticks",[]); store.set("rescue",[]); store.set("hints",{}); prevStage=1; S.stage=1; store.set("stage",1); render(); } }); }
+  else if(t.id==="eggBtn"){ const e=$("#eggSay"); if(e){ e.hidden=false; e.classList.remove("shake"); void e.offsetWidth; e.classList.add("shake"); } t.classList.add("spin"); setTimeout(()=>t.classList.remove("spin"),700); }
   else if(t.id==="langBtn"){ S.lang = S.lang==="ru"?"en":"ru"; store.set("lang",S.lang); render(); }
 });
 document.addEventListener("keydown", e => {
