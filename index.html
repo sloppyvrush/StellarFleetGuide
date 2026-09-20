@@ -46,11 +46,11 @@ button{font:inherit;color:inherit;cursor:pointer}
 
 /* ---------- top bar ---------- */
 .bar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 72%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.bar-in{max-width:1240px;margin:0 auto;padding:.55rem 1.25rem;display:flex;gap:1rem;align-items:center;position:relative}
-.brand{font:600 1.15rem/1 var(--f-head);letter-spacing:.22em;text-decoration:none;color:var(--ink);white-space:nowrap;display:flex;align-items:center;gap:.6rem}
+.bar-in{max-width:1240px;margin:0 auto;padding:.55rem 1.25rem;display:flex;gap:.8rem;align-items:center;position:relative;min-width:0}
+.brand{font:600 1.15rem/1 var(--f-head);letter-spacing:.22em;text-decoration:none;color:var(--ink);white-space:nowrap;display:flex;align-items:center;gap:.6rem;flex:none}
 .brand .dot{width:.55rem;height:.55rem;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber);animation:beacon 2.4s ease-in-out infinite}
 .brand small{font:400 .8rem var(--f-body);letter-spacing:0;color:var(--muted)}
-.bar-tools{margin-left:auto;display:flex;gap:.4rem;align-items:center}
+.bar-tools{margin-left:auto;display:flex;gap:.4rem;align-items:center;flex:none}
 .mini{background:var(--panel2);border:1px solid var(--line);border-radius:7px;padding:.3rem .65rem;font-size:.85rem}
 .mini:hover{border-color:var(--line2)}
 .stage-pill{font:500 .85rem var(--f-body);background:var(--amber-soft);color:var(--amber);border:1px solid rgba(242,169,63,.35);border-radius:999px;padding:.25rem .75rem;white-space:nowrap;text-decoration:none}
@@ -162,15 +162,15 @@ dialog[open]{animation:pop .3s cubic-bezier(.2,.7,.2,1)}
 dialog::backdrop{background:rgba(4,9,12,.7);backdrop-filter:blur(4px)}
 dialog h3{margin:0 0 .6rem;font-size:1.5rem}
 .wiz-prog{display:flex;gap:.3rem;margin-bottom:1rem}.wiz-prog i{flex:1;height:3px;border-radius:2px;background:var(--line)}.wiz-prog i.on{background:var(--amber);box-shadow:0 0 8px var(--amber)}
-#lb{max-width:min(92vw,720px);padding:.6rem}
-.lb-x{position:sticky;top:0;float:right;z-index:30;margin:-.2rem -.2rem .2rem .6rem;width:2.2rem;height:2.2rem;flex:none;
+#lb{max-width:min(92vw,720px);padding:.6rem;position:relative}
+.lb-x{position:absolute;top:.55rem;right:.55rem;z-index:30;margin:0;width:2.2rem;height:2.2rem;flex:none;
   display:grid;place-items:center;border-radius:50%;cursor:pointer;font-size:1.05rem;line-height:1;
   background:rgba(8,14,18,.82);color:var(--ink);border:1px solid var(--line2);backdrop-filter:blur(6px);
   transition:background .2s,border-color .2s,transform .15s}
-.lb-x:hover{background:rgba(232,99,79,.18);border-color:var(--danger);transform:rotate(90deg)}
+.lb-x:hover{background:rgba(232,99,79,.18);border-color:var(--danger);color:#ffb3a5}
 #lb figcaption{justify-content:flex-start}
 #lb.wide{max-width:min(96vw,1300px)}
-.bio{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:1.4rem;align-items:start}
+.bio{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:1.4rem;align-items:center}
 #lb .bio img{width:100%;height:auto;border-radius:10px;aspect-ratio:auto;max-height:78vh;object-fit:contain;object-position:50% 50%}
 .bio-t{padding:.4rem .6rem .6rem 0;max-height:78vh;overflow:auto}
 .bio-t p{margin:.6rem 0;line-height:1.6}
@@ -476,22 +476,34 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;padd
 .cr-l b{font:500 .82rem var(--f-head);letter-spacing:.22em;color:var(--ink)}
 .cr-l a{color:var(--teal)}
 .cr-s{font-size:.8rem;opacity:.75}
-.egg{flex:none;width:2.6rem;height:2.6rem;padding:.3rem;border-radius:9px;cursor:pointer;background:var(--panel2);
-  border:1px solid var(--line);color:var(--muted);transition:color .25s,border-color .25s,transform .3s}
+.egg{flex:none;width:1.5rem;height:1.5rem;padding:0;border:0;background:none;cursor:pointer;color:var(--muted);
+  opacity:.14;transition:opacity .4s,color .4s}
 .egg svg{width:100%;height:100%;fill:currentColor;display:block}
 .egg .e-eye{fill:var(--bg)}
-.egg:hover{color:var(--amber);border-color:rgba(242,169,63,.5)}
-.egg.spin{transform:rotate(360deg) scale(1.12)}
-.egg-say{flex-basis:100%;margin:0;font:700 clamp(.95rem,2.4vw,1.3rem)/1.2 "Marck Script","Caveat","Segoe Script",cursive;
-  color:#f2c077;text-shadow:0 2px 10px rgba(0,0,0,.6);transform:rotate(-1.5deg)}
-.egg-say.shake{animation:egg-shake .5s ease-in-out}
-@keyframes egg-shake{0%,100%{transform:rotate(-1.5deg)}25%{transform:rotate(1.5deg) translateX(3px)}50%{transform:rotate(-2.5deg) translateX(-3px)}75%{transform:rotate(1deg) translateX(2px)}}
+.egg:hover{opacity:.55;color:var(--amber)}
+.egg-say{flex-basis:100%;display:flex;align-items:center;gap:.6rem;margin:.2rem 0 0;
+  font:700 clamp(.9rem,2.2vw,1.2rem)/1.2 "Marck Script","Caveat","Segoe Script",cursive;
+  color:#f2c077;text-shadow:0 0 12px rgba(242,192,119,.35)}
+.egg-say>span{animation:egg-glitch 2.6s steps(1) infinite}
+.egg-say.shake>span{animation:egg-in .5s ease-out, egg-glitch 2.6s steps(1) .5s infinite}
+.egg-x{flex:none;background:none;border:0;color:var(--muted);cursor:pointer;font-size:.8rem;opacity:.6;padding:.2rem}
+.egg-x:hover{opacity:1;color:var(--danger)}
+@keyframes egg-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@keyframes egg-glitch{
+  0%,88%,100%{opacity:1;transform:none;text-shadow:0 0 12px rgba(242,192,119,.35)}
+  89%{opacity:.35;transform:translateX(-2px) skewX(6deg)}
+  90%{opacity:1;transform:translateX(2px);text-shadow:-2px 0 rgba(98,214,200,.8),2px 0 rgba(232,99,79,.7)}
+  91%{opacity:.5;transform:translateX(-1px) skewX(-4deg)}
+  92%{opacity:1;transform:none}
+  95%{opacity:.7;text-shadow:1.5px 0 rgba(232,99,79,.6)}
+  96%{opacity:1}}
+.cr-copy{margin:1.3rem 0 0;font:500 .74rem var(--f-mono);letter-spacing:.08em;color:var(--muted);opacity:.7}
 /* шапка */
 .brand{gap:.55rem}
 .brand-t{font:600 1.05rem/1 var(--f-head);letter-spacing:.2em}
 .brand-s{font:500 .6rem/1 var(--f-mono);letter-spacing:.1em;color:var(--muted);text-transform:uppercase;align-self:center;
   padding-left:.55rem;border-left:1px solid var(--line2);white-space:nowrap}
-@media (max-width:900px){.brand-s{display:none}}
+@media (max-width:1280px){.brand-s{display:none}}
 
 /* ---------- reveal ---------- */
 .rv{opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
@@ -521,7 +533,8 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;padd
 #topnav a{color:var(--muted);text-decoration:none;font-size:.88rem;padding:.35rem .5rem;border-radius:7px;white-space:nowrap;transition:color .2s,background .2s}
 #topnav a:hover{color:var(--ink);background:var(--panel2)}
 @media (max-width:1520px){#topnav a{font-size:.82rem;padding:.3rem .36rem}.nav-sep{margin:0 .22rem}}
-@media (max-width:1330px){#topnav a{font-size:.78rem;padding:.26rem .28rem}#pill{font-size:.72rem;padding:.26rem .55rem}}
+#topnav a{font-size:.8rem;padding:.26rem .32rem}
+#pill{font-size:.72rem;padding:.26rem .55rem}
 #topnav a.on{color:var(--ink);background:var(--amber-soft);box-shadow:inset 0 -2px 0 var(--amber)}
 .nav-sep{width:1px;height:1.2rem;background:var(--line2);margin:0 .35rem}
 .nav-g{display:none;font:500 .72rem var(--f-body);color:var(--muted);letter-spacing:.08em;text-transform:uppercase;padding:.8rem .6rem .2rem}
@@ -836,6 +849,8 @@ main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
   .block ol,.card ol{padding-left:1.4rem}
 }
 .sub-h{margin-left:0}
+.sub-h.c{text-align:center}
+.lede.c{text-align:center;margin-left:auto;margin-right:auto}
 /* ---------- интерактивная карта станции ---------- */
 .map-wrap{padding:0;overflow:hidden;position:relative;background:radial-gradient(ellipse at 50% 20%,#132029,#080e13 72%)}
 .station-map{display:block;width:100%;height:auto}
@@ -1237,7 +1252,7 @@ const UI = {
   dStation: L("Разрез станции «Эреб» — уровни открываются по мере прохождения.", "A cross-section of Erebus station — levels open as you progress."),
   dWorld: L("Карта Содружества, места из прошлого персонажей и устройство мира.", "The Commonwealth map, places from the characters' pasts and how the world works."),
   prev: L("Назад", "Back"), next: L("Дальше", "Next"),
-  brandSub: L("учебное пособие · допуск экипажа", "training manual · crew clearance"),
+  brandSub: L("учебное пособие", "training manual"),
   heroTitle: L("Потерялись на станции «Эреб»?", "Lost on Erebus?"),
   status: L("Связь со станцией «Эреб» потеряна · сигнал бедствия принят", "Contact with Erebus lost · distress signal received"),
   zoom: L("Открыть портрет", "Open portrait"),
@@ -1260,6 +1275,7 @@ const UI = {
   filesH: L("Скачать","Downloads"),
   filesLede: L("Всё, что нужно для игры.","Everything you need to play."),
   dl: L("Скачать","Download"),
+  dlAll: L("все четыре файла","all four files"),
   soon: L("скоро","soon"),
   copyToggle: L("Скопировать текст тогла","Copy the prompt text"),
   cardsH: L("Как выглядят улики","What the records look like"),
@@ -1353,10 +1369,10 @@ const UI = {
   yes: L("Да", "Yes"), no: L("Нет", "No"), close: L("Закрыть", "Close"),
   wizResult: L("Похоже, вы на этапе {n}.", "Looks like you're at stage {n}."),
   wizApply: L("Выставить этап {n}", "Set stage {n}"),
-  crAuthor: L("Гайд к ролевому боту","A guide to the roleplay bot"),
-  crBy: L("Собрала","Made by"),
+  crAbout: L("Информационный сайт для ролевого бота Stellar Fleet.","An information site for the Stellar Fleet roleplay bot."),
+  crBy: L("Автор","Author"),
   crLocal: L("Этап и отметки хранятся только в этом браузере.","Your stage and ticks are stored in this browser only."),
-  crUpd: L("Обновлено","Updated"),
+  eggHide: L("скрыть","hide"),
   eggLine: L("ПОМОГИТЕ Я СОШЛА С УМА ПОКА ПИСАЛА ВСЁ ЭТО!!!!","HELP I LOST MY MIND WRITING ALL OF THIS!!!!"),
   eggHint: L("нажми","tap me"),
   footer: L("Фанатский гайд к ролевому боту Erebus. Сайт хранит ваш этап и отметки только в этом браузере.", "A fan guide to the Erebus roleplay bot. Your stage and ticks are stored only in this browser."),
@@ -1545,15 +1561,7 @@ const FILES = [
   { id:"cardv", ic:"🔗", n:L("Карточка бота: под векторизацию","Bot card: for vector search"), f:"", soon:true,
     s:L("То же самое, но записи помечены для Vector Storage. Нужна, только если расширение настроено.","The same card, with entries marked for Vector Storage. Only if that extension is set up.") },
   { id:"rxall", ic:"🎨", n:L("Оформление улик","Record styling"), f:"downloads/erebus-regex-all.zip",
-    s:L("Все четыре файла сразу: записка, аудио, видео, терминал.","All four files at once: paper note, audio, video, terminal.") },
-  { id:"note", ic:"📄", n:L("Оформление: записка","Styling: paper note"), f:"downloads/regex-erebus-note.json",
-    s:L("Рукописный лист с рваными краями.","A handwritten sheet with torn edges.") },
-  { id:"audio", ic:"🎧", n:L("Оформление: аудио","Styling: audio"), f:"downloads/regex-erebus-audio.json",
-    s:L("Панель воспроизведения с расшифровкой.","A playback panel with a transcript.") },
-  { id:"video", ic:"🎞", n:L("Оформление: видео","Styling: video"), f:"downloads/regex-erebus-video.json",
-    s:L("Кадр с камеры и две дорожки.","A camera frame and two tracks.") },
-  { id:"terminal", ic:"🖥", n:L("Оформление: терминал","Styling: terminal"), f:"downloads/regex-erebus-terminal.json",
-    s:L("Зелёный экран станции.","The station's green screen.") },
+    s:L("Один архив со всеми четырьмя файлами: записка, аудио, видео и терминал.","One archive with all four files: paper note, audio, video and terminal.") },
 ];
 
 /* ---------------- ТЕРМИНАЛ КАСС ---------------- */
@@ -2500,16 +2508,17 @@ function stuckHTML(){
 function fileById(id){ return FILES.find(x => x.f.indexOf("regex-erebus-"+id+".json") > -1); }
 function dlBtn(it, small){
   if(!it.f) return `<span class="dl-btn${small?" small":""} soon"><span aria-hidden="true">${it.ic}</span>${esc(tr(it.n))} · ${T("soon")}</span>`;
-  return `<a class="dl-btn${small?" small":""}" href="${esc(it.f)}" download><span aria-hidden="true">${it.ic}</span>${esc(tr(it.n))}</a>`;
+  return `<a class="dl-btn${small?" small":""}" href="${esc(it.f)}" download><span aria-hidden="true">${it.ic}</span>${esc(tr(it.n))}${small?" · "+T("dlAll"):""}</a>`;
 }
 const SITE_UPD = "2026-09-20";
 function creditsHTML(){
   const A = ABOUT, me = A.channels && A.channels[0];
   return `<footer class="credits">
     <div class="cr-in">
-      <div class="cr-l"><b>STELLAR FLEET · EREBUS</b>
-        <span>${T("crAuthor")} «Эреб». ${T("crBy")} ${me?`<a href="${esc(me.url)}" target="_blank" rel="noopener">${esc(me.title)}</a>`:""}.</span>
-        <span class="cr-s">${T("crLocal")} ${T("crUpd")}: ${SITE_UPD}.</span></div>
+      <div class="cr-l">
+        <span>${T("crAbout")}</span>
+        <span>${T("crBy")} — Sloppy${me?` <a href="${esc(me.url)}" target="_blank" rel="noopener">${esc(me.title)}</a>`:""}</span>
+        <span class="cr-s">${T("crLocal")}</span></div>
       <button class="egg" id="eggBtn" aria-label="?">
         <svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
           <rect x="4" y="2" width="8" height="2"/><rect x="3" y="4" width="10" height="7"/>
@@ -2517,8 +2526,9 @@ function creditsHTML(){
           <rect x="5" y="9" width="6" height="1" class="e-eye"/>
           <rect x="2" y="11" width="12" height="1"/><rect x="6" y="12" width="4" height="2"/>
         </svg></button>
-      <p class="egg-say" id="eggSay" hidden>${T("eggLine")}</p>
-    </div></footer>`;
+      <p class="egg-say" id="eggSay" hidden><span>${T("eggLine")}</span><button class="egg-x" id="eggHide" aria-label="${T("eggHide")}">✕</button></p>
+    </div>
+    <p class="cr-copy">© Stellar Fleet Guide · ${SITE_UPD}</p></footer>`;
 }
 function filesHTML(){
   return `<section class="files-block"><h3 class="sub-h">${T("filesH")}</h3>
@@ -2682,8 +2692,8 @@ function personHTML(p){
 function crewHTML(){
   return `<section id="crew"><h2>${T("navCrew")}</h2><p class="lede">${T("crewLede")}</p>
     <h3 class="sub-h">${T("crewH")}</h3><div class="people">${CREW.map(personHTML).join("")}</div>
-    <h3 class="sub-h">${T("aboardH")}</h3><div class="people">${ABOARD.map(personHTML).join("")}</div>
-    ${PLAYLISTS.crew ? `<h3 class="sub-h">${T("plCrew")}</h3><p class="lede">${T("plCrewLede")}</p>
+    <h3 class="sub-h c">${T("aboardH")}</h3><div class="people">${ABOARD.map(personHTML).join("")}</div>
+    ${PLAYLISTS.crew ? `<h3 class="sub-h c">${T("plCrew")}</h3><p class="lede c">${T("plCrewLede")}</p>
       <div class="pl-wrap">${playlistHTML("crew", UI.plCrew)}</div>` : ""}
 
 </section>`;
@@ -2994,7 +3004,8 @@ document.addEventListener("click", e => {
   else if(t.id==="clearTicks"){ ask({ tone:"danger", title:T("askResetT"), text:T("clearConfirm"), ok:T("askYes") }).then(ok => { if(ok){ S.ticks.clear(); S.rescue.clear(); store.set("ticks",[]); store.set("rescue",[]); render(); } }); }
   else if(t.id==="wizOpen"){ openWizard(); }
   else if(t.id==="resetAll"){ ask({ tone:"danger", title:T("askResetT"), text:T("resetConfirm"), ok:T("askYes") }).then(ok => { if(ok){ S.ticks.clear(); S.rescue.clear(); S.hints={}; S.cards.clear(); store.set("cards",[]); S.mapOpen.clear(); store.set("mapOpen",[]); store.set("ticks",[]); store.set("rescue",[]); store.set("hints",{}); prevStage=1; S.stage=1; store.set("stage",1); render(); } }); }
-  else if(t.id==="eggBtn"){ const e=$("#eggSay"); if(e){ e.hidden=false; e.classList.remove("shake"); void e.offsetWidth; e.classList.add("shake"); } t.classList.add("spin"); setTimeout(()=>t.classList.remove("spin"),700); }
+  else if(t.id==="eggHide"){ const e=$("#eggSay"); if(e) e.hidden=true; }
+  else if(t.id==="eggBtn"){ const e=$("#eggSay"); if(e){ e.hidden=false; e.classList.remove("shake"); void e.offsetWidth; e.classList.add("shake"); } }
   else if(t.id==="langBtn"){ S.lang = S.lang==="ru"?"en":"ru"; store.set("lang",S.lang); render(); }
 });
 document.addEventListener("keydown", e => {
