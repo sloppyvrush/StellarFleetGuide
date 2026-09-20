@@ -869,6 +869,33 @@ main section.in .mscan{animation:m-scan 7s linear infinite}
 @keyframes kp-float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-10px) rotate(3deg)}}
 @media (max-width:720px){.keep-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.keep:last-child:nth-child(odd){grid-column:1/-1}.keep-stage{height:160px}#lb .keep img{max-height:140px}}
 @media (prefers-reduced-motion:reduce){.keep,#lb .keep img{animation:none!important;opacity:1}}
+/* ---------- файлы, код, галерея карточек ---------- */
+.lede.small{font-size:.92rem;margin-top:-.2rem}
+.files-block{margin-top:2.2rem}
+.fl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.8rem}
+.fl-card{display:flex;flex-direction:column;gap:.3rem;padding:1rem 1.1rem 1.1rem;position:relative}
+.fl-card>*{position:relative;z-index:1}
+.fl-ic{font-size:1.5rem;line-height:1}
+.fl-card b{font:500 1.02rem var(--f-head);letter-spacing:.02em}
+.fl-s{color:var(--muted);font-size:.85rem;line-height:1.45;flex:1;margin-bottom:.5rem}
+.dl-btn{display:inline-flex;align-items:center;gap:.45rem;align-self:flex-start;text-decoration:none;
+  font:500 .84rem var(--f-mono);letter-spacing:.04em;color:var(--ink);padding:.4rem .85rem;border-radius:8px;
+  border:1px solid rgba(98,214,200,.45);background:var(--teal-soft);transition:background .2s,border-color .2s,transform .15s}
+.dl-btn:hover{background:rgba(98,214,200,.2);border-color:var(--teal);transform:translateY(-1px)}
+.dl-btn.small{font-size:.78rem;padding:.32rem .7rem}
+.dl-row{display:flex;flex-wrap:wrap;gap:.45rem;margin:.7rem 0 .2rem}
+.fl-more{margin:1rem 0 0;color:var(--muted);font-size:.9rem}
+.fl-more .linkbtn{margin-left:.4rem;color:var(--teal);white-space:nowrap}
+.code-lbl{margin:.9rem 0 .3rem;font:500 .74rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.code-box{position:relative;border:1px solid var(--line);border-radius:10px;background:var(--panel2);padding:.7rem .8rem .7rem}
+.code-box pre{margin:0;padding-right:5.5rem;font:500 .8rem/1.55 var(--f-mono);color:#bfe9e2;white-space:pre-wrap;word-break:break-word;max-height:16rem;overflow:auto}
+.code-box .mini{position:absolute;top:.5rem;right:.5rem}
+.tg-copy{margin-top:.9rem}
+.cards-gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:.8rem 0 1.6rem}
+.cards-gal figure{margin:0}
+.cards-gal img{width:100%;height:auto;border-radius:10px;border:1px solid var(--line);display:block}
+.cards-gal figcaption{margin-top:.4rem;font:500 .76rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center}
+@media (max-width:620px){.fl-grid{grid-template-columns:1fr}.code-box pre{padding-right:0;padding-top:1.8rem}}
 /* ---------- npc и угрозы ---------- */
 .npc-locked .mono-fb{color:rgba(98,214,200,.55);background:radial-gradient(ellipse at 50% 40%,rgba(98,214,200,.12),transparent 65%)}
 .npc-locked{border-color:rgba(98,214,200,.28)}
@@ -1156,7 +1183,18 @@ const UI = {
   pill: L("Допуск: этап", "Clearance: stage"),
   navGuide: L("Прохождение", "Walkthrough"),
   navStuck: L("Застряли?", "Stuck?"),
-  navSetup: L("Настройка SillyTavern", "SillyTavern setup"),
+  navSetup: L("Настройка", "Setup"),
+  setupST: L("SillyTavern — основное","SillyTavern — the basics"),
+  setupRx: L("Оформление записей","Records as cards"),
+  setupTg: L("Тогл с генератором записей","The record generator prompt"),
+  setupTavo: L("Tavo","Tavo"),
+  filesH: L("Скачать","Downloads"),
+  filesLede: L("Всё, что нужно для игры. Файлы кладутся в SillyTavern или Tavo — как именно, написано в «Настройке».","Everything you need to play. The files go into SillyTavern or Tavo — the Setup page explains how."),
+  filesMore: L("Подробные настройки — на странице «Настройка»","Step-by-step instructions are on the Setup page"),
+  filesGo: L("Открыть настройку →","Open Setup →"),
+  dl: L("Скачать","Download"),
+  copyToggle: L("Скопировать текст тогла","Copy the prompt text"),
+  cardsH: L("Как это выглядит","What it looks like"),
   navCodex: L("Кодекс", "Codex"),
   navCrew: L("Экипаж и люди", "Crew & people"),
   navShip: L("«Кассандра»", "The Cassandra"),
@@ -1353,6 +1391,85 @@ const ITEMS = {
     { img:"assets/items/flick-spring.webp",    t:L("Пружина, которая теперь его","A spring that's his now") },
   ],
 };
+
+
+/* ---------------- НАСТРОЙКА: ОФОРМЛЕНИЕ, ТОГЛ, TAVO ---------------- */
+const SETUP_RX = [
+  { h:L("Скачайте четыре файла оформления","Download the four card scripts"),
+    p:L("Записка, аудио, видео и терминал — каждый отдельный скрипт. Можно поставить не все: без файла запись просто останется обычным текстом.","Paper note, audio, video and terminal — one script each. You don't need all four: without a file, that record simply stays plain text."),
+    files:["note","audio","video","terminal"] },
+  { h:L("Импортируйте их","Import them"),
+    p:L("Extensions (кубик вверху) → Regex → Import, по одному файлу за раз. После импорта скрипты появятся в списке и сразу заработают.","Extensions (the cube at the top) → Regex → Import, one file at a time. They show up in the list and start working right away.") },
+  { h:L("Проверьте два переключателя","Check two switches"),
+    p:L("Остальные галочки не нужны. Смысл в том, что карточка рисуется только у вас на экране: модель её не видит и не пытается повторить вёрстку.","No other checkboxes are needed. The point is that the card is drawn only on your screen: the model never sees the markup and doesn't try to imitate it."),
+    table:[[L("Где применять","Affects"),L("Только ответы бота (AI output)","AI output only")],
+           [L("Только для отображения","Only format display"),L("Включено","On")]] },
+  { h:L("Как это работает","How it works"),
+    p:L("Бот выводит блок с тегами — скрипт находит его и заменяет карточкой. Сравните: слева то, что пишет модель, справа то, что ищет скрипт.","The bot writes a tagged block; the script finds it and swaps in the card. Below: what the model writes, and the pattern that catches it."),
+    code:[["exBlock",L("Что выводит бот","What the bot writes")],["exRegex",L("Что ищет скрипт (поле Find Regex у записки)","What the script looks for (the note's Find Regex field)")]] },
+  { h:L("Проверьте на живом примере","Try it live"),
+    p:L("Вставьте это в чат. Должна появиться карточка записки.","Paste this into the chat. A note card should appear."),
+    code:[["ooc",L("Проверочная команда","Test command")]] },
+  { h:L("Если карточки нет","If no card appears"),
+    p:L("Три поломки выглядят по-разному. Видите блок с тегами <erebus_note> — скрипт не сработал: проверьте, что он включён и стоит на ответах бота. Видите текст с <div style=…> — скрипт сработал, но движок не рисует HTML. Карточка есть, но бледная и без штампа — часть оформления вырезана, и это уже мелочь.","The three failures look different. You see the raw <erebus_note> block — the script didn't fire: check that it's enabled and set to AI output. You see text starting with <div style=…> — the script fired but the client doesn't render HTML. The card appears but looks plain — some styling was stripped, which is cosmetic.") },
+];
+
+const SETUP_TG = [
+  { h:L("Что это такое","What it is"),
+    p:L("Тогл — блок инструкций, который лежит в пресете и включается галочкой. Он говорит боту, когда уместно найти запись, что в ней можно раскрывать, а что рано, и в каком виде её вывести — именно теми тегами, которые ловят скрипты оформления. Без него записи будут появляться как попало и без разметки.","The prompt is a block of instructions that lives in your preset and is switched on with a checkbox. It tells the bot when a record may plausibly be found, what it may reveal and what is too early, and how to output it — with exactly the tags the card scripts look for. Without it, records appear at random and unformatted.") },
+  { h:L("Создайте промпт в пресете","Create a prompt in your preset"),
+    p:L("Откройте настройки пресета, найдите список Prompts и нажмите + (новый промпт). Имя — любое, например «Записки».","Open your preset settings, find the Prompts list and hit + for a new prompt. Name it anything, for example \"Records\"."),
+    table:[[L("Роль","Role"),L("System","System")],
+           [L("Позиция","Position"),L("В чате, глубина 3–4","In chat, depth 3–4")],
+           [L("Галочка в списке","Checkbox in the list"),L("Включена","On")]] },
+  { h:L("Почему глубина 3–4","Why depth 3–4"),
+    p:L("Чем ближе блок к концу промпта, тем охотнее модель ему следует. В самом начале инструкция размывается, и вы получите запись без тегов, которую скрипт не поймает. Но ближе тройки стоять не стоит: на первой и второй позиции лежат правила темпа из лорбука, и толкаться с ними не надо.","The closer a block sits to the end of the prompt, the more reliably the model follows it. At the very top it gets diluted and you end up with untagged records the script can't catch. Don't go closer than 3, though: depths 1–2 hold the pacing rules from the lorebook, and they shouldn't compete.") },
+  { h:L("Вставьте текст","Paste the text"),
+    p:L("Кнопка ниже копирует его целиком. Внутри есть шаблоны с тегами — их править нельзя, скрипты оформления завязаны на точный порядок и написание полей.","The button below copies the whole thing. It contains the tag templates — don't edit those: the card scripts depend on the exact field names and order."),
+    toggle:true },
+];
+
+const SETUP_TAVO = [
+  { h:L("Лорбук — тот же файл","The lorebook — same file"),
+    p:L("Tavo понимает формат SillyTavern как есть, включая регулярные выражения в ключах. Отдельной версии не нужно: импортируйте тот же файл, что и для SillyTavern.","Tavo reads the SillyTavern format as is, regex keys included. No separate version is needed: import the same file you'd use for SillyTavern.") },
+  { h:L("Оформление записей","The card scripts"),
+    p:L("Если импорт файлов не сработает, скрипт создаётся вручную: полей всего семь, а значения берутся из файла — Find Regex и Replace With копируются целиком.","If importing the files doesn't work, a script can be made by hand: there are only seven fields, and the values come from the file — copy Find Regex and Replace With as they are."),
+    table:[[L("Область применения","Scope"),L("Сообщения персонажа","Character messages")],
+           [L("Время выполнения","Execution timing"),L("При отображении","On display")],
+           [L("Параметры замены","Replace parameters"),L("Без замены","No replace")],
+           [L("Обрезка до замены","Trim out"),L("Пусто","Empty")]] },
+  { h:L("Тогл","The generator prompt"),
+    p:L("New prompt → имя любое, Role — SYSTEM, Injection position — с глубиной 3–4. Если варианта с глубиной нет и доступен только Relative, работать будет, но следите за первыми находками: без тегов — значит, инструкция утонула.","New prompt → any name, Role SYSTEM, Injection position with a depth of 3–4. If only Relative is available it still works, but watch the first few records: untagged output means the instruction sank too far up.") },
+  { h:L("Задайте имя персоны","Set your persona name"),
+    p:L("Иначе экипаж будет обращаться к вам «User» прямо в тексте. Это не поломка лорбука, а пустое поле имени в настройках.","Otherwise the crew will address you as \"User\" in the prose. That's not a lorebook problem — it's an empty persona name in the settings.") },
+  { h:L("За чем стоит последить","What to keep an eye on"),
+    p:L("Задержки, липкость и двухслойные ключи в Tavo есть, и лорбук на них рассчитан. Если вдруг в одной сцене всплывут сразу два этапа тайны — значит, движок не поддержал группы записей; напишите об этом, это чинится настройками.","Delays, sticky and two-layer keys all exist in Tavo, and the lorebook relies on them. If two mystery stages ever surface in one scene, the engine didn't honour inclusion groups — that's fixable in settings.") },
+];
+
+/* ---------------- ТЕКСТЫ ДЛЯ КОПИРОВАНИЯ ---------------- */
+const COPY = {
+  toggle: "## EREBUS DISCOVERY GENERATOR\n\nGenerate a diegetic record only when one is plausibly discovered on Erebus. Records were made by real people or station systems inside the story, never for {{user}}. Recurring authors are fine, including minor NPCs.\n\n### INFORMATION RULES\n\nRespect current Erebus lore and established chat events. Never reveal something merely because the model knows it. When uncertain, reveal less.\n\nA record may reinforce what is known, add one small compatible clue, show another perspective, or be mistaken, biased or incomplete.\n\nA record must NOT:\n- reveal ahead of the story: hidden locations before access, the purpose of L0/LAZARUS, XENO's origin, Daniel's secret role, Protocol OBELISK before decryption;\n- confirm conspiracies or motives the story has not earned;\n- skip ahead in the investigation;\n- invent a record by Lena Arden or Elias Vale.\n\nOnly characters who read, hear or watch a record, or are told of it, know what is in it.\n\n### FIXED RECORDS\n\nLena Arden's recordings and Elias Vale's four video diaries already exist in full and are finite: quote them as written, never add to, extend or continue them. Where a location holds one, present it as it is, or let the crew find something by another author.\n\n### STYLE\n\nKeep records short, natural and incomplete. Doctors sound medical, security operational, scientists technical, engineers practical; personal logs human, terminal records bureaucratic. People may be wrong or contradict each other. Not every record is ominous: use corruption, static and damage occasionally. Choose a medium that fits the location and source.\n\n### OUTPUT\n\n1. Briefly narrate how it is found or accessed.\n2. Output exactly ONE record block.\n3. Preserve tags, field names and field order EXACTLY.\n4. Never mention prompts, Lorebook, stages, rules or hidden information.\n5. No underscores anywhere in a record.\n\nPAPER:\n<erebus_note>\nTYPE: тип\nLOCATION: место\nAUTHOR: автор\nDATE: дата\nTEXT:\nтекст\n</erebus_note>\n\nAUDIO:\n<erebus_audio>\nSTATUS: статус\nLOCATION: место\nTITLE: название\nDURATION: 00:00\nSPEAKER: говорящий\nTIME: время\nTEXT:\nрасшифровка, звуки и действия *курсивом без скобок*\n</erebus_audio>\n\nVIDEO:\n<erebus_video>\nSTATUS: статус\nLOCATION: место\nTITLE: название\nTIME: время\nSOURCE: источник\nSUBJECT: объект или НЕ ОПРЕДЕЛЁН\nFRAME:\nчто видно\nTEXT:\nрасшифровка, звуки и действия *курсивом без скобок*\n</erebus_video>\n\nTERMINAL:\n<erebus_terminal>\nACCESS: уровень доступа\nTERMINAL: терминал\nFILE: имя файла\nTYPE: тип файла\nSTATUS: статус\nAUTHOR: автор/система\nTIME: время\nTEXT:\nсодержимое\n</erebus_terminal>\n\n### CASSANDRA\n\nThe generator belongs to Erebus. Aboard the \"Cassandra\" already recovered records may be stored, replayed, copied, decrypted, restored and analyzed, but no new discovery appears there; a decrypted or restored record needs its source recovered earlier.\n\nCore rule: one discovery reveals only a small part of the mystery. Prefer a clue that raises a question over a document that explains everything.",
+  exBlock: "<erebus_note>\nTYPE: рукописная записка\nLOCATION: коридор жилого сектора\nAUTHOR: смена B, без подписи\nDATE: 09.03, вечер\nTEXT:\nВода в третьем кране опять ржавая.\nПишу третий раз. Заявка 114-Б.\n</erebus_note>",
+  exRegex: "/(?:```+\\w*\\s*)?<erebus_note>\\s*[*_]{0,2}TYPE:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}LOCATION:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}AUTHOR:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}DATE:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}TEXT:[*_]{0,2}\\s*([\\s\\S]*?)\\s*<\\/erebus_note>(?:\\s*```+)?/gi",
+  ooc: "[OOC: тест оформления. Выведи одну бумажную записку блоком <erebus_note> строго по шаблону, без пояснений до и после. Место — центральный атриум, автор — любой техник, текст в 4–5 коротких строк.]",
+};
+
+/* ---------------- ФАЙЛЫ ДЛЯ СКАЧИВАНИЯ ---------------- */
+const FILES = [
+  { ic:"📖", n:L("Лорбук","Lorebook"), f:"downloads/Erebus_Lorebook_EN_v4.json",
+    s:L("73 записи. Основной файл — подходит и SillyTavern, и Tavo.","73 entries. The main file — works in both SillyTavern and Tavo.") },
+  { ic:"🔗", n:L("Лорбук для векторного поиска","Lorebook for vector search"),
+    f:"downloads/Erebus_Lorebook_EN_v4_vector.json",
+    s:L("То же самое, но 31 запись помечена для Vector Storage. Нужен, только если расширение настроено.","The same book with 31 entries marked for Vector Storage. Only needed if that extension is set up.") },
+  { ic:"📄", n:L("Оформление: записка","Card: paper note"), f:"downloads/regex-erebus-note.json",
+    s:L("Рукописный лист с рваными краями.","A handwritten sheet with torn edges.") },
+  { ic:"🎧", n:L("Оформление: аудио","Card: audio"), f:"downloads/regex-erebus-audio.json",
+    s:L("Панель воспроизведения с расшифровкой.","A playback panel with a transcript.") },
+  { ic:"🎞", n:L("Оформление: видео","Card: video"), f:"downloads/regex-erebus-video.json",
+    s:L("Кадр с камеры и две дорожки.","A camera frame and two tracks.") },
+  { ic:"🖥", n:L("Оформление: терминал","Card: terminal"), f:"downloads/regex-erebus-terminal.json",
+    s:L("Зелёный экран станции.","The station's green screen.") },
+];
 
 /* ---------------- ТЕРМИНАЛ КАСС ---------------- */
 const CASS_TERM = {
@@ -2289,12 +2406,43 @@ function stuckHTML(){
 }
 
 /* ---------- setup ---------- */
+function fileById(id){ return FILES.find(x => x.f.indexOf("regex-erebus-"+id+".json") > -1); }
+function dlBtn(it, small){
+  return `<a class="dl-btn${small?" small":""}" href="${esc(it.f)}" download><span aria-hidden="true">${it.ic}</span>${esc(tr(it.n))}</a>`;
+}
+function filesHTML(compact){
+  return `<section class="files-block${compact?" compact":""}"><h3 class="sub-h">${T("filesH")}</h3>
+    <p class="lede small">${T("filesLede")}</p>
+    <div class="fl-grid">${FILES.map(it=>`<article class="fl-card glass glow">
+      <span class="fl-ic" aria-hidden="true">${it.ic}</span>
+      <b>${esc(tr(it.n))}</b><span class="fl-s">${esc(tr(it.s))}</span>
+      <a class="dl-btn" href="${esc(it.f)}" download>${T("dl")}</a></article>`).join("")}</div>
+    ${compact ? `<p class="fl-more">${T("filesMore")} <a class="linkbtn" href="#/setup">${T("filesGo")}</a></p>` : ""}</section>`;
+}
+function stepBody(s){
+  let o = `<h3>${esc(tr(s.h))}</h3><p>${esc(tr(s.p))}</p>`;
+  if(s.table) o += `<div class="tbl"><table><tbody>${s.table.map(r=>`<tr><th scope="row">${esc(tr(r[0]))}</th><td>${esc(tr(r[1]))}</td></tr>`).join("")}</tbody></table></div>`;
+  if(s.files) o += `<div class="dl-row">${s.files.map(id=>{const it=fileById(id); return it?dlBtn(it,true):"";}).join("")}</div>`;
+  if(s.code) o += s.code.map(([id,lbl])=>`<p class="code-lbl">${esc(tr(lbl))}</p>
+    <div class="code-box"><pre>${esc(COPY[id])}</pre><button class="mini" data-copyid="${id}">${T("copy")}</button></div>`).join("");
+  if(s.toggle) o += `<div class="tg-copy"><button class="btn amber" data-copyid="toggle">${T("copyToggle")}</button></div>`;
+  return o;
+}
+function stepsList(arr){ return `<ol class="steps">${arr.map(x=>`<li class="glass"><div>${stepBody(x)}</div></li>`).join("")}</ol>`; }
+function cardsGallery(){
+  const c = [["note",L("Записка","Paper note")],["audio",L("Аудио","Audio")],["video",L("Видео","Video")],["terminal",L("Терминал","Terminal")]];
+  return `<div class="cards-gal">${c.map(([id,n])=>`<figure><img src="assets/cards/${id}.png" alt="${esc(tr(n))}" loading="lazy" onerror="this.closest('figure').remove()"><figcaption>${esc(tr(n))}</figcaption></figure>`).join("")}</div>`;
+}
 function setupHTML(){
   return `<section id="setup"><h2>${T("navSetup")}</h2>
     ${briefHTML({src:"assets/ui/flick-stand.webp", speech:T("bubbleSetup"), lede:T("setupLede"), kind:"flick-wide"})}
-    <ol class="steps">${SETUP.map(s=>`<li class="glass"><div><h3>${esc(tr(s.h))}</h3><p>${esc(tr(s.p))}</p>
-      ${s.table ? `<div class="tbl"><table><tbody>${s.table.map(r=>`<tr><th scope="row">${esc(tr(r[0]))}</th><td>${esc(tr(r[1]))}</td></tr>`).join("")}</tbody></table></div>` : ""}
-    </div></li>`).join("")}</ol></section>`;
+    <h3 class="sub-h">${T("setupST")}</h3>${stepsList(SETUP)}
+    <h3 class="sub-h">${T("setupRx")}</h3>
+    <p class="lede small">${T("cardsH")}</p>${cardsGallery()}
+    ${stepsList(SETUP_RX)}
+    <h3 class="sub-h">${T("setupTg")}</h3>${stepsList(SETUP_TG)}
+    <h3 class="sub-h">${T("setupTavo")}</h3>${stepsList(SETUP_TAVO)}
+    ${filesHTML(false)}</section>`;
 }
 
 /* ---------- плейлисты ---------- */
@@ -2635,7 +2783,7 @@ function render(){
   renderChrome();
   const r = route();
   const views = {
-    home: () => splashHTML() + crewStripHTML() + heroHTML() + siteMapHTML(),
+    home: () => splashHTML() + crewStripHTML() + heroHTML() + siteMapHTML() + `<section class="home-block">${filesHTML(true)}</section>`,
     guide: guideHTML, stuck: stuckHTML, setup: setupHTML,
     starts: startsHTML, crew: crewHTML, npc: npcHTML, ship: shipHTML, station: stationHTML, world: worldHTML, about: aboutHTML,
   };
@@ -2690,6 +2838,7 @@ document.addEventListener("click", e => {
   else if(d.poke){ poke(d.poke); }
 
   else if(d.copy){ copy(d.copy); }
+  else if(d.copyid){ copy(COPY[d.copyid]); }
   else if(d.open){
     const id = d.open, p = [...THREATS, ...STATION_PEOPLE].find(x => x.id === id) || {};
     const spoil = p.stage && !open(p.stage) ? " " + fmt(T("revealConfirm"),{n:p.stage}).replace(/\s*[^.!]*\?$/, "") : "";

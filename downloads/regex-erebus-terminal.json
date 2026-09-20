@@ -1,0 +1,17 @@
+{
+    "id": "8201a664-8aa7-48a0-b5c0-d530ec489ff1",
+    "scriptName": "EREBUS • Terminal UI",
+    "findRegex": "/(?:```+\\w*\\s*)?<erebus_terminal>\\s*[*_]{0,2}ACCESS:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}TERMINAL:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}FILE:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}TYPE:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}STATUS:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}AUTHOR:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}TIME:[*_]{0,2}\\s*(.*?)\\s*[*_]{0,2}TEXT:[*_]{0,2}\\s*([\\s\\S]*?)\\s*<\\/erebus_terminal>(?:\\s*```+)?/gi",
+    "replaceString": "<div style=\"margin:14px 0;max-width:100%;font-family:'Courier New',monospace;background:#030806;border:1px solid #1f5b43;border-radius:6px;box-shadow:0 8px 26px #000b,0 0 18px #1c6b4930,inset 0 0 35px #000;overflow:hidden\">\n<div style=\"padding:9px 12px;background:linear-gradient(90deg,#0a261a,#06110d);border-bottom:1px solid #174c37;display:flex;justify-content:space-between;gap:10px;align-items:center\">\n<span style=\"font-size:10px;letter-spacing:1.4px;color:#76efb2;text-shadow:0 0 8px #45c88a55\">EREB.OS // DATA TERMINAL</span>\n<span style=\"font-size:9px;color:#94ffc7;border:1px solid #267451;padding:2px 6px;border-radius:2px;background:#103722\">$1</span>\n</div>\n<div style=\"padding:12px 14px;background:repeating-linear-gradient(0deg,transparent 0 3px,#8affbd05 3px 4px)\">\n<div style=\"font-size:9px;color:#3e9b70;line-height:1.7\">NODE&gt; <span style=\"color:#8feab8\">$2</span><br>FILE&gt; <span style=\"color:#8feab8\">$3</span><br>TYPE&gt; $4<br>STATE&gt; $5</div>\n<div style=\"margin:10px 0;height:1px;background:linear-gradient(90deg,#299263,transparent)\"></div>\n<div style=\"padding:10px 11px;border-left:2px solid #39b87e;background:#55ff9b08;color:#a9f3cb;font-size:11px;line-height:1.7;white-space:pre-line;text-shadow:0 0 5px #5fe29d18\">$8</div>\n<div style=\"margin-top:11px;padding-top:8px;border-top:1px dashed #174a36;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:9px;color:#4eac7d\"><span>AUTHOR&gt; <b style=\"color:#8ddbb5\">$6</b></span><span>STAMP&gt; $7</span></div>\n<div style=\"margin-top:8px;font-size:9px;color:#2f7956\">&gt; END OF RECORD<span style=\"animation:none\">_</span></div>\n</div></div>",
+    "trimStrings": [],
+    "placement": [
+        2
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}
