@@ -1036,10 +1036,14 @@ main section.in .mscan{animation:m-scan 7s linear infinite}
 .code-box pre{margin:0;padding-right:5.5rem;font:500 .8rem/1.55 var(--f-mono);color:#bfe9e2;white-space:pre-wrap;word-break:break-word;max-height:16rem;overflow:auto}
 .code-box .mini{position:absolute;top:.5rem;right:.5rem}
 .tg-copy{margin-top:.9rem}
+.gal-h{margin-top:2.8rem;padding-top:1.6rem;border-top:1px solid var(--line);display:flex;align-items:center;gap:.6rem}
+.gal-h::before{content:"";width:.4rem;height:1.15rem;border-radius:2px;background:var(--amber);box-shadow:0 0 10px var(--amber-soft);flex:none}
+.gal-lede{margin:-.4rem 0 1.1rem}
 .cards-gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,430px),1fr));gap:1.4rem 1.2rem;margin:.8rem 0 1.6rem}
 .cards-gal figure{margin:0;min-width:0}
 .cd-demo{overflow:hidden;border-radius:10px}
-.cd-demo>div{margin:0!important}
+.cd-demo>div{margin:0 auto!important}
+.cd-demo{padding-top:.35rem}
 .cd-demo i{font-style:italic}
 .cards-gal figcaption{margin-top:.4rem;font:500 .76rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center}
 @media (max-width:620px){
@@ -1196,6 +1200,16 @@ main section.in .unclear-locked .uq-q{animation:uq-blink 3.2s steps(1) infinite}
 .project{border-left:3px solid var(--amber)}
 .tg-card{display:flex;align-items:center;gap:.9rem;padding:.75rem 1rem;text-decoration:none;color:var(--ink);transition:transform .2s,border-color .2s}
 .tg-card:hover{transform:translateY(-2px);border-color:rgba(98,214,200,.5)}
+.tg-list.solo{grid-template-columns:1fr;margin:.7rem 0 .2rem}
+.tg-card.hot{position:relative;overflow:hidden;border-color:rgba(242,169,63,.55);animation:tg-pulse 3s ease-in-out infinite}
+.tg-card.hot::after{content:"";position:absolute;top:0;bottom:0;left:-45%;width:38%;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,214,150,.13),transparent);animation:tg-sweep 4.2s ease-in-out infinite}
+.tg-card.hot .tg-ic{background:linear-gradient(135deg,#f2a93f,#e8634f);box-shadow:0 6px 18px -6px rgba(242,169,63,.8)}
+.tg-card.hot .tg-go{color:var(--amber)}
+.tg-card.hot:hover{border-color:var(--amber);transform:translateY(-2px) scale(1.01)}
+@keyframes tg-pulse{0%,100%{box-shadow:0 0 0 0 rgba(242,169,63,.22)}50%{box-shadow:0 0 24px 2px rgba(242,169,63,.28)}}
+@keyframes tg-sweep{0%{left:-45%}55%,100%{left:118%}}
+@media (prefers-reduced-motion:reduce){.tg-card.hot,.tg-card.hot::after{animation:none}}
 .tg-card>*{position:relative;z-index:1}
 .tg-ic{width:2.6rem;height:2.6rem;border-radius:50%;display:grid;place-items:center;flex:none;background:linear-gradient(135deg,#37aee2,#1e96c8);color:#fff;box-shadow:0 6px 18px -6px rgba(30,150,200,.7)}
 .tg-ic svg{width:1.3rem;height:1.3rem;margin-left:-2px}
@@ -1214,9 +1228,21 @@ main section.in .unclear-locked .uq-q{animation:uq-blink 3.2s steps(1) infinite}
 .friend:hover{color:#ffb3c9}
 .thanks-t p{line-height:1.65}
 .thanks-last{font:500 1.1rem var(--f-head);color:#ffb3c9}
+.thanks-more{margin-top:.9rem;color:var(--ink);font-size:.97rem;line-height:1.6}
+.thanks-more+.thanks-more{color:var(--muted)}
 @media (max-width:700px){.thanks{grid-template-columns:1fr;text-align:left;gap:1.1rem}.thanks .brief-lbl{text-align:left}.hug{padding:0}.hug-wrap{width:min(320px,78vw)}}
 .players{margin-bottom:1rem}
-.bye{text-align:center;font:500 clamp(1.1rem,2.4vw,1.5rem) var(--f-head);color:var(--amber);margin:2.4rem auto 0;max-width:40rem;letter-spacing:.02em}
+.bye{text-align:center;margin:2.8rem auto .5rem;max-width:44rem}
+.bye span{display:inline-block;font:400 clamp(1.5rem,4vw,2.4rem)/1.35 "Marck Script","Bad Script","Caveat",cursive;
+  color:#ffd79a;text-shadow:0 0 18px rgba(242,169,63,.35);animation:bye-glitch 5.5s steps(1) infinite}
+@keyframes bye-glitch{
+  0%,86%,100%{opacity:1;transform:none;text-shadow:0 0 18px rgba(242,169,63,.35);clip-path:none}
+  87%{opacity:.5;transform:translate(-3px,1px) skewX(7deg);text-shadow:-3px 0 rgba(98,214,200,.85),3px 0 rgba(232,99,79,.8)}
+  88.5%{opacity:1;transform:translate(3px,-1px);clip-path:inset(35% 0 25% 0);text-shadow:3px 0 rgba(98,214,200,.8),-3px 0 rgba(232,99,79,.75)}
+  90%{opacity:.7;transform:translate(-2px,0) skewX(-5deg);clip-path:inset(0 0 55% 0)}
+  91.5%{opacity:1;transform:translate(1px,1px);clip-path:inset(60% 0 0 0);text-shadow:-2px 0 rgba(98,214,200,.7)}
+  93%{opacity:.85;transform:none;clip-path:none}}
+@media (prefers-reduced-motion:reduce){.bye span{animation:none}}
 .sparkles{position:fixed;inset:0;pointer-events:none;z-index:150;overflow:hidden}
 .sparkles span{position:absolute;display:block;line-height:0;transform:translate(-50%,-50%);opacity:0;filter:drop-shadow(0 0 6px currentColor);animation:burst 1.8s cubic-bezier(.15,.7,.3,1) forwards}
 @keyframes burst{0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}12%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1) rotate(var(--r))}}
@@ -1417,6 +1443,7 @@ const UI = {
   soon: L("скоро","soon"),
   copyToggle: L("Скопировать текст тогла","Copy the prompt text"),
   cardsH: L("Как выглядят улики","What the records look like"),
+  cardsLede: L("Так они и появляются в чате, когда всё настроено.","This is how they turn up in chat once everything is set up."),
   tocH: L("Что настроить","What to set up"),
   setLore: L("Настройки лорбука","Lorebook settings"),
   setTg: L("Тогл: улики в истории","The prompt: records in the story"),
@@ -1660,7 +1687,7 @@ const SETUP_TG = [
 
 const SETUP_RX = [
   { h:L("Скачайте файлы","Download the files"),
-    p:L("В архиве все четыре файла: записка, аудио, видео и терминал.","The archive holds all four files: paper note, audio, video and terminal."),
+    p:L("Кнопка скачает все четыре файла подряд: записка, аудио, видео и терминал. Браузер может спросить разрешение на несколько файлов — разрешите.","The button downloads all four files one after another: paper note, audio, video and terminal. The browser may ask permission to download multiple files — allow it."),
     files:["rxall"] },
   { h:L("Поставьте их","Add them"),
     p:L("В SillyTavern: Extensions (кубик вверху) → Regex → Import, по одному файлу. В Tavo: импорт регулярных выражений. Проверьте, что скрипт применяется только к ответам бота и только для отображения — остальные галочки не нужны.","In SillyTavern: Extensions (the cube at the top) → Regex → Import, one file at a time. In Tavo: import regular expressions. Check that the script applies to the bot's messages only and on display only — no other checkboxes are needed.") },
@@ -1708,8 +1735,9 @@ const FILES = [
     s:L("То же самое, но записи помечены для Vector Storage. Нужна, только если расширение настроено.","The same card, with entries marked for Vector Storage. Only if that extension is set up.") },
   { id:"tgcopy", ic:"🧩", n:L("Тогл на улики","Records prompt"), copyid:"toggle",
     s:L("Текст, который вставляется в пресет — без него улики не будут появляться по правилам.","The text that goes into your preset — without it records won't follow the rules.") },
-  { id:"rxall", ic:"🎨", n:L("Оформление улик","Record styling"), f:"downloads/erebus-regex-all.zip",
-    s:L("Один архив со всеми четырьмя файлами: записка, аудио, видео и терминал.","One archive with all four files: paper note, audio, video and terminal.") },
+  { id:"rxall", ic:"🎨", n:L("Оформление улик","Record styling"),
+    multi:["downloads/regex-erebus-note.json","downloads/regex-erebus-audio.json","downloads/regex-erebus-video.json","downloads/regex-erebus-terminal.json"],
+    s:L("Четыре файла: записка, аудио, видео и терминал. Скачаются подряд, одним нажатием.","Four files: paper note, audio, video and terminal. One click downloads them one after another.") },
 ];
 
 /* ---------------- ТЕРМИНАЛ КАСС ---------------- */
@@ -1748,23 +1776,28 @@ const ABOUT = {
   me: [
     L("Начинающий ботодел. Придумываю истории и персонажей, вожусь с промптами и вообще люблю делать вещи, в которые потом можно залезть с головой.",
       "A beginner bot maker. I come up with stories and characters, tinker with prompts, and generally love making things you can then dive into head-first."),
-    L("Больше всего нравится момент, когда придуманное перестаёт быть только твоим и начинает жить у других людей.",
-      "My favourite moment is when something I made stops being only mine and starts living with other people."),
+    L("Больше всего нравится момент, когда придуманное перестаёт быть только твоим и начинает жить в голове у других людей.",
+      "My favourite moment is when something I made stops being only mine and starts living in other people's heads."),
   ],
   noteMe: L("Ета йя!","Dis me!"),
   noteDog: L("Ета Асти, моя шабака!","Dis Asti, mai dawg!"),
-  tags: [L("атмосферный хоррор","atmospheric horror"), L("живые персонажи","characters who feel alive"), L("лорбуки","lorebooks"), L("промпты","prompts")],
   channels: [
-    { url:"https://t.me/sillysloppy", title:"@sillysloppy", sub:L("Боты и творчество — всё, что я делаю","Bots and creative work — everything I make") },
-    { url:"https://t.me/sloppyhouse", title:"@sloppyhouse", sub:L("Промпты для Nano Banana и SillyTavern","Prompts for Nano Banana and SillyTavern") },
+    { id:"bots", url:"https://t.me/sillysloppy", title:"@sillysloppy", sub:L("Канал с ботами","My bots channel") },
+    { id:"prompts", url:"https://t.me/sloppyhouse", title:"@sloppyhouse", sub:L("Промпты для Nano Banana, Flow и SillyTavern","Prompts for Nano Banana, Flow and SillyTavern") },
   ],
-  promptsNote: L("Ещё пишу промпты для картинок в Nano Banana и для самой SillyTavern — им отведён отдельный канал.","I also write image prompts for Nano Banana and prompts for SillyTavern itself — they have a channel of their own."),
+  promptsNote: L("Ещё пишу промпты для картинок в Nano Banana, Flow, SillyTavern — им отведён отдельный канал.","I also write image prompts for Nano Banana and Flow, and prompts for SillyTavern itself — they have a channel of their own."),
   thanksH: L("Особая благодарность","Special thanks"),
   friend: { url:"https://t.me/milkiwaywlw", name:L("Милке ♥","Milka ♥") },
   thanksLead: L("Отдельное спасибо моей самой близкой подруге","A special thank-you to my closest friend"),
   thanks: [
     L("За поддержку, терпение, разговоры, идеи и просто за то, что ты есть. Без тебя эта история не стала бы тем, чем она стала. И, скорее всего, всего этого вообще бы не существовало.","For the support, the patience, the conversations, the ideas — and simply for being you. Without you this story wouldn't have become what it is. And most likely none of this would exist at all."),
     L("Спасибо тебе. За всё.","Thank you. For everything."),
+  ],
+  thanksMore: [
+    L("Ещё спасибо моему молодому человеку, за то что поддерживал и не давал сдаваться!",
+      "Thank you as well to my boyfriend, for supporting me and never letting me give up!"),
+    L("И отдельное спасибо всем моим друзьям, всем людям, которые с нетерпением ждали выхода моего бота! Спасибо огромное вам всем, я очень ценю это. Все вы придавали мне невероятных сил!",
+      "And a special thank-you to all my friends and to everyone who was waiting for my bot so eagerly! Thank you all so much, I really do appreciate it. Every one of you gave me incredible strength!"),
   ],
   hugHint: L("нажми ♥","tap ♥"),
   playersH: L("И вам","And you"),
@@ -2570,15 +2603,16 @@ function startsHTML(){
 function aboutHTML(){
   const A = ABOUT;
   const tg = `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.6-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2L6.5 13.1 1.8 11.6c-1-.3-1-1 .2-1.5L20.5 3c.8-.3 1.6.2 1.4 1.3z"/></svg>`;
-  const ch = A.channels.map(c=>`<a class="tg-card glass glow" href="${c.url}" target="_blank" rel="noopener"><span class="tg-ic">${tg}</span><span class="tg-t"><b>${esc(c.title)}</b><small>${esc(tr(c.sub))}</small></span><span class="tg-go" aria-hidden="true">↗</span></a>`).join("");
+  const chCard = (c, hot) => `<a class="tg-card glass glow${hot?" hot":""}" href="${c.url}" target="_blank" rel="noopener"><span class="tg-ic">${tg}</span><span class="tg-t"><b>${esc(c.title)}</b><small>${esc(tr(c.sub))}</small></span><span class="tg-go" aria-hidden="true">↗</span></a>`;
+  const chBy = id => A.channels.find(c => c.id === id) || A.channels[0];
   return `<section id="about"><h2>${T("navAbout")}</h2>
     <article class="about-card glass project"><p class="brief-lbl">${esc(tr(A.projectH))}</p><p>${esc(tr(A.project))}</p></article>
     <article class="about-card glass me-card">
       <div class="me-text"><p class="brief-lbl">${esc(tr(A.meH))}</p><h3 class="hello">${esc(tr(A.hello))}</h3>
         ${A.me.map(p=>`<p>${esc(tr(p))}</p>`).join("")}
-        <div class="me-tags">${A.tags.map(t=>`<span>${esc(tr(t))}</span>`).join("")}</div>
         <p class="muted-p">${esc(tr(A.promptsNote))}</p>
-        <div class="tg-list">${ch}</div>
+        <div class="tg-list solo">${chCard(chBy("prompts"))}</div>
+        <div class="tg-list solo">${chCard(chBy("bots"), true)}</div>
       </div>
       <figure class="me-fig">
         <div class="me-wrap">
@@ -2595,7 +2629,7 @@ function aboutHTML(){
           <span class="me-sp s4">✧</span><span class="me-sp s5">★</span><span class="me-sp s6">♡</span>
         </div>
       </figure>
-      ${PLAYLISTS.author ? `<div class="me-pl"><p class="brief-lbl">${T("plAuthor")}</p><p class="muted-p">${T("plAuthorLede")}</p>${playlistHTML("author", UI.plAuthor)}</div>` : ""}
+      ${PLAYLISTS.author ? `<div class="me-pl"><p class="brief-lbl">${T("plAuthor")}</p>${playlistHTML("author", UI.plAuthor)}</div>` : ""}
     </article>
     <div class="thanks glass">
       <figure class="hug">
@@ -2607,10 +2641,11 @@ function aboutHTML(){
         <figcaption>${esc(tr(A.hugHint))}</figcaption></figure>
       <div class="thanks-t"><p class="brief-lbl">${esc(tr(A.thanksH))}</p>
         <p class="thanks-lead">${esc(tr(A.thanksLead))} <a class="friend" href="${A.friend.url}" target="_blank" rel="noopener">${esc(tr(A.friend.name))}</a></p>
-        ${A.thanks.map((t,i)=>`<p class="${i?"thanks-last":""}">${esc(tr(t))}</p>`).join("")}</div>
+        ${A.thanks.map((t,i)=>`<p class="${i?"thanks-last":""}">${esc(tr(t))}</p>`).join("")}
+        ${A.thanksMore.map(t=>`<p class="thanks-more">${esc(tr(t))}</p>`).join("")}</div>
     </div>
     <div class="about-card glass players"><p class="brief-lbl">${esc(tr(A.playersH))}</p><p>${esc(tr(A.players))}</p></div>
-    <p class="bye">${esc(tr(A.bye))}</p>
+    <p class="bye"><span>${esc(tr(A.bye))}</span></p>
   </section>`;
 }
 const PAW = "M12 14.5c2.6 0 4.6 1.7 4.6 3.4 0 1.3-1.1 2.1-2.6 2.1h-4c-1.5 0-2.6-.8-2.6-2.1 0-1.7 2-3.4 4.6-3.4zM6.5 9.4c1 0 1.7 1 1.7 2.2s-.8 2.2-1.7 2.2-1.7-1-1.7-2.2.8-2.2 1.7-2.2zM17.5 9.4c1 0 1.7 1 1.7 2.2s-.8 2.2-1.7 2.2-1.7-1-1.7-2.2.8-2.2 1.7-2.2zM9.8 5c1 0 1.8 1.1 1.8 2.4S10.8 9.8 9.8 9.8 8 8.7 8 7.4 8.8 5 9.8 5zM14.2 5c1 0 1.8 1.1 1.8 2.4s-.8 2.4-1.8 2.4-1.8-1.1-1.8-2.4S13.2 5 14.2 5z";
@@ -2653,8 +2688,9 @@ function stuckHTML(){
 }
 
 /* ---------- setup ---------- */
-function fileById(id){ return FILES.find(x => x.id===id && x.f) || FILES.find(x => (x.f||"").indexOf("regex-erebus-"+id+".json") > -1); }
+function fileById(id){ return FILES.find(x => x.id===id && (x.f || x.multi)) || FILES.find(x => (x.f||"").indexOf("regex-erebus-"+id+".json") > -1); }
 function dlBtn(it, small){
+  if(it.multi) return `<button class="dl-btn${small?" small":""}" data-dlall="${it.id}"><span aria-hidden="true">${it.ic}</span>${esc(tr(it.n))}${small?" · "+T("dlAll"):""}</button>`;
   if(!it.f) return `<span class="dl-btn${small?" small":""} soon"><span aria-hidden="true">${it.ic}</span>${esc(tr(it.n))} · ${T("soon")}</span>`;
   return `<a class="dl-btn${small?" small":""}" href="${esc(it.f)}" download><span aria-hidden="true">${it.ic}</span>${esc(tr(it.n))}${small?" · "+T("dlAll"):""}</a>`;
 }
@@ -2685,6 +2721,7 @@ function filesHTML(){
       <span class="fl-ic" aria-hidden="true">${it.ic}</span>
       <b>${esc(tr(it.n))}</b><span class="fl-s">${esc(tr(it.s))}</span>
       ${it.copyid ? `<button class="dl-btn" data-copyid="${it.copyid}">${T("copy")}</button>`
+        : it.multi ? `<button class="dl-btn" data-dlall="${it.id}">${T("dl")}</button>`
         : it.f ? `<a class="dl-btn" href="${esc(it.f)}" download>${T("dl")}</a>` : `<span class="dl-btn soon">${T("soon")}</span>`}</article>`).join("")}</div></section>`;
 }
 function stepBody(s){
@@ -2714,7 +2751,8 @@ function setupHTML(){
     <h3 class="sub-h" id="set-lore">${T("setLore")}</h3>${stepsList(SETUP)}
     <h3 class="sub-h" id="set-tg">${T("setTg")}</h3>${stepsList(SETUP_TG)}
     <h3 class="sub-h" id="set-rx">${T("setRx")}</h3>${stepsList(SETUP_RX)}
-    <p class="lede small">${T("cardsH")}</p>${cardsGallery()}</section>`;
+    <h3 class="sub-h gal-h" id="set-cards">${T("cardsH")}</h3>
+    <p class="lede small gal-lede">${T("cardsLede")}</p>${cardsGallery()}</section>`;
 }
 
 /* ---------- плейлисты ---------- */
@@ -3184,6 +3222,15 @@ if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitStationM
 document.addEventListener("click", e => {
   const dlb = e.target.closest(".dl-btn,[data-copyid],.tg-copy .btn");
   if(dlb && !dlb.classList.contains("soon")){ dlb.classList.add("glitchable"); dlb.classList.remove("glitch"); void dlb.offsetWidth; dlb.classList.add("glitch"); setTimeout(()=>dlb.classList.remove("glitch"),600); }
+  const dla = e.target.closest("[data-dlall]");
+  if(dla){ e.preventDefault();
+    const it = FILES.find(x => x.id === dla.dataset.dlall);
+    if(it && it.multi) it.multi.forEach((href, i) => setTimeout(() => {
+      const a = document.createElement("a");
+      a.href = href; a.download = href.split("/").pop(); a.style.display = "none";
+      document.body.appendChild(a); a.click(); a.remove();
+    }, i * 450));
+    return; }
   const litCard = e.target.closest('.start[data-act="lit"]');
   if(litCard && !e.target.closest("a")){ const on = litCard.classList.toggle("lit"); litCard.setAttribute("aria-pressed", on ? "true" : "false"); }
   const go = e.target.closest(".fleet-go"); if(go){ e.preventDefault(); $("#crew-strip")?.scrollIntoView({behavior:"smooth"}); return; }
