@@ -1205,6 +1205,8 @@ main section.in .unclear-locked .uq-q{animation:uq-blink 3.2s steps(1) infinite}
 .tg-card{display:flex;align-items:center;gap:.9rem;padding:.75rem 1rem;text-decoration:none;color:var(--ink);transition:transform .2s,border-color .2s}
 .tg-card:hover{transform:translateY(-2px);border-color:rgba(98,214,200,.5)}
 .tg-list.solo{grid-template-columns:1fr;margin:.7rem 0 .2rem}
+.strip-get{display:flex;flex-direction:column;align-items:center;gap:.45rem;margin:1.4rem 0 .2rem;text-align:center}
+.strip-note{color:var(--muted);font-size:.85rem}
 .tg-card.hot{position:relative;overflow:hidden;border-color:rgba(242,169,63,.55);animation:tg-pulse 3s ease-in-out infinite}
 .tg-card.hot::after{content:"";position:absolute;top:0;bottom:0;left:-45%;width:38%;pointer-events:none;
   background:linear-gradient(100deg,transparent,rgba(255,214,150,.13),transparent);animation:tg-sweep 4.2s ease-in-out infinite}
@@ -1405,6 +1407,8 @@ const UI = {
   fleetStart: L("Начать брифинг", "Start briefing"),
   stripH: L("Экипаж «Кассандры»", "The Cassandra's crew"),
   stripLede: L("Пятеро людей, ИИ и один пушистый вор. Нажмите на портрет, чтобы открыть досье.", "Five people, an AI and one fluffy thief. Tap a portrait to open the dossiers."),
+  refsBtn: L("Скачать референсы персонажей","Download character references"),
+  refsNote: L("Пять PNG для нейросетей: Адриан, Итан, Диана, Алекс, Дэниэл.","Five PNGs for image models: Adrian, Ethan, Diana, Alex, Daniel."),
   mapH: L("Что есть на сайте", "What's on this site"),
   mapLede: L("Сайт разбит на разделы — открывайте нужный через меню сверху или карточки ниже. Всё, что может испортить сюжет, закрыто, пока вы сами не дойдёте до нужного этапа.", "The site is split into sections — open the one you need from the top menu or the cards below. Anything that could spoil the plot stays locked until you reach that stage yourself."),
   startH: L("С чего начать", "Where to start"),
@@ -1733,6 +1737,11 @@ const DEEP = {
 };
 
 /* ---------------- ФАЙЛЫ ДЛЯ СКАЧИВАНИЯ ---------------- */
+const REFS = [
+  "downloads/refs/Adrian_ref.png", "downloads/refs/Ethan_ref.png", "downloads/refs/Diana_ref.png",
+  "downloads/refs/Alex_ref.png", "downloads/refs/Daniel_ref.png",
+];
+
 const FILES = [
   { id:"card", ic:"🗂", n:L("Карточка бота","Bot card"), f:"", soon:true,
     s:L("Карточка вместе с лорбуком внутри — всё, что нужно для игры.","The character card with the lorebook inside — everything you need to play.") },
@@ -2371,7 +2380,7 @@ function splashHTML(){
             ? `<a href="${esc(f.f)}" download>${esc(tr(f.id==="card"?UI.homeCardN:UI.homeCardV))}</a>`
             : `<span class="soon">${esc(tr(f.id==="card"?UI.homeCardN:UI.homeCardV))} · ${T("soon")}</span>`).join("")}
         </div></details>
-      <a class="btn" href="downloads/erebus-regex-all.zip" download>${T("homeRx")}</a>
+      <button class="btn" data-dlall="rxall">${T("homeRx")}</button>
       <button class="btn" data-copyid="toggle">${T("copyToggle")}</button>
     </div>
     <p class="splash-note">${T("homeSet")} <a class="linkbtn" href="#/setup">${T("homeSetGo")}</a></p>
@@ -2379,7 +2388,9 @@ function splashHTML(){
 }
 function crewStripHTML(){
   const strip = CREW.map((p,i)=>`<a href="#/crew" style="--d:${i}" aria-label="${esc(tr(p.name))}"><img src="${esc(p.photo)}" alt="" onerror="this.parentNode.remove()"><span>${esc(tr(p.name).split(" ")[0])}<small>${esc(tr(p.role))}</small></span></a>`).join("");
-  return `<section id="crew-strip" class="home-block"><h2>${T("stripH")}</h2><p class="lede">${T("stripLede")}</p><div class="dossier">${strip}</div></section>`;
+  return `<section id="crew-strip" class="home-block"><h2>${T("stripH")}</h2><p class="lede">${T("stripLede")}</p><div class="dossier">${strip}</div>
+    <div class="strip-get"><button class="btn" data-dlall="refs">${T("refsBtn")}</button>
+      <span class="strip-note">${T("refsNote")}</span></div></section>`;
 }
 function siteMapHTML(){
   const ic = {starts:"▶",guide:"◈",stuck:"?",setup:"⚙",crew:"☰",npc:"☣",ship:"⛭",station:"▤",world:"✦",about:"♥"};
@@ -3230,7 +3241,8 @@ document.addEventListener("click", e => {
   if(dlb && !dlb.classList.contains("soon")){ dlb.classList.add("glitchable"); dlb.classList.remove("glitch"); void dlb.offsetWidth; dlb.classList.add("glitch"); setTimeout(()=>dlb.classList.remove("glitch"),600); }
   const dla = e.target.closest("[data-dlall]");
   if(dla){ e.preventDefault();
-    const it = FILES.find(x => x.id === dla.dataset.dlall);
+    const id = dla.dataset.dlall;
+    const it = id === "refs" ? { multi: REFS } : FILES.find(x => x.id === id);
     if(it && it.multi) it.multi.forEach((href, i) => setTimeout(() => {
       const a = document.createElement("a");
       a.href = href; a.download = href.split("/").pop(); a.style.display = "none";
