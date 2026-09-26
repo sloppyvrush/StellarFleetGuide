@@ -948,18 +948,37 @@ main section.in .mscan{animation:m-scan 7s linear infinite}
 .deep>*{position:relative;z-index:1}
 .deep .pl-ic{color:var(--danger)}
 .deep-hint{margin-left:auto;font:500 .7rem var(--f-mono);letter-spacing:.06em;color:var(--muted);font-style:normal}
+.deep-tgl{margin-left:auto;font:500 .72rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  background:none;border:1px solid var(--line2);border-radius:999px;padding:.2rem .7rem;transition:color .2s,border-color .2s,background .2s}
+.deep-tgl:hover{color:var(--amber);border-color:var(--amber);background:var(--amber-soft)}
 .deep-body{position:relative;display:flex;flex-direction:column;gap:.5rem;margin-top:.2rem}
 .deep-body p{margin:0;line-height:1.6}
 .deep-part{display:flex;flex-direction:column;gap:.45rem}
 .deep-part+.deep-part{margin-top:.85rem;padding-top:.85rem;border-top:1px solid var(--line)}
 .deep-lbl{font:600 .76rem var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
 .deep-2h{font:500 .68rem var(--f-mono);letter-spacing:.1em;text-transform:none;color:var(--danger);opacity:.9;font-style:normal}
-.deep-in{margin:0}
-.deep-in[data-spoiler]{filter:blur(6px)}
-.deep-in[data-spoiler]::after{inset:-.3rem;background:repeating-linear-gradient(45deg,rgba(232,99,79,.16) 0 10px,transparent 10px 20px)}
-.deep-body[data-spoiler]{cursor:var(--cur-hand,pointer);filter:blur(6px);user-select:none}
+.deep-body[data-spoiler]{cursor:var(--cur-hand,pointer);filter:blur(6px);user-select:none;
+  max-height:5.5rem;overflow:hidden;
+  -webkit-mask-image:linear-gradient(#000 42%,rgba(0,0,0,.25) 78%,transparent);mask-image:linear-gradient(#000 42%,rgba(0,0,0,.25) 78%,transparent)}
 .deep-body[data-spoiler]::after{content:"";position:absolute;inset:-.4rem;border-radius:9px;background:repeating-linear-gradient(45deg,rgba(232,99,79,.1) 0 12px,transparent 12px 24px)}
-.deep-body.open{filter:none;animation:open .4s ease-out}
+.deep-body.open{filter:none;max-height:none;-webkit-mask-image:none;mask-image:none;animation:open .4s ease-out}
+/* вложенный спойлер Дэниэла */
+.deep-in-wrap{position:relative}
+.deep-in{margin:0}
+.deep-in[data-spoiler]{max-height:4.6rem}
+.deep-in[data-spoiler]::after{inset:-.3rem;background:repeating-linear-gradient(45deg,rgba(232,99,79,.16) 0 10px,transparent 10px 20px)}
+.deep-stamp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-7deg);pointer-events:none;z-index:3;
+  font:700 .82rem/1.15 var(--f-mono);letter-spacing:.22em;text-transform:uppercase;text-align:center;white-space:nowrap;
+  color:#e8634f;padding:.5rem 1.1rem;border:2px solid rgba(232,99,79,.75);border-radius:4px;
+  box-shadow:0 0 0 3px rgba(232,99,79,.12) inset;background:rgba(12,20,26,.35);opacity:.92;
+  text-shadow:0 0 10px rgba(232,99,79,.35)}
+.deep-in-wrap.shown .deep-stamp{display:none}
+.deep-in-hide{display:none;margin-top:.7rem;align-self:flex-start;
+  font:500 .72rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  background:none;border:1px solid var(--line2);border-radius:999px;padding:.2rem .7rem;transition:color .2s,border-color .2s}
+.deep-in-hide:hover{color:var(--danger);border-color:var(--danger)}
+.deep-in-wrap.shown .deep-in-hide{display:inline-flex}
+@media (max-width:560px){.deep-stamp{font-size:.7rem;letter-spacing:.16em;padding:.4rem .8rem}}
 /* ---------- памятные вещи в «Читать полностью» ---------- */
 .keeps{margin:1.3rem 0 .6rem;padding:1rem 1.1rem 1.2rem}
 .keeps>*{position:relative;z-index:1}
@@ -1524,6 +1543,8 @@ const UI = {
   deepL: L("Нравится", "What they like"),
   deepD: L("Отталкивает", "What puts them off"),
   deep2: L("большой спойлер", "major spoiler"),
+  deepShow: L("Показать", "Reveal"),
+  deepHide: L("Скрыть", "Hide"),
   plTitle: L("Плейлист персонажа","Character playlist"),
   plOpen: L("Открыть в Spotify","Open in Spotify"),
   plCrew: L("Плейлист экипажа «Кассандры»","The Cassandra crew playlist"),
@@ -3330,7 +3351,7 @@ document.addEventListener("click", e => {
     lb.innerHTML=lbWrap(`<figure style="margin:0"><img src="${esc(z.dataset.zoom)}" alt="${esc(z.dataset.name)}"><figcaption><b>${esc(z.dataset.name)}</b></figcaption></figure>`);
     lb.showModal(); lbSb(lb); return; }
   if(e.target.closest("[data-lbclose]") || e.target.id==="lb"){ $("#lb").close(); return; }
-  const t = e.target.closest("button,[data-ship],[data-station],[data-mapreveal],[data-star],.person.openable,[data-open],[data-reveal],[data-spoiler],[data-goto]"); if(!t) return;
+  const t = e.target.closest("button,[data-ship],[data-station],[data-mapreveal],[data-star],.person.openable,[data-open],[data-reveal],[data-spoiler],[data-goto],[data-deeptgl],[data-deepin]"); if(!t) return;
   const d = t.dataset;
   if(d.seg){ const n=+d.seg;
     if(n <= S.stage) return setStage(n);
@@ -3345,7 +3366,29 @@ document.addEventListener("click", e => {
   else if(d.poke){ poke(d.poke); }
 
   else if(d.copy){ copy(d.copy); }
-  else if(t.hasAttribute && t.hasAttribute("data-spoiler")){ t.classList.add("open"); t.removeAttribute("data-spoiler"); }
+  else if(t.hasAttribute && t.hasAttribute("data-spoiler")){
+    t.classList.add("open"); t.removeAttribute("data-spoiler");
+    if(t.classList.contains("deep-in")) t.closest(".deep-in-wrap")?.classList.add("shown");
+  }
+  else if(d.deeptgl){
+    const sec = t.closest(".deep"), body = sec && sec.querySelector(":scope > .deep-body");
+    if(body){
+      const hidden = body.hasAttribute("data-spoiler");
+      if(hidden){ body.classList.add("open"); body.removeAttribute("data-spoiler"); t.textContent = T("deepHide"); }
+      else {
+        body.classList.remove("open"); body.setAttribute("data-spoiler",""); t.textContent = T("deepShow");
+        sec.querySelectorAll(".deep-in-wrap").forEach(w => {
+          w.classList.remove("shown");
+          const inn = w.querySelector(".deep-in");
+          if(inn){ inn.classList.remove("open"); inn.setAttribute("data-spoiler",""); }
+        });
+      }
+    }
+  }
+  else if(d.deepin){
+    const w = t.closest(".deep-in-wrap"), inn = w && w.querySelector(".deep-in");
+    if(inn){ inn.classList.remove("open"); inn.setAttribute("data-spoiler",""); w.classList.remove("shown"); }
+  }
   else if(d.copyid){ copy(COPY[d.copyid]); }
   else if(d.goto){ document.getElementById(d.goto)?.scrollIntoView({behavior:"smooth",block:"start"}); }
   else if(d.open){
@@ -3363,13 +3406,15 @@ document.addEventListener("click", e => {
       <div class="keep-grid">${its.map((it,k)=>`<figure class="keep" style="--d:${k*.18}s"><div class="keep-stage">
         <img src="${esc(it.img)}" alt="${esc(tr(it.t))}" onerror="this.closest('.keep').remove()"></div><figcaption>${esc(tr(it.t))}</figcaption></figure>`).join("")}</div></section>` : "";
     const dp = DEEP[p.id];
-    const deep = dp ? `<section class="deep glass"><div class="pl-head"><span class="pl-ic">${LOCK_ICON}</span><b>${T("deepH")}</b><i class="deep-hint">${T("deepHint")}</i></div>
+    const deep = dp ? `<section class="deep glass"><div class="pl-head"><span class="pl-ic">${LOCK_ICON}</span><b>${T("deepH")}</b><button class="deep-tgl" data-deeptgl="1">${T("deepShow")}</button></div>
       <div class="deep-body" data-spoiler>
         ${[["f","deepF"],["s","deepS"],["l","deepL"],["d","deepD"]].filter(([k])=>dp[k]).map(([k,lb])=>{
           const body = tr(dp[k]).split("\n\n").map(x=>`<p>${esc(x)}</p>`).join("");
           const two = (dp.deep2||[]).includes(k);
-          return `<div class="deep-part"><b class="deep-lbl">${T(lb)}${two?`<i class="deep-2h">${T("deep2")}</i>`:""}</b>`
-            + (two ? `<div class="deep-body deep-in" data-spoiler>${body}</div>` : body) + `</div>`;
+          return `<div class="deep-part"><b class="deep-lbl">${T(lb)}</b>`
+            + (two ? `<div class="deep-in-wrap"><div class="deep-body deep-in" data-spoiler>${body}</div>
+                <span class="deep-stamp" aria-hidden="true">${T("deep2")}</span>
+                <button class="deep-in-hide" data-deepin="1">${T("deepHide")}</button></div>` : body) + `</div>`;
         }).join("")}
       </div></section>` : "";
     lb.innerHTML = lbWrap(`<div class="bio">${p.term ? cassTermHTML() : `<img src="${esc(p.photo)}" alt="${esc(tr(p.name))}">`}<div class="bio-t"><div class="plate static"><h3>${esc(tr(p.name))}</h3><span class="role">${esc(tr(p.role))}</span></div>
