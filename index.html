@@ -184,6 +184,10 @@ dialog h3{margin:0 0 .6rem;font-size:1.5rem}
   background:rgba(8,14,18,.82);color:var(--ink);border:1px solid var(--line2);backdrop-filter:blur(6px);
   transition:background .2s,border-color .2s,transform .15s}
 .lb-x:hover{background:rgba(232,99,79,.18);border-color:var(--danger);color:#ffb3a5}
+@media (max-width:620px){
+  /* на телефоне крестик держится в углу окна и не уезжает при прокрутке */
+  .lb-x{position:fixed;top:calc(var(--lbtop,16px) + .5rem);right:calc(var(--lbright,16px) + .5rem + var(--sbw,0px));z-index:50}
+}
 #lb figcaption{justify-content:flex-start}
 #lb.wide{max-width:min(96vw,1300px)}
 .bio{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:1.4rem;align-items:center}
@@ -1508,8 +1512,8 @@ const UI = {
   setTg: L("Тогл: улики в истории","The prompt: records in the story"),
   setRx: L("Оформление улик","How records look"),
   homeCard: L("Скачать карточку бота","Download the bot card"),
-  homeCardN: L("Обычная","Standard"),
-  homeCardV: L("Под векторизацию","For vector search"),
+  homeCardN: L("PNG — картинкой","PNG — as a picture"),
+  homeCardV: L("JSON — файлом","JSON — as a file"),
   homeRx: L("Скачать оформление улик","Download the record styling"),
   homeSet: L("Обязательно загляните в «Настройки»: там написано, какие записи включить и выключить в лорбуке и как настроить тогл и оформление. Без этого часть истории просто не заработает.","Do read the Setup page: it says which lorebook entries to switch on and off, and how to set up the prompt and the styling. Without that, parts of the story simply won't fire."),
   homeSetGo: L("Открыть настройки →","Open Setup →"),
@@ -1842,10 +1846,10 @@ const REFS = [
 ];
 
 const FILES = [
-  { id:"card", ic:"🗂", n:L("Карточка бота","Bot card"), f:"", soon:true,
-    s:L("Карточка вместе с лорбуком внутри — всё, что нужно для игры.","The character card with the lorebook inside — everything you need to play.") },
-  { id:"cardv", ic:"🔗", n:L("Карточка бота: под векторизацию","Bot card: for vector search"), f:"", soon:true,
-    s:L("То же самое, но записи помечены для Vector Storage. Нужна, только если расширение настроено.","The same card, with entries marked for Vector Storage. Only if that extension is set up.") },
+  { id:"card", ic:"🗂", n:L("Карточка бота · PNG","Bot card · PNG"), f:"downloads/STELLAR_FLEET.png",
+    s:L("Картинка с зашитой карточкой и лорбуком внутри — обычный способ, просто перетащите её в список персонажей.","A picture with the card and the lorebook embedded — the usual way: just drag it into your character list.") },
+  { id:"cardj", ic:"🗃", n:L("Карточка бота · JSON","Bot card · JSON"), f:"downloads/STELLAR_FLEET.json",
+    s:L("То же самое файлом. Пригодится, если приложение не принимает картинки.","The same thing as a file. Handy if your app won't take images.") },
   { id:"tgcopy", ic:"🧩", n:L("Тогл на улики","Records prompt"), copyid:"toggle",
     s:L("Текст, который вставляется в пресет — без него улики не будут появляться по правилам.","The text that goes into your preset — without it records won't follow the rules.") },
   { id:"rxall", ic:"🎨", n:L("Оформление улик","Record styling"),
@@ -2044,7 +2048,7 @@ const STUCK = [
 /* ---------------- НАСТРОЙКА ---------------- */
 const SETUP = [
   { h:L("Импортируйте карточку","Import the card"),
-    p:L("Скачайте карточку выше и добавьте её в приложение: в SillyTavern это Characters → Import, в Tavo — импорт персонажа. Когда спросят про встроенный лорбук, соглашайтесь: в нём живёт вся история.","Download the card above and add it to your app: Characters → Import in SillyTavern, import a character in Tavo. When you're asked about the embedded lorebook, accept it — the whole story lives there.") },
+    p:L("Скачайте карточку выше — PNG или JSON, содержимое одинаковое — и добавьте её в приложение: в SillyTavern это Characters → Import, в Tavo — импорт персонажа. Когда спросят про встроенный лорбук, соглашайтесь: в нём живёт вся история.","Download the card above — PNG or JSON, the contents are identical — and add it to your app: Characters → Import in SillyTavern, import a character in Tavo. When you're asked about the embedded lorebook, accept it — the whole story lives there.") },
   { h:L("Лорбук уже внутри","The lorebook is already inside"),
     p:L("Он привязан к карточке. Отдельно подключать его не нужно.","It's bound to the card. There's no need to attach it separately.") },
   { h:L("Выберите старт","Choose your start"),
@@ -2475,7 +2479,7 @@ function splashHTML(){
     <div class="splash-get">
       <details class="dd"><summary class="btn">${T("homeCard")} ▾</summary>
         <div class="dd-menu glass">
-          ${FILES.filter(f=>f.id==="card"||f.id==="cardv").map(f=> f.f
+          ${FILES.filter(f=>f.id==="card"||f.id==="cardj").map(f=> f.f
             ? `<a href="${esc(f.f)}" download>${esc(tr(f.id==="card"?UI.homeCardN:UI.homeCardV))}</a>`
             : `<span class="soon">${esc(tr(f.id==="card"?UI.homeCardN:UI.homeCardV))} · ${T("soon")}</span>`).join("")}
         </div></details>
@@ -2901,6 +2905,8 @@ function lbSb(d){ requestAnimationFrame(()=>{
        dr.right - el.getBoundingClientRect().right < 26) sb = Math.max(sb, w || 14);
   });
   d.style.setProperty("--sbw", sb + "px");
+  d.style.setProperty("--lbtop", Math.max(0, Math.round(dr.top)) + "px");
+  d.style.setProperty("--lbright", Math.max(0, Math.round(innerWidth - dr.right)) + "px");
 }); }
 function lbWrap(html){ return `<div class="lb-wrap">${lbX()}${html}</div>`; }
 function cassTermHTML(){
