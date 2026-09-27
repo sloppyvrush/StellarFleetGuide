@@ -243,7 +243,7 @@ th,td{border-bottom:1px solid var(--line);padding:.45rem .6rem;text-align:left;v
 th{font-weight:600;color:var(--muted)}
 
 /* ---------- people ---------- */
-.people{overflow:visible;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:1fr;gap:1.1rem}
+.people{overflow:visible;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:auto;gap:1.1rem}
 .people>*{grid-column:span 2}
 .people>:nth-last-child(2):nth-child(3n+1){grid-column:2 / span 2}
 .people>:last-child:nth-child(3n+1){grid-column:3 / span 2}
@@ -335,7 +335,7 @@ th,td{border-bottom:1px solid var(--line);padding:.45rem .6rem;text-align:left;v
 th{font-weight:600;color:var(--muted)}
 
 /* ---------- people ---------- */
-.people{overflow:visible;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:1fr;gap:1.1rem}
+.people{overflow:visible;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:auto;gap:1.1rem}
 .people>*{grid-column:span 2}
 .people>:nth-last-child(2):nth-child(3n+1){grid-column:2 / span 2}
 .people>:last-child:nth-child(3n+1){grid-column:3 / span 2}
@@ -861,14 +861,19 @@ main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
 .starts-how code{font:500 .86rem var(--f-mono);color:var(--amber);background:var(--amber-soft);border-radius:4px;padding:.05rem .35rem}
 @media (max-width:560px){.start-art{height:244px}}
 @media (prefers-reduced-motion:reduce){.start-fig *{animation:none!important}}
-/* на телефоне строка «29 лет · бывший…» переносится, а не обрезается */
+/* на телефоне возраст — отдельной плашкой, описание строкой под ним */
 @media (max-width:900px){
-  .person .pb .meta{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.5}
-  .person .pb .meta span{display:inline}
+  .person .pb .meta{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;
+    display:flex;flex-direction:column;align-items:flex-start;gap:.3rem;line-height:1.4;padding-bottom:.55rem}
+  .person .pb .meta span+span::before{content:none;margin:0}
+  .person .pb .meta span:first-child{padding:.1rem .5rem;border:1px solid var(--line2);border-radius:999px;
+    color:var(--ink);letter-spacing:.06em;font-size:.7rem;white-space:nowrap}
+  .person .pb .meta span+span{color:var(--muted)}
 }
 .person.openable{cursor:var(--cur-hand,pointer)}
 .person.openable:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 .person .pb .about{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.person .pb .more-btn{margin-top:auto;padding-top:.5rem}
 /* ---------- терминал КАСС ---------- */
 .cass-term{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;
   background:radial-gradient(ellipse at 50% 35%,#12252b,#070f14 70%);overflow:hidden;font-family:var(--f-mono);text-align:center;padding:1.2rem}
@@ -3270,7 +3275,7 @@ function render(){
 }
 /* тексты в карточках людей выравниваются по самому высокому в ряду */
 function alignCards(){
-  const parts = [".meta", ".tagline", ".about"];
+  const parts = [".meta"];
   document.querySelectorAll(".people").forEach(grid => {
     const cards = [...grid.children].filter(c => c.classList.contains("person"));
     if(cards.length < 2) return;
