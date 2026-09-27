@@ -404,6 +404,23 @@ main section.in .person .ph img{animation:ph-drift 14s ease-in-out infinite}
 @media (min-width:980px){.mapbox.side{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
 .mapbox.side .detail{grid-template-columns:1fr;position:sticky;top:5rem}}
 .svgwrap{padding:.9rem;overflow:hidden}
+.map-actions{display:flex;justify-content:center;margin:.75rem .2rem .1rem}
+.map-actions .btn{white-space:nowrap}
+.map-note{margin:.5rem .2rem 0;text-align:center}
+@media (max-width:620px){
+  /* подписи под картой не липнут к краям рамки */
+  .svgwrap{padding:.9rem .75rem 1rem}
+  .legend{margin:.7rem .5rem 0;gap:.4rem .8rem;font-size:.8rem}
+  .map-note{margin:.6rem .5rem 0}
+  .map-bar{margin-left:.5rem;margin-right:.5rem}
+  .map-actions{margin:.8rem .5rem .1rem}
+  .map-actions .btn{width:100%;justify-content:center}
+}
+#lb.mapfull{max-width:min(98vw,1500px);padding:.5rem}
+.lb-map{overflow:auto;max-height:86vh;border-radius:10px;-webkit-overflow-scrolling:touch}
+.lb-map svg{display:block;width:100%;height:auto;min-width:0}
+@media (max-width:820px){.lb-map svg{width:auto;min-width:900px}}
+.lb-maphint{margin:.35rem .2rem 0;font:500 .78rem var(--f-mono);color:var(--muted);text-align:center}
 .svgwrap svg{display:block;width:100%;height:auto;min-width:320px;position:relative;z-index:1}
 svg .hit{cursor:var(--cur-hand,pointer)}
 svg .hit:focus{outline:none}
@@ -450,7 +467,7 @@ svg text{font-family:var(--f-body);pointer-events:none}
 .k-danger .shape{fill:#e8634f}.k-danger .halo{stroke:#e8634f}
 .star:hover .halo{opacity:1}
 .starmap .scale line{stroke:#8ca3b0;stroke-width:1.5}.starmap .scale text{font-size:16px;fill:#8ca3b0;stroke:none}
-.legend{display:flex;flex-wrap:wrap;gap:.45rem 1.1rem;align-items:center;margin:.6rem .2rem 0;font-size:.85rem;color:#aebdc6}
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:.45rem 1.1rem;align-items:center;margin:.6rem .2rem 0;font-size:.85rem;color:#aebdc6;text-align:center}
 .legend span{display:inline-flex;align-items:center;gap:.4rem}
 .legend .btn{margin-left:auto;padding:.3rem .7rem;font-size:.85rem;color:#dce5e9}
 .lg-dot{width:10px;height:10px;border-radius:50%;background:#62d6c8;box-shadow:0 0 6px #62d6c8}.lg-dot.dim{background:#d9b56a;opacity:.5;box-shadow:none;width:7px;height:7px}
@@ -1599,6 +1616,8 @@ const UI = {
   mapHint: L("«?» — закрытая локация. Нажмите на неё, чтобы рассекретить.", "“?” marks a classified location. Click it to declassify."),
   mapManual: L("Часть карты рассекречена вручную.", "Part of the map was declassified by hand."),
   mapAll: L("Рассекретить всю карту", "Declassify the whole map"),
+  mapFull: L("Открыть карту на весь экран", "Open the map full screen"),
+  mapFullHint: L("Карту можно прокручивать в стороны", "The map can be scrolled sideways"),
   mapHide: L("Скрыть рассекреченное", "Hide declassified"),
   mapRevealOne: L("Эта локация обычно открывается на этапе {n} и может содержать спойлеры. Рассекретить?", "This location normally opens at stage {n} and may contain spoilers. Declassify it?"),
   mapAllConfirm: L("Откроются все локации, включая уровни поздних этапов. Это спойлеры. Продолжить?", "Every location will open, including late-stage levels. These are spoilers. Continue?"),
@@ -3146,7 +3165,8 @@ function stationHTML(){
   const banner = `<figure class="ship-hero glass"><img src="${esc(SI.img)}" alt="${esc(tr(SI.title))}" data-zoom="${esc(SI.full)}" data-name="${esc(tr(SI.title))}" title="${T("zoom")}">
     <figcaption><h3>${esc(tr(SI.title))}</h3><p>${esc(tr(SI.sub))}</p><div class="chips">${SI.chips.map(c=>`<span class="tag">${esc(tr(c))}</span>`).join("")}</div></figcaption></figure>`;
   return `<section id="station"><h2>${T("navStation")}</h2><p class="lede">${T("stationLede")}</p>${banner}
-    <div class="mapbox side"><div class="svgwrap glass glow map-wrap">${svg}${mapBar}</div>${detailHTML(cur, tag)}</div></section>`;
+    <div class="mapbox side"><div class="svgwrap glass glow map-wrap">${svg}${mapBar}
+      <div class="map-actions"><button class="btn ghost" data-mapfull="1">⛶ ${T("mapFull")}</button></div></div>${detailHTML(cur, tag)}</div></section>`;
 }
 
 /* ---------- world ---------- */
@@ -3179,12 +3199,14 @@ function worldHTML(){
   </svg>`;
   const legend = `<div class="legend"><span><i class="lg-dot"></i>${T("lgStory")}</span><span><i class="lg-dot dim"></i>${T("lgSys")}</span>
     <span><i class="lg-ln m"></i>${T("lgMain")}</span><span><i class="lg-ln s"></i>${T("lgSec")}</span><span><i class="lg-ln f"></i>${T("lgFar")}</span><span><i class="lg-ln p"></i>${T("lgPath")}</span>
-    <button class="btn ghost" id="sysBtn" aria-pressed="${S.allSys}">${S.allSys ? T("storyOnly") : T("allSystems")}</button></div>`;
+    </div>
+    <div class="map-actions"><button class="btn ghost" id="sysBtn" aria-pressed="${S.allSys}">${S.allSys ? T("storyOnly") : T("allSystems")}</button></div>`;
   const chips = `<div class="star-list">${vis.map(s=>`<button class="chip k-${s.kind}" data-star="${s.id}" aria-pressed="${S.star===s.id}"><i></i>${esc(tr(s.name))}</button>`).join("")}</div>`;
   const cur = vis.find(s=>s.id===S.star) || vis[vis.length-1];
   const tag = cur ? `<span class="tag ${cur.kind==="erebus"||cur.kind==="danger"?"warn":""}">${esc(tr(cur.sub))}</span>${cur.who&&cur.who.length?`<span class="who">${T("whoLbl")} ${cur.who.map(w=>`<b>${esc(tr(w))}</b>`).join(", ")}</span>`:""}` : "";
   return `<section id="world"><h2>${T("navWorld")}</h2><p class="lede">${T("worldLede")}</p>
-    <div class="mapbox"><div class="svgwrap glass map-wrap">${svg}${legend}<p class="where" style="margin:.4rem .2rem 0">${T("mapNote")}</p></div>${chips}${detailHTML(cur, tag)}</div>
+    <div class="mapbox"><div class="svgwrap glass map-wrap">${svg}${legend}<p class="where map-note">${T("mapNote")}</p>
+      <div class="map-actions"><button class="btn ghost" data-mapfull="1">⛶ ${T("mapFull")}</button></div></div>${chips}${detailHTML(cur, tag)}</div>
     <div class="world-grid">${WORLD_CARDS.map(c=>`<div class="wcard glass glow"><h3>${esc(tr(c.h))}</h3><p>${esc(tr(c.p))}</p></div>`).join("")}</div></section>`;
 }
 
@@ -3407,9 +3429,21 @@ document.addEventListener("click", e => {
   if(e.target.closest("#menuBtn")){ document.body.classList.toggle("menu-open"); $("#menuBtn").setAttribute("aria-expanded", document.body.classList.contains("menu-open")); return; }
   if(e.target.closest("#topnav a")) document.body.classList.remove("menu-open");
   const z = e.target.closest("img[data-zoom]");
-  if(z){ const lb=$("#lb"); lb.classList.toggle("wide", !z.closest(".ph"));
+  if(z){ const lb=$("#lb"); lb.classList.remove("mapfull"); lb.classList.toggle("wide", !z.closest(".ph"));
     lb.innerHTML=lbWrap(`<figure style="margin:0"><img src="${esc(z.dataset.zoom)}" alt="${esc(z.dataset.name)}"><figcaption><b>${esc(z.dataset.name)}</b></figcaption></figure>`);
     lb.showModal(); lbSb(lb); return; }
+  const mf = e.target.closest("[data-mapfull]");
+  if(mf){ e.preventDefault();
+    const src = mf.closest(".svgwrap") && mf.closest(".svgwrap").querySelector("svg");
+    if(!src) return;
+    const lb = $("#lb"); lb.classList.remove("wide"); lb.classList.add("mapfull");
+    lb.innerHTML = lbWrap(`<div class="lb-map">${src.outerHTML}</div><p class="lb-maphint">${T("mapFullHint")}</p>`);
+    lb.showModal(); lbSb(lb);
+    const box = lb.querySelector(".lb-map");
+    if(box) box.scrollLeft = Math.max(0, (box.scrollWidth - box.clientWidth) / 2);
+    return; }
+  /* клик по точке внутри полноэкранной карты выбирает её и закрывает окно */
+  if(e.target.closest(".lb-map") && e.target.closest("[data-station],[data-star],[data-ship],[data-mapreveal]")) $("#lb").close();
   if(e.target.closest("[data-lbclose]") || e.target.id==="lb"){ $("#lb").close(); return; }
   const t = e.target.closest("button,[data-ship],[data-station],[data-mapreveal],[data-star],.person.openable,[data-open],[data-reveal],[data-spoiler],[data-goto],[data-deeptgl],[data-deepin]"); if(!t) return;
   const d = t.dataset;
