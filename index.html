@@ -404,17 +404,19 @@ main section.in .person .ph img{animation:ph-drift 14s ease-in-out infinite}
 @media (min-width:980px){.mapbox.side{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
 .mapbox.side .detail{grid-template-columns:1fr;position:sticky;top:5rem}}
 .svgwrap{padding:.9rem;overflow:hidden}
-.map-actions{display:flex;justify-content:center;margin:.75rem .2rem .1rem}
+.map-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin:.75rem .2rem .2rem}
 .map-actions .btn{white-space:nowrap}
-.map-note{margin:.5rem .2rem 0;text-align:center}
+.svgwrap.map-wrap{padding-bottom:1.3rem}
+p.where.map-note{text-align:center;max-width:none;margin:.7rem auto 0}
 @media (max-width:620px){
   /* подписи под картой не липнут к краям рамки */
   .svgwrap{padding:.9rem .75rem 1rem}
   .legend{margin:.7rem .5rem 0;gap:.4rem .8rem;font-size:.8rem}
   .map-note{margin:.6rem .5rem 0}
   .map-bar{margin-left:.5rem;margin-right:.5rem}
-  .map-actions{margin:.8rem .5rem .1rem}
-  .map-actions .btn{width:100%;justify-content:center}
+  .map-actions{margin:.8rem .5rem .2rem;gap:.55rem}
+  .map-actions .btn{width:100%;justify-content:center;text-align:center}
+  .svgwrap.map-wrap{padding-bottom:1.4rem}
 }
 #lb.mapfull{max-width:min(98vw,1500px);padding:.5rem}
 .lb-map{overflow:auto;max-height:86vh;border-radius:10px;-webkit-overflow-scrolling:touch}
@@ -952,8 +954,8 @@ main section.in .mlink{stroke-dasharray:6 8;animation:m-flow 9s linear infinite}
 .mnode.locked .mdot{transition:all .2s}
 .mnode.locked:hover .mdot,.mnode.locked:focus-visible .mdot{stroke:var(--amber);stroke-dasharray:none;fill:rgba(242,169,63,.12);r:15}
 .mnode.locked:hover .mq,.mnode.locked:focus-visible .mq{fill:var(--amber)}
-.map-bar{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;padding:.6rem 1rem .75rem;border-top:1px solid var(--line);position:relative;z-index:1}
-.map-hint{font:500 .78rem/1.35 var(--f-mono);color:var(--muted);flex:1 1 14rem}
+.map-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;text-align:center;gap:.6rem 1rem;padding:.7rem 1rem .85rem;border-top:1px solid var(--line);position:relative;z-index:1}
+.map-hint{font:500 .78rem/1.35 var(--f-mono);color:var(--muted);flex:1 1 100%;text-align:center}
 .map-bar .btn.small{padding:.35rem .8rem;font-size:.82rem}
 .map-bar .linkbtn.small{font-size:.8rem}
 .mping{fill:none;stroke:var(--amber);stroke-width:2}
@@ -3158,15 +3160,14 @@ function stationHTML(){
   const cur = vis.find(l=>l.id===S.station) || vis[0];
   const lockedN = STATION.filter(l => !stOpen(l)).length, manualN = STATION.filter(l => !open(l.stage) && S.mapOpen.has(l.id)).length;
   const mapBar = (lockedN || manualN) ? `<div class="map-bar"><span class="map-hint">${lockedN ? T("mapHint") : T("mapManual")}</span>
-    ${lockedN ? `<button class="btn ghost small" data-mapall="1">${T("mapAll")}</button>` : ""}
+    ${lockedN ? `<button class="btn" data-mapall="1">${T("mapAll")}</button>` : ""}
     ${manualN ? `<button class="linkbtn small" data-maphide="1">${T("mapHide")}</button>` : ""}</div>` : "";
   const tag = cur ? `<span class="tag ${/выс|смерт|high|lethal/i.test(tr(cur.danger))?"warn":""}">${T("danger")}: ${esc(tr(cur.danger))}</span>` : "";
   const SI = STATION_INFO;
   const banner = `<figure class="ship-hero glass"><img src="${esc(SI.img)}" alt="${esc(tr(SI.title))}" data-zoom="${esc(SI.full)}" data-name="${esc(tr(SI.title))}" title="${T("zoom")}">
     <figcaption><h3>${esc(tr(SI.title))}</h3><p>${esc(tr(SI.sub))}</p><div class="chips">${SI.chips.map(c=>`<span class="tag">${esc(tr(c))}</span>`).join("")}</div></figcaption></figure>`;
   return `<section id="station"><h2>${T("navStation")}</h2><p class="lede">${T("stationLede")}</p>${banner}
-    <div class="mapbox side"><div class="svgwrap glass glow map-wrap">${svg}${mapBar}
-      <div class="map-actions"><button class="btn ghost" data-mapfull="1">⛶ ${T("mapFull")}</button></div></div>${detailHTML(cur, tag)}</div></section>`;
+    <div class="mapbox side"><div class="svgwrap glass glow map-wrap">${svg}${mapBar}</div>${detailHTML(cur, tag)}</div></section>`;
 }
 
 /* ---------- world ---------- */
@@ -3199,14 +3200,13 @@ function worldHTML(){
   </svg>`;
   const legend = `<div class="legend"><span><i class="lg-dot"></i>${T("lgStory")}</span><span><i class="lg-dot dim"></i>${T("lgSys")}</span>
     <span><i class="lg-ln m"></i>${T("lgMain")}</span><span><i class="lg-ln s"></i>${T("lgSec")}</span><span><i class="lg-ln f"></i>${T("lgFar")}</span><span><i class="lg-ln p"></i>${T("lgPath")}</span>
-    </div>
-    <div class="map-actions"><button class="btn ghost" id="sysBtn" aria-pressed="${S.allSys}">${S.allSys ? T("storyOnly") : T("allSystems")}</button></div>`;
+    </div>`;
   const chips = `<div class="star-list">${vis.map(s=>`<button class="chip k-${s.kind}" data-star="${s.id}" aria-pressed="${S.star===s.id}"><i></i>${esc(tr(s.name))}</button>`).join("")}</div>`;
   const cur = vis.find(s=>s.id===S.star) || vis[vis.length-1];
   const tag = cur ? `<span class="tag ${cur.kind==="erebus"||cur.kind==="danger"?"warn":""}">${esc(tr(cur.sub))}</span>${cur.who&&cur.who.length?`<span class="who">${T("whoLbl")} ${cur.who.map(w=>`<b>${esc(tr(w))}</b>`).join(", ")}</span>`:""}` : "";
   return `<section id="world"><h2>${T("navWorld")}</h2><p class="lede">${T("worldLede")}</p>
     <div class="mapbox"><div class="svgwrap glass map-wrap">${svg}${legend}<p class="where map-note">${T("mapNote")}</p>
-      <div class="map-actions"><button class="btn ghost" data-mapfull="1">⛶ ${T("mapFull")}</button></div></div>${chips}${detailHTML(cur, tag)}</div>
+      <div class="map-actions"><button class="btn" id="sysBtn" aria-pressed="${S.allSys}">${S.allSys ? T("storyOnly") : T("allSystems")}</button><button class="btn" data-mapfull="1">⛶ ${T("mapFull")}</button></div></div>${chips}${detailHTML(cur, tag)}</div>
     <div class="world-grid">${WORLD_CARDS.map(c=>`<div class="wcard glass glow"><h3>${esc(tr(c.h))}</h3><p>${esc(tr(c.p))}</p></div>`).join("")}</div></section>`;
 }
 
