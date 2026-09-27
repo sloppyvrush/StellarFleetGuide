@@ -186,7 +186,7 @@ dialog h3{margin:0 0 .6rem;font-size:1.5rem}
 .lb-x:hover{background:rgba(232,99,79,.18);border-color:var(--danger);color:#ffb3a5}
 @media (max-width:620px){
   /* на телефоне крестик держится в углу окна и не уезжает при прокрутке */
-  .lb-x{position:fixed;top:calc(var(--lbtop,16px) + .5rem);right:calc(var(--lbright,16px) + .5rem + var(--sbw,0px));z-index:50}
+  .lb-x{position:fixed;top:calc(var(--lbtop,16px) + .5rem);right:calc(var(--lbright,16px) + .5rem);z-index:50}
 }
 #lb figcaption{justify-content:flex-start}
 #lb.wide{max-width:min(96vw,1300px)}
@@ -569,6 +569,8 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;padd
 #topnav a{font-size:.8rem;padding:.26rem .32rem}
 #pill{font-size:.72rem;padding:.26rem .55rem}
 #topnav a.on{color:var(--ink);background:var(--amber-soft);box-shadow:inset 0 -2px 0 var(--amber)}
+/* на широком экране меню держится по центру шапки, чтобы в EN-версии кнопки справа не улетали */
+@media (min-width:881px){#topnav{margin-left:auto;margin-right:auto}.bar-tools{margin-left:0}}
 .nav-sep{width:1px;height:1.2rem;background:var(--line2);margin:0 .35rem}
 .nav-g{display:none;font:500 .72rem var(--f-body);color:var(--muted);letter-spacing:.08em;text-transform:uppercase;padding:.8rem .6rem .2rem}
 @keyframes menu-pulse{0%,100%{box-shadow:0 0 0 0 rgba(242,169,63,.0),0 0 6px rgba(242,169,63,.25)}50%{box-shadow:0 0 0 5px rgba(242,169,63,.14),0 0 18px rgba(242,169,63,.55)}}
@@ -859,6 +861,11 @@ main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
 .starts-how code{font:500 .86rem var(--f-mono);color:var(--amber);background:var(--amber-soft);border-radius:4px;padding:.05rem .35rem}
 @media (max-width:560px){.start-art{height:244px}}
 @media (prefers-reduced-motion:reduce){.start-fig *{animation:none!important}}
+/* на телефоне строка «29 лет · бывший…» переносится, а не обрезается */
+@media (max-width:900px){
+  .person .pb .meta{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.5}
+  .person .pb .meta span{display:inline}
+}
 .person.openable{cursor:var(--cur-hand,pointer)}
 .person.openable:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 .person .pb .about{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
@@ -1039,7 +1046,8 @@ main section.in .mscan{animation:m-scan 7s linear infinite}
 .dd>summary::-webkit-details-marker{display:none}
 .dd-menu{position:absolute;left:50%;transform:translateX(-50%);top:calc(100% + .4rem);z-index:60;min-width:13rem;
   display:flex;flex-direction:column;padding:.35rem;border-radius:10px;
-  background:var(--solid);border:1px solid var(--line2);backdrop-filter:none;-webkit-backdrop-filter:none;
+  background:#16222a;background:var(--solid,#16222a);border:1px solid var(--line2);
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;opacity:1;isolation:isolate;
   box-shadow:0 18px 40px -14px rgba(0,0,0,.92),0 0 0 1px rgba(0,0,0,.35)}
 .dd[open]{z-index:60}
 .dd-menu a,.dd-menu span{padding:.5rem .7rem;border-radius:7px;text-decoration:none;color:var(--ink);font-size:.88rem;text-align:left}
@@ -1291,6 +1299,9 @@ main section.in .unclear-locked .uq-q{animation:uq-blink 3.2s steps(1) infinite}
 .thanks-last{font:500 1.1rem var(--f-head);color:#ffb3c9}
 .thanks-more{margin-top:.9rem;color:var(--ink);font-size:.97rem;line-height:1.6}
 .thanks-more+.thanks-more{color:var(--muted)}
+#about .brief-lbl{font-size:1.15rem;letter-spacing:.1em;margin-bottom:.6rem;color:var(--teal)}
+#about .brief-lbl::before{content:"◈ ";font-size:.85em}
+@media (max-width:620px){#about .brief-lbl{font-size:1.05rem;letter-spacing:.07em;margin-bottom:.5rem}}
 @media (max-width:700px){.thanks{grid-template-columns:1fr;text-align:left;gap:1.1rem}.thanks .brief-lbl{text-align:left}.hug{padding:0}.hug-wrap{width:min(320px,78vw)}}
 .players{margin-bottom:1rem}
 .bye{text-align:center;margin:2.8rem auto .5rem;max-width:44rem}
@@ -2210,29 +2221,29 @@ const SHIP_INFO = {
 };
 const SHIP = [
   { id:"workshop", x:160,y:62,w:146,h:62, short:L("Мастерская","Workshop"), name:L("Инженерная мастерская","Engineering workshop"), img:"assets/ship/workshop.webp", full:"assets/ship/full/workshop.webp",
-    d:L("Царство Дэниела: стеллажи с запчастями, верстак с разобранными механизмами, искры сварки и две забытые кружки. Где-то здесь стоит коробка «STILL USEFUL» — выбрасывать из неё что-то бесполезно, Дэниел всё равно достанет обратно.","Daniel's kingdom: shelves of parts, a workbench of half-stripped machinery, welding sparks and two forgotten mugs. Somewhere here is the \"STILL USEFUL\" box — throwing anything out of it is pointless, Daniel will fish it back.") },
+    d:L("Верстак, заваленный разобранными узлами, стеллажи с деталями до самого потолка и стена инструментов, где у каждого ключа своё место. Царство Дэниела: он работает здесь ночами, потому что руки заняты — а голова молчит. Коробку с надписью «STILL USEFUL» лучше не трогать: что из неё ни выброси, наутро вернётся обратно.","A workbench buried in half-stripped assemblies, shelves of parts up to the ceiling and a tool wall where every wrench has its place. Daniel's kingdom: he works here at night because his hands are busy — and his head goes quiet. Better not to touch the box marked \"STILL USEFUL\": whatever you throw out of it is back by morning.") },
   { id:"armory", x:160,y:127,w:146,h:62, short:L("Оружейная","Armory"), name:L("Оружейная","Armory"), img:"assets/ship/armory.webp", full:"assets/ship/full/armory.webp",
-    d:L("Винтовки на стенах, шлемы в ряд, на экране — учёт боеприпасов и комплекты для вылазок «Альфа», «Браво», «Чарли». Хозяйство Итана: он сам проверяет каждый ствол перед выходом на станцию.","Rifles on the walls, helmets in a row, an ammo inventory and sortie kits Alpha, Bravo, Charlie on the screen. Ethan's domain: he checks every weapon himself before a run onto the station.") },
+    d:L("Винтовки в стойках, шлемы ровным рядом, ящики с боекомплектом и экран с учётом снаряжения: комплекты «Альфа», «Браво», «Чарли». Хозяйство Итана — единственное место на корабле, где порядок идеальный. Он проверяет каждый ствол сам, перед каждым выходом на станцию, и не доверяет это никому.","Rifles in racks, helmets in a neat row, ammunition crates and a screen tracking the kit: sortie sets Alpha, Bravo, Charlie. Ethan's domain — the one place aboard where the order is perfect. He checks every weapon himself before every run onto the station, and trusts that to no one.") },
   { id:"lab", x:314,y:90,w:86,h:50, short:L("Лаборатория","Lab"), name:L("Научная лаборатория","Science lab"), img:"assets/ship/lab.webp", full:"assets/ship/full/lab.webp",
-    d:L("Микроскопы, пробирки, экраны с цепочками ДНК и красная дверь карантинного бокса. Здесь Диана разбирает образцы со станции — и забывает, что наступила ночь. Её блокнот обычно лежит открытым рядом с остывшим кофе.","Microscopes, test tubes, DNA strands on the screens and the red door of a quarantine box. This is where Diana takes apart samples from the station — and forgets it's night. Her notebook usually lies open next to a cold coffee.") },
+    d:L("Микроскоп, ряды пробирок, экраны с цепочками ДНК и красная дверь карантинного бокса в углу — та самая, которую после «Эреба» будут открывать всё чаще. Здесь Диана разбирает образцы со станции и теряет счёт времени. Её блокнот всегда лежит раскрытым: там почерк, который к ночи становится неразборчивым.","A microscope, rows of test tubes, screens full of DNA strands and the red door of the quarantine box in the corner — the one that will be opened more and more often after Erebus. This is where Diana takes apart samples from the station and loses track of time. Her notebook always lies open: the handwriting in it goes unreadable by night.") },
   { id:"medbay", x:403,y:90,w:86,h:50, short:L("Медотсек","Medbay"), name:L("Медицинский отсек","Medbay"), img:"assets/ship/medbay.webp", full:"assets/ship/full/medbay.webp",
-    d:L("Две койки, кольцо сканера, операционная лампа и жёлтый изолятор в углу. Территория Алекса — и личный враг Флика: сканер он ненавидит всей душой. На столе всегда стоит чья-то недопитая кружка.","Two beds, a scanner ring, a surgical lamp and a yellow isolation booth in the corner. Alex's territory — and Flick's personal nemesis: he hates the scanner with all his heart. There's always someone's half-finished mug on the counter.") },
+    d:L("Кольцо сканера, две койки, операционная лампа и жёлтый изолятор за стеклом. Территория Алекса: он держит всё под рукой, потому что знает — считать секунды придётся однажды по-настоящему. И личный враг Флика: к сканеру кота можно только отнести, добровольно он туда не заходит.","A scanner ring, two beds, a surgical lamp and a yellow isolation booth behind glass. Alex's territory: he keeps everything within reach because he knows the day will come when seconds are counted for real. And Flick's personal nemesis — the cat can only be carried to that scanner, he never walks in himself.") },
   { id:"mess", x:492,y:90,w:108,h:50, short:L("Кают-компания","Mess"), name:L("Кают-компания","Mess"), img:"assets/ship/mess.webp", full:"assets/ship/full/mess.webp",
-    d:L("Один большой стол на всех, кухня, книжные полки и продавленный диван. Здесь едят, спорят, играют в карты и раскладывают находки со станции — прямо поверх карты станции «Эреб». Сердце корабля.","One big table for everyone, a galley, bookshelves and a sagging couch. The crew eats, argues, plays cards and lays out finds from the station here — right on top of the Erebus map. The heart of the ship.") },
+    d:L("Один большой стол на всех, кухня, книжные полки и экран во всю стену, где обычно висит вид за бортом. Здесь едят, спорят, играют в карты и раскладывают находки со станции прямо поверх схемы «Эреба». Сердце корабля: если на «Кассандре» кто-то есть — он, скорее всего, здесь.","One big table for everyone, a galley, bookshelves and a wall-sized screen that usually shows the view outside. The crew eats, argues, plays cards and lays out finds from the station here, right on top of the Erebus schematic. The heart of the ship: if anyone is aboard, they are probably here.") },
   { id:"captain", x:603,y:90,w:80,h:50, short:L("Каюта\nкапитана","Captain's\ncabin"), name:L("Каюта капитана","Captain's cabin"), img:"assets/ship/captain.webp", full:"assets/ship/full/captain.webp",
-    d:L("Узкая койка, куртка, брошенная на одеяло, фотографии над изголовьем и рабочий стол у экрана. Часы отца Адриан снимает только здесь. Дверь выходит прямо в жилой коридор.","A narrow bunk, a jacket tossed on the blanket, photos above the headboard and a desk by the screen. This is the only place Adrian takes off his father's watch. The door opens straight onto the crew corridor.") },
+    d:L("Узкая койка, куртка, брошенная поверх одеяла, фотографии над изголовьем и рабочий стол с экраном, который почти всегда светится. Адриан снимает отцовские часы только здесь — и только когда уверен, что никто не войдёт. Дверь выходит прямо в жилой коридор: каюта капитана в двух шагах от чужих.","A narrow bunk, a jacket thrown over the blanket, photographs above the headboard and a desk whose screen is almost always lit. Adrian takes off his father's watch only here — and only when he is sure no one will walk in. The door opens straight onto the crew corridor: the captain's cabin is two steps from everyone else's.") },
   { id:"bridge", x:686,y:92,w:80,h:52, short:L("Мостик","Bridge"), name:L("Мостик","Bridge"), img:"assets/ship/bridge.webp", full:"assets/ship/full/bridge.webp",
-    d:L("Панорамное остекление, три кресла и пульты разных эпох бок о бок. Адриан предпочитает ручное управление и в сложных манёврах считает секунды вслух; КАСС отзывается кольцом на экранах. Кружки здесь стоят на каждом свободном месте.","Panoramic windows, three chairs and consoles from different eras side by side. Adrian prefers manual control and counts seconds aloud in hard manoeuvres; CASS answers as a ring on the screens. There's a mug on every free surface.") },
+    d:L("Панорамное остекление, три кресла и панели разных поколений, собранные бок о бок после многочисленных ремонтов.","Panoramic glazing, three chairs and panels from different generations, set side by side after many repairs.") },
   { id:"training", x:314,y:143,w:86,h:50, short:L("Тренировочный\nзал","Training\nroom"), name:L("Тренировочный зал","Training room"), img:"assets/ship/training.webp", full:"assets/ship/full/training.webp",
-    d:L("Беговая дорожка, гантели, скамья и стена для спарринга. Сюда Итан приходит после плохих ночей — и тренируется, пока в голове не станет тихо.","A treadmill, dumbbells, a bench and a sparring wall. Ethan comes here after bad nights — and trains until his head goes quiet.") },
+    d:L("Дорожка, гантели, скамья и мат для спарринга под низким потолком. Сюда Итан приходит после плохих ночей и тренируется до тех пор, пока в голове не станет тихо. Дверь он при этом не закрывает — привычка держать выход в поле зрения.","A treadmill, dumbbells, a bench and a sparring mat under a low ceiling. Ethan comes here after bad nights and trains until his head goes quiet. He leaves the door open while he does — a habit of keeping the exit in sight.") },
   { id:"sanitary", x:403,y:143,w:57,h:50, short:L("Сан-\nблок","Wash\nroom"), name:L("Санитарный блок","Washroom"), img:"assets/ship/sanitary.webp", full:"assets/ship/full/sanitary.webp",
-    d:L("Две душевые, стиральные машины, раковины и зеркала, на которых кто-то оставляет записки маркером. Одна из немногих вещей на корабле, за которую ведётся честная очередь.","Two showers, washing machines, sinks and mirrors where someone keeps leaving marker notes. One of the few things aboard with an honest queue.") },
+    d:L("Душевые кабины, раковины, стиральные машины и зеркала, на которых кто-то постоянно оставляет записки. Одежда на крючках, чьё-то забытое бельё. Единственное место на корабле, где очередь соблюдают честно, и всё равно иногда спорят.","Shower stalls, sinks, washing machines and mirrors where someone keeps leaving notes. Clothes on the hooks, somebody's forgotten laundry. The one place aboard where the queue is honestly kept — and people still argue about it now and then.") },
   { id:"quarters", x:463,y:143,w:137,h:50, short:L("Жилой отсек","Crew quarters"), name:L("Жилой отсек экипажа","Crew quarters"), img:"assets/ship/quarters.webp", full:"assets/ship/full/quarters.webp",
-    d:L("Коридор с каютами 01–06 — одна из них ваша. Все постоянно сталкиваются друг с другом. Одна дверь сплошь обклеена рисунками — угадайте, чья это работа.","A corridor of cabins 01–06 — one of them is yours. Everyone keeps running into each other. One door is covered in drawings — guess whose work that is.") },
+    d:L("Коридор с каютами 01–06. Одна из кают ваша, и соседи, которых слышно ближе, чем хотелось бы: шаги, голоса, чужая музыка за переборкой. Одна дверь сплошь заклеена рисунками — угадайте, чья работа.","A corridor of cabins 01–06. One of them is yours, and the neighbours are closer than you would like: footsteps, voices, someone else's music through the bulkhead. One door is covered in drawings — guess whose work that is.") },
   { id:"observation", x:603,y:143,w:130,h:44, short:L("Обзорная\nкомната","Observation\nlounge"), name:L("Обзорная комната","Observation lounge"), img:"assets/ship/observation.webp", full:"assets/ship/full/observation.webp",
-    d:L("Огромный иллюминатор, кресла, пледы и столик с кружками. Сюда приходят, когда не спится, — смотреть на звёзды и говорить о том, о чём днём молчат.","A huge viewport, armchairs, blankets and a table of mugs. People come here when they can't sleep — to watch the stars and say what they keep quiet about during the day.") },
+    d:L("Огромный наклонный иллюминатор во всю стену, кресла, пледы и низкий столик. Сюда приходят, когда не спится: смотреть на звёзды и поговорить по душам.","A huge slanted viewport across the whole wall, armchairs, blankets and a low table. People come here when they cannot sleep: to watch the stars and talk properly.") },
   { id:"airlock", x:486,y:196,w:62,h:26, short:L("Шлюз","Airlock"), name:L("Главный шлюз и зона деконтаминации","Main airlock & decontamination"), img:"assets/ship/airlock.webp", full:"assets/ship/full/airlock.webp",
-    d:L("Здесь «Кассандра» стыкуется со станцией «Эреб»: за иллюминатором — обледеневший коридор станции. Скафандры, аптечки, диагностический терминал и обязательная деконтаминация после каждой вылазки. Самая безопасная и самая тревожная точка корабля.","This is where the Cassandra docks with Erebus: beyond the viewport, the station's frozen corridor. Suits, med kits, a diagnostic terminal and mandatory decontamination after every run. The safest and the most unnerving spot aboard.") },
+    d:L("Скафандры в стойках, аптечки, решётчатый пол и диагностический терминал у выхода. За обледеневшим иллюминатором — стыковочный рукав. Через этот отсек возвращаются после каждой вылазки.","Suits in their racks, med kits, a grated floor and a diagnostic terminal by the exit. Beyond the frosted viewport, the docking arm. Every run back aboard comes through this compartment.") },
 ];
 
 /* ---------------- «ЭРЕБ» ----------------
@@ -2478,7 +2489,7 @@ function splashHTML(){
     <a class="btn amber fleet-go" href="#crew-strip">${T("fleetStart")} ↓</a>
     <div class="splash-get">
       <details class="dd"><summary class="btn">${T("homeCard")} ▾</summary>
-        <div class="dd-menu glass">
+        <div class="dd-menu">
           ${FILES.filter(f=>f.id==="card"||f.id==="cardj").map(f=> f.f
             ? `<a href="${esc(f.f)}" download>${esc(tr(f.id==="card"?UI.homeCardN:UI.homeCardV))}</a>`
             : `<span class="soon">${esc(tr(f.id==="card"?UI.homeCardN:UI.homeCardV))} · ${T("soon")}</span>`).join("")}
@@ -2752,7 +2763,7 @@ function aboutHTML(){
           <span class="me-sp s4">✧</span><span class="me-sp s5">★</span><span class="me-sp s6">♡</span>
         </div>
       </figure>
-      ${PLAYLISTS.author ? `<div class="me-pl"><p class="brief-lbl">${T("plAuthor")}</p>${playlistHTML("author", UI.plAuthor)}</div>` : ""}
+      ${PLAYLISTS.author ? `<div class="me-pl">${playlistHTML("author", UI.plAuthor)}</div>` : ""}
     </article>
     <div class="thanks glass">
       <figure class="hug">
@@ -2907,7 +2918,11 @@ function lbSb(d){ requestAnimationFrame(()=>{
   d.style.setProperty("--sbw", sb + "px");
   d.style.setProperty("--lbtop", Math.max(0, Math.round(dr.top)) + "px");
   d.style.setProperty("--lbright", Math.max(0, Math.round(innerWidth - dr.right)) + "px");
+  d.querySelectorAll("img").forEach(im => { if(!im.complete) im.addEventListener("load", () => lbSb(d), {once:true}); });
 }); }
+function lbSbAgain(){ const d = document.getElementById("lb"); if(d && d.open) lbSb(d); }
+addEventListener("resize", lbSbAgain);
+addEventListener("orientationchange", lbSbAgain);
 function lbWrap(html){ return `<div class="lb-wrap">${lbX()}${html}</div>`; }
 function cassTermHTML(){
   return `<div class="cass-term" aria-label="CASS">
@@ -3251,7 +3266,30 @@ function render(){
   fitStationMap();
   S.booted = true;
   cassInit();
+  alignCards();
 }
+/* тексты в карточках людей выравниваются по самому высокому в ряду */
+function alignCards(){
+  const parts = [".meta", ".tagline", ".about"];
+  document.querySelectorAll(".people").forEach(grid => {
+    const cards = [...grid.children].filter(c => c.classList.contains("person"));
+    if(cards.length < 2) return;
+    cards.forEach(c => parts.forEach(sel => { const e = c.querySelector(".pb > " + sel); if(e) e.style.minHeight = ""; }));
+    const rows = new Map();
+    cards.forEach(c => { const t = Math.round(c.offsetTop); if(!rows.has(t)) rows.set(t, []); rows.get(t).push(c); });
+    rows.forEach(list => parts.forEach(sel => {
+      const els = list.map(c => c.querySelector(".pb > " + sel)).filter(Boolean);
+      if(els.length < 2) return;
+      let max = 0;
+      els.forEach(e => { max = Math.max(max, e.getBoundingClientRect().height); });
+      if(max > 0) els.forEach(e => e.style.minHeight = Math.ceil(max) + "px");
+    }));
+  });
+}
+let alignT;
+function alignSoon(){ clearTimeout(alignT); alignT = setTimeout(alignCards, 80); }
+addEventListener("resize", alignSoon);
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(alignCards);
 function typeStatus(){
   const el = $("#status"); if(!el){ S.typed = true; return; } if(S.typed) return;
   const txt = T("status"); let i = 0;
