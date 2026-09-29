@@ -889,6 +889,15 @@ main section.in .sf-live{animation:t-live 2.4s steps(1) infinite}
     color:var(--ink);letter-spacing:.06em;font-size:.7rem;white-space:nowrap}
   .person .pb .meta span+span{color:var(--muted)}
 }
+/* «как спасти» у подопытных */
+.save-box{margin:.7rem 0 0;padding:.55rem .7rem;border-left:2px solid var(--teal);border-radius:0 8px 8px 0;background:rgba(98,214,200,.07)}
+.save-lbl{display:block;font:600 .7rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:.25rem}
+.save-box p{margin:0!important;font-size:.88rem;line-height:1.5;color:#bcd2da;max-width:none;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-height:4.5em}
+.person .pb .save-box{margin-top:auto}
+.person .pb .save-box + .more-btn{margin-top:.7rem}
+.save-box.big{margin:1rem 0 .2rem;padding:.75rem .95rem}
+.save-box.big p{-webkit-line-clamp:unset;display:block;font-size:.95rem;line-height:1.6;min-height:0}
 .person.openable{cursor:var(--cur-hand,pointer)}
 .person.openable:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 .person .pb .about{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
@@ -1167,7 +1176,16 @@ main section.in .dt-scan{animation:dt-scan 4.5s linear infinite}
 /* закрытые NPC: вопрос и этап прямо на картинке */
 .npc-locked{cursor:var(--cur-hand,pointer);position:relative;overflow:hidden;border-color:rgba(98,214,200,.4)}
 .npc-locked:hover{border-color:var(--teal)}
-.npc-locked .ph{display:grid;place-items:center;background:repeating-linear-gradient(45deg,rgba(98,214,200,.07) 0 14px,transparent 14px 28px),#0d171b}
+.npc-locked .ph{display:grid;place-items:center;padding-bottom:3.4rem;background:repeating-linear-gradient(45deg,rgba(98,214,200,.07) 0 14px,transparent 14px 28px),#0d171b}
+.lock-plate{width:calc(100% - 1rem)}
+.lock-plate h3{display:flex;align-items:center;gap:.35rem}
+@media (max-width:620px){
+  .npc-locked .ph{padding-bottom:3rem}
+  .npc-locked .q-sign svg{width:78px;height:78px}
+  .q-word{font-size:.64rem;letter-spacing:.12em;line-height:1.45;padding:0 .5rem}
+  .lock-plate{width:calc(100% - .5rem)}
+  .lock-plate h3 .redact{height:.8em}
+}
 .q-sign svg{width:104px;height:104px}
 .q-ring{fill:none;stroke:var(--teal);stroke-width:4;stroke-dasharray:18 10;filter:drop-shadow(0 0 10px rgba(98,214,200,.5))}
 .q-ring2{fill:rgba(98,214,200,.07);stroke:rgba(98,214,200,.35);stroke-width:1.5}
@@ -1582,6 +1600,10 @@ const UI = {
   setupLede: L("Один раз настроить — и можно играть.", "Set it up once, then play."),
   crewLede: L("Экипаж «Кассандры» и люди, которых вы встретите. Карточки показывают только то, что видно со стороны.", "The Cassandra's crew and the people you'll meet. Cards show only what anyone could see."),
   crewH: L("Экипаж", "Crew"), aboardH: L("На борту", "Aboard"), stationH: L("Люди станции", "Station people"), threatsH: L("Угрозы", "Threats"),
+  subjH: L("Подопытные «ЛАЗАРЯ»", "The LAZARUS subjects"),
+  subjLede: L("Все пятеро могут выжить. Но каждое спасение — это отдельное решение, время и риск: придётся возвращаться в уже пройденные секторы, тратить медикаменты и откладывать собственную эвакуацию. Если просто идти по основной миссии, часть из них погибнет.",
+    "All five of them can survive. But every rescue is a separate decision, and it costs time and risk: going back into sectors you've already cleared, spending medical supplies, delaying your own evacuation. Keep to the main mission and some of them will die."),
+  saveH: L("Как спасти", "How to save them"),
   reveal: L("Рассекретить", "Declassify"), revealConfirm: L("Карточка откроется раньше этапа {n} и может содержать спойлеры. Открыть?", "This card normally opens at stage {n} and may contain spoilers. Open it?"),
   hide: L("Скрыть снова", "Hide again"),
   readMore: L("Читать полностью", "Read more"),
@@ -2201,40 +2223,50 @@ const THREATS = [
 const STATION_PEOPLE = [
   { id:"lena", stage:2, name:L("Лена Арден","Lena Arden"), photo:"assets/people/lena.webp", full:"assets/people/full/lena.webp", role:L("Врач станции","Station physician"),
     tag:L("Первый вопрос — есть ли раненые.","Her first question: is anyone hurt?"),
-    about:L("Не спала несколько дней: плечо перевязано, форма в крови, записи всегда при себе. Лечит всех, кто попадается на пути, — но прежде чем рассказать хоть что-то о станции, хочет знать, кто вас сюда прислал. В её взгляде вина, которую она пока не объясняет.",
-            "She hasn't slept in days: shoulder bandaged, uniform bloodied, records always on her. She treats anyone she comes across — but before she tells you anything about the station, she wants to know who sent you. There's guilt in her eyes she won't explain yet.") },
+    about:L("Врач проекта «ЛАЗАРЬ» и первый человек, который попытался вытащить правду наружу. Несколько суток почти без сна: осунувшееся лицо, форма в крови и технической грязи, самодельная повязка на плече. Держится как врач даже после всего — постоянно считает людей вокруг и болезненно реагирует, если кто-то один не вернулся. Экипажу сначала не доверяет: их прислала та самая администрация. Её цель — вынести с «Эреба» доказательства, и уничтожать архивы она не даст.",
+            "The physician of Project LAZARUS and the first person who tried to drag the truth into the open. Days with almost no sleep: a drawn face, a uniform stained with blood and machine grime, a makeshift bandage on her shoulder. She still behaves like a doctor after everything — she keeps counting the people around her and takes it hard when even one doesn't come back. At first she doesn't trust the crew: they were sent by the same administration. Her goal is to carry the evidence off Erebus, and she will not let anyone destroy the archives.") },
   { id:"holt", stage:2, name:L("Габриэль Холт","Gabriel Holt"), photo:"assets/people/holt.webp", full:"assets/people/full/holt.webp", role:L("Начальник охраны","Chief of security"),
     tag:L("Сначала имя. Потом дверь.","Name first. Then the door."),
-    about:L("Израненный — броня прожжена кислотой, левая рука почти не слушается — и почти никому не верящий. Проверяет вентиляцию, прежде чем войти, не стоит спиной к шахтам и знает повадки Охотника лучше всех выживших. Его тактика проста: не драться честно — и не быть тем, кого выберут.",
-            "Wounded — armour burned through by acid, left arm barely working — and trusting almost no one. He checks the vents before entering, never stands with his back to a shaft, and knows the Hunter's habits better than any survivor. His tactic is simple: don't fight fair — and don't be the one it picks.") },
+    about:L("Высокий, седые виски, короткая борода; часть брони прожжена кислотой, левая рука почти не слушается. До катастрофы выполнял приказы руководства и сам задерживал тех, кто пытался вскрыть «ЛАЗАРЬ», — пока Арден не заставила его посмотреть настоящие документы. Требует назвать имя, прежде чем откроет дверь, проверяет вентиляцию перед входом и не стоит спиной к шахте. Об Охотнике знает больше всех выживших: существо идёт на шум, запоминает места, где находило людей, и возвращается туда.",
+            "Tall, grey at the temples, short beard; part of his armour is burned through by acid and his left arm barely works. Before the disaster he carried out the leadership's orders and personally detained the people trying to expose LAZARUS — until Arden made him look at the real documents. He wants a name before he opens a door, checks the vents before entering a room, and never stands with his back to a shaft. He knows the Hunter better than any other survivor: it comes to noise, remembers the places where it found people, and keeps coming back to them.") },
   { id:"mara", stage:2, name:L("Мара Венн","Mara Venn"), photo:"assets/people/mara.webp", full:"assets/people/full/mara.webp", role:L("Директор станции","Station director"),
     tag:L("Отвечает на обвинения статистикой.","She answers accusations with statistics."),
-    about:L("Даже после катастрофы — чистая форма и безупречная причёска. Говорит тихо, никогда не повышает голос и смотрит на людей так, будто одновременно видит в них данные. Не злодейка из фильма — и именно это пугает. Особенно её интересует Диана.",
-            "Even after the disaster: a clean uniform and perfect hair. She speaks quietly, never raises her voice, and looks at people as if she's seeing data at the same time. Not a movie villain — which is exactly what's frightening. Diana interests her most of all.") },
+    about:L("Директор «Эреба» и руководитель «ЛАЗАРЯ». После катастрофы выглядит лучше всех: чистая одежда, аккуратные седые волосы, доступ к запасам и защищённому сектору. Себя злодеем не считает — искренне уверена, что это чудовищная, но оправданная цена величайшего открытия человечества, и даже теперь хочет сохранить проект. Говорит тихо, голос не повышает, на обвинения отвечает цифрами. Особенно приглядывается к Диане: видит, насколько та увлечена, и может показать ей то, чего не видел никто. Именно Венн запретила уничтожать H-37.",
+            "Director of Erebus and head of LAZARUS. After the disaster she looks better than anyone: clean clothes, neat grey hair, access to supplies and to a secured sector. She doesn't see herself as a villain — she sincerely believes this is a monstrous but justified price for humanity's greatest discovery, and even now she wants to save the project. She speaks quietly, never raises her voice, and answers accusations with numbers. Diana interests her most of all: she sees how fascinated the scientist is, and can show her results no one else has ever seen. It was Venn who forbade destroying H-37.") },
   { id:"david", stage:3, name:L("Дэвид Мерсер","David Mercer"), photo:"assets/people/david.webp", full:"assets/people/full/david.webp", role:L("Выживший · H-18","Survivor · H-18"),
     tag:L("Сначала спросит, правда ли вы не из проекта.","First he'll ask if you're really not from the project."),
-    about:L("Бывший морпех, которого экспериментальная терапия снова поставила на ноги — и больше не отпустила. Худой, двигается неуверенно, у койки — фото дочери Лили. После «вы правда не из проекта?» его второй вопрос: можно ли отправить сообщение домой.",
-            "A former marine whom experimental therapy put back on his feet — and then never let go. Thin, unsteady, a photo of his daughter Lily by his cot. After \"you're really not from the project?\" his second question is whether he can send a message home.") },
+    about:L("Бывший десантник Содружества: после аварии на транспорте повредил позвоночник и перестал ходить. На секретную программу согласился сам — ради дочери Лили, чтобы она перестала говорить «ничего, пап, я потом расскажу». Терапия сработала, он снова встал на ноги — и после этого его не отпустили: результат сочли слишком ценным. Восемь месяцев семье писали, что «лечение продолжается». Внешне почти нормальный, только сильно похудел и двигается неуверенно; у койки — фотография дочери.",
+            "A former Commonwealth marine: a transport accident damaged his spine and left him unable to walk. He volunteered for the secret programme himself — for his daughter Lily, so she'd stop saying \"it's fine, dad, I'll tell you about it later\". The therapy worked and he walked again — and after that they never let him go: the result was declared too valuable. For eight months his family was told the \"treatment is ongoing\". He looks almost normal, only very thin and unsteady on his feet; a photo of his daughter sits by his cot."),
+    save:L("Его нервная система держится на экспериментальном стабилизаторе L-18. Нужен запас препарата из закрытой аптеки Уровня Ноль — и формула из архива «ЛАЗАРЯ», иначе лекарства хватит всего на несколько дней.",
+           "His nervous system depends on the experimental L-18 Stabilizer. You need a supply from the sealed pharmacy on Level Zero — and the formula from the LAZARUS archive, or the medication will last only a few days.") },
   { id:"mei", stage:3, name:L("Мей Лоррен","Mei Lorren"), photo:"assets/people/mei.webp", full:"assets/people/full/mei.webp", role:L("Выжившая · H-24","Survivor · H-24"),
     tag:L("Слышит хищника раньше всех.","She hears the predator before anyone."),
-    about:L("Студентка-инженер, которую сняли с рейса домой из-за «ошибки в документах». Теперь её слух обострён до пытки: насосы, шаги за стеной, скрежет в шахтах. Почти не говорит, шепчет себе под нос и просит держать оружие подальше от металла. Хранит браслет младшей сестры.",
-            "An engineering student pulled off a flight home over a \"documentation error\". Now her hearing is sharpened to torture: pumps, footsteps through walls, scraping in the shafts. She barely speaks, whispers to herself and asks you to keep weapons away from metal. She keeps her little sister's bracelet.") },
+    about:L("Студентка-инженер жизнеобеспечения летела домой после первого курса — на пересадке её сняли с рейса «из-за ошибки в документах». Семье сообщили, что она погибла при аварии шаттла; аварии не было. Эксперимент обострил её слух до пытки: насосы, преобразователи, шаги за стеной — и Охотник задолго до всех остальных. Почти не говорит и просит убрать оружие подальше от металла. В камере отмечала дни, чтобы не забыть день рождения младшей сестры; её браслет всегда при ней.",
+            "A life-support engineering student, flying home after her first year — at a transfer station she was pulled off the flight over a \"documentation error\". Her family was told she died in a shuttle accident; there was no accident. The experiment sharpened her hearing into torture: pumps, converters, footsteps through walls — and the Hunter long before anyone else. She barely speaks and asks people to keep weapons away from metal. In her cell she marked off the days so she wouldn't forget her little sister's birthday; she still carries her bracelet."),
+    save:L("Вывести её живой несложно — но без нейромодулятора с Уровня Ноль обычный мир останется для неё невыносимо громким. Лаборатория с устройством стоит прямо на маршруте Охотника, и возвращаться туда придётся осознанно.",
+           "Getting her out alive is not the hard part — but without the neuromodulator from Level Zero the ordinary world will stay unbearably loud for her. The lab holding the device sits right on the Hunter's route, and going back there is a deliberate choice.") },
   { id:"thomas", stage:3, name:L("Томас Рейн","Thomas Rain"), photo:"assets/people/thomas.webp", full:"assets/people/full/thomas.webp", role:L("Выживший · H-29","Survivor · H-29"),
     tag:L("Не просит считать его хорошим человеком.","He doesn't ask to be called a good man."),
-    about:L("Заключённый, который пошёл в программу ради шанса снова увидеть сына. Грубый, не доверяет врачам — и именно он после катастрофы таскал еду и лекарства другим подопытным. В его комнате лежит стопка неотправленных писем.",
-            "A prisoner who joined the programme for a chance to see his son again. Rough, distrustful of doctors — and the one who carried food and medicine to the other subjects after the disaster. A stack of unsent letters sits in his room.") },
+    about:L("Отбывал двенадцать лет за убийство в драке и вины не отрицает, хотя обстоятельства были далеко не однозначные. В программу пошёл ради сокращения срока и шанса однажды увидеть сына, которому на момент приговора было четыре. После каждого успешного этапа контракт просто продлевали; на «Эребе» он почти два года. Грубый, раздражительный, врачам не верит — и при этом именно он после катастрофы носил другим подопытным еду и лекарства. В его комнате лежит стопка неотправленных писем сыну.",
+            "He was serving twelve years for killing a man in a fight, and he doesn't deny his guilt, though the circumstances were far from clear-cut. He joined the programme for a reduced sentence and a chance to someday see his son, who was four when he was sentenced. After every successful phase they simply extended the contract; he's been on Erebus for almost two years. Rough, irritable, distrustful of doctors — and yet it was him who carried food and medicine to the other subjects after the disaster. A stack of unsent letters to his son lies in his room."),
+    save:L("Эксперимент ускорил свёртываемость и заживление, но растит внутренние рубцы — без операции это кончится отказом органов. Нужен сосудистый препарат из медицинского хранилища «ЛАЗАРЯ» и данные о предыдущих процедурах H-29. После операции его нельзя сразу перевозить: «Кассандре» придётся простоять у станции дольше.",
+           "The experiment sped up his clotting and tissue repair, but it grows internal scarring — without surgery it ends in organ failure. You need the specialised vascular drug from the LAZARUS medical vault and the records of the earlier H-29 procedures. After the operation he can't be moved right away: the Cassandra has to stay docked to the station longer.") },
   { id:"eliza", stage:3, name:L("Элиза Коррен","Eliza Corren"), photo:"assets/people/eliza.webp", full:"assets/people/full/eliza.webp", role:L("Выжившая · H-33","Survivor · H-33"),
     tag:L("Свадьба должна была быть четыре месяца назад.","The wedding was supposed to be four months ago."),
-    about:L("Сама нашла экспериментальное лечение от болезни, которую ничто не брало, — и болезнь отступила. Домой её так и не отпустили. Всегда уставшая и мёрзнущая, носит обручальное кольцо на цепочке и всё ещё верит, что ей можно помочь.",
-            "She found the experimental treatment herself for a disease nothing else could touch — and it worked. They never let her go home. Always tired and cold, she wears her engagement ring on a chain and still believes she can be helped.") },
+    about:L("Тяжёлое аутоиммунное заболевание, против которого перестало работать стандартное лечение. Программу нашла сама и согласие действительно подписала — только подписанный документ почти не имел отношения к тому, что с ней делали потом. Обещали четыре месяца: вернуться домой и выйти замуж за Маркуса, платье уже было куплено. Болезнь отступила — и после этого работу с её иммунной системой решили продолжить. Одиннадцать месяцев на станции, счёт времени потерян. Всегда уставшая и мёрзнет, кольцо носит на цепочке.",
+            "A severe autoimmune disease that standard treatment had stopped touching. She found the programme herself and did sign the consent — except the document she signed had almost nothing to do with what was done to her afterwards. She was promised four months: go home and marry Marcus, the dress was already bought. The disease receded — and after that they decided to keep working on her immune system. Eleven months on the station, all sense of time lost. Always tired and always cold, she wears her ring on a chain."),
+    save:L("Без препаратов её иммунная система начинает атаковать собственный организм. Нужен экспериментальный ингибитор, который Венн приказала убрать в защищённое хранилище, и формула из центрального архива — искать их будет Диана. Если довезти и стабилизировать, Алекс считает, что через несколько месяцев лечения она сможет жить почти обычной жизнью.",
+           "Without medication her immune system starts attacking her own body. You need the experimental inhibitor Venn ordered moved into a secured vault, and the formula from the central archive — Diana is the one who can find them. If she's brought aboard and stabilised, Alex believes a few months of treatment will let her live an almost ordinary life.") },
   { id:"noah", stage:3, name:L("Ноа Харт","Noah Hart"), photo:"assets/people/noah.webp", full:"assets/people/full/noah.webp", role:L("Выживший · H-41","Survivor · H-41"),
     tag:L("Уверен, что жив, только пока полезен.","Sure he's alive only while he's useful."),
-    about:L("Двадцатидвухлетний парень, подписавший контракт ради денег для семьи, — и до сих пор пишущий родителям выдуманные истории о скучной работе техника. Хищник почему-то часто проходит мимо него. Этим пользовались. Этим он и сломан.",
-            "A twenty-two-year-old who signed up for money for his family — and still writes his parents made-up stories about a boring technician job. For some reason the predator often walks right past him. People used that. That's what broke him.") },
+    about:L("Двадцать два года, контракт ради денег: ремонтный бизнес родителей на пограничной колонии шёл ко дну. Половину суммы перевёл семье сразу, а домой писал, что устроился техником. Цель эксперимента была в том, чтобы сделать человека непривлекательным носителем для XENO — изменили гормональный профиль, температуру тела и химические маркеры, по которым ксеноморф узнаёт добычу. Получилось: Охотник проходит рядом, задерживается и теряет интерес. После катастрофы Ноа стали отправлять первым — за препаратами, открывать двери, проверять коридоры.",
+            "Twenty-two, and he signed for the money: his parents' repair business on a border colony was going under. He wired them half the payment straight away and wrote home that he'd taken a technician's job. The experiment was meant to make a person an unattractive host for XENO — they altered his hormonal profile, body temperature and the chemical markers the xenomorph uses to recognise prey. It worked: the Hunter walks past him, lingers, and loses interest. After the disaster they started sending Noah in first — for supplies, to open doors, to check corridors."),
+    save:L("Физически он самый лёгкий и самый трудный одновременно. Обратной терапии боится — «тогда оно снова меня увидит» — и не верит, что вы вообще улетите. Используете его как безопасный пропуск через территорию Охотника — поможет, но доверия не останется. Выберете для экипажа более опасный путь, не рискуя им, — согласится уйти сам.",
+           "Physically the easiest and the hardest at once. He's afraid of reversal therapy — \"then it'll see me again\" — and doesn't believe you'll ever fly out. Use him as a safe pass through the Hunter's territory and he'll help, but the trust is gone. Choose the more dangerous route for the crew rather than risk him, and he'll agree to leave on his own.") },
   { id:"evan", stage:3, sealed:true, graphic:true, name:L("Эван","Evan"), photo:"assets/people/evan.webp", full:"assets/people/full/evan.webp", role:L("Выживший · H-37","Survivor · H-37"),
     tag:L("«Меня зовут Эван. Не номер».","\"My name is Evan. Not a number.\""),
-    about:L("Когда-то он был человеком — и до сих пор это помнит. Выше двух метров, кожа почти чёрная, глаза болят от яркого света. Опасен и нестабилен: может сорваться, а через минуту прийти в себя. Иногда посреди разговора замирает, поворачивает голову к вентиляции и тихо говорит: «Тише. Оно идёт».",
-            "He was a man once — and he still remembers it. Over two metres tall, skin nearly black, eyes that hurt in bright light. Dangerous and unstable: he can snap, then come back to himself a minute later. Sometimes mid-sentence he freezes, turns toward a vent and says quietly: \"Quiet. It's coming.\"") },
+    about:L("Когда-то ему было около тридцати пяти. Сейчас рост за два метра, кожа почти чёрная с хитиновыми пластинами, пальцы вытянулись в когти, глаза болят от яркого света — но он говорит. Низко, хрипло, с долгими паузами, будто каждый раз вспоминает, как строится человеческая речь. Просто так не нападает: боится людей «ЛАЗАРЯ», ненавидит Венн и может помогать экипажу, если поверит, что его не потащат обратно в камеру. Самое тревожное — Охотник не воспринимает его как добычу, и Эван чувствует существо раньше людей. Иногда посреди разговора он замолкает, поворачивает голову к вентиляции: «Тише. Оно идёт».",
+            "He was about thirty-five once. Now he stands over two metres, his skin nearly black and plated with chitin, his fingers drawn out into claws, his eyes hurting in bright light — but he speaks. Low, hoarse, with long pauses, as if he has to remember each time how human speech is built. He doesn't attack without reason: he's afraid of LAZARUS people, hates Venn, and will help the crew if he believes they won't drag him back to his cell. The most unsettling part is that the Hunter doesn't treat him as prey, and Evan senses the creature before anyone else. Sometimes he stops mid-sentence, turns his head towards a vent and says: \"Quiet. It's coming.\"") },
 ];
 
 /* ---------------- «КАССАНДРА» ----------------
@@ -3042,7 +3074,7 @@ function personHTML(p){
             <text class="q-mark" x="60" y="78">?</text></svg>
           <span class="dt-word q-word">${T("lockedGeneric").toUpperCase()} ${p.stage}</span></div>
         <span class="dt-scan q-scan"></span>
-        <div class="plate"><h3>${bars(2, p.stage+3)}</h3></div></div>
+        <div class="plate lock-plate"><h3>${bars(2, 4)}</h3></div></div>
       <div class="pb"><p class="where">${T("npcSealed")}</p>
       <div class="reveal-wrap"><button class="btn amber" data-reveal="${p.id}" data-rs="${p.stage}">${T("reveal")}</button></div></div></article>`;
   }
@@ -3051,10 +3083,11 @@ function personHTML(p){
   const more = (paras.length || PLAYLISTS[p.id] || p.term) ? `<button class="linkbtn more-btn" data-read="${p.id}">${T("readMore")} →</button>` : "";
   const hideBtn = forced && (isThreat || p.sealed || (p.stage && !open(p.stage))) ? `<div class="reveal-wrap hide-wrap"><button class="btn ${(isThreat || p.sealed) ? "danger-btn" : "amber"}" data-hidecard="${p.id}">${T("hide")}</button></div>` : "";
   const openable = paras.length > 0 || PLAYLISTS[p.id] || p.term;
+  const saveBox = p.save ? `<div class="save-box"><b class="save-lbl">${T("saveH")}</b><p>${esc(tr(p.save))}</p></div>` : "";
   const threatCls = (isThreat || p.sealed) ? " threat-card" : "";
   return `<article class="person glass glow tilt${threatCls} ${openable?"openable":""} ${S.fresh==="card"+p.id?"unveil":""}" data-st="${p.stage||1}" ${openable?`data-read="${p.id}" tabindex="0" role="button"`:""}><div class="ph"><span class="sweep"></span>${p.term ? cassTermHTML() : imgTag(p.photo, name, esc(initials(name))).replace("<img ", `<img data-zoom="${esc(p.full||p.photo)}" data-name="${esc(name)}" title="${T("zoom")}" `)}
       <div class="plate"><h3>${esc(name)}</h3><span class="role">${esc(tr(p.role))}</span></div></div>
-    <div class="pb">${meta}<p class="tagline">${esc(tr(p.tag))}</p><p class="about">${esc(tr(paras[0]))}</p>${more}${hideBtn}</div></article>`;
+    <div class="pb">${meta}<p class="tagline">${esc(tr(p.tag))}</p><p class="about">${esc(tr(paras[0]))}</p>${saveBox}${more}${hideBtn}</div></article>`;
 }
 function crewHTML(){
   return `<section id="crew"><h2>${T("navCrew")}</h2><p class="lede">${T("crewLede")}</p>
@@ -3082,7 +3115,9 @@ function detailHTML(item, extra=""){
 /* ---------- npc & threats ---------- */
 function npcHTML(){
   return `<section id="npc"><h2>${T("navNpc")}</h2><p class="lede">${T("npcLede")}</p>
-    <h3 class="sub-h">${T("stationH")}</h3><div class="people npc-people">${STATION_PEOPLE.map(personHTML).join("")}</div>
+    <h3 class="sub-h">${T("stationH")}</h3><div class="people npc-people">${STATION_PEOPLE.filter(x=>!x.save && x.id!=="evan").map(personHTML).join("")}</div>
+    <h3 class="sub-h c">${T("subjH")}</h3><p class="lede small c">${T("subjLede")}</p>
+    <div class="people npc-people">${STATION_PEOPLE.filter(x=>x.save || x.id==="evan").map(personHTML).join("")}</div>
     <h3 class="sub-h danger-h">${T("threatsH")}</h3><p class="lede small">${T("threatsLede")}</p>
     <div class="people threats-people">${THREATS.map(personHTML).join("")}</div></section>`;
 }
@@ -3513,7 +3548,8 @@ document.addEventListener("click", e => {
       </div></section>` : "";
     lb.innerHTML = lbWrap(`<div class="bio">${p.term ? cassTermHTML() : `<img src="${esc(p.photo)}" alt="${esc(tr(p.name))}">`}<div class="bio-t"><div class="plate static"><h3>${esc(tr(p.name))}</h3><span class="role">${esc(tr(p.role))}</span></div>
       ${p.meta?`<p class="meta">${p.meta.map(m=>`<span>${esc(tr(m))}</span>`).join("")}</p>`:""}<p class="tagline">${esc(tr(p.tag))}</p>
-      ${(Array.isArray(p.about)?p.about:[p.about]).map(x=>`<p>${esc(tr(x))}</p>`).join("")}${deep}${keeps}${playlistHTML(p.id)}</div></div>`);
+      ${(Array.isArray(p.about)?p.about:[p.about]).map(x=>`<p>${esc(tr(x))}</p>`).join("")}
+      ${p.save?`<div class="save-box big"><b class="save-lbl">${T("saveH")}</b><p>${esc(tr(p.save))}</p></div>`:""}${deep}${keeps}${playlistHTML(p.id)}</div></div>`);
     lb.showModal(); lbSb(lb); cassInit(); return;
   }
   else if(d.hidecard){ S.cards.delete(d.hidecard); store.set("cards",[...S.cards]); render(); }
